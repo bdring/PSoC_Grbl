@@ -8,4 +8,4 @@ You can read more at [this blog post](http://www.buildlog.net/blog/2017/02/psoc-
 
 ![enter image description here](http://www.buildlog.net/blog/wp-content/uploads/2017/02/PSoC-4-M-Series-Lego1.jpeg)
 
-![enter image description here](http://www.buildlog.net/blog/wp-content/uploads/2017/02/step_pulse.p
+![enter image description here](http://www.buildlog.net/blog/wp-content/uploads/2017/02/step_pulse.png)
