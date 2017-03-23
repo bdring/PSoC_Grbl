@@ -1,0 +1,911 @@
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"PWM_Spindle_PM.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.PWM_Spindle_SaveConfig,"ax",%progbits
+  19              		.align	2
+  20              		.global	PWM_Spindle_SaveConfig
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	PWM_Spindle_SaveConfig, %function
+  24              	PWM_Spindle_SaveConfig:
+  25              	.LFB0:
+  26              		.file 1 "Generated_Source\\PSoC5\\PWM_Spindle_PM.c"
+   1:Generated_Source\PSoC5/PWM_Spindle_PM.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * File Name: PWM_Spindle_PM.c
+   3:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Version 3.30
+   4:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+   5:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Description:
+   6:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  This file provides the power management source code to API for the
+   7:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  PWM.
+   8:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+   9:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Note:
+  10:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+  11:Generated_Source\PSoC5/PWM_Spindle_PM.c **** ********************************************************************************
+  12:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Copyright 2008-2014, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  14:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  15:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *******************************************************************************/
+  17:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+  18:Generated_Source\PSoC5/PWM_Spindle_PM.c **** #include "PWM_Spindle.h"
+  19:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+  20:Generated_Source\PSoC5/PWM_Spindle_PM.c **** static PWM_Spindle_backupStruct PWM_Spindle_backup;
+  21:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+  22:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+  23:Generated_Source\PSoC5/PWM_Spindle_PM.c **** /*******************************************************************************
+  24:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Function Name: PWM_Spindle_SaveConfig
+  25:Generated_Source\PSoC5/PWM_Spindle_PM.c **** ********************************************************************************
+  26:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+  27:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Summary:
+  28:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  Saves the current user configuration of the component.
+  29:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+  30:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Parameters:
+  31:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  None
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 2
+
+
+  32:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+  33:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Return:
+  34:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  None
+  35:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+  36:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Global variables:
+  37:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  PWM_Spindle_backup:  Variables of this global structure are modified to
+  38:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  store the values of non retention configuration registers when Sleep() API is
+  39:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  called.
+  40:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+  41:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *******************************************************************************/
+  42:Generated_Source\PSoC5/PWM_Spindle_PM.c **** void PWM_Spindle_SaveConfig(void) 
+  43:Generated_Source\PSoC5/PWM_Spindle_PM.c **** {
+  27              		.loc 1 43 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32 0000 7047     		bx	lr
+  33              		.cfi_endproc
+  34              	.LFE0:
+  35              		.size	PWM_Spindle_SaveConfig, .-PWM_Spindle_SaveConfig
+  36 0002 00BF     		.section	.text.PWM_Spindle_RestoreConfig,"ax",%progbits
+  37              		.align	2
+  38              		.global	PWM_Spindle_RestoreConfig
+  39              		.thumb
+  40              		.thumb_func
+  41              		.type	PWM_Spindle_RestoreConfig, %function
+  42              	PWM_Spindle_RestoreConfig:
+  43              	.LFB1:
+  44:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+  45:Generated_Source\PSoC5/PWM_Spindle_PM.c ****     #if(!PWM_Spindle_UsingFixedFunction)
+  46:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         #if(!PWM_Spindle_PWMModeIsCenterAligned)
+  47:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             PWM_Spindle_backup.PWMPeriod = PWM_Spindle_ReadPeriod();
+  48:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         #endif /* (!PWM_Spindle_PWMModeIsCenterAligned) */
+  49:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         PWM_Spindle_backup.PWMUdb = PWM_Spindle_ReadCounter();
+  50:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         #if (PWM_Spindle_UseStatus)
+  51:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             PWM_Spindle_backup.InterruptMaskValue = PWM_Spindle_STATUS_MASK;
+  52:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         #endif /* (PWM_Spindle_UseStatus) */
+  53:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+  54:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         #if(PWM_Spindle_DeadBandMode == PWM_Spindle__B_PWM__DBM_256_CLOCKS || \
+  55:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             PWM_Spindle_DeadBandMode == PWM_Spindle__B_PWM__DBM_2_4_CLOCKS)
+  56:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             PWM_Spindle_backup.PWMdeadBandValue = PWM_Spindle_ReadDeadTime();
+  57:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         #endif /*  deadband count is either 2-4 clocks or 256 clocks */
+  58:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+  59:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         #if(PWM_Spindle_KillModeMinTime)
+  60:Generated_Source\PSoC5/PWM_Spindle_PM.c ****              PWM_Spindle_backup.PWMKillCounterPeriod = PWM_Spindle_ReadKillTime();
+  61:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         #endif /* (PWM_Spindle_KillModeMinTime) */
+  62:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+  63:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         #if(PWM_Spindle_UseControl)
+  64:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             PWM_Spindle_backup.PWMControlRegister = PWM_Spindle_ReadControlRegister();
+  65:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         #endif /* (PWM_Spindle_UseControl) */
+  66:Generated_Source\PSoC5/PWM_Spindle_PM.c ****     #endif  /* (!PWM_Spindle_UsingFixedFunction) */
+  67:Generated_Source\PSoC5/PWM_Spindle_PM.c **** }
+  68:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+  69:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+  70:Generated_Source\PSoC5/PWM_Spindle_PM.c **** /*******************************************************************************
+  71:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Function Name: PWM_Spindle_RestoreConfig
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 3
+
+
+  72:Generated_Source\PSoC5/PWM_Spindle_PM.c **** ********************************************************************************
+  73:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+  74:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Summary:
+  75:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  Restores the current user configuration of the component.
+  76:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+  77:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Parameters:
+  78:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  None
+  79:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+  80:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Return:
+  81:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  None
+  82:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+  83:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Global variables:
+  84:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  PWM_Spindle_backup:  Variables of this global structure are used to
+  85:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  restore the values of non retention registers on wakeup from sleep mode.
+  86:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+  87:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *******************************************************************************/
+  88:Generated_Source\PSoC5/PWM_Spindle_PM.c **** void PWM_Spindle_RestoreConfig(void) 
+  89:Generated_Source\PSoC5/PWM_Spindle_PM.c **** {
+  44              		.loc 1 89 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49 0000 7047     		bx	lr
+  50              		.cfi_endproc
+  51              	.LFE1:
+  52              		.size	PWM_Spindle_RestoreConfig, .-PWM_Spindle_RestoreConfig
+  53 0002 00BF     		.section	.text.PWM_Spindle_Sleep,"ax",%progbits
+  54              		.align	2
+  55              		.global	PWM_Spindle_Sleep
+  56              		.thumb
+  57              		.thumb_func
+  58              		.type	PWM_Spindle_Sleep, %function
+  59              	PWM_Spindle_Sleep:
+  60              	.LFB2:
+  90:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         #if(!PWM_Spindle_UsingFixedFunction)
+  91:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             #if(!PWM_Spindle_PWMModeIsCenterAligned)
+  92:Generated_Source\PSoC5/PWM_Spindle_PM.c ****                 PWM_Spindle_WritePeriod(PWM_Spindle_backup.PWMPeriod);
+  93:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             #endif /* (!PWM_Spindle_PWMModeIsCenterAligned) */
+  94:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+  95:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             PWM_Spindle_WriteCounter(PWM_Spindle_backup.PWMUdb);
+  96:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+  97:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             #if (PWM_Spindle_UseStatus)
+  98:Generated_Source\PSoC5/PWM_Spindle_PM.c ****                 PWM_Spindle_STATUS_MASK = PWM_Spindle_backup.InterruptMaskValue;
+  99:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             #endif /* (PWM_Spindle_UseStatus) */
+ 100:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+ 101:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             #if(PWM_Spindle_DeadBandMode == PWM_Spindle__B_PWM__DBM_256_CLOCKS || \
+ 102:Generated_Source\PSoC5/PWM_Spindle_PM.c ****                 PWM_Spindle_DeadBandMode == PWM_Spindle__B_PWM__DBM_2_4_CLOCKS)
+ 103:Generated_Source\PSoC5/PWM_Spindle_PM.c ****                 PWM_Spindle_WriteDeadTime(PWM_Spindle_backup.PWMdeadBandValue);
+ 104:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             #endif /* deadband count is either 2-4 clocks or 256 clocks */
+ 105:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+ 106:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             #if(PWM_Spindle_KillModeMinTime)
+ 107:Generated_Source\PSoC5/PWM_Spindle_PM.c ****                 PWM_Spindle_WriteKillTime(PWM_Spindle_backup.PWMKillCounterPeriod);
+ 108:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             #endif /* (PWM_Spindle_KillModeMinTime) */
+ 109:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+ 110:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             #if(PWM_Spindle_UseControl)
+ 111:Generated_Source\PSoC5/PWM_Spindle_PM.c ****                 PWM_Spindle_WriteControlRegister(PWM_Spindle_backup.PWMControlRegister);
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 4
+
+
+ 112:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             #endif /* (PWM_Spindle_UseControl) */
+ 113:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         #endif  /* (!PWM_Spindle_UsingFixedFunction) */
+ 114:Generated_Source\PSoC5/PWM_Spindle_PM.c ****     }
+ 115:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+ 116:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+ 117:Generated_Source\PSoC5/PWM_Spindle_PM.c **** /*******************************************************************************
+ 118:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Function Name: PWM_Spindle_Sleep
+ 119:Generated_Source\PSoC5/PWM_Spindle_PM.c **** ********************************************************************************
+ 120:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+ 121:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Summary:
+ 122:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  Disables block's operation and saves the user configuration. Should be called
+ 123:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  just prior to entering sleep.
+ 124:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+ 125:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Parameters:
+ 126:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  None
+ 127:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+ 128:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Return:
+ 129:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  None
+ 130:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+ 131:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Global variables:
+ 132:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  PWM_Spindle_backup.PWMEnableState:  Is modified depending on the enable
+ 133:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  state of the block before entering sleep mode.
+ 134:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+ 135:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *******************************************************************************/
+ 136:Generated_Source\PSoC5/PWM_Spindle_PM.c **** void PWM_Spindle_Sleep(void) 
+ 137:Generated_Source\PSoC5/PWM_Spindle_PM.c **** {
+  61              		.loc 1 137 0
+  62              		.cfi_startproc
+  63              		@ args = 0, pretend = 0, frame = 0
+  64              		@ frame_needed = 0, uses_anonymous_args = 0
+  65              		.loc 1 137 0
+  66 0000 08B5     		push	{r3, lr}
+  67              		.cfi_def_cfa_offset 8
+  68              		.cfi_offset 3, -8
+  69              		.cfi_offset 14, -4
+ 138:Generated_Source\PSoC5/PWM_Spindle_PM.c ****     #if(PWM_Spindle_UseControl)
+ 139:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         if(PWM_Spindle_CTRL_ENABLE == (PWM_Spindle_CONTROL & PWM_Spindle_CTRL_ENABLE))
+  70              		.loc 1 139 0
+  71 0002 074B     		ldr	r3, .L7
+  72 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  73 0006 13F0010F 		tst	r3, #1
+  74 000a 03D0     		beq	.L4
+ 140:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         {
+ 141:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             /*Component is enabled */
+ 142:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             PWM_Spindle_backup.PWMEnableState = 1u;
+  75              		.loc 1 142 0
+  76 000c 0122     		movs	r2, #1
+  77 000e 054B     		ldr	r3, .L7+4
+  78 0010 1A70     		strb	r2, [r3]
+  79 0012 02E0     		b	.L5
+  80              	.L4:
+ 143:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         }
+ 144:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         else
+ 145:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         {
+ 146:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             /* Component is disabled */
+ 147:Generated_Source\PSoC5/PWM_Spindle_PM.c ****             PWM_Spindle_backup.PWMEnableState = 0u;
+  81              		.loc 1 147 0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 5
+
+
+  82 0014 0022     		movs	r2, #0
+  83 0016 034B     		ldr	r3, .L7+4
+  84 0018 1A70     		strb	r2, [r3]
+  85              	.L5:
+ 148:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         }
+ 149:Generated_Source\PSoC5/PWM_Spindle_PM.c ****     #endif /* (PWM_Spindle_UseControl) */
+ 150:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+ 151:Generated_Source\PSoC5/PWM_Spindle_PM.c ****     /* Stop component */
+ 152:Generated_Source\PSoC5/PWM_Spindle_PM.c ****     PWM_Spindle_Stop();
+  86              		.loc 1 152 0
+  87 001a FFF7FEFF 		bl	PWM_Spindle_Stop
+  88              	.LVL0:
+  89 001e 08BD     		pop	{r3, pc}
+  90              	.L8:
+  91              		.align	2
+  92              	.L7:
+  93 0020 004F0040 		.word	1073762048
+  94 0024 00000000 		.word	.LANCHOR0
+  95              		.cfi_endproc
+  96              	.LFE2:
+  97              		.size	PWM_Spindle_Sleep, .-PWM_Spindle_Sleep
+  98              		.section	.text.PWM_Spindle_Wakeup,"ax",%progbits
+  99              		.align	2
+ 100              		.global	PWM_Spindle_Wakeup
+ 101              		.thumb
+ 102              		.thumb_func
+ 103              		.type	PWM_Spindle_Wakeup, %function
+ 104              	PWM_Spindle_Wakeup:
+ 105              	.LFB3:
+ 153:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+ 154:Generated_Source\PSoC5/PWM_Spindle_PM.c ****     /* Save registers configuration */
+ 155:Generated_Source\PSoC5/PWM_Spindle_PM.c ****     PWM_Spindle_SaveConfig();
+ 156:Generated_Source\PSoC5/PWM_Spindle_PM.c **** }
+ 157:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+ 158:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+ 159:Generated_Source\PSoC5/PWM_Spindle_PM.c **** /*******************************************************************************
+ 160:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Function Name: PWM_Spindle_Wakeup
+ 161:Generated_Source\PSoC5/PWM_Spindle_PM.c **** ********************************************************************************
+ 162:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+ 163:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Summary:
+ 164:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  Restores and enables the user configuration. Should be called just after
+ 165:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  awaking from sleep.
+ 166:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+ 167:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Parameters:
+ 168:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  None
+ 169:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+ 170:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Return:
+ 171:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  None
+ 172:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+ 173:Generated_Source\PSoC5/PWM_Spindle_PM.c **** * Global variables:
+ 174:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  PWM_Spindle_backup.pwmEnable:  Is used to restore the enable state of
+ 175:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *  block on wakeup from sleep mode.
+ 176:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *
+ 177:Generated_Source\PSoC5/PWM_Spindle_PM.c **** *******************************************************************************/
+ 178:Generated_Source\PSoC5/PWM_Spindle_PM.c **** void PWM_Spindle_Wakeup(void) 
+ 179:Generated_Source\PSoC5/PWM_Spindle_PM.c **** {
+ 106              		.loc 1 179 0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 6
+
+
+ 107              		.cfi_startproc
+ 108              		@ args = 0, pretend = 0, frame = 0
+ 109              		@ frame_needed = 0, uses_anonymous_args = 0
+ 110 0000 08B5     		push	{r3, lr}
+ 111              		.cfi_def_cfa_offset 8
+ 112              		.cfi_offset 3, -8
+ 113              		.cfi_offset 14, -4
+ 180:Generated_Source\PSoC5/PWM_Spindle_PM.c ****      /* Restore registers values */
+ 181:Generated_Source\PSoC5/PWM_Spindle_PM.c ****     PWM_Spindle_RestoreConfig();
+ 182:Generated_Source\PSoC5/PWM_Spindle_PM.c **** 
+ 183:Generated_Source\PSoC5/PWM_Spindle_PM.c ****     if(PWM_Spindle_backup.PWMEnableState != 0u)
+ 114              		.loc 1 183 0
+ 115 0002 034B     		ldr	r3, .L12
+ 116 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 117 0006 0BB1     		cbz	r3, .L9
+ 184:Generated_Source\PSoC5/PWM_Spindle_PM.c ****     {
+ 185:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         /* Enable component's operation */
+ 186:Generated_Source\PSoC5/PWM_Spindle_PM.c ****         PWM_Spindle_Enable();
+ 118              		.loc 1 186 0
+ 119 0008 FFF7FEFF 		bl	PWM_Spindle_Enable
+ 120              	.LVL1:
+ 121              	.L9:
+ 122 000c 08BD     		pop	{r3, pc}
+ 123              	.L13:
+ 124 000e 00BF     		.align	2
+ 125              	.L12:
+ 126 0010 00000000 		.word	.LANCHOR0
+ 127              		.cfi_endproc
+ 128              	.LFE3:
+ 129              		.size	PWM_Spindle_Wakeup, .-PWM_Spindle_Wakeup
+ 130              		.bss
+ 131              		.align	2
+ 132              		.set	.LANCHOR0,. + 0
+ 133              		.type	PWM_Spindle_backup, %object
+ 134              		.size	PWM_Spindle_backup, 1
+ 135              	PWM_Spindle_backup:
+ 136 0000 00       		.space	1
+ 137 0001 000000   		.text
+ 138              	.Letext0:
+ 139              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 140              		.file 3 "Generated_Source\\PSoC5\\PWM_Spindle.h"
+ 141              		.section	.debug_info,"",%progbits
+ 142              	.Ldebug_info0:
+ 143 0000 40010000 		.4byte	0x140
+ 144 0004 0400     		.2byte	0x4
+ 145 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 146 000a 04       		.byte	0x4
+ 147 000b 01       		.uleb128 0x1
+ 148 000c 0E000000 		.4byte	.LASF22
+ 149 0010 01       		.byte	0x1
+ 150 0011 22020000 		.4byte	.LASF23
+ 151 0015 BE010000 		.4byte	.LASF24
+ 152 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 153 001d 00000000 		.4byte	0
+ 154 0021 00000000 		.4byte	.Ldebug_line0
+ 155 0025 02       		.uleb128 0x2
+ 156 0026 01       		.byte	0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 7
+
+
+ 157 0027 06       		.byte	0x6
+ 158 0028 86010000 		.4byte	.LASF0
+ 159 002c 02       		.uleb128 0x2
+ 160 002d 01       		.byte	0x1
+ 161 002e 08       		.byte	0x8
+ 162 002f 2B010000 		.4byte	.LASF1
+ 163 0033 02       		.uleb128 0x2
+ 164 0034 02       		.byte	0x2
+ 165 0035 05       		.byte	0x5
+ 166 0036 0A020000 		.4byte	.LASF2
+ 167 003a 02       		.uleb128 0x2
+ 168 003b 02       		.byte	0x2
+ 169 003c 07       		.byte	0x7
+ 170 003d 73010000 		.4byte	.LASF3
+ 171 0041 02       		.uleb128 0x2
+ 172 0042 04       		.byte	0x4
+ 173 0043 05       		.byte	0x5
+ 174 0044 3E010000 		.4byte	.LASF4
+ 175 0048 02       		.uleb128 0x2
+ 176 0049 04       		.byte	0x4
+ 177 004a 07       		.byte	0x7
+ 178 004b BE000000 		.4byte	.LASF5
+ 179 004f 02       		.uleb128 0x2
+ 180 0050 08       		.byte	0x8
+ 181 0051 05       		.byte	0x5
+ 182 0052 00000000 		.4byte	.LASF6
+ 183 0056 02       		.uleb128 0x2
+ 184 0057 08       		.byte	0x8
+ 185 0058 07       		.byte	0x7
+ 186 0059 D0000000 		.4byte	.LASF7
+ 187 005d 03       		.uleb128 0x3
+ 188 005e 04       		.byte	0x4
+ 189 005f 05       		.byte	0x5
+ 190 0060 696E7400 		.ascii	"int\000"
+ 191 0064 02       		.uleb128 0x2
+ 192 0065 04       		.byte	0x4
+ 193 0066 07       		.byte	0x7
+ 194 0067 9C000000 		.4byte	.LASF8
+ 195 006b 04       		.uleb128 0x4
+ 196 006c B8000000 		.4byte	.LASF12
+ 197 0070 02       		.byte	0x2
+ 198 0071 9201     		.2byte	0x192
+ 199 0073 2C000000 		.4byte	0x2c
+ 200 0077 02       		.uleb128 0x2
+ 201 0078 04       		.byte	0x4
+ 202 0079 04       		.byte	0x4
+ 203 007a 04020000 		.4byte	.LASF9
+ 204 007e 02       		.uleb128 0x2
+ 205 007f 08       		.byte	0x8
+ 206 0080 04       		.byte	0x4
+ 207 0081 59010000 		.4byte	.LASF10
+ 208 0085 02       		.uleb128 0x2
+ 209 0086 01       		.byte	0x1
+ 210 0087 08       		.byte	0x8
+ 211 0088 39010000 		.4byte	.LASF11
+ 212 008c 04       		.uleb128 0x4
+ 213 008d 14020000 		.4byte	.LASF13
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 8
+
+
+ 214 0091 02       		.byte	0x2
+ 215 0092 3C02     		.2byte	0x23c
+ 216 0094 98000000 		.4byte	0x98
+ 217 0098 05       		.uleb128 0x5
+ 218 0099 6B000000 		.4byte	0x6b
+ 219 009d 02       		.uleb128 0x2
+ 220 009e 04       		.byte	0x4
+ 221 009f 07       		.byte	0x7
+ 222 00a0 19020000 		.4byte	.LASF14
+ 223 00a4 06       		.uleb128 0x6
+ 224 00a5 01       		.byte	0x1
+ 225 00a6 03       		.byte	0x3
+ 226 00a7 6B       		.byte	0x6b
+ 227 00a8 B9000000 		.4byte	0xb9
+ 228 00ac 07       		.uleb128 0x7
+ 229 00ad A9000000 		.4byte	.LASF25
+ 230 00b1 03       		.byte	0x3
+ 231 00b2 6E       		.byte	0x6e
+ 232 00b3 6B000000 		.4byte	0x6b
+ 233 00b7 00       		.byte	0
+ 234 00b8 00       		.byte	0
+ 235 00b9 08       		.uleb128 0x8
+ 236 00ba A5010000 		.4byte	.LASF15
+ 237 00be 03       		.byte	0x3
+ 238 00bf 8B       		.byte	0x8b
+ 239 00c0 A4000000 		.4byte	0xa4
+ 240 00c4 09       		.uleb128 0x9
+ 241 00c5 E7000000 		.4byte	.LASF16
+ 242 00c9 01       		.byte	0x1
+ 243 00ca 2A       		.byte	0x2a
+ 244 00cb 00000000 		.4byte	.LFB0
+ 245 00cf 02000000 		.4byte	.LFE0-.LFB0
+ 246 00d3 01       		.uleb128 0x1
+ 247 00d4 9C       		.byte	0x9c
+ 248 00d5 09       		.uleb128 0x9
+ 249 00d6 11010000 		.4byte	.LASF17
+ 250 00da 01       		.byte	0x1
+ 251 00db 58       		.byte	0x58
+ 252 00dc 00000000 		.4byte	.LFB1
+ 253 00e0 02000000 		.4byte	.LFE1-.LFB1
+ 254 00e4 01       		.uleb128 0x1
+ 255 00e5 9C       		.byte	0x9c
+ 256 00e6 0A       		.uleb128 0xa
+ 257 00e7 47010000 		.4byte	.LASF18
+ 258 00eb 01       		.byte	0x1
+ 259 00ec 88       		.byte	0x88
+ 260 00ed 00000000 		.4byte	.LFB2
+ 261 00f1 28000000 		.4byte	.LFE2-.LFB2
+ 262 00f5 01       		.uleb128 0x1
+ 263 00f6 9C       		.byte	0x9c
+ 264 00f7 05010000 		.4byte	0x105
+ 265 00fb 0B       		.uleb128 0xb
+ 266 00fc 1E000000 		.4byte	.LVL0
+ 267 0100 35010000 		.4byte	0x135
+ 268 0104 00       		.byte	0
+ 269 0105 0A       		.uleb128 0xa
+ 270 0106 60010000 		.4byte	.LASF19
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 9
+
+
+ 271 010a 01       		.byte	0x1
+ 272 010b B2       		.byte	0xb2
+ 273 010c 00000000 		.4byte	.LFB3
+ 274 0110 14000000 		.4byte	.LFE3-.LFB3
+ 275 0114 01       		.uleb128 0x1
+ 276 0115 9C       		.byte	0x9c
+ 277 0116 24010000 		.4byte	0x124
+ 278 011a 0B       		.uleb128 0xb
+ 279 011b 0C000000 		.4byte	.LVL1
+ 280 011f 3C010000 		.4byte	0x13c
+ 281 0123 00       		.byte	0
+ 282 0124 0C       		.uleb128 0xc
+ 283 0125 FE000000 		.4byte	.LASF26
+ 284 0129 01       		.byte	0x1
+ 285 012a 14       		.byte	0x14
+ 286 012b B9000000 		.4byte	0xb9
+ 287 012f 05       		.uleb128 0x5
+ 288 0130 03       		.byte	0x3
+ 289 0131 00000000 		.4byte	PWM_Spindle_backup
+ 290 0135 0D       		.uleb128 0xd
+ 291 0136 F3010000 		.4byte	.LASF20
+ 292 013a 03       		.byte	0x3
+ 293 013b 93       		.byte	0x93
+ 294 013c 0D       		.uleb128 0xd
+ 295 013d 92010000 		.4byte	.LASF21
+ 296 0141 03       		.byte	0x3
+ 297 0142 DB       		.byte	0xdb
+ 298 0143 00       		.byte	0
+ 299              		.section	.debug_abbrev,"",%progbits
+ 300              	.Ldebug_abbrev0:
+ 301 0000 01       		.uleb128 0x1
+ 302 0001 11       		.uleb128 0x11
+ 303 0002 01       		.byte	0x1
+ 304 0003 25       		.uleb128 0x25
+ 305 0004 0E       		.uleb128 0xe
+ 306 0005 13       		.uleb128 0x13
+ 307 0006 0B       		.uleb128 0xb
+ 308 0007 03       		.uleb128 0x3
+ 309 0008 0E       		.uleb128 0xe
+ 310 0009 1B       		.uleb128 0x1b
+ 311 000a 0E       		.uleb128 0xe
+ 312 000b 55       		.uleb128 0x55
+ 313 000c 17       		.uleb128 0x17
+ 314 000d 11       		.uleb128 0x11
+ 315 000e 01       		.uleb128 0x1
+ 316 000f 10       		.uleb128 0x10
+ 317 0010 17       		.uleb128 0x17
+ 318 0011 00       		.byte	0
+ 319 0012 00       		.byte	0
+ 320 0013 02       		.uleb128 0x2
+ 321 0014 24       		.uleb128 0x24
+ 322 0015 00       		.byte	0
+ 323 0016 0B       		.uleb128 0xb
+ 324 0017 0B       		.uleb128 0xb
+ 325 0018 3E       		.uleb128 0x3e
+ 326 0019 0B       		.uleb128 0xb
+ 327 001a 03       		.uleb128 0x3
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 10
+
+
+ 328 001b 0E       		.uleb128 0xe
+ 329 001c 00       		.byte	0
+ 330 001d 00       		.byte	0
+ 331 001e 03       		.uleb128 0x3
+ 332 001f 24       		.uleb128 0x24
+ 333 0020 00       		.byte	0
+ 334 0021 0B       		.uleb128 0xb
+ 335 0022 0B       		.uleb128 0xb
+ 336 0023 3E       		.uleb128 0x3e
+ 337 0024 0B       		.uleb128 0xb
+ 338 0025 03       		.uleb128 0x3
+ 339 0026 08       		.uleb128 0x8
+ 340 0027 00       		.byte	0
+ 341 0028 00       		.byte	0
+ 342 0029 04       		.uleb128 0x4
+ 343 002a 16       		.uleb128 0x16
+ 344 002b 00       		.byte	0
+ 345 002c 03       		.uleb128 0x3
+ 346 002d 0E       		.uleb128 0xe
+ 347 002e 3A       		.uleb128 0x3a
+ 348 002f 0B       		.uleb128 0xb
+ 349 0030 3B       		.uleb128 0x3b
+ 350 0031 05       		.uleb128 0x5
+ 351 0032 49       		.uleb128 0x49
+ 352 0033 13       		.uleb128 0x13
+ 353 0034 00       		.byte	0
+ 354 0035 00       		.byte	0
+ 355 0036 05       		.uleb128 0x5
+ 356 0037 35       		.uleb128 0x35
+ 357 0038 00       		.byte	0
+ 358 0039 49       		.uleb128 0x49
+ 359 003a 13       		.uleb128 0x13
+ 360 003b 00       		.byte	0
+ 361 003c 00       		.byte	0
+ 362 003d 06       		.uleb128 0x6
+ 363 003e 13       		.uleb128 0x13
+ 364 003f 01       		.byte	0x1
+ 365 0040 0B       		.uleb128 0xb
+ 366 0041 0B       		.uleb128 0xb
+ 367 0042 3A       		.uleb128 0x3a
+ 368 0043 0B       		.uleb128 0xb
+ 369 0044 3B       		.uleb128 0x3b
+ 370 0045 0B       		.uleb128 0xb
+ 371 0046 01       		.uleb128 0x1
+ 372 0047 13       		.uleb128 0x13
+ 373 0048 00       		.byte	0
+ 374 0049 00       		.byte	0
+ 375 004a 07       		.uleb128 0x7
+ 376 004b 0D       		.uleb128 0xd
+ 377 004c 00       		.byte	0
+ 378 004d 03       		.uleb128 0x3
+ 379 004e 0E       		.uleb128 0xe
+ 380 004f 3A       		.uleb128 0x3a
+ 381 0050 0B       		.uleb128 0xb
+ 382 0051 3B       		.uleb128 0x3b
+ 383 0052 0B       		.uleb128 0xb
+ 384 0053 49       		.uleb128 0x49
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 11
+
+
+ 385 0054 13       		.uleb128 0x13
+ 386 0055 38       		.uleb128 0x38
+ 387 0056 0B       		.uleb128 0xb
+ 388 0057 00       		.byte	0
+ 389 0058 00       		.byte	0
+ 390 0059 08       		.uleb128 0x8
+ 391 005a 16       		.uleb128 0x16
+ 392 005b 00       		.byte	0
+ 393 005c 03       		.uleb128 0x3
+ 394 005d 0E       		.uleb128 0xe
+ 395 005e 3A       		.uleb128 0x3a
+ 396 005f 0B       		.uleb128 0xb
+ 397 0060 3B       		.uleb128 0x3b
+ 398 0061 0B       		.uleb128 0xb
+ 399 0062 49       		.uleb128 0x49
+ 400 0063 13       		.uleb128 0x13
+ 401 0064 00       		.byte	0
+ 402 0065 00       		.byte	0
+ 403 0066 09       		.uleb128 0x9
+ 404 0067 2E       		.uleb128 0x2e
+ 405 0068 00       		.byte	0
+ 406 0069 3F       		.uleb128 0x3f
+ 407 006a 19       		.uleb128 0x19
+ 408 006b 03       		.uleb128 0x3
+ 409 006c 0E       		.uleb128 0xe
+ 410 006d 3A       		.uleb128 0x3a
+ 411 006e 0B       		.uleb128 0xb
+ 412 006f 3B       		.uleb128 0x3b
+ 413 0070 0B       		.uleb128 0xb
+ 414 0071 27       		.uleb128 0x27
+ 415 0072 19       		.uleb128 0x19
+ 416 0073 11       		.uleb128 0x11
+ 417 0074 01       		.uleb128 0x1
+ 418 0075 12       		.uleb128 0x12
+ 419 0076 06       		.uleb128 0x6
+ 420 0077 40       		.uleb128 0x40
+ 421 0078 18       		.uleb128 0x18
+ 422 0079 9742     		.uleb128 0x2117
+ 423 007b 19       		.uleb128 0x19
+ 424 007c 00       		.byte	0
+ 425 007d 00       		.byte	0
+ 426 007e 0A       		.uleb128 0xa
+ 427 007f 2E       		.uleb128 0x2e
+ 428 0080 01       		.byte	0x1
+ 429 0081 3F       		.uleb128 0x3f
+ 430 0082 19       		.uleb128 0x19
+ 431 0083 03       		.uleb128 0x3
+ 432 0084 0E       		.uleb128 0xe
+ 433 0085 3A       		.uleb128 0x3a
+ 434 0086 0B       		.uleb128 0xb
+ 435 0087 3B       		.uleb128 0x3b
+ 436 0088 0B       		.uleb128 0xb
+ 437 0089 27       		.uleb128 0x27
+ 438 008a 19       		.uleb128 0x19
+ 439 008b 11       		.uleb128 0x11
+ 440 008c 01       		.uleb128 0x1
+ 441 008d 12       		.uleb128 0x12
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 12
+
+
+ 442 008e 06       		.uleb128 0x6
+ 443 008f 40       		.uleb128 0x40
+ 444 0090 18       		.uleb128 0x18
+ 445 0091 9742     		.uleb128 0x2117
+ 446 0093 19       		.uleb128 0x19
+ 447 0094 01       		.uleb128 0x1
+ 448 0095 13       		.uleb128 0x13
+ 449 0096 00       		.byte	0
+ 450 0097 00       		.byte	0
+ 451 0098 0B       		.uleb128 0xb
+ 452 0099 898201   		.uleb128 0x4109
+ 453 009c 00       		.byte	0
+ 454 009d 11       		.uleb128 0x11
+ 455 009e 01       		.uleb128 0x1
+ 456 009f 31       		.uleb128 0x31
+ 457 00a0 13       		.uleb128 0x13
+ 458 00a1 00       		.byte	0
+ 459 00a2 00       		.byte	0
+ 460 00a3 0C       		.uleb128 0xc
+ 461 00a4 34       		.uleb128 0x34
+ 462 00a5 00       		.byte	0
+ 463 00a6 03       		.uleb128 0x3
+ 464 00a7 0E       		.uleb128 0xe
+ 465 00a8 3A       		.uleb128 0x3a
+ 466 00a9 0B       		.uleb128 0xb
+ 467 00aa 3B       		.uleb128 0x3b
+ 468 00ab 0B       		.uleb128 0xb
+ 469 00ac 49       		.uleb128 0x49
+ 470 00ad 13       		.uleb128 0x13
+ 471 00ae 02       		.uleb128 0x2
+ 472 00af 18       		.uleb128 0x18
+ 473 00b0 00       		.byte	0
+ 474 00b1 00       		.byte	0
+ 475 00b2 0D       		.uleb128 0xd
+ 476 00b3 2E       		.uleb128 0x2e
+ 477 00b4 00       		.byte	0
+ 478 00b5 3F       		.uleb128 0x3f
+ 479 00b6 19       		.uleb128 0x19
+ 480 00b7 03       		.uleb128 0x3
+ 481 00b8 0E       		.uleb128 0xe
+ 482 00b9 3A       		.uleb128 0x3a
+ 483 00ba 0B       		.uleb128 0xb
+ 484 00bb 3B       		.uleb128 0x3b
+ 485 00bc 0B       		.uleb128 0xb
+ 486 00bd 27       		.uleb128 0x27
+ 487 00be 19       		.uleb128 0x19
+ 488 00bf 3C       		.uleb128 0x3c
+ 489 00c0 19       		.uleb128 0x19
+ 490 00c1 00       		.byte	0
+ 491 00c2 00       		.byte	0
+ 492 00c3 00       		.byte	0
+ 493              		.section	.debug_aranges,"",%progbits
+ 494 0000 34000000 		.4byte	0x34
+ 495 0004 0200     		.2byte	0x2
+ 496 0006 00000000 		.4byte	.Ldebug_info0
+ 497 000a 04       		.byte	0x4
+ 498 000b 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 13
+
+
+ 499 000c 0000     		.2byte	0
+ 500 000e 0000     		.2byte	0
+ 501 0010 00000000 		.4byte	.LFB0
+ 502 0014 02000000 		.4byte	.LFE0-.LFB0
+ 503 0018 00000000 		.4byte	.LFB1
+ 504 001c 02000000 		.4byte	.LFE1-.LFB1
+ 505 0020 00000000 		.4byte	.LFB2
+ 506 0024 28000000 		.4byte	.LFE2-.LFB2
+ 507 0028 00000000 		.4byte	.LFB3
+ 508 002c 14000000 		.4byte	.LFE3-.LFB3
+ 509 0030 00000000 		.4byte	0
+ 510 0034 00000000 		.4byte	0
+ 511              		.section	.debug_ranges,"",%progbits
+ 512              	.Ldebug_ranges0:
+ 513 0000 00000000 		.4byte	.LFB0
+ 514 0004 02000000 		.4byte	.LFE0
+ 515 0008 00000000 		.4byte	.LFB1
+ 516 000c 02000000 		.4byte	.LFE1
+ 517 0010 00000000 		.4byte	.LFB2
+ 518 0014 28000000 		.4byte	.LFE2
+ 519 0018 00000000 		.4byte	.LFB3
+ 520 001c 14000000 		.4byte	.LFE3
+ 521 0020 00000000 		.4byte	0
+ 522 0024 00000000 		.4byte	0
+ 523              		.section	.debug_line,"",%progbits
+ 524              	.Ldebug_line0:
+ 525 0000 A8000000 		.section	.debug_str,"MS",%progbits,1
+ 525      02005C00 
+ 525      00000201 
+ 525      FB0E0D00 
+ 525      01010101 
+ 526              	.LASF6:
+ 527 0000 6C6F6E67 		.ascii	"long long int\000"
+ 527      206C6F6E 
+ 527      6720696E 
+ 527      7400
+ 528              	.LASF22:
+ 529 000e 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 529      4320342E 
+ 529      392E3320 
+ 529      32303135 
+ 529      30333033 
+ 530 0041 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 530      20726576 
+ 530      6973696F 
+ 530      6E203232 
+ 530      31323230 
+ 531 0074 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 531      66756E63 
+ 531      74696F6E 
+ 531      2D736563 
+ 531      74696F6E 
+ 532              	.LASF8:
+ 533 009c 756E7369 		.ascii	"unsigned int\000"
+ 533      676E6564 
+ 533      20696E74 
+ 533      00
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 14
+
+
+ 534              	.LASF25:
+ 535 00a9 50574D45 		.ascii	"PWMEnableState\000"
+ 535      6E61626C 
+ 535      65537461 
+ 535      746500
+ 536              	.LASF12:
+ 537 00b8 75696E74 		.ascii	"uint8\000"
+ 537      3800
+ 538              	.LASF5:
+ 539 00be 6C6F6E67 		.ascii	"long unsigned int\000"
+ 539      20756E73 
+ 539      69676E65 
+ 539      6420696E 
+ 539      7400
+ 540              	.LASF7:
+ 541 00d0 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 541      206C6F6E 
+ 541      6720756E 
+ 541      7369676E 
+ 541      65642069 
+ 542              	.LASF16:
+ 543 00e7 50574D5F 		.ascii	"PWM_Spindle_SaveConfig\000"
+ 543      5370696E 
+ 543      646C655F 
+ 543      53617665 
+ 543      436F6E66 
+ 544              	.LASF26:
+ 545 00fe 50574D5F 		.ascii	"PWM_Spindle_backup\000"
+ 545      5370696E 
+ 545      646C655F 
+ 545      6261636B 
+ 545      757000
+ 546              	.LASF17:
+ 547 0111 50574D5F 		.ascii	"PWM_Spindle_RestoreConfig\000"
+ 547      5370696E 
+ 547      646C655F 
+ 547      52657374 
+ 547      6F726543 
+ 548              	.LASF1:
+ 549 012b 756E7369 		.ascii	"unsigned char\000"
+ 549      676E6564 
+ 549      20636861 
+ 549      7200
+ 550              	.LASF11:
+ 551 0139 63686172 		.ascii	"char\000"
+ 551      00
+ 552              	.LASF4:
+ 553 013e 6C6F6E67 		.ascii	"long int\000"
+ 553      20696E74 
+ 553      00
+ 554              	.LASF18:
+ 555 0147 50574D5F 		.ascii	"PWM_Spindle_Sleep\000"
+ 555      5370696E 
+ 555      646C655F 
+ 555      536C6565 
+ 555      7000
+ 556              	.LASF10:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 15
+
+
+ 557 0159 646F7562 		.ascii	"double\000"
+ 557      6C6500
+ 558              	.LASF19:
+ 559 0160 50574D5F 		.ascii	"PWM_Spindle_Wakeup\000"
+ 559      5370696E 
+ 559      646C655F 
+ 559      57616B65 
+ 559      757000
+ 560              	.LASF3:
+ 561 0173 73686F72 		.ascii	"short unsigned int\000"
+ 561      7420756E 
+ 561      7369676E 
+ 561      65642069 
+ 561      6E7400
+ 562              	.LASF0:
+ 563 0186 7369676E 		.ascii	"signed char\000"
+ 563      65642063 
+ 563      68617200 
+ 564              	.LASF21:
+ 565 0192 50574D5F 		.ascii	"PWM_Spindle_Enable\000"
+ 565      5370696E 
+ 565      646C655F 
+ 565      456E6162 
+ 565      6C6500
+ 566              	.LASF15:
+ 567 01a5 50574D5F 		.ascii	"PWM_Spindle_backupStruct\000"
+ 567      5370696E 
+ 567      646C655F 
+ 567      6261636B 
+ 567      75705374 
+ 568              	.LASF24:
+ 569 01be 433A5C55 		.ascii	"C:\\Users\\Bart\\Dropbox\\PSoC\\PSoC_Grbl\\PSoC_Grb"
+ 569      73657273 
+ 569      5C426172 
+ 569      745C4472 
+ 569      6F70626F 
+ 570 01eb 6C2E6379 		.ascii	"l.cydsn\000"
+ 570      64736E00 
+ 571              	.LASF20:
+ 572 01f3 50574D5F 		.ascii	"PWM_Spindle_Stop\000"
+ 572      5370696E 
+ 572      646C655F 
+ 572      53746F70 
+ 572      00
+ 573              	.LASF9:
+ 574 0204 666C6F61 		.ascii	"float\000"
+ 574      7400
+ 575              	.LASF2:
+ 576 020a 73686F72 		.ascii	"short int\000"
+ 576      7420696E 
+ 576      7400
+ 577              	.LASF13:
+ 578 0214 72656738 		.ascii	"reg8\000"
+ 578      00
+ 579              	.LASF14:
+ 580 0219 73697A65 		.ascii	"sizetype\000"
+ 580      74797065 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccA6XIgw.s 			page 16
+
+
+ 580      00
+ 581              	.LASF23:
+ 582 0222 47656E65 		.ascii	"Generated_Source\\PSoC5\\PWM_Spindle_PM.c\000"
+ 582      72617465 
+ 582      645F536F 
+ 582      75726365 
+ 582      5C50536F 
+ 583              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

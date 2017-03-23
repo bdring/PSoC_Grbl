@@ -1,0 +1,3206 @@
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"cymetadata.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.global	cy_metadata
+  19              		.global	cy_meta_flashprotect
+  20              		.global	cy_meta_wonvl
+  21              		.global	cy_meta_custnvl
+  22              		.global	cy_meta_configecc
+  23              		.section	.cyconfigecc,"a",%progbits
+  24              		.align	2
+  25              		.type	cy_meta_configecc, %object
+  26              		.size	cy_meta_configecc, 2560
+  27              	cy_meta_configecc:
+  28 0000 03       		.byte	3
+  29 0001 4F       		.byte	79
+  30 0002 00       		.byte	0
+  31 0003 40       		.byte	64
+  32 0004 06       		.byte	6
+  33 0005 52       		.byte	82
+  34 0006 00       		.byte	0
+  35 0007 40       		.byte	64
+  36 0008 05       		.byte	5
+  37 0009 64       		.byte	100
+  38 000a 00       		.byte	0
+  39 000b 40       		.byte	64
+  40 000c 03       		.byte	3
+  41 000d 65       		.byte	101
+  42 000e 00       		.byte	0
+  43 000f 40       		.byte	64
+  44 0010 4D       		.byte	77
+  45 0011 02       		.byte	2
+  46 0012 01       		.byte	1
+  47 0013 40       		.byte	64
+  48 0014 3E       		.byte	62
+  49 0015 03       		.byte	3
+  50 0016 01       		.byte	1
+  51 0017 40       		.byte	64
+  52 0018 48       		.byte	72
+  53 0019 04       		.byte	4
+  54 001a 01       		.byte	1
+  55 001b 40       		.byte	64
+  56 001c 49       		.byte	73
+  57 001d 05       		.byte	5
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 2
+
+
+  58 001e 01       		.byte	1
+  59 001f 40       		.byte	64
+  60 0020 54       		.byte	84
+  61 0021 06       		.byte	6
+  62 0022 01       		.byte	1
+  63 0023 40       		.byte	64
+  64 0024 3D       		.byte	61
+  65 0025 07       		.byte	7
+  66 0026 01       		.byte	1
+  67 0027 40       		.byte	64
+  68 0028 61       		.byte	97
+  69 0029 08       		.byte	8
+  70 002a 01       		.byte	1
+  71 002b 40       		.byte	64
+  72 002c 46       		.byte	70
+  73 002d 09       		.byte	9
+  74 002e 01       		.byte	1
+  75 002f 40       		.byte	64
+  76 0030 07       		.byte	7
+  77 0031 0B       		.byte	11
+  78 0032 01       		.byte	1
+  79 0033 40       		.byte	64
+  80 0034 05       		.byte	5
+  81 0035 0D       		.byte	13
+  82 0036 01       		.byte	1
+  83 0037 40       		.byte	64
+  84 0038 01       		.byte	1
+  85 0039 0F       		.byte	15
+  86 003a 01       		.byte	1
+  87 003b 40       		.byte	64
+  88 003c 44       		.byte	68
+  89 003d 14       		.byte	20
+  90 003e 01       		.byte	1
+  91 003f 40       		.byte	64
+  92 0040 46       		.byte	70
+  93 0041 15       		.byte	21
+  94 0042 01       		.byte	1
+  95 0043 40       		.byte	64
+  96 0044 4E       		.byte	78
+  97 0045 16       		.byte	22
+  98 0046 01       		.byte	1
+  99 0047 40       		.byte	64
+ 100 0048 49       		.byte	73
+ 101 0049 17       		.byte	23
+ 102 004a 01       		.byte	1
+ 103 004b 40       		.byte	64
+ 104 004c 3D       		.byte	61
+ 105 004d 18       		.byte	24
+ 106 004e 01       		.byte	1
+ 107 004f 40       		.byte	64
+ 108 0050 3C       		.byte	60
+ 109 0051 19       		.byte	25
+ 110 0052 01       		.byte	1
+ 111 0053 40       		.byte	64
+ 112 0054 08       		.byte	8
+ 113 0055 1B       		.byte	27
+ 114 0056 01       		.byte	1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 3
+
+
+ 115 0057 40       		.byte	64
+ 116 0058 07       		.byte	7
+ 117 0059 40       		.byte	64
+ 118 005a 01       		.byte	1
+ 119 005b 40       		.byte	64
+ 120 005c 13       		.byte	19
+ 121 005d 41       		.byte	65
+ 122 005e 01       		.byte	1
+ 123 005f 40       		.byte	64
+ 124 0060 0D       		.byte	13
+ 125 0061 42       		.byte	66
+ 126 0062 01       		.byte	1
+ 127 0063 40       		.byte	64
+ 128 0064 12       		.byte	18
+ 129 0065 43       		.byte	67
+ 130 0066 01       		.byte	1
+ 131 0067 40       		.byte	64
+ 132 0068 04       		.byte	4
+ 133 0069 44       		.byte	68
+ 134 006a 01       		.byte	1
+ 135 006b 40       		.byte	64
+ 136 006c 03       		.byte	3
+ 137 006d 45       		.byte	69
+ 138 006e 01       		.byte	1
+ 139 006f 40       		.byte	64
+ 140 0070 06       		.byte	6
+ 141 0071 46       		.byte	70
+ 142 0072 01       		.byte	1
+ 143 0073 40       		.byte	64
+ 144 0074 04       		.byte	4
+ 145 0075 47       		.byte	71
+ 146 0076 01       		.byte	1
+ 147 0077 40       		.byte	64
+ 148 0078 0B       		.byte	11
+ 149 0079 48       		.byte	72
+ 150 007a 01       		.byte	1
+ 151 007b 40       		.byte	64
+ 152 007c 0B       		.byte	11
+ 153 007d 49       		.byte	73
+ 154 007e 01       		.byte	1
+ 155 007f 40       		.byte	64
+ 156 0080 0E       		.byte	14
+ 157 0081 4C       		.byte	76
+ 158 0082 01       		.byte	1
+ 159 0083 40       		.byte	64
+ 160 0084 09       		.byte	9
+ 161 0085 4D       		.byte	77
+ 162 0086 01       		.byte	1
+ 163 0087 40       		.byte	64
+ 164 0088 0D       		.byte	13
+ 165 0089 50       		.byte	80
+ 166 008a 01       		.byte	1
+ 167 008b 40       		.byte	64
+ 168 008c 02       		.byte	2
+ 169 008d 51       		.byte	81
+ 170 008e 01       		.byte	1
+ 171 008f 40       		.byte	64
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 4
+
+
+ 172 0090 0A       		.byte	10
+ 173 0091 27       		.byte	39
+ 174 0092 0D       		.byte	13
+ 175 0093 80       		.byte	-128
+ 176 0094 16       		.byte	22
+ 177 0095 27       		.byte	39
+ 178 0096 00       		.byte	0
+ 179 0097 51       		.byte	81
+ 180 0098 01       		.byte	1
+ 181 0099 42       		.byte	66
+ 182 009a 61       		.byte	97
+ 183 009b 80       		.byte	-128
+ 184 009c 64       		.byte	100
+ 185 009d 40       		.byte	64
+ 186 009e 78       		.byte	120
+ 187 009f 20       		.byte	32
+ 188 00a0 79       		.byte	121
+ 189 00a1 20       		.byte	32
+ 190 00a2 83       		.byte	-125
+ 191 00a3 0F       		.byte	15
+ 192 00a4 85       		.byte	-123
+ 193 00a5 0F       		.byte	15
+ 194 00a6 87       		.byte	-121
+ 195 00a7 38       		.byte	56
+ 196 00a8 88       		.byte	-120
+ 197 00a9 01       		.byte	1
+ 198 00aa 89       		.byte	-119
+ 199 00ab 0F       		.byte	15
+ 200 00ac 84       		.byte	-124
+ 201 00ad 72       		.byte	114
+ 202 00ae 86       		.byte	-122
+ 203 00af 07       		.byte	7
+ 204 00b0 89       		.byte	-119
+ 205 00b1 6F       		.byte	111
+ 206 00b2 03       		.byte	3
+ 207 00b3 03       		.byte	3
+ 208 00b4 06       		.byte	6
+ 209 00b5 01       		.byte	1
+ 210 00b6 07       		.byte	7
+ 211 00b7 08       		.byte	8
+ 212 00b8 11       		.byte	17
+ 213 00b9 01       		.byte	1
+ 214 00ba 13       		.byte	19
+ 215 00bb 0E       		.byte	14
+ 216 00bc 15       		.byte	21
+ 217 00bd 01       		.byte	1
+ 218 00be 17       		.byte	23
+ 219 00bf 06       		.byte	6
+ 220 00c0 18       		.byte	24
+ 221 00c1 01       		.byte	1
+ 222 00c2 1A       		.byte	26
+ 223 00c3 02       		.byte	2
+ 224 00c4 1D       		.byte	29
+ 225 00c5 0C       		.byte	12
+ 226 00c6 1F       		.byte	31
+ 227 00c7 03       		.byte	3
+ 228 00c8 23       		.byte	35
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 5
+
+
+ 229 00c9 0C       		.byte	12
+ 230 00ca 2A       		.byte	42
+ 231 00cb 04       		.byte	4
+ 232 00cc 31       		.byte	49
+ 233 00cd 0F       		.byte	15
+ 234 00ce 32       		.byte	50
+ 235 00cf 02       		.byte	2
+ 236 00d0 34       		.byte	52
+ 237 00d1 04       		.byte	4
+ 238 00d2 36       		.byte	54
+ 239 00d3 01       		.byte	1
+ 240 00d4 3B       		.byte	59
+ 241 00d5 02       		.byte	2
+ 242 00d6 58       		.byte	88
+ 243 00d7 04       		.byte	4
+ 244 00d8 59       		.byte	89
+ 245 00d9 04       		.byte	4
+ 246 00da 5B       		.byte	91
+ 247 00db 04       		.byte	4
+ 248 00dc 5C       		.byte	92
+ 249 00dd 14       		.byte	20
+ 250 00de 5F       		.byte	95
+ 251 00df 01       		.byte	1
+ 252 00e0 80       		.byte	-128
+ 253 00e1 08       		.byte	8
+ 254 00e2 82       		.byte	-126
+ 255 00e3 01       		.byte	1
+ 256 00e4 85       		.byte	-123
+ 257 00e5 14       		.byte	20
+ 258 00e6 86       		.byte	-122
+ 259 00e7 0F       		.byte	15
+ 260 00e8 88       		.byte	-120
+ 261 00e9 0C       		.byte	12
+ 262 00ea 8A       		.byte	-118
+ 263 00eb 02       		.byte	2
+ 264 00ec 8C       		.byte	-116
+ 265 00ed 10       		.byte	16
+ 266 00ee 90       		.byte	-112
+ 267 00ef 0B       		.byte	11
+ 268 00f0 92       		.byte	-110
+ 269 00f1 04       		.byte	4
+ 270 00f2 94       		.byte	-108
+ 271 00f3 07       		.byte	7
+ 272 00f4 97       		.byte	-105
+ 273 00f5 03       		.byte	3
+ 274 00f6 98       		.byte	-104
+ 275 00f7 0C       		.byte	12
+ 276 00f8 9A       		.byte	-102
+ 277 00f9 01       		.byte	1
+ 278 00fa 9D       		.byte	-99
+ 279 00fb 1C       		.byte	28
+ 280 00fc 9E       		.byte	-98
+ 281 00fd 10       		.byte	16
+ 282 00fe 9F       		.byte	-97
+ 283 00ff 02       		.byte	2
+ 284 0100 A1       		.byte	-95
+ 285 0101 09       		.byte	9
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 6
+
+
+ 286 0102 A2       		.byte	-94
+ 287 0103 10       		.byte	16
+ 288 0104 A3       		.byte	-93
+ 289 0105 10       		.byte	16
+ 290 0106 A5       		.byte	-91
+ 291 0107 10       		.byte	16
+ 292 0108 A7       		.byte	-89
+ 293 0109 0C       		.byte	12
+ 294 010a A8       		.byte	-88
+ 295 010b 10       		.byte	16
+ 296 010c A9       		.byte	-87
+ 297 010d 10       		.byte	16
+ 298 010e AD       		.byte	-83
+ 299 010f 0C       		.byte	12
+ 300 0110 AE       		.byte	-82
+ 301 0111 10       		.byte	16
+ 302 0112 AF       		.byte	-81
+ 303 0113 11       		.byte	17
+ 304 0114 B0       		.byte	-80
+ 305 0115 10       		.byte	16
+ 306 0116 B2       		.byte	-78
+ 307 0117 0F       		.byte	15
+ 308 0118 B3       		.byte	-77
+ 309 0119 1F       		.byte	31
+ 310 011a BE       		.byte	-66
+ 311 011b 01       		.byte	1
+ 312 011c C0       		.byte	-64
+ 313 011d 64       		.byte	100
+ 314 011e C1       		.byte	-63
+ 315 011f 05       		.byte	5
+ 316 0120 C5       		.byte	-59
+ 317 0121 C0       		.byte	-64
+ 318 0122 C6       		.byte	-58
+ 319 0123 E0       		.byte	-32
+ 320 0124 C7       		.byte	-57
+ 321 0125 0B       		.byte	11
+ 322 0126 C8       		.byte	-56
+ 323 0127 1A       		.byte	26
+ 324 0128 C9       		.byte	-55
+ 325 0129 FF       		.byte	-1
+ 326 012a CA       		.byte	-54
+ 327 012b FF       		.byte	-1
+ 328 012c CB       		.byte	-53
+ 329 012d FF       		.byte	-1
+ 330 012e CE       		.byte	-50
+ 331 012f F0       		.byte	-16
+ 332 0130 CF       		.byte	-49
+ 333 0131 44       		.byte	68
+ 334 0132 D0       		.byte	-48
+ 335 0133 0C       		.byte	12
+ 336 0134 D4       		.byte	-44
+ 337 0135 01       		.byte	1
+ 338 0136 D6       		.byte	-42
+ 339 0137 04       		.byte	4
+ 340 0138 D8       		.byte	-40
+ 341 0139 04       		.byte	4
+ 342 013a D9       		.byte	-39
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 7
+
+
+ 343 013b 04       		.byte	4
+ 344 013c DA       		.byte	-38
+ 345 013d 04       		.byte	4
+ 346 013e DB       		.byte	-37
+ 347 013f 04       		.byte	4
+ 348 0140 DC       		.byte	-36
+ 349 0141 19       		.byte	25
+ 350 0142 DD       		.byte	-35
+ 351 0143 11       		.byte	17
+ 352 0144 DF       		.byte	-33
+ 353 0145 01       		.byte	1
+ 354 0146 E6       		.byte	-26
+ 355 0147 C0       		.byte	-64
+ 356 0148 EA       		.byte	-22
+ 357 0149 40       		.byte	64
+ 358 014a EB       		.byte	-21
+ 359 014b 02       		.byte	2
+ 360 014c 00       		.byte	0
+ 361 014d 10       		.byte	16
+ 362 014e 02       		.byte	2
+ 363 014f 02       		.byte	2
+ 364 0150 03       		.byte	3
+ 365 0151 90       		.byte	-112
+ 366 0152 05       		.byte	5
+ 367 0153 04       		.byte	4
+ 368 0154 08       		.byte	8
+ 369 0155 01       		.byte	1
+ 370 0156 09       		.byte	9
+ 371 0157 14       		.byte	20
+ 372 0158 0B       		.byte	11
+ 373 0159 01       		.byte	1
+ 374 015a 0E       		.byte	14
+ 375 015b 08       		.byte	8
+ 376 015c 10       		.byte	16
+ 377 015d 80       		.byte	-128
+ 378 015e 12       		.byte	18
+ 379 015f 0C       		.byte	12
+ 380 0160 13       		.byte	19
+ 381 0161 80       		.byte	-128
+ 382 0162 16       		.byte	22
+ 383 0163 08       		.byte	8
+ 384 0164 18       		.byte	24
+ 385 0165 10       		.byte	16
+ 386 0166 19       		.byte	25
+ 387 0167 08       		.byte	8
+ 388 0168 1A       		.byte	26
+ 389 0169 40       		.byte	64
+ 390 016a 1D       		.byte	29
+ 391 016b 04       		.byte	4
+ 392 016c 1E       		.byte	30
+ 393 016d 08       		.byte	8
+ 394 016e 1F       		.byte	31
+ 395 016f 40       		.byte	64
+ 396 0170 21       		.byte	33
+ 397 0171 08       		.byte	8
+ 398 0172 27       		.byte	39
+ 399 0173 C0       		.byte	-64
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 8
+
+
+ 400 0174 28       		.byte	40
+ 401 0175 02       		.byte	2
+ 402 0176 29       		.byte	41
+ 403 0177 02       		.byte	2
+ 404 0178 2A       		.byte	42
+ 405 0179 04       		.byte	4
+ 406 017a 2B       		.byte	43
+ 407 017b 04       		.byte	4
+ 408 017c 2D       		.byte	45
+ 409 017d 02       		.byte	2
+ 410 017e 31       		.byte	49
+ 411 017f 08       		.byte	8
+ 412 0180 33       		.byte	51
+ 413 0181 40       		.byte	64
+ 414 0182 34       		.byte	52
+ 415 0183 02       		.byte	2
+ 416 0184 36       		.byte	54
+ 417 0185 0A       		.byte	10
+ 418 0186 37       		.byte	55
+ 419 0187 80       		.byte	-128
+ 420 0188 38       		.byte	56
+ 421 0189 08       		.byte	8
+ 422 018a 3F       		.byte	63
+ 423 018b 09       		.byte	9
+ 424 018c 42       		.byte	66
+ 425 018d 80       		.byte	-128
+ 426 018e 48       		.byte	72
+ 427 018f C0       		.byte	-64
+ 428 0190 4A       		.byte	74
+ 429 0191 0A       		.byte	10
+ 430 0192 50       		.byte	80
+ 431 0193 04       		.byte	4
+ 432 0194 52       		.byte	82
+ 433 0195 10       		.byte	16
+ 434 0196 53       		.byte	83
+ 435 0197 10       		.byte	16
+ 436 0198 5A       		.byte	90
+ 437 0199 48       		.byte	72
+ 438 019a 5B       		.byte	91
+ 439 019b 22       		.byte	34
+ 440 019c 63       		.byte	99
+ 441 019d 80       		.byte	-128
+ 442 019e 66       		.byte	102
+ 443 019f 80       		.byte	-128
+ 444 01a0 67       		.byte	103
+ 445 01a1 01       		.byte	1
+ 446 01a2 6C       		.byte	108
+ 447 01a3 10       		.byte	16
+ 448 01a4 6E       		.byte	110
+ 449 01a5 20       		.byte	32
+ 450 01a6 6F       		.byte	111
+ 451 01a7 02       		.byte	2
+ 452 01a8 82       		.byte	-126
+ 453 01a9 08       		.byte	8
+ 454 01aa 83       		.byte	-125
+ 455 01ab 40       		.byte	64
+ 456 01ac 86       		.byte	-122
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 9
+
+
+ 457 01ad 10       		.byte	16
+ 458 01ae 87       		.byte	-121
+ 459 01af 40       		.byte	64
+ 460 01b0 8C       		.byte	-116
+ 461 01b1 10       		.byte	16
+ 462 01b2 C0       		.byte	-64
+ 463 01b3 2F       		.byte	47
+ 464 01b4 C2       		.byte	-62
+ 465 01b5 4F       		.byte	79
+ 466 01b6 C4       		.byte	-60
+ 467 01b7 4B       		.byte	75
+ 468 01b8 CA       		.byte	-54
+ 469 01b9 8F       		.byte	-113
+ 470 01ba CC       		.byte	-52
+ 471 01bb DA       		.byte	-38
+ 472 01bc CE       		.byte	-50
+ 473 01bd C2       		.byte	-62
+ 474 01be D0       		.byte	-48
+ 475 01bf 01       		.byte	1
+ 476 01c0 D2       		.byte	-46
+ 477 01c1 0C       		.byte	12
+ 478 01c2 D6       		.byte	-42
+ 479 01c3 0F       		.byte	15
+ 480 01c4 D8       		.byte	-40
+ 481 01c5 01       		.byte	1
+ 482 01c6 E6       		.byte	-26
+ 483 01c7 01       		.byte	1
+ 484 01c8 03       		.byte	3
+ 485 01c9 07       		.byte	7
+ 486 01ca 04       		.byte	4
+ 487 01cb 30       		.byte	48
+ 488 01cc 06       		.byte	6
+ 489 01cd C9       		.byte	-55
+ 490 01ce 07       		.byte	7
+ 491 01cf 04       		.byte	4
+ 492 01d0 08       		.byte	8
+ 493 01d1 9E       		.byte	-98
+ 494 01d2 09       		.byte	9
+ 495 01d3 01       		.byte	1
+ 496 01d4 0A       		.byte	10
+ 497 01d5 60       		.byte	96
+ 498 01d6 0B       		.byte	11
+ 499 01d7 02       		.byte	2
+ 500 01d8 0E       		.byte	14
+ 501 01d9 0F       		.byte	15
+ 502 01da 10       		.byte	16
+ 503 01db FD       		.byte	-3
+ 504 01dc 11       		.byte	17
+ 505 01dd 07       		.byte	7
+ 506 01de 12       		.byte	18
+ 507 01df 02       		.byte	2
+ 508 01e0 14       		.byte	20
+ 509 01e1 73       		.byte	115
+ 510 01e2 17       		.byte	23
+ 511 01e3 10       		.byte	16
+ 512 01e4 19       		.byte	25
+ 513 01e5 04       		.byte	4
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 10
+
+
+ 514 01e6 1C       		.byte	28
+ 515 01e7 94       		.byte	-108
+ 516 01e8 1D       		.byte	29
+ 517 01e9 01       		.byte	1
+ 518 01ea 1E       		.byte	30
+ 519 01eb 60       		.byte	96
+ 520 01ec 1F       		.byte	31
+ 521 01ed 02       		.byte	2
+ 522 01ee 23       		.byte	35
+ 523 01ef 08       		.byte	8
+ 524 01f0 25       		.byte	37
+ 525 01f1 07       		.byte	7
+ 526 01f2 28       		.byte	40
+ 527 01f3 CF       		.byte	-49
+ 528 01f4 29       		.byte	41
+ 529 01f5 20       		.byte	32
+ 530 01f6 2A       		.byte	42
+ 531 01f7 30       		.byte	48
+ 532 01f8 31       		.byte	49
+ 533 01f9 0F       		.byte	15
+ 534 01fa 33       		.byte	51
+ 535 01fb 20       		.byte	32
+ 536 01fc 36       		.byte	54
+ 537 01fd FF       		.byte	-1
+ 538 01fe 37       		.byte	55
+ 539 01ff 10       		.byte	16
+ 540 0200 3E       		.byte	62
+ 541 0201 40       		.byte	64
+ 542 0202 3F       		.byte	63
+ 543 0203 04       		.byte	4
+ 544 0204 58       		.byte	88
+ 545 0205 04       		.byte	4
+ 546 0206 59       		.byte	89
+ 547 0207 04       		.byte	4
+ 548 0208 5C       		.byte	92
+ 549 0209 90       		.byte	-112
+ 550 020a 5F       		.byte	95
+ 551 020b 01       		.byte	1
+ 552 020c 80       		.byte	-128
+ 553 020d 10       		.byte	16
+ 554 020e 83       		.byte	-125
+ 555 020f 10       		.byte	16
+ 556 0210 85       		.byte	-123
+ 557 0211 07       		.byte	7
+ 558 0212 89       		.byte	-119
+ 559 0213 0C       		.byte	12
+ 560 0214 8B       		.byte	-117
+ 561 0215 02       		.byte	2
+ 562 0216 8C       		.byte	-116
+ 563 0217 02       		.byte	2
+ 564 0218 8E       		.byte	-114
+ 565 0219 05       		.byte	5
+ 566 021a 90       		.byte	-112
+ 567 021b 02       		.byte	2
+ 568 021c 91       		.byte	-111
+ 569 021d 0B       		.byte	11
+ 570 021e 92       		.byte	-110
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 11
+
+
+ 571 021f 04       		.byte	4
+ 572 0220 93       		.byte	-109
+ 573 0221 04       		.byte	4
+ 574 0222 99       		.byte	-103
+ 575 0223 08       		.byte	8
+ 576 0224 9B       		.byte	-101
+ 577 0225 01       		.byte	1
+ 578 0226 9C       		.byte	-100
+ 579 0227 04       		.byte	4
+ 580 0228 9E       		.byte	-98
+ 581 0229 02       		.byte	2
+ 582 022a A3       		.byte	-93
+ 583 022b 0F       		.byte	15
+ 584 022c A4       		.byte	-92
+ 585 022d 08       		.byte	8
+ 586 022e A5       		.byte	-91
+ 587 022f 0C       		.byte	12
+ 588 0230 A7       		.byte	-89
+ 589 0231 01       		.byte	1
+ 590 0232 AC       		.byte	-84
+ 591 0233 02       		.byte	2
+ 592 0234 AE       		.byte	-82
+ 593 0235 04       		.byte	4
+ 594 0236 B0       		.byte	-80
+ 595 0237 01       		.byte	1
+ 596 0238 B2       		.byte	-78
+ 597 0239 10       		.byte	16
+ 598 023a B4       		.byte	-76
+ 599 023b 08       		.byte	8
+ 600 023c B5       		.byte	-75
+ 601 023d 0F       		.byte	15
+ 602 023e B6       		.byte	-74
+ 603 023f 06       		.byte	6
+ 604 0240 B7       		.byte	-73
+ 605 0241 10       		.byte	16
+ 606 0242 BA       		.byte	-70
+ 607 0243 80       		.byte	-128
+ 608 0244 BE       		.byte	-66
+ 609 0245 14       		.byte	20
+ 610 0246 D2       		.byte	-46
+ 611 0247 07       		.byte	7
+ 612 0248 D3       		.byte	-45
+ 613 0249 07       		.byte	7
+ 614 024a D6       		.byte	-42
+ 615 024b 14       		.byte	20
+ 616 024c D8       		.byte	-40
+ 617 024d 04       		.byte	4
+ 618 024e D9       		.byte	-39
+ 619 024f 04       		.byte	4
+ 620 0250 DB       		.byte	-37
+ 621 0251 04       		.byte	4
+ 622 0252 DC       		.byte	-36
+ 623 0253 99       		.byte	-103
+ 624 0254 DD       		.byte	-35
+ 625 0255 20       		.byte	32
+ 626 0256 DF       		.byte	-33
+ 627 0257 01       		.byte	1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 12
+
+
+ 628 0258 00       		.byte	0
+ 629 0259 90       		.byte	-112
+ 630 025a 03       		.byte	3
+ 631 025b 10       		.byte	16
+ 632 025c 06       		.byte	6
+ 633 025d 80       		.byte	-128
+ 634 025e 07       		.byte	7
+ 635 025f 01       		.byte	1
+ 636 0260 08       		.byte	8
+ 637 0261 01       		.byte	1
+ 638 0262 09       		.byte	9
+ 639 0263 04       		.byte	4
+ 640 0264 0A       		.byte	10
+ 641 0265 01       		.byte	1
+ 642 0266 0E       		.byte	14
+ 643 0267 41       		.byte	65
+ 644 0268 11       		.byte	17
+ 645 0269 20       		.byte	32
+ 646 026a 14       		.byte	20
+ 647 026b 20       		.byte	32
+ 648 026c 15       		.byte	21
+ 649 026d 80       		.byte	-128
+ 650 026e 1B       		.byte	27
+ 651 026f 40       		.byte	64
+ 652 0270 1E       		.byte	30
+ 653 0271 59       		.byte	89
+ 654 0272 1F       		.byte	31
+ 655 0273 80       		.byte	-128
+ 656 0274 20       		.byte	32
+ 657 0275 82       		.byte	-126
+ 658 0276 21       		.byte	33
+ 659 0277 41       		.byte	65
+ 660 0278 22       		.byte	34
+ 661 0279 05       		.byte	5
+ 662 027a 24       		.byte	36
+ 663 027b 04       		.byte	4
+ 664 027c 25       		.byte	37
+ 665 027d 10       		.byte	16
+ 666 027e 27       		.byte	39
+ 667 027f 01       		.byte	1
+ 668 0280 2A       		.byte	42
+ 669 0281 18       		.byte	24
+ 670 0282 2B       		.byte	43
+ 671 0283 40       		.byte	64
+ 672 0284 2D       		.byte	45
+ 673 0285 08       		.byte	8
+ 674 0286 2F       		.byte	47
+ 675 0287 80       		.byte	-128
+ 676 0288 30       		.byte	48
+ 677 0289 09       		.byte	9
+ 678 028a 33       		.byte	51
+ 679 028b 90       		.byte	-112
+ 680 028c 34       		.byte	52
+ 681 028d 01       		.byte	1
+ 682 028e 37       		.byte	55
+ 683 028f 10       		.byte	16
+ 684 0290 38       		.byte	56
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 13
+
+
+ 685 0291 14       		.byte	20
+ 686 0292 39       		.byte	57
+ 687 0293 02       		.byte	2
+ 688 0294 3C       		.byte	60
+ 689 0295 02       		.byte	2
+ 690 0296 3D       		.byte	61
+ 691 0297 28       		.byte	40
+ 692 0298 3E       		.byte	62
+ 693 0299 08       		.byte	8
+ 694 029a 5E       		.byte	94
+ 695 029b 9A       		.byte	-102
+ 696 029c 66       		.byte	102
+ 697 029d 02       		.byte	2
+ 698 029e 6C       		.byte	108
+ 699 029f 14       		.byte	20
+ 700 02a0 6D       		.byte	109
+ 701 02a1 80       		.byte	-128
+ 702 02a2 81       		.byte	-127
+ 703 02a3 08       		.byte	8
+ 704 02a4 85       		.byte	-123
+ 705 02a5 40       		.byte	64
+ 706 02a6 8A       		.byte	-118
+ 707 02a7 01       		.byte	1
+ 708 02a8 8C       		.byte	-116
+ 709 02a9 10       		.byte	16
+ 710 02aa 8D       		.byte	-115
+ 711 02ab 10       		.byte	16
+ 712 02ac 90       		.byte	-112
+ 713 02ad 10       		.byte	16
+ 714 02ae 96       		.byte	-106
+ 715 02af 08       		.byte	8
+ 716 02b0 97       		.byte	-105
+ 717 02b1 01       		.byte	1
+ 718 02b2 99       		.byte	-103
+ 719 02b3 08       		.byte	8
+ 720 02b4 9A       		.byte	-102
+ 721 02b5 10       		.byte	16
+ 722 02b6 9B       		.byte	-101
+ 723 02b7 40       		.byte	64
+ 724 02b8 9C       		.byte	-100
+ 725 02b9 01       		.byte	1
+ 726 02ba 9D       		.byte	-99
+ 727 02bb 02       		.byte	2
+ 728 02bc 9E       		.byte	-98
+ 729 02bd 02       		.byte	2
+ 730 02be 9F       		.byte	-97
+ 731 02bf 10       		.byte	16
+ 732 02c0 A0       		.byte	-96
+ 733 02c1 80       		.byte	-128
+ 734 02c2 A1       		.byte	-95
+ 735 02c3 08       		.byte	8
+ 736 02c4 A5       		.byte	-91
+ 737 02c5 14       		.byte	20
+ 738 02c6 A6       		.byte	-90
+ 739 02c7 0A       		.byte	10
+ 740 02c8 A7       		.byte	-89
+ 741 02c9 84       		.byte	-124
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 14
+
+
+ 742 02ca AB       		.byte	-85
+ 743 02cb 02       		.byte	2
+ 744 02cc B0       		.byte	-80
+ 745 02cd 40       		.byte	64
+ 746 02ce B2       		.byte	-78
+ 747 02cf 02       		.byte	2
+ 748 02d0 B3       		.byte	-77
+ 749 02d1 32       		.byte	50
+ 750 02d2 B4       		.byte	-76
+ 751 02d3 10       		.byte	16
+ 752 02d4 C0       		.byte	-64
+ 753 02d5 97       		.byte	-105
+ 754 02d6 C2       		.byte	-62
+ 755 02d7 9D       		.byte	-99
+ 756 02d8 C4       		.byte	-60
+ 757 02d9 A2       		.byte	-94
+ 758 02da CA       		.byte	-54
+ 759 02db C7       		.byte	-57
+ 760 02dc CC       		.byte	-52
+ 761 02dd AF       		.byte	-81
+ 762 02de CE       		.byte	-50
+ 763 02df E7       		.byte	-25
+ 764 02e0 D6       		.byte	-42
+ 765 02e1 F0       		.byte	-16
+ 766 02e2 D8       		.byte	-40
+ 767 02e3 80       		.byte	-128
+ 768 02e4 E0       		.byte	-32
+ 769 02e5 01       		.byte	1
+ 770 02e6 EA       		.byte	-22
+ 771 02e7 80       		.byte	-128
+ 772 02e8 EE       		.byte	-18
+ 773 02e9 40       		.byte	64
+ 774 02ea 03       		.byte	3
+ 775 02eb 01       		.byte	1
+ 776 02ec 05       		.byte	5
+ 777 02ed 08       		.byte	8
+ 778 02ee 07       		.byte	7
+ 779 02ef 10       		.byte	16
+ 780 02f0 0D       		.byte	13
+ 781 02f1 04       		.byte	4
+ 782 02f2 11       		.byte	17
+ 783 02f3 03       		.byte	3
+ 784 02f4 15       		.byte	21
+ 785 02f5 03       		.byte	3
+ 786 02f6 16       		.byte	22
+ 787 02f7 04       		.byte	4
+ 788 02f8 19       		.byte	25
+ 789 02f9 10       		.byte	16
+ 790 02fa 1B       		.byte	27
+ 791 02fb 08       		.byte	8
+ 792 02fc 1D       		.byte	29
+ 793 02fd 02       		.byte	2
+ 794 02fe 24       		.byte	36
+ 795 02ff 01       		.byte	1
+ 796 0300 25       		.byte	37
+ 797 0301 08       		.byte	8
+ 798 0302 27       		.byte	39
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 15
+
+
+ 799 0303 10       		.byte	16
+ 800 0304 29       		.byte	41
+ 801 0305 08       		.byte	8
+ 802 0306 2A       		.byte	42
+ 803 0307 02       		.byte	2
+ 804 0308 2B       		.byte	43
+ 805 0309 10       		.byte	16
+ 806 030a 30       		.byte	48
+ 807 030b 01       		.byte	1
+ 808 030c 31       		.byte	49
+ 809 030d 04       		.byte	4
+ 810 030e 32       		.byte	50
+ 811 030f 02       		.byte	2
+ 812 0310 33       		.byte	51
+ 813 0311 18       		.byte	24
+ 814 0312 34       		.byte	52
+ 815 0313 04       		.byte	4
+ 816 0314 35       		.byte	53
+ 817 0315 03       		.byte	3
+ 818 0316 39       		.byte	57
+ 819 0317 20       		.byte	32
+ 820 0318 3B       		.byte	59
+ 821 0319 08       		.byte	8
+ 822 031a 3E       		.byte	62
+ 823 031b 01       		.byte	1
+ 824 031c 3F       		.byte	63
+ 825 031d 11       		.byte	17
+ 826 031e 40       		.byte	64
+ 827 031f 03       		.byte	3
+ 828 0320 45       		.byte	69
+ 829 0321 04       		.byte	4
+ 830 0322 49       		.byte	73
+ 831 0323 FF       		.byte	-1
+ 832 0324 4A       		.byte	74
+ 833 0325 07       		.byte	7
+ 834 0326 4B       		.byte	75
+ 835 0327 FF       		.byte	-1
+ 836 0328 4C       		.byte	76
+ 837 0329 40       		.byte	64
+ 838 032a 4D       		.byte	77
+ 839 032b 20       		.byte	32
+ 840 032c 4E       		.byte	78
+ 841 032d F0       		.byte	-16
+ 842 032e 4F       		.byte	79
+ 843 032f 05       		.byte	5
+ 844 0330 50       		.byte	80
+ 845 0331 08       		.byte	8
+ 846 0332 58       		.byte	88
+ 847 0333 04       		.byte	4
+ 848 0334 59       		.byte	89
+ 849 0335 04       		.byte	4
+ 850 0336 5A       		.byte	90
+ 851 0337 04       		.byte	4
+ 852 0338 5C       		.byte	92
+ 853 0339 99       		.byte	-103
+ 854 033a 5D       		.byte	93
+ 855 033b 01       		.byte	1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 16
+
+
+ 856 033c 5F       		.byte	95
+ 857 033d 01       		.byte	1
+ 858 033e 60       		.byte	96
+ 859 033f 40       		.byte	64
+ 860 0340 61       		.byte	97
+ 861 0341 A8       		.byte	-88
+ 862 0342 62       		.byte	98
+ 863 0343 40       		.byte	64
+ 864 0344 63       		.byte	99
+ 865 0345 20       		.byte	32
+ 866 0346 82       		.byte	-126
+ 867 0347 02       		.byte	2
+ 868 0348 83       		.byte	-125
+ 869 0349 40       		.byte	64
+ 870 034a 84       		.byte	-124
+ 871 034b 01       		.byte	1
+ 872 034c 87       		.byte	-121
+ 873 034d 40       		.byte	64
+ 874 034e 88       		.byte	-120
+ 875 034f 01       		.byte	1
+ 876 0350 8D       		.byte	-115
+ 877 0351 03       		.byte	3
+ 878 0352 8E       		.byte	-114
+ 879 0353 01       		.byte	1
+ 880 0354 8F       		.byte	-113
+ 881 0355 34       		.byte	52
+ 882 0356 95       		.byte	-107
+ 883 0357 03       		.byte	3
+ 884 0358 96       		.byte	-106
+ 885 0359 01       		.byte	1
+ 886 035a 97       		.byte	-105
+ 887 035b 1C       		.byte	28
+ 888 035c 99       		.byte	-103
+ 889 035d 2A       		.byte	42
+ 890 035e 9B       		.byte	-101
+ 891 035f 14       		.byte	20
+ 892 0360 9C       		.byte	-100
+ 893 0361 04       		.byte	4
+ 894 0362 9D       		.byte	-99
+ 895 0363 03       		.byte	3
+ 896 0364 9F       		.byte	-97
+ 897 0365 04       		.byte	4
+ 898 0366 A3       		.byte	-93
+ 899 0367 28       		.byte	40
+ 900 0368 A8       		.byte	-88
+ 901 0369 02       		.byte	2
+ 902 036a AB       		.byte	-85
+ 903 036b 20       		.byte	32
+ 904 036c AC       		.byte	-84
+ 905 036d 02       		.byte	2
+ 906 036e AF       		.byte	-81
+ 907 036f 15       		.byte	21
+ 908 0370 B0       		.byte	-80
+ 909 0371 06       		.byte	6
+ 910 0372 B1       		.byte	-79
+ 911 0373 38       		.byte	56
+ 912 0374 B3       		.byte	-77
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 17
+
+
+ 913 0375 0F       		.byte	15
+ 914 0376 B5       		.byte	-75
+ 915 0377 40       		.byte	64
+ 916 0378 B6       		.byte	-74
+ 917 0379 01       		.byte	1
+ 918 037a B8       		.byte	-72
+ 919 037b 82       		.byte	-126
+ 920 037c BA       		.byte	-70
+ 921 037d 20       		.byte	32
+ 922 037e BB       		.byte	-69
+ 923 037f 0A       		.byte	10
+ 924 0380 BF       		.byte	-65
+ 925 0381 10       		.byte	16
+ 926 0382 D4       		.byte	-44
+ 927 0383 18       		.byte	24
+ 928 0384 D6       		.byte	-42
+ 929 0385 04       		.byte	4
+ 930 0386 D8       		.byte	-40
+ 931 0387 04       		.byte	4
+ 932 0388 D9       		.byte	-39
+ 933 0389 04       		.byte	4
+ 934 038a DB       		.byte	-37
+ 935 038b 04       		.byte	4
+ 936 038c DC       		.byte	-36
+ 937 038d 11       		.byte	17
+ 938 038e DD       		.byte	-35
+ 939 038f 10       		.byte	16
+ 940 0390 DF       		.byte	-33
+ 941 0391 01       		.byte	1
+ 942 0392 00       		.byte	0
+ 943 0393 04       		.byte	4
+ 944 0394 01       		.byte	1
+ 945 0395 20       		.byte	32
+ 946 0396 03       		.byte	3
+ 947 0397 41       		.byte	65
+ 948 0398 09       		.byte	9
+ 949 0399 08       		.byte	8
+ 950 039a 0B       		.byte	11
+ 951 039b 01       		.byte	1
+ 952 039c 0E       		.byte	14
+ 953 039d 20       		.byte	32
+ 954 039e 12       		.byte	18
+ 955 039f 0A       		.byte	10
+ 956 03a0 16       		.byte	22
+ 957 03a1 08       		.byte	8
+ 958 03a2 17       		.byte	23
+ 959 03a3 08       		.byte	8
+ 960 03a4 18       		.byte	24
+ 961 03a5 02       		.byte	2
+ 962 03a6 19       		.byte	25
+ 963 03a7 22       		.byte	34
+ 964 03a8 1E       		.byte	30
+ 965 03a9 A4       		.byte	-92
+ 966 03aa 1F       		.byte	31
+ 967 03ab 04       		.byte	4
+ 968 03ac 22       		.byte	34
+ 969 03ad 0A       		.byte	10
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 18
+
+
+ 970 03ae 23       		.byte	35
+ 971 03af 44       		.byte	68
+ 972 03b0 26       		.byte	38
+ 973 03b1 01       		.byte	1
+ 974 03b2 27       		.byte	39
+ 975 03b3 14       		.byte	20
+ 976 03b4 29       		.byte	41
+ 977 03b5 02       		.byte	2
+ 978 03b6 2B       		.byte	43
+ 979 03b7 05       		.byte	5
+ 980 03b8 2E       		.byte	46
+ 981 03b9 08       		.byte	8
+ 982 03ba 2F       		.byte	47
+ 983 03bb 24       		.byte	36
+ 984 03bc 30       		.byte	48
+ 985 03bd 80       		.byte	-128
+ 986 03be 32       		.byte	50
+ 987 03bf 28       		.byte	40
+ 988 03c0 36       		.byte	54
+ 989 03c1 0A       		.byte	10
+ 990 03c2 37       		.byte	55
+ 991 03c3 50       		.byte	80
+ 992 03c4 38       		.byte	56
+ 993 03c5 0A       		.byte	10
+ 994 03c6 3B       		.byte	59
+ 995 03c7 40       		.byte	64
+ 996 03c8 3D       		.byte	61
+ 997 03c9 80       		.byte	-128
+ 998 03ca 3E       		.byte	62
+ 999 03cb 04       		.byte	4
+ 1000 03cc 3F       		.byte	63
+ 1001 03cd 01       		.byte	1
+ 1002 03ce 47       		.byte	71
+ 1003 03cf 04       		.byte	4
+ 1004 03d0 4F       		.byte	79
+ 1005 03d1 0B       		.byte	11
+ 1006 03d2 5A       		.byte	90
+ 1007 03d3 02       		.byte	2
+ 1008 03d4 60       		.byte	96
+ 1009 03d5 80       		.byte	-128
+ 1010 03d6 61       		.byte	97
+ 1011 03d7 40       		.byte	64
+ 1012 03d8 63       		.byte	99
+ 1013 03d9 04       		.byte	4
+ 1014 03da 8F       		.byte	-113
+ 1015 03db 10       		.byte	16
+ 1016 03dc 97       		.byte	-105
+ 1017 03dd 01       		.byte	1
+ 1018 03de 9B       		.byte	-101
+ 1019 03df 40       		.byte	64
+ 1020 03e0 9C       		.byte	-100
+ 1021 03e1 81       		.byte	-127
+ 1022 03e2 9D       		.byte	-99
+ 1023 03e3 02       		.byte	2
+ 1024 03e4 9E       		.byte	-98
+ 1025 03e5 80       		.byte	-128
+ 1026 03e6 9F       		.byte	-97
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 19
+
+
+ 1027 03e7 10       		.byte	16
+ 1028 03e8 A0       		.byte	-96
+ 1029 03e9 80       		.byte	-128
+ 1030 03ea A4       		.byte	-92
+ 1031 03eb 08       		.byte	8
+ 1032 03ec A5       		.byte	-91
+ 1033 03ed 04       		.byte	4
+ 1034 03ee A6       		.byte	-90
+ 1035 03ef 4B       		.byte	75
+ 1036 03f0 A7       		.byte	-89
+ 1037 03f1 04       		.byte	4
+ 1038 03f2 A8       		.byte	-88
+ 1039 03f3 24       		.byte	36
+ 1040 03f4 AC       		.byte	-84
+ 1041 03f5 80       		.byte	-128
+ 1042 03f6 B2       		.byte	-78
+ 1043 03f7 01       		.byte	1
+ 1044 03f8 C0       		.byte	-64
+ 1045 03f9 0F       		.byte	15
+ 1046 03fa C2       		.byte	-62
+ 1047 03fb 25       		.byte	37
+ 1048 03fc C4       		.byte	-60
+ 1049 03fd 63       		.byte	99
+ 1050 03fe CA       		.byte	-54
+ 1051 03ff 6D       		.byte	109
+ 1052 0400 CC       		.byte	-52
+ 1053 0401 FE       		.byte	-2
+ 1054 0402 CE       		.byte	-50
+ 1055 0403 DB       		.byte	-37
+ 1056 0404 D0       		.byte	-48
+ 1057 0405 40       		.byte	64
+ 1058 0406 D6       		.byte	-42
+ 1059 0407 01       		.byte	1
+ 1060 0408 D8       		.byte	-40
+ 1061 0409 0D       		.byte	13
+ 1062 040a E6       		.byte	-26
+ 1063 040b 03       		.byte	3
+ 1064 040c 05       		.byte	5
+ 1065 040d 0A       		.byte	10
+ 1066 040e 07       		.byte	7
+ 1067 040f 05       		.byte	5
+ 1068 0410 09       		.byte	9
+ 1069 0411 0C       		.byte	12
+ 1070 0412 0B       		.byte	11
+ 1071 0413 03       		.byte	3
+ 1072 0414 11       		.byte	17
+ 1073 0415 0F       		.byte	15
+ 1074 0416 12       		.byte	18
+ 1075 0417 01       		.byte	1
+ 1076 0418 15       		.byte	21
+ 1077 0419 03       		.byte	3
+ 1078 041a 17       		.byte	23
+ 1079 041b 0C       		.byte	12
+ 1080 041c 19       		.byte	25
+ 1081 041d 07       		.byte	7
+ 1082 041e 25       		.byte	37
+ 1083 041f 10       		.byte	16
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 20
+
+
+ 1084 0420 29       		.byte	41
+ 1085 0421 05       		.byte	5
+ 1086 0422 2B       		.byte	43
+ 1087 0423 0A       		.byte	10
+ 1088 0424 2F       		.byte	47
+ 1089 0425 10       		.byte	16
+ 1090 0426 34       		.byte	52
+ 1091 0427 01       		.byte	1
+ 1092 0428 35       		.byte	53
+ 1093 0429 10       		.byte	16
+ 1094 042a 37       		.byte	55
+ 1095 042b 0F       		.byte	15
+ 1096 042c 38       		.byte	56
+ 1097 042d 08       		.byte	8
+ 1098 042e 3E       		.byte	62
+ 1099 042f 04       		.byte	4
+ 1100 0430 3F       		.byte	63
+ 1101 0431 10       		.byte	16
+ 1102 0432 40       		.byte	64
+ 1103 0433 26       		.byte	38
+ 1104 0434 41       		.byte	65
+ 1105 0435 04       		.byte	4
+ 1106 0436 49       		.byte	73
+ 1107 0437 FF       		.byte	-1
+ 1108 0438 4A       		.byte	74
+ 1109 0439 FF       		.byte	-1
+ 1110 043a 4B       		.byte	75
+ 1111 043b FF       		.byte	-1
+ 1112 043c 4D       		.byte	77
+ 1113 043d A0       		.byte	-96
+ 1114 043e 4F       		.byte	79
+ 1115 043f 01       		.byte	1
+ 1116 0440 50       		.byte	80
+ 1117 0441 18       		.byte	24
+ 1118 0442 56       		.byte	86
+ 1119 0443 04       		.byte	4
+ 1120 0444 58       		.byte	88
+ 1121 0445 04       		.byte	4
+ 1122 0446 59       		.byte	89
+ 1123 0447 04       		.byte	4
+ 1124 0448 5A       		.byte	90
+ 1125 0449 04       		.byte	4
+ 1126 044a 5B       		.byte	91
+ 1127 044b 04       		.byte	4
+ 1128 044c 5C       		.byte	92
+ 1129 044d 99       		.byte	-103
+ 1130 044e 5D       		.byte	93
+ 1131 044f 09       		.byte	9
+ 1132 0450 5F       		.byte	95
+ 1133 0451 01       		.byte	1
+ 1134 0452 60       		.byte	96
+ 1135 0453 40       		.byte	64
+ 1136 0454 62       		.byte	98
+ 1137 0455 80       		.byte	-128
+ 1138 0456 64       		.byte	100
+ 1139 0457 40       		.byte	64
+ 1140 0458 65       		.byte	101
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 21
+
+
+ 1141 0459 40       		.byte	64
+ 1142 045a 66       		.byte	102
+ 1143 045b 80       		.byte	-128
+ 1144 045c 68       		.byte	104
+ 1145 045d 40       		.byte	64
+ 1146 045e 6A       		.byte	106
+ 1147 045f 80       		.byte	-128
+ 1148 0460 6C       		.byte	108
+ 1149 0461 40       		.byte	64
+ 1150 0462 6D       		.byte	109
+ 1151 0463 20       		.byte	32
+ 1152 0464 6E       		.byte	110
+ 1153 0465 80       		.byte	-128
+ 1154 0466 81       		.byte	-127
+ 1155 0467 04       		.byte	4
+ 1156 0468 84       		.byte	-124
+ 1157 0469 01       		.byte	1
+ 1158 046a 89       		.byte	-119
+ 1159 046b 01       		.byte	1
+ 1160 046c 8C       		.byte	-116
+ 1161 046d 02       		.byte	2
+ 1162 046e 8F       		.byte	-113
+ 1163 046f 01       		.byte	1
+ 1164 0470 92       		.byte	-110
+ 1165 0471 02       		.byte	2
+ 1166 0472 95       		.byte	-107
+ 1167 0473 02       		.byte	2
+ 1168 0474 99       		.byte	-103
+ 1169 0475 04       		.byte	4
+ 1170 0476 9C       		.byte	-100
+ 1171 0477 01       		.byte	1
+ 1172 0478 A2       		.byte	-94
+ 1173 0479 02       		.byte	2
+ 1174 047a A4       		.byte	-92
+ 1175 047b 01       		.byte	1
+ 1176 047c AD       		.byte	-83
+ 1177 047d 01       		.byte	1
+ 1178 047e B0       		.byte	-80
+ 1179 047f 02       		.byte	2
+ 1180 0480 B1       		.byte	-79
+ 1181 0481 02       		.byte	2
+ 1182 0482 B3       		.byte	-77
+ 1183 0483 01       		.byte	1
+ 1184 0484 B4       		.byte	-76
+ 1185 0485 01       		.byte	1
+ 1186 0486 B7       		.byte	-73
+ 1187 0487 04       		.byte	4
+ 1188 0488 B8       		.byte	-72
+ 1189 0489 20       		.byte	32
+ 1190 048a B9       		.byte	-71
+ 1191 048b 80       		.byte	-128
+ 1192 048c BE       		.byte	-66
+ 1193 048d 11       		.byte	17
+ 1194 048e BF       		.byte	-65
+ 1195 048f 05       		.byte	5
+ 1196 0490 C0       		.byte	-64
+ 1197 0491 26       		.byte	38
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 22
+
+
+ 1198 0492 C1       		.byte	-63
+ 1199 0493 04       		.byte	4
+ 1200 0494 C5       		.byte	-59
+ 1201 0495 32       		.byte	50
+ 1202 0496 C6       		.byte	-58
+ 1203 0497 C4       		.byte	-60
+ 1204 0498 C7       		.byte	-57
+ 1205 0499 0E       		.byte	14
+ 1206 049a C8       		.byte	-56
+ 1207 049b 1F       		.byte	31
+ 1208 049c C9       		.byte	-55
+ 1209 049d FF       		.byte	-1
+ 1210 049e CA       		.byte	-54
+ 1211 049f FF       		.byte	-1
+ 1212 04a0 CB       		.byte	-53
+ 1213 04a1 FF       		.byte	-1
+ 1214 04a2 CD       		.byte	-51
+ 1215 04a3 AF       		.byte	-81
+ 1216 04a4 CE       		.byte	-50
+ 1217 04a5 07       		.byte	7
+ 1218 04a6 CF       		.byte	-49
+ 1219 04a7 01       		.byte	1
+ 1220 04a8 D0       		.byte	-48
+ 1221 04a9 18       		.byte	24
+ 1222 04aa D4       		.byte	-44
+ 1223 04ab 0F       		.byte	15
+ 1224 04ac D8       		.byte	-40
+ 1225 04ad 04       		.byte	4
+ 1226 04ae D9       		.byte	-39
+ 1227 04af 04       		.byte	4
+ 1228 04b0 DA       		.byte	-38
+ 1229 04b1 04       		.byte	4
+ 1230 04b2 DB       		.byte	-37
+ 1231 04b3 04       		.byte	4
+ 1232 04b4 DC       		.byte	-36
+ 1233 04b5 90       		.byte	-112
+ 1234 04b6 DD       		.byte	-35
+ 1235 04b7 99       		.byte	-103
+ 1236 04b8 DF       		.byte	-33
+ 1237 04b9 01       		.byte	1
+ 1238 04ba E0       		.byte	-32
+ 1239 04bb 40       		.byte	64
+ 1240 04bc E2       		.byte	-30
+ 1241 04bd 80       		.byte	-128
+ 1242 04be E4       		.byte	-28
+ 1243 04bf 40       		.byte	64
+ 1244 04c0 E5       		.byte	-27
+ 1245 04c1 40       		.byte	64
+ 1246 04c2 E6       		.byte	-26
+ 1247 04c3 80       		.byte	-128
+ 1248 04c4 E8       		.byte	-24
+ 1249 04c5 40       		.byte	64
+ 1250 04c6 EA       		.byte	-22
+ 1251 04c7 80       		.byte	-128
+ 1252 04c8 EC       		.byte	-20
+ 1253 04c9 40       		.byte	64
+ 1254 04ca ED       		.byte	-19
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 23
+
+
+ 1255 04cb 20       		.byte	32
+ 1256 04cc EE       		.byte	-18
+ 1257 04cd 80       		.byte	-128
+ 1258 04ce 00       		.byte	0
+ 1259 04cf 04       		.byte	4
+ 1260 04d0 01       		.byte	1
+ 1261 04d1 08       		.byte	8
+ 1262 04d2 03       		.byte	3
+ 1263 04d3 02       		.byte	2
+ 1264 04d4 0A       		.byte	10
+ 1265 04d5 80       		.byte	-128
+ 1266 04d6 0B       		.byte	11
+ 1267 04d7 02       		.byte	2
+ 1268 04d8 0E       		.byte	14
+ 1269 04d9 80       		.byte	-128
+ 1270 04da 10       		.byte	16
+ 1271 04db 20       		.byte	32
+ 1272 04dc 13       		.byte	19
+ 1273 04dd 02       		.byte	2
+ 1274 04de 19       		.byte	25
+ 1275 04df 10       		.byte	16
+ 1276 04e0 1A       		.byte	26
+ 1277 04e1 40       		.byte	64
+ 1278 04e2 1B       		.byte	27
+ 1279 04e3 10       		.byte	16
+ 1280 04e4 1C       		.byte	28
+ 1281 04e5 10       		.byte	16
+ 1282 04e6 1F       		.byte	31
+ 1283 04e7 20       		.byte	32
+ 1284 04e8 20       		.byte	32
+ 1285 04e9 40       		.byte	64
+ 1286 04ea 21       		.byte	33
+ 1287 04eb 40       		.byte	64
+ 1288 04ec 22       		.byte	34
+ 1289 04ed 40       		.byte	64
+ 1290 04ee 23       		.byte	35
+ 1291 04ef 20       		.byte	32
+ 1292 04f0 27       		.byte	39
+ 1293 04f1 05       		.byte	5
+ 1294 04f2 2B       		.byte	43
+ 1295 04f3 02       		.byte	2
+ 1296 04f4 2E       		.byte	46
+ 1297 04f5 20       		.byte	32
+ 1298 04f6 2F       		.byte	47
+ 1299 04f7 21       		.byte	33
+ 1300 04f8 30       		.byte	48
+ 1301 04f9 24       		.byte	36
+ 1302 04fa 35       		.byte	53
+ 1303 04fb 20       		.byte	32
+ 1304 04fc 36       		.byte	54
+ 1305 04fd 08       		.byte	8
+ 1306 04fe 37       		.byte	55
+ 1307 04ff 01       		.byte	1
+ 1308 0500 39       		.byte	57
+ 1309 0501 80       		.byte	-128
+ 1310 0502 3B       		.byte	59
+ 1311 0503 22       		.byte	34
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 24
+
+
+ 1312 0504 3E       		.byte	62
+ 1313 0505 18       		.byte	24
+ 1314 0506 40       		.byte	64
+ 1315 0507 80       		.byte	-128
+ 1316 0508 43       		.byte	67
+ 1317 0509 10       		.byte	16
+ 1318 050a 47       		.byte	71
+ 1319 050b 12       		.byte	18
+ 1320 050c 48       		.byte	72
+ 1321 050d 20       		.byte	32
+ 1322 050e 49       		.byte	73
+ 1323 050f 10       		.byte	16
+ 1324 0510 4A       		.byte	74
+ 1325 0511 40       		.byte	64
+ 1326 0512 4B       		.byte	75
+ 1327 0513 02       		.byte	2
+ 1328 0514 4F       		.byte	79
+ 1329 0515 20       		.byte	32
+ 1330 0516 50       		.byte	80
+ 1331 0517 40       		.byte	64
+ 1332 0518 51       		.byte	81
+ 1333 0519 80       		.byte	-128
+ 1334 051a 52       		.byte	82
+ 1335 051b 14       		.byte	20
+ 1336 051c 59       		.byte	89
+ 1337 051d 08       		.byte	8
+ 1338 051e 5A       		.byte	90
+ 1339 051f 40       		.byte	64
+ 1340 0520 5B       		.byte	91
+ 1341 0521 21       		.byte	33
+ 1342 0522 5C       		.byte	92
+ 1343 0523 40       		.byte	64
+ 1344 0524 67       		.byte	103
+ 1345 0525 40       		.byte	64
+ 1346 0526 68       		.byte	104
+ 1347 0527 01       		.byte	1
+ 1348 0528 80       		.byte	-128
+ 1349 0529 10       		.byte	16
+ 1350 052a 87       		.byte	-121
+ 1351 052b 40       		.byte	64
+ 1352 052c 88       		.byte	-120
+ 1353 052d 01       		.byte	1
+ 1354 052e 8E       		.byte	-114
+ 1355 052f 20       		.byte	32
+ 1356 0530 92       		.byte	-110
+ 1357 0531 10       		.byte	16
+ 1358 0532 93       		.byte	-109
+ 1359 0533 20       		.byte	32
+ 1360 0534 98       		.byte	-104
+ 1361 0535 84       		.byte	-124
+ 1362 0536 9A       		.byte	-102
+ 1363 0537 C8       		.byte	-56
+ 1364 0538 9B       		.byte	-101
+ 1365 0539 02       		.byte	2
+ 1366 053a A1       		.byte	-95
+ 1367 053b 01       		.byte	1
+ 1368 053c A2       		.byte	-94
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 25
+
+
+ 1369 053d 08       		.byte	8
+ 1370 053e B0       		.byte	-80
+ 1371 053f 80       		.byte	-128
+ 1372 0540 B3       		.byte	-77
+ 1373 0541 12       		.byte	18
+ 1374 0542 C0       		.byte	-64
+ 1375 0543 05       		.byte	5
+ 1376 0544 C2       		.byte	-62
+ 1377 0545 19       		.byte	25
+ 1378 0546 C4       		.byte	-60
+ 1379 0547 0C       		.byte	12
+ 1380 0548 CA       		.byte	-54
+ 1381 0549 78       		.byte	120
+ 1382 054a CC       		.byte	-52
+ 1383 054b E6       		.byte	-26
+ 1384 054c CE       		.byte	-50
+ 1385 054d 6D       		.byte	109
+ 1386 054e D0       		.byte	-48
+ 1387 054f A5       		.byte	-91
+ 1388 0550 D2       		.byte	-46
+ 1389 0551 24       		.byte	36
+ 1390 0552 D6       		.byte	-42
+ 1391 0553 1F       		.byte	31
+ 1392 0554 D8       		.byte	-40
+ 1393 0555 80       		.byte	-128
+ 1394 0556 E4       		.byte	-28
+ 1395 0557 40       		.byte	64
+ 1396 0558 E8       		.byte	-24
+ 1397 0559 20       		.byte	32
+ 1398 055a 82       		.byte	-126
+ 1399 055b 80       		.byte	-128
+ 1400 055c 8A       		.byte	-118
+ 1401 055d 48       		.byte	72
+ 1402 055e 8E       		.byte	-114
+ 1403 055f 10       		.byte	16
+ 1404 0560 98       		.byte	-104
+ 1405 0561 04       		.byte	4
+ 1406 0562 9A       		.byte	-102
+ 1407 0563 08       		.byte	8
+ 1408 0564 A1       		.byte	-95
+ 1409 0565 01       		.byte	1
+ 1410 0566 E4       		.byte	-28
+ 1411 0567 D0       		.byte	-48
+ 1412 0568 8D       		.byte	-115
+ 1413 0569 01       		.byte	1
+ 1414 056a 8E       		.byte	-114
+ 1415 056b 08       		.byte	8
+ 1416 056c 98       		.byte	-104
+ 1417 056d 04       		.byte	4
+ 1418 056e E0       		.byte	-32
+ 1419 056f 10       		.byte	16
+ 1420 0570 E6       		.byte	-26
+ 1421 0571 01       		.byte	1
+ 1422 0572 88       		.byte	-120
+ 1423 0573 04       		.byte	4
+ 1424 0574 00       		.byte	0
+ 1425 0575 02       		.byte	2
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 26
+
+
+ 1426 0576 04       		.byte	4
+ 1427 0577 03       		.byte	3
+ 1428 0578 05       		.byte	5
+ 1429 0579 18       		.byte	24
+ 1430 057a 06       		.byte	6
+ 1431 057b 0C       		.byte	12
+ 1432 057c 08       		.byte	8
+ 1433 057d 0F       		.byte	15
+ 1434 057e 09       		.byte	9
+ 1435 057f 08       		.byte	8
+ 1436 0580 0C       		.byte	12
+ 1437 0581 03       		.byte	3
+ 1438 0582 0D       		.byte	13
+ 1439 0583 10       		.byte	16
+ 1440 0584 13       		.byte	19
+ 1441 0585 04       		.byte	4
+ 1442 0586 14       		.byte	20
+ 1443 0587 01       		.byte	1
+ 1444 0588 15       		.byte	21
+ 1445 0589 1C       		.byte	28
+ 1446 058a 17       		.byte	23
+ 1447 058b 02       		.byte	2
+ 1448 058c 1A       		.byte	26
+ 1449 058d 03       		.byte	3
+ 1450 058e 1B       		.byte	27
+ 1451 058f 03       		.byte	3
+ 1452 0590 1C       		.byte	28
+ 1453 0591 0F       		.byte	15
+ 1454 0592 1D       		.byte	29
+ 1455 0593 1C       		.byte	28
+ 1456 0594 1F       		.byte	31
+ 1457 0595 01       		.byte	1
+ 1458 0596 20       		.byte	32
+ 1459 0597 08       		.byte	8
+ 1460 0598 24       		.byte	36
+ 1461 0599 04       		.byte	4
+ 1462 059a 25       		.byte	37
+ 1463 059b 07       		.byte	7
+ 1464 059c 27       		.byte	39
+ 1465 059d 18       		.byte	24
+ 1466 059e 28       		.byte	40
+ 1467 059f 0C       		.byte	12
+ 1468 05a0 29       		.byte	41
+ 1469 05a1 1F       		.byte	31
+ 1470 05a2 2C       		.byte	44
+ 1471 05a3 0C       		.byte	12
+ 1472 05a4 2D       		.byte	45
+ 1473 05a5 04       		.byte	4
+ 1474 05a6 2E       		.byte	46
+ 1475 05a7 03       		.byte	3
+ 1476 05a8 2F       		.byte	47
+ 1477 05a9 20       		.byte	32
+ 1478 05aa 31       		.byte	49
+ 1479 05ab 20       		.byte	32
+ 1480 05ac 33       		.byte	51
+ 1481 05ad 1F       		.byte	31
+ 1482 05ae 34       		.byte	52
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 27
+
+
+ 1483 05af 0F       		.byte	15
+ 1484 05b0 3A       		.byte	58
+ 1485 05b1 20       		.byte	32
+ 1486 05b2 3B       		.byte	59
+ 1487 05b3 08       		.byte	8
+ 1488 05b4 56       		.byte	86
+ 1489 05b5 02       		.byte	2
+ 1490 05b6 57       		.byte	87
+ 1491 05b7 12       		.byte	18
+ 1492 05b8 58       		.byte	88
+ 1493 05b9 04       		.byte	4
+ 1494 05ba 59       		.byte	89
+ 1495 05bb 04       		.byte	4
+ 1496 05bc 5B       		.byte	91
+ 1497 05bd 04       		.byte	4
+ 1498 05be 5C       		.byte	92
+ 1499 05bf 11       		.byte	17
+ 1500 05c0 5D       		.byte	93
+ 1501 05c1 10       		.byte	16
+ 1502 05c2 5F       		.byte	95
+ 1503 05c3 01       		.byte	1
+ 1504 05c4 84       		.byte	-124
+ 1505 05c5 06       		.byte	6
+ 1506 05c6 85       		.byte	-123
+ 1507 05c7 02       		.byte	2
+ 1508 05c8 88       		.byte	-120
+ 1509 05c9 07       		.byte	7
+ 1510 05ca 89       		.byte	-119
+ 1511 05cb 06       		.byte	6
+ 1512 05cc 8C       		.byte	-116
+ 1513 05cd 06       		.byte	6
+ 1514 05ce 8D       		.byte	-115
+ 1515 05cf 06       		.byte	6
+ 1516 05d0 8E       		.byte	-114
+ 1517 05d1 01       		.byte	1
+ 1518 05d2 8F       		.byte	-113
+ 1519 05d3 01       		.byte	1
+ 1520 05d4 91       		.byte	-111
+ 1521 05d5 06       		.byte	6
+ 1522 05d6 93       		.byte	-109
+ 1523 05d7 01       		.byte	1
+ 1524 05d8 94       		.byte	-108
+ 1525 05d9 07       		.byte	7
+ 1526 05da 9A       		.byte	-102
+ 1527 05db 01       		.byte	1
+ 1528 05dc 9B       		.byte	-101
+ 1529 05dd 01       		.byte	1
+ 1530 05de A0       		.byte	-96
+ 1531 05df 04       		.byte	4
+ 1532 05e0 A1       		.byte	-95
+ 1533 05e1 04       		.byte	4
+ 1534 05e2 A4       		.byte	-92
+ 1535 05e3 01       		.byte	1
+ 1536 05e4 A5       		.byte	-91
+ 1537 05e5 01       		.byte	1
+ 1538 05e6 A6       		.byte	-90
+ 1539 05e7 06       		.byte	6
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 28
+
+
+ 1540 05e8 A7       		.byte	-89
+ 1541 05e9 06       		.byte	6
+ 1542 05ea A8       		.byte	-88
+ 1543 05eb 02       		.byte	2
+ 1544 05ec A9       		.byte	-87
+ 1545 05ed 07       		.byte	7
+ 1546 05ee B6       		.byte	-74
+ 1547 05ef 07       		.byte	7
+ 1548 05f0 B7       		.byte	-73
+ 1549 05f1 07       		.byte	7
+ 1550 05f2 BB       		.byte	-69
+ 1551 05f3 80       		.byte	-128
+ 1552 05f4 D8       		.byte	-40
+ 1553 05f5 04       		.byte	4
+ 1554 05f6 D9       		.byte	-39
+ 1555 05f7 04       		.byte	4
+ 1556 05f8 DC       		.byte	-36
+ 1557 05f9 11       		.byte	17
+ 1558 05fa DF       		.byte	-33
+ 1559 05fb 01       		.byte	1
+ 1560 05fc 00       		.byte	0
+ 1561 05fd 84       		.byte	-124
+ 1562 05fe 01       		.byte	1
+ 1563 05ff 22       		.byte	34
+ 1564 0600 02       		.byte	2
+ 1565 0601 10       		.byte	16
+ 1566 0602 05       		.byte	5
+ 1567 0603 20       		.byte	32
+ 1568 0604 07       		.byte	7
+ 1569 0605 21       		.byte	33
+ 1570 0606 08       		.byte	8
+ 1571 0607 14       		.byte	20
+ 1572 0608 09       		.byte	9
+ 1573 0609 80       		.byte	-128
+ 1574 060a 0C       		.byte	12
+ 1575 060b 10       		.byte	16
+ 1576 060c 0D       		.byte	13
+ 1577 060d 08       		.byte	8
+ 1578 060e 11       		.byte	17
+ 1579 060f 80       		.byte	-128
+ 1580 0610 13       		.byte	19
+ 1581 0611 2A       		.byte	42
+ 1582 0612 16       		.byte	22
+ 1583 0613 18       		.byte	24
+ 1584 0614 17       		.byte	23
+ 1585 0615 02       		.byte	2
+ 1586 0616 18       		.byte	24
+ 1587 0617 04       		.byte	4
+ 1588 0618 1B       		.byte	27
+ 1589 0619 30       		.byte	48
+ 1590 061a 1F       		.byte	31
+ 1591 061b 40       		.byte	64
+ 1592 061c 21       		.byte	33
+ 1593 061d 08       		.byte	8
+ 1594 061e 22       		.byte	34
+ 1595 061f 01       		.byte	1
+ 1596 0620 25       		.byte	37
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 29
+
+
+ 1597 0621 80       		.byte	-128
+ 1598 0622 27       		.byte	39
+ 1599 0623 01       		.byte	1
+ 1600 0624 29       		.byte	41
+ 1601 0625 20       		.byte	32
+ 1602 0626 2A       		.byte	42
+ 1603 0627 40       		.byte	64
+ 1604 0628 2B       		.byte	43
+ 1605 0629 10       		.byte	16
+ 1606 062a 2D       		.byte	45
+ 1607 062b 20       		.byte	32
+ 1608 062c 2E       		.byte	46
+ 1609 062d 02       		.byte	2
+ 1610 062e 2F       		.byte	47
+ 1611 062f 20       		.byte	32
+ 1612 0630 30       		.byte	48
+ 1613 0631 10       		.byte	16
+ 1614 0632 31       		.byte	49
+ 1615 0633 88       		.byte	-120
+ 1616 0634 32       		.byte	50
+ 1617 0635 21       		.byte	33
+ 1618 0636 36       		.byte	54
+ 1619 0637 20       		.byte	32
+ 1620 0638 37       		.byte	55
+ 1621 0639 01       		.byte	1
+ 1622 063a 38       		.byte	56
+ 1623 063b A8       		.byte	-88
+ 1624 063c 3D       		.byte	61
+ 1625 063d 80       		.byte	-128
+ 1626 063e 3E       		.byte	62
+ 1627 063f 18       		.byte	24
+ 1628 0640 59       		.byte	89
+ 1629 0641 04       		.byte	4
+ 1630 0642 69       		.byte	105
+ 1631 0643 04       		.byte	4
+ 1632 0644 6A       		.byte	106
+ 1633 0645 A0       		.byte	-96
+ 1634 0646 70       		.byte	112
+ 1635 0647 54       		.byte	84
+ 1636 0648 72       		.byte	114
+ 1637 0649 1A       		.byte	26
+ 1638 064a 73       		.byte	115
+ 1639 064b 2A       		.byte	42
+ 1640 064c 80       		.byte	-128
+ 1641 064d 01       		.byte	1
+ 1642 064e 82       		.byte	-126
+ 1643 064f 10       		.byte	16
+ 1644 0650 88       		.byte	-120
+ 1645 0651 06       		.byte	6
+ 1646 0652 89       		.byte	-119
+ 1647 0653 4C       		.byte	76
+ 1648 0654 8A       		.byte	-118
+ 1649 0655 40       		.byte	64
+ 1650 0656 94       		.byte	-108
+ 1651 0657 06       		.byte	6
+ 1652 0658 96       		.byte	-106
+ 1653 0659 80       		.byte	-128
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 30
+
+
+ 1654 065a 97       		.byte	-105
+ 1655 065b 80       		.byte	-128
+ 1656 065c 99       		.byte	-103
+ 1657 065d 26       		.byte	38
+ 1658 065e 9C       		.byte	-100
+ 1659 065f 06       		.byte	6
+ 1660 0660 9F       		.byte	-97
+ 1661 0661 01       		.byte	1
+ 1662 0662 A0       		.byte	-96
+ 1663 0663 40       		.byte	64
+ 1664 0664 A2       		.byte	-94
+ 1665 0665 20       		.byte	32
+ 1666 0666 A5       		.byte	-91
+ 1667 0667 08       		.byte	8
+ 1668 0668 AB       		.byte	-85
+ 1669 0669 08       		.byte	8
+ 1670 066a AC       		.byte	-84
+ 1671 066b 80       		.byte	-128
+ 1672 066c B0       		.byte	-80
+ 1673 066d 40       		.byte	64
+ 1674 066e B1       		.byte	-79
+ 1675 066f 40       		.byte	64
+ 1676 0670 B4       		.byte	-76
+ 1677 0671 08       		.byte	8
+ 1678 0672 C0       		.byte	-64
+ 1679 0673 EF       		.byte	-17
+ 1680 0674 C2       		.byte	-62
+ 1681 0675 67       		.byte	103
+ 1682 0676 C4       		.byte	-60
+ 1683 0677 7F       		.byte	127
+ 1684 0678 CA       		.byte	-54
+ 1685 0679 EE       		.byte	-18
+ 1686 067a CC       		.byte	-52
+ 1687 067b AF       		.byte	-81
+ 1688 067c CE       		.byte	-50
+ 1689 067d 7E       		.byte	126
+ 1690 067e D6       		.byte	-42
+ 1691 067f 02       		.byte	2
+ 1692 0680 E4       		.byte	-28
+ 1693 0681 04       		.byte	4
+ 1694 0682 E8       		.byte	-24
+ 1695 0683 40       		.byte	64
+ 1696 0684 EC       		.byte	-20
+ 1697 0685 20       		.byte	32
+ 1698 0686 EE       		.byte	-18
+ 1699 0687 02       		.byte	2
+ 1700 0688 0E       		.byte	14
+ 1701 0689 08       		.byte	8
+ 1702 068a 10       		.byte	16
+ 1703 068b 04       		.byte	4
+ 1704 068c 11       		.byte	17
+ 1705 068d 02       		.byte	2
+ 1706 068e 1E       		.byte	30
+ 1707 068f 01       		.byte	1
+ 1708 0690 29       		.byte	41
+ 1709 0691 01       		.byte	1
+ 1710 0692 2A       		.byte	42
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 31
+
+
+ 1711 0693 02       		.byte	2
+ 1712 0694 30       		.byte	48
+ 1713 0695 02       		.byte	2
+ 1714 0696 31       		.byte	49
+ 1715 0697 02       		.byte	2
+ 1716 0698 32       		.byte	50
+ 1717 0699 08       		.byte	8
+ 1718 069a 34       		.byte	52
+ 1719 069b 04       		.byte	4
+ 1720 069c 35       		.byte	53
+ 1721 069d 01       		.byte	1
+ 1722 069e 36       		.byte	54
+ 1723 069f 01       		.byte	1
+ 1724 06a0 3E       		.byte	62
+ 1725 06a1 10       		.byte	16
+ 1726 06a2 3F       		.byte	63
+ 1727 06a3 11       		.byte	17
+ 1728 06a4 56       		.byte	86
+ 1729 06a5 04       		.byte	4
+ 1730 06a6 58       		.byte	88
+ 1731 06a7 04       		.byte	4
+ 1732 06a8 59       		.byte	89
+ 1733 06a9 04       		.byte	4
+ 1734 06aa 5B       		.byte	91
+ 1735 06ab 04       		.byte	4
+ 1736 06ac 5C       		.byte	92
+ 1737 06ad 03       		.byte	3
+ 1738 06ae 5F       		.byte	95
+ 1739 06af 01       		.byte	1
+ 1740 06b0 81       		.byte	-127
+ 1741 06b1 10       		.byte	16
+ 1742 06b2 84       		.byte	-124
+ 1743 06b3 01       		.byte	1
+ 1744 06b4 85       		.byte	-123
+ 1745 06b5 0C       		.byte	12
+ 1746 06b6 88       		.byte	-120
+ 1747 06b7 01       		.byte	1
+ 1748 06b8 89       		.byte	-119
+ 1749 06b9 0C       		.byte	12
+ 1750 06ba 8B       		.byte	-117
+ 1751 06bb 01       		.byte	1
+ 1752 06bc 8C       		.byte	-116
+ 1753 06bd 01       		.byte	1
+ 1754 06be 8F       		.byte	-113
+ 1755 06bf 0C       		.byte	12
+ 1756 06c0 92       		.byte	-110
+ 1757 06c1 02       		.byte	2
+ 1758 06c2 94       		.byte	-108
+ 1759 06c3 01       		.byte	1
+ 1760 06c4 97       		.byte	-105
+ 1761 06c5 0C       		.byte	12
+ 1762 06c6 9B       		.byte	-101
+ 1763 06c7 0C       		.byte	12
+ 1764 06c8 9D       		.byte	-99
+ 1765 06c9 10       		.byte	16
+ 1766 06ca 9E       		.byte	-98
+ 1767 06cb 04       		.byte	4
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 32
+
+
+ 1768 06cc A1       		.byte	-95
+ 1769 06cd 08       		.byte	8
+ 1770 06ce A2       		.byte	-94
+ 1771 06cf 02       		.byte	2
+ 1772 06d0 A3       		.byte	-93
+ 1773 06d1 02       		.byte	2
+ 1774 06d2 A5       		.byte	-91
+ 1775 06d3 0C       		.byte	12
+ 1776 06d4 A9       		.byte	-87
+ 1777 06d5 04       		.byte	4
+ 1778 06d6 AB       		.byte	-85
+ 1779 06d7 02       		.byte	2
+ 1780 06d8 AD       		.byte	-83
+ 1781 06d9 10       		.byte	16
+ 1782 06da B1       		.byte	-79
+ 1783 06db 0C       		.byte	12
+ 1784 06dc B2       		.byte	-78
+ 1785 06dd 01       		.byte	1
+ 1786 06de B3       		.byte	-77
+ 1787 06df 03       		.byte	3
+ 1788 06e0 B4       		.byte	-76
+ 1789 06e1 04       		.byte	4
+ 1790 06e2 B5       		.byte	-75
+ 1791 06e3 10       		.byte	16
+ 1792 06e4 B6       		.byte	-74
+ 1793 06e5 02       		.byte	2
+ 1794 06e6 BE       		.byte	-66
+ 1795 06e7 44       		.byte	68
+ 1796 06e8 BF       		.byte	-65
+ 1797 06e9 04       		.byte	4
+ 1798 06ea C0       		.byte	-64
+ 1799 06eb 42       		.byte	66
+ 1800 06ec C1       		.byte	-63
+ 1801 06ed 03       		.byte	3
+ 1802 06ee C2       		.byte	-62
+ 1803 06ef 05       		.byte	5
+ 1804 06f0 C4       		.byte	-60
+ 1805 06f1 06       		.byte	6
+ 1806 06f2 C5       		.byte	-59
+ 1807 06f3 C0       		.byte	-64
+ 1808 06f4 C7       		.byte	-57
+ 1809 06f5 0E       		.byte	14
+ 1810 06f6 C8       		.byte	-56
+ 1811 06f7 12       		.byte	18
+ 1812 06f8 C9       		.byte	-55
+ 1813 06f9 FF       		.byte	-1
+ 1814 06fa CA       		.byte	-54
+ 1815 06fb FF       		.byte	-1
+ 1816 06fc CB       		.byte	-53
+ 1817 06fd FF       		.byte	-1
+ 1818 06fe CC       		.byte	-52
+ 1819 06ff 62       		.byte	98
+ 1820 0700 CD       		.byte	-51
+ 1821 0701 A0       		.byte	-96
+ 1822 0702 CE       		.byte	-50
+ 1823 0703 F0       		.byte	-16
+ 1824 0704 CF       		.byte	-49
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 33
+
+
+ 1825 0705 41       		.byte	65
+ 1826 0706 D0       		.byte	-48
+ 1827 0707 0C       		.byte	12
+ 1828 0708 D8       		.byte	-40
+ 1829 0709 04       		.byte	4
+ 1830 070a D9       		.byte	-39
+ 1831 070b 04       		.byte	4
+ 1832 070c DA       		.byte	-38
+ 1833 070d 04       		.byte	4
+ 1834 070e DC       		.byte	-36
+ 1835 070f 19       		.byte	25
+ 1836 0710 DD       		.byte	-35
+ 1837 0711 01       		.byte	1
+ 1838 0712 DF       		.byte	-33
+ 1839 0713 01       		.byte	1
+ 1840 0714 E6       		.byte	-26
+ 1841 0715 40       		.byte	64
+ 1842 0716 E7       		.byte	-25
+ 1843 0717 02       		.byte	2
+ 1844 0718 E9       		.byte	-23
+ 1845 0719 10       		.byte	16
+ 1846 071a EA       		.byte	-22
+ 1847 071b 30       		.byte	48
+ 1848 071c EB       		.byte	-21
+ 1849 071d 10       		.byte	16
+ 1850 071e ED       		.byte	-19
+ 1851 071f 10       		.byte	16
+ 1852 0720 EE       		.byte	-18
+ 1853 0721 10       		.byte	16
+ 1854 0722 EF       		.byte	-17
+ 1855 0723 12       		.byte	18
+ 1856 0724 00       		.byte	0
+ 1857 0725 54       		.byte	84
+ 1858 0726 01       		.byte	1
+ 1859 0727 20       		.byte	32
+ 1860 0728 02       		.byte	2
+ 1861 0729 04       		.byte	4
+ 1862 072a 03       		.byte	3
+ 1863 072b 01       		.byte	1
+ 1864 072c 07       		.byte	7
+ 1865 072d 02       		.byte	2
+ 1866 072e 08       		.byte	8
+ 1867 072f 40       		.byte	64
+ 1868 0730 09       		.byte	9
+ 1869 0731 08       		.byte	8
+ 1870 0732 0B       		.byte	11
+ 1871 0733 80       		.byte	-128
+ 1872 0734 0E       		.byte	14
+ 1873 0735 81       		.byte	-127
+ 1874 0736 10       		.byte	16
+ 1875 0737 80       		.byte	-128
+ 1876 0738 14       		.byte	20
+ 1877 0739 08       		.byte	8
+ 1878 073a 19       		.byte	25
+ 1879 073b 44       		.byte	68
+ 1880 073c 1B       		.byte	27
+ 1881 073d 20       		.byte	32
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 34
+
+
+ 1882 073e 1E       		.byte	30
+ 1883 073f 8A       		.byte	-118
+ 1884 0740 1F       		.byte	31
+ 1885 0741 08       		.byte	8
+ 1886 0742 21       		.byte	33
+ 1887 0743 20       		.byte	32
+ 1888 0744 22       		.byte	34
+ 1889 0745 29       		.byte	41
+ 1890 0746 26       		.byte	38
+ 1891 0747 10       		.byte	16
+ 1892 0748 27       		.byte	39
+ 1893 0749 80       		.byte	-128
+ 1894 074a 28       		.byte	40
+ 1895 074b 86       		.byte	-122
+ 1896 074c 29       		.byte	41
+ 1897 074d 02       		.byte	2
+ 1898 074e 2A       		.byte	42
+ 1899 074f 04       		.byte	4
+ 1900 0750 2F       		.byte	47
+ 1901 0751 08       		.byte	8
+ 1902 0752 31       		.byte	49
+ 1903 0753 28       		.byte	40
+ 1904 0754 32       		.byte	50
+ 1905 0755 40       		.byte	64
+ 1906 0756 36       		.byte	54
+ 1907 0757 01       		.byte	1
+ 1908 0758 38       		.byte	56
+ 1909 0759 46       		.byte	70
+ 1910 075a 39       		.byte	57
+ 1911 075b 20       		.byte	32
+ 1912 075c 40       		.byte	64
+ 1913 075d 10       		.byte	16
+ 1914 075e 41       		.byte	65
+ 1915 075f 20       		.byte	32
+ 1916 0760 42       		.byte	66
+ 1917 0761 40       		.byte	64
+ 1918 0762 48       		.byte	72
+ 1919 0763 80       		.byte	-128
+ 1920 0764 4A       		.byte	74
+ 1921 0765 08       		.byte	8
+ 1922 0766 4B       		.byte	75
+ 1923 0767 80       		.byte	-128
+ 1924 0768 50       		.byte	80
+ 1925 0769 04       		.byte	4
+ 1926 076a 5E       		.byte	94
+ 1927 076b 28       		.byte	40
+ 1928 076c 5F       		.byte	95
+ 1929 076d 80       		.byte	-128
+ 1930 076e 66       		.byte	102
+ 1931 076f 02       		.byte	2
+ 1932 0770 80       		.byte	-128
+ 1933 0771 04       		.byte	4
+ 1934 0772 82       		.byte	-126
+ 1935 0773 40       		.byte	64
+ 1936 0774 88       		.byte	-120
+ 1937 0775 40       		.byte	64
+ 1938 0776 89       		.byte	-119
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 35
+
+
+ 1939 0777 10       		.byte	16
+ 1940 0778 8A       		.byte	-118
+ 1941 0779 03       		.byte	3
+ 1942 077a 8B       		.byte	-117
+ 1943 077b 02       		.byte	2
+ 1944 077c 8D       		.byte	-115
+ 1945 077d 04       		.byte	4
+ 1946 077e 94       		.byte	-108
+ 1947 077f 0C       		.byte	12
+ 1948 0780 96       		.byte	-106
+ 1949 0781 02       		.byte	2
+ 1950 0782 99       		.byte	-103
+ 1951 0783 20       		.byte	32
+ 1952 0784 9D       		.byte	-99
+ 1953 0785 40       		.byte	64
+ 1954 0786 9F       		.byte	-97
+ 1955 0787 09       		.byte	9
+ 1956 0788 A5       		.byte	-91
+ 1957 0789 4C       		.byte	76
+ 1958 078a A7       		.byte	-89
+ 1959 078b 20       		.byte	32
+ 1960 078c AA       		.byte	-86
+ 1961 078d 20       		.byte	32
+ 1962 078e AB       		.byte	-85
+ 1963 078f 40       		.byte	64
+ 1964 0790 AC       		.byte	-84
+ 1965 0791 01       		.byte	1
+ 1966 0792 B0       		.byte	-80
+ 1967 0793 08       		.byte	8
+ 1968 0794 B6       		.byte	-74
+ 1969 0795 80       		.byte	-128
+ 1970 0796 C0       		.byte	-64
+ 1971 0797 87       		.byte	-121
+ 1972 0798 C2       		.byte	-62
+ 1973 0799 9D       		.byte	-99
+ 1974 079a C4       		.byte	-60
+ 1975 079b 48       		.byte	72
+ 1976 079c CA       		.byte	-54
+ 1977 079d 2F       		.byte	47
+ 1978 079e CC       		.byte	-52
+ 1979 079f 8E       		.byte	-114
+ 1980 07a0 CE       		.byte	-50
+ 1981 07a1 0F       		.byte	15
+ 1982 07a2 D0       		.byte	-48
+ 1983 07a3 07       		.byte	7
+ 1984 07a4 D2       		.byte	-46
+ 1985 07a5 0C       		.byte	12
+ 1986 07a6 D6       		.byte	-42
+ 1987 07a7 70       		.byte	112
+ 1988 07a8 D8       		.byte	-40
+ 1989 07a9 80       		.byte	-128
+ 1990 07aa E0       		.byte	-32
+ 1991 07ab 20       		.byte	32
+ 1992 07ac E2       		.byte	-30
+ 1993 07ad 80       		.byte	-128
+ 1994 07ae E4       		.byte	-28
+ 1995 07af 80       		.byte	-128
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 36
+
+
+ 1996 07b0 E8       		.byte	-24
+ 1997 07b1 10       		.byte	16
+ 1998 07b2 EA       		.byte	-22
+ 1999 07b3 02       		.byte	2
+ 2000 07b4 EC       		.byte	-20
+ 2001 07b5 10       		.byte	16
+ 2002 07b6 00       		.byte	0
+ 2003 07b7 06       		.byte	6
+ 2004 07b8 03       		.byte	3
+ 2005 07b9 20       		.byte	32
+ 2006 07ba 04       		.byte	4
+ 2007 07bb 03       		.byte	3
+ 2008 07bc 08       		.byte	8
+ 2009 07bd 05       		.byte	5
+ 2010 07be 0A       		.byte	10
+ 2011 07bf 02       		.byte	2
+ 2012 07c0 0C       		.byte	12
+ 2013 07c1 06       		.byte	6
+ 2014 07c2 0D       		.byte	13
+ 2015 07c3 04       		.byte	4
+ 2016 07c4 0E       		.byte	14
+ 2017 07c5 01       		.byte	1
+ 2018 07c6 0F       		.byte	15
+ 2019 07c7 18       		.byte	24
+ 2020 07c8 11       		.byte	17
+ 2021 07c9 1F       		.byte	31
+ 2022 07ca 14       		.byte	20
+ 2023 07cb 07       		.byte	7
+ 2024 07cc 15       		.byte	21
+ 2025 07cd 09       		.byte	9
+ 2026 07ce 17       		.byte	23
+ 2027 07cf 06       		.byte	6
+ 2028 07d0 19       		.byte	25
+ 2029 07d1 12       		.byte	18
+ 2030 07d2 1A       		.byte	26
+ 2031 07d3 11       		.byte	17
+ 2032 07d4 1B       		.byte	27
+ 2033 07d5 05       		.byte	5
+ 2034 07d6 20       		.byte	32
+ 2035 07d7 08       		.byte	8
+ 2036 07d8 24       		.byte	36
+ 2037 07d9 02       		.byte	2
+ 2038 07da 26       		.byte	38
+ 2039 07db 04       		.byte	4
+ 2040 07dc 27       		.byte	39
+ 2041 07dd 20       		.byte	32
+ 2042 07de 29       		.byte	41
+ 2043 07df 20       		.byte	32
+ 2044 07e0 2D       		.byte	45
+ 2045 07e1 1F       		.byte	31
+ 2046 07e2 32       		.byte	50
+ 2047 07e3 10       		.byte	16
+ 2048 07e4 33       		.byte	51
+ 2049 07e5 20       		.byte	32
+ 2050 07e6 34       		.byte	52
+ 2051 07e7 07       		.byte	7
+ 2052 07e8 35       		.byte	53
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 37
+
+
+ 2053 07e9 03       		.byte	3
+ 2054 07ea 36       		.byte	54
+ 2055 07eb 08       		.byte	8
+ 2056 07ec 37       		.byte	55
+ 2057 07ed 1C       		.byte	28
+ 2058 07ee 3E       		.byte	62
+ 2059 07ef 40       		.byte	64
+ 2060 07f0 3F       		.byte	63
+ 2061 07f1 04       		.byte	4
+ 2062 07f2 52       		.byte	82
+ 2063 07f3 80       		.byte	-128
+ 2064 07f4 58       		.byte	88
+ 2065 07f5 04       		.byte	4
+ 2066 07f6 59       		.byte	89
+ 2067 07f7 04       		.byte	4
+ 2068 07f8 5B       		.byte	91
+ 2069 07f9 04       		.byte	4
+ 2070 07fa 5C       		.byte	92
+ 2071 07fb 19       		.byte	25
+ 2072 07fc 5D       		.byte	93
+ 2073 07fd 90       		.byte	-112
+ 2074 07fe 5F       		.byte	95
+ 2075 07ff 01       		.byte	1
+ 2076 0800 84       		.byte	-124
+ 2077 0801 0C       		.byte	12
+ 2078 0802 8C       		.byte	-116
+ 2079 0803 14       		.byte	20
+ 2080 0804 8F       		.byte	-113
+ 2081 0805 01       		.byte	1
+ 2082 0806 90       		.byte	-112
+ 2083 0807 18       		.byte	24
+ 2084 0808 94       		.byte	-108
+ 2085 0809 18       		.byte	24
+ 2086 080a 9B       		.byte	-101
+ 2087 080b 02       		.byte	2
+ 2088 080c 9E       		.byte	-98
+ 2089 080d 02       		.byte	2
+ 2090 080e A6       		.byte	-90
+ 2091 080f 01       		.byte	1
+ 2092 0810 A9       		.byte	-87
+ 2093 0811 02       		.byte	2
+ 2094 0812 AD       		.byte	-83
+ 2095 0813 01       		.byte	1
+ 2096 0814 B0       		.byte	-80
+ 2097 0815 02       		.byte	2
+ 2098 0816 B1       		.byte	-79
+ 2099 0817 02       		.byte	2
+ 2100 0818 B2       		.byte	-78
+ 2101 0819 01       		.byte	1
+ 2102 081a B4       		.byte	-76
+ 2103 081b 1C       		.byte	28
+ 2104 081c B7       		.byte	-73
+ 2105 081d 01       		.byte	1
+ 2106 081e B8       		.byte	-72
+ 2107 081f 20       		.byte	32
+ 2108 0820 BF       		.byte	-65
+ 2109 0821 41       		.byte	65
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 38
+
+
+ 2110 0822 D4       		.byte	-44
+ 2111 0823 0F       		.byte	15
+ 2112 0824 D8       		.byte	-40
+ 2113 0825 04       		.byte	4
+ 2114 0826 D9       		.byte	-39
+ 2115 0827 04       		.byte	4
+ 2116 0828 DB       		.byte	-37
+ 2117 0829 04       		.byte	4
+ 2118 082a DC       		.byte	-36
+ 2119 082b 09       		.byte	9
+ 2120 082c DD       		.byte	-35
+ 2121 082d 90       		.byte	-112
+ 2122 082e DF       		.byte	-33
+ 2123 082f 05       		.byte	5
+ 2124 0830 00       		.byte	0
+ 2125 0831 04       		.byte	4
+ 2126 0832 03       		.byte	3
+ 2127 0833 01       		.byte	1
+ 2128 0834 04       		.byte	4
+ 2129 0835 04       		.byte	4
+ 2130 0836 06       		.byte	6
+ 2131 0837 48       		.byte	72
+ 2132 0838 07       		.byte	7
+ 2133 0839 01       		.byte	1
+ 2134 083a 09       		.byte	9
+ 2135 083b 81       		.byte	-127
+ 2136 083c 0A       		.byte	10
+ 2137 083d 10       		.byte	16
+ 2138 083e 0E       		.byte	14
+ 2139 083f 18       		.byte	24
+ 2140 0840 10       		.byte	16
+ 2141 0841 20       		.byte	32
+ 2142 0842 16       		.byte	22
+ 2143 0843 A0       		.byte	-96
+ 2144 0844 18       		.byte	24
+ 2145 0845 04       		.byte	4
+ 2146 0846 19       		.byte	25
+ 2147 0847 20       		.byte	32
+ 2148 0848 1B       		.byte	27
+ 2149 0849 16       		.byte	22
+ 2150 084a 1E       		.byte	30
+ 2151 084b 08       		.byte	8
+ 2152 084c 1F       		.byte	31
+ 2153 084d 68       		.byte	104
+ 2154 084e 22       		.byte	34
+ 2155 084f 41       		.byte	65
+ 2156 0850 25       		.byte	37
+ 2157 0851 40       		.byte	64
+ 2158 0852 26       		.byte	38
+ 2159 0853 20       		.byte	32
+ 2160 0854 27       		.byte	39
+ 2161 0855 10       		.byte	16
+ 2162 0856 2B       		.byte	43
+ 2163 0857 06       		.byte	6
+ 2164 0858 2F       		.byte	47
+ 2165 0859 29       		.byte	41
+ 2166 085a 30       		.byte	48
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 39
+
+
+ 2167 085b 30       		.byte	48
+ 2168 085c 36       		.byte	54
+ 2169 085d 20       		.byte	32
+ 2170 085e 37       		.byte	55
+ 2171 085f 0A       		.byte	10
+ 2172 0860 38       		.byte	56
+ 2173 0861 80       		.byte	-128
+ 2174 0862 3C       		.byte	60
+ 2175 0863 02       		.byte	2
+ 2176 0864 3D       		.byte	61
+ 2177 0865 80       		.byte	-128
+ 2178 0866 58       		.byte	88
+ 2179 0867 10       		.byte	16
+ 2180 0868 5A       		.byte	90
+ 2181 0869 82       		.byte	-126
+ 2182 086a 5B       		.byte	91
+ 2183 086b 04       		.byte	4
+ 2184 086c 62       		.byte	98
+ 2185 086d 14       		.byte	20
+ 2186 086e 74       		.byte	116
+ 2187 086f 01       		.byte	1
+ 2188 0870 7B       		.byte	123
+ 2189 0871 10       		.byte	16
+ 2190 0872 87       		.byte	-121
+ 2191 0873 40       		.byte	64
+ 2192 0874 89       		.byte	-119
+ 2193 0875 40       		.byte	64
+ 2194 0876 8C       		.byte	-116
+ 2195 0877 04       		.byte	4
+ 2196 0878 90       		.byte	-112
+ 2197 0879 80       		.byte	-128
+ 2198 087a 92       		.byte	-110
+ 2199 087b 10       		.byte	16
+ 2200 087c 94       		.byte	-108
+ 2201 087d 04       		.byte	4
+ 2202 087e 9A       		.byte	-102
+ 2203 087f FC       		.byte	-4
+ 2204 0880 9B       		.byte	-101
+ 2205 0881 05       		.byte	5
+ 2206 0882 9D       		.byte	-99
+ 2207 0883 20       		.byte	32
+ 2208 0884 9F       		.byte	-97
+ 2209 0885 10       		.byte	16
+ 2210 0886 A0       		.byte	-96
+ 2211 0887 20       		.byte	32
+ 2212 0888 A1       		.byte	-95
+ 2213 0889 81       		.byte	-127
+ 2214 088a A7       		.byte	-89
+ 2215 088b 02       		.byte	2
+ 2216 088c AF       		.byte	-81
+ 2217 088d 01       		.byte	1
+ 2218 088e C0       		.byte	-64
+ 2219 088f F5       		.byte	-11
+ 2220 0890 C2       		.byte	-62
+ 2221 0891 6D       		.byte	109
+ 2222 0892 C4       		.byte	-60
+ 2223 0893 34       		.byte	52
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 40
+
+
+ 2224 0894 CA       		.byte	-54
+ 2225 0895 7C       		.byte	124
+ 2226 0896 CC       		.byte	-52
+ 2227 0897 E4       		.byte	-28
+ 2228 0898 CE       		.byte	-50
+ 2229 0899 98       		.byte	-104
+ 2230 089a D6       		.byte	-42
+ 2231 089b 0F       		.byte	15
+ 2232 089c D8       		.byte	-40
+ 2233 089d 06       		.byte	6
+ 2234 089e DE       		.byte	-34
+ 2235 089f 02       		.byte	2
+ 2236 08a0 E0       		.byte	-32
+ 2237 08a1 08       		.byte	8
+ 2238 08a2 E6       		.byte	-26
+ 2239 08a3 60       		.byte	96
+ 2240 08a4 E8       		.byte	-24
+ 2241 08a5 10       		.byte	16
+ 2242 08a6 EE       		.byte	-18
+ 2243 08a7 20       		.byte	32
+ 2244 08a8 83       		.byte	-125
+ 2245 08a9 01       		.byte	1
+ 2246 08aa 8B       		.byte	-117
+ 2247 08ab 0A       		.byte	10
+ 2248 08ac 97       		.byte	-105
+ 2249 08ad 02       		.byte	2
+ 2250 08ae 9F       		.byte	-97
+ 2251 08af 0A       		.byte	10
+ 2252 08b0 AE       		.byte	-82
+ 2253 08b1 20       		.byte	32
+ 2254 08b2 E0       		.byte	-32
+ 2255 08b3 20       		.byte	32
+ 2256 08b4 E6       		.byte	-26
+ 2257 08b5 80       		.byte	-128
+ 2258 08b6 EA       		.byte	-22
+ 2259 08b7 80       		.byte	-128
+ 2260 08b8 31       		.byte	49
+ 2261 08b9 20       		.byte	32
+ 2262 08ba 33       		.byte	51
+ 2263 08bb 02       		.byte	2
+ 2264 08bc 34       		.byte	52
+ 2265 08bd 40       		.byte	64
+ 2266 08be 37       		.byte	55
+ 2267 08bf 08       		.byte	8
+ 2268 08c0 39       		.byte	57
+ 2269 08c1 10       		.byte	16
+ 2270 08c2 CC       		.byte	-52
+ 2271 08c3 F0       		.byte	-16
+ 2272 08c4 CE       		.byte	-50
+ 2273 08c5 10       		.byte	16
+ 2274 08c6 32       		.byte	50
+ 2275 08c7 20       		.byte	32
+ 2276 08c8 34       		.byte	52
+ 2277 08c9 10       		.byte	16
+ 2278 08ca 56       		.byte	86
+ 2279 08cb 80       		.byte	-128
+ 2280 08cc 5B       		.byte	91
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 41
+
+
+ 2281 08cd 40       		.byte	64
+ 2282 08ce 63       		.byte	99
+ 2283 08cf 02       		.byte	2
+ 2284 08d0 65       		.byte	101
+ 2285 08d1 81       		.byte	-127
+ 2286 08d2 81       		.byte	-127
+ 2287 08d3 20       		.byte	32
+ 2288 08d4 87       		.byte	-121
+ 2289 08d5 03       		.byte	3
+ 2290 08d6 95       		.byte	-107
+ 2291 08d7 10       		.byte	16
+ 2292 08d8 9C       		.byte	-100
+ 2293 08d9 40       		.byte	64
+ 2294 08da 9F       		.byte	-97
+ 2295 08db 08       		.byte	8
+ 2296 08dc A5       		.byte	-91
+ 2297 08dd 20       		.byte	32
+ 2298 08de A7       		.byte	-89
+ 2299 08df 02       		.byte	2
+ 2300 08e0 CC       		.byte	-52
+ 2301 08e1 30       		.byte	48
+ 2302 08e2 D4       		.byte	-44
+ 2303 08e3 C0       		.byte	-64
+ 2304 08e4 D6       		.byte	-42
+ 2305 08e5 C0       		.byte	-64
+ 2306 08e6 D8       		.byte	-40
+ 2307 08e7 80       		.byte	-128
+ 2308 08e8 E2       		.byte	-30
+ 2309 08e9 30       		.byte	48
+ 2310 08ea E6       		.byte	-26
+ 2311 08eb 10       		.byte	16
+ 2312 08ec 03       		.byte	3
+ 2313 08ed 80       		.byte	-128
+ 2314 08ee 86       		.byte	-122
+ 2315 08ef 80       		.byte	-128
+ 2316 08f0 95       		.byte	-107
+ 2317 08f1 10       		.byte	16
+ 2318 08f2 9C       		.byte	-100
+ 2319 08f3 10       		.byte	16
+ 2320 08f4 9E       		.byte	-98
+ 2321 08f5 80       		.byte	-128
+ 2322 08f6 9F       		.byte	-97
+ 2323 08f7 48       		.byte	72
+ 2324 08f8 A6       		.byte	-90
+ 2325 08f9 20       		.byte	32
+ 2326 08fa A9       		.byte	-87
+ 2327 08fb 80       		.byte	-128
+ 2328 08fc B0       		.byte	-80
+ 2329 08fd 40       		.byte	64
+ 2330 08fe B5       		.byte	-75
+ 2331 08ff 01       		.byte	1
+ 2332 0900 C0       		.byte	-64
+ 2333 0901 10       		.byte	16
+ 2334 0902 E2       		.byte	-30
+ 2335 0903 40       		.byte	64
+ 2336 0904 EA       		.byte	-22
+ 2337 0905 20       		.byte	32
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 42
+
+
+ 2338 0906 18       		.byte	24
+ 2339 0907 10       		.byte	16
+ 2340 0908 6B       		.byte	107
+ 2341 0909 40       		.byte	64
+ 2342 090a 6F       		.byte	111
+ 2343 090b 40       		.byte	64
+ 2344 090c 83       		.byte	-125
+ 2345 090d 40       		.byte	64
+ 2346 090e 86       		.byte	-122
+ 2347 090f 20       		.byte	32
+ 2348 0910 94       		.byte	-108
+ 2349 0911 40       		.byte	64
+ 2350 0912 95       		.byte	-107
+ 2351 0913 10       		.byte	16
+ 2352 0914 9F       		.byte	-97
+ 2353 0915 08       		.byte	8
+ 2354 0916 A3       		.byte	-93
+ 2355 0917 80       		.byte	-128
+ 2356 0918 A6       		.byte	-90
+ 2357 0919 20       		.byte	32
+ 2358 091a A8       		.byte	-88
+ 2359 091b 40       		.byte	64
+ 2360 091c AB       		.byte	-85
+ 2361 091d 40       		.byte	64
+ 2362 091e AC       		.byte	-84
+ 2363 091f 10       		.byte	16
+ 2364 0920 C6       		.byte	-58
+ 2365 0921 10       		.byte	16
+ 2366 0922 DC       		.byte	-36
+ 2367 0923 60       		.byte	96
+ 2368 0924 E6       		.byte	-26
+ 2369 0925 C0       		.byte	-64
+ 2370 0926 EC       		.byte	-20
+ 2371 0927 20       		.byte	32
+ 2372 0928 EE       		.byte	-18
+ 2373 0929 C0       		.byte	-64
+ 2374 092a 13       		.byte	19
+ 2375 092b 08       		.byte	8
+ 2376 092c 8B       		.byte	-117
+ 2377 092d 08       		.byte	8
+ 2378 092e C4       		.byte	-60
+ 2379 092f 08       		.byte	8
+ 2380 0930 E6       		.byte	-26
+ 2381 0931 01       		.byte	1
+ 2382 0932 50       		.byte	80
+ 2383 0933 04       		.byte	4
+ 2384 0934 83       		.byte	-125
+ 2385 0935 10       		.byte	16
+ 2386 0936 D4       		.byte	-44
+ 2387 0937 04       		.byte	4
+ 2388 0938 50       		.byte	80
+ 2389 0939 10       		.byte	16
+ 2390 093a 8C       		.byte	-116
+ 2391 093b 10       		.byte	16
+ 2392 093c 94       		.byte	-108
+ 2393 093d 08       		.byte	8
+ 2394 093e A7       		.byte	-89
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 43
+
+
+ 2395 093f 10       		.byte	16
+ 2396 0940 D4       		.byte	-44
+ 2397 0941 04       		.byte	4
+ 2398 0942 E4       		.byte	-28
+ 2399 0943 02       		.byte	2
+ 2400 0944 89       		.byte	-119
+ 2401 0945 02       		.byte	2
+ 2402 0946 94       		.byte	-108
+ 2403 0947 08       		.byte	8
+ 2404 0948 A7       		.byte	-89
+ 2405 0949 10       		.byte	16
+ 2406 094a E0       		.byte	-32
+ 2407 094b 01       		.byte	1
+ 2408 094c 00       		.byte	0
+ 2409 094d 40       		.byte	64
+ 2410 094e 03       		.byte	3
+ 2411 094f 10       		.byte	16
+ 2412 0950 04       		.byte	4
+ 2413 0951 01       		.byte	1
+ 2414 0952 07       		.byte	7
+ 2415 0953 01       		.byte	1
+ 2416 0954 89       		.byte	-119
+ 2417 0955 15       		.byte	21
+ 2418 0956 94       		.byte	-108
+ 2419 0957 41       		.byte	65
+ 2420 0958 95       		.byte	-107
+ 2421 0959 10       		.byte	16
+ 2422 095a 9F       		.byte	-97
+ 2423 095b 08       		.byte	8
+ 2424 095c A3       		.byte	-93
+ 2425 095d 80       		.byte	-128
+ 2426 095e B4       		.byte	-76
+ 2427 095f 11       		.byte	17
+ 2428 0960 C0       		.byte	-64
+ 2429 0961 F0       		.byte	-16
+ 2430 0962 11       		.byte	17
+ 2431 0963 01       		.byte	1
+ 2432 0964 15       		.byte	21
+ 2433 0965 04       		.byte	4
+ 2434 0966 23       		.byte	35
+ 2435 0967 08       		.byte	8
+ 2436 0968 95       		.byte	-107
+ 2437 0969 05       		.byte	5
+ 2438 096a 9F       		.byte	-97
+ 2439 096b 08       		.byte	8
+ 2440 096c AB       		.byte	-85
+ 2441 096d 10       		.byte	16
+ 2442 096e B3       		.byte	-77
+ 2443 096f 01       		.byte	1
+ 2444 0970 B7       		.byte	-73
+ 2445 0971 80       		.byte	-128
+ 2446 0972 C4       		.byte	-60
+ 2447 0973 30       		.byte	48
+ 2448 0974 C8       		.byte	-56
+ 2449 0975 10       		.byte	16
+ 2450 0976 E8       		.byte	-24
+ 2451 0977 20       		.byte	32
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 44
+
+
+ 2452 0978 08       		.byte	8
+ 2453 0979 40       		.byte	64
+ 2454 097a 0E       		.byte	14
+ 2455 097b 04       		.byte	4
+ 2456 097c 0F       		.byte	15
+ 2457 097d 20       		.byte	32
+ 2458 097e 75       		.byte	117
+ 2459 097f 02       		.byte	2
+ 2460 0980 87       		.byte	-121
+ 2461 0981 10       		.byte	16
+ 2462 0982 96       		.byte	-106
+ 2463 0983 04       		.byte	4
+ 2464 0984 99       		.byte	-103
+ 2465 0985 02       		.byte	2
+ 2466 0986 A7       		.byte	-89
+ 2467 0987 10       		.byte	16
+ 2468 0988 B2       		.byte	-78
+ 2469 0989 04       		.byte	4
+ 2470 098a B4       		.byte	-76
+ 2471 098b 04       		.byte	4
+ 2472 098c C2       		.byte	-62
+ 2473 098d 07       		.byte	7
+ 2474 098e DE       		.byte	-34
+ 2475 098f 04       		.byte	4
+ 2476 0990 E8       		.byte	-24
+ 2477 0991 08       		.byte	8
+ 2478 0992 EE       		.byte	-18
+ 2479 0993 04       		.byte	4
+ 2480 0994 10       		.byte	16
+ 2481 0995 80       		.byte	-128
+ 2482 0996 73       		.byte	115
+ 2483 0997 10       		.byte	16
+ 2484 0998 88       		.byte	-120
+ 2485 0999 80       		.byte	-128
+ 2486 099a 93       		.byte	-109
+ 2487 099b 10       		.byte	16
+ 2488 099c B0       		.byte	-80
+ 2489 099d 40       		.byte	64
+ 2490 099e C4       		.byte	-60
+ 2491 099f 08       		.byte	8
+ 2492 09a0 DC       		.byte	-36
+ 2493 09a1 01       		.byte	1
+ 2494 09a2 E6       		.byte	-26
+ 2495 09a3 01       		.byte	1
+ 2496 09a4 EA       		.byte	-22
+ 2497 09a5 01       		.byte	1
+ 2498 09a6 00       		.byte	0
+ 2499 09a7 16       		.byte	22
+ 2500 09a8 01       		.byte	1
+ 2501 09a9 01       		.byte	1
+ 2502 09aa 08       		.byte	8
+ 2503 09ab 12       		.byte	18
+ 2504 09ac 09       		.byte	9
+ 2505 09ad 01       		.byte	1
+ 2506 09ae 0A       		.byte	10
+ 2507 09af 06       		.byte	6
+ 2508 09b0 0B       		.byte	11
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 45
+
+
+ 2509 09b1 01       		.byte	1
+ 2510 09b2 0D       		.byte	13
+ 2511 09b3 01       		.byte	1
+ 2512 09b4 10       		.byte	16
+ 2513 09b5 0A       		.byte	10
+ 2514 09b6 11       		.byte	17
+ 2515 09b7 01       		.byte	1
+ 2516 09b8 1A       		.byte	26
+ 2517 09b9 0A       		.byte	10
+ 2518 09ba 1B       		.byte	27
+ 2519 09bb 01       		.byte	1
+ 2520 09bc 1C       		.byte	28
+ 2521 09bd 02       		.byte	2
+ 2522 09be 1D       		.byte	29
+ 2523 09bf 01       		.byte	1
+ 2524 09c0 00       		.byte	0
+ 2525 09c1 FF       		.byte	-1
+ 2526 09c2 01       		.byte	1
+ 2527 09c3 3F       		.byte	63
+ 2528 09c4 00       		.byte	0
+ 2529 09c5 73       		.byte	115
+ 2530 09c6 73       		.byte	115
+ 2531 09c7 00       		.byte	0
+ 2532 09c8 73       		.byte	115
+ 2533 09c9 00       		.byte	0
+ 2534 09ca 00       		.byte	0
+ 2535 09cb 00       		.byte	0
+ 2536 09cc 97       		.byte	-105
+ 2537 09cd 00       		.byte	0
+ 2538 09ce 40       		.byte	64
+ 2539 09cf 97       		.byte	-105
+ 2540 09d0 80       		.byte	-128
+ 2541 09d1 00       		.byte	0
+ 2542 09d2 80       		.byte	-128
+ 2543 09d3 00       		.byte	0
+ 2544 09d4 00       		.byte	0
+ 2545 09d5 00       		.byte	0
+ 2546 09d6 00       		.byte	0
+ 2547 09d7 00       		.byte	0
+ 2548 09d8 0F       		.byte	15
+ 2549 09d9 00       		.byte	0
+ 2550 09da 00       		.byte	0
+ 2551 09db 3F       		.byte	63
+ 2552 09dc 30       		.byte	48
+ 2553 09dd 00       		.byte	0
+ 2554 09de 30       		.byte	48
+ 2555 09df 00       		.byte	0
+ 2556 09e0 00       		.byte	0
+ 2557 09e1 00       		.byte	0
+ 2558 09e2 00       		.byte	0
+ 2559 09e3 00       		.byte	0
+ 2560 09e4 E0       		.byte	-32
+ 2561 09e5 00       		.byte	0
+ 2562 09e6 00       		.byte	0
+ 2563 09e7 EB       		.byte	-21
+ 2564 09e8 0B       		.byte	11
+ 2565 09e9 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 46
+
+
+ 2566 09ea 00       		.byte	0
+ 2567 09eb 00       		.byte	0
+ 2568 09ec 00       		.byte	0
+ 2569 09ed 00       		.byte	0
+ 2570 09ee 00       		.byte	0
+ 2571 09ef 00       		.byte	0
+ 2572 09f0 00       		.byte	0
+ 2573 09f1 C7       		.byte	-57
+ 2574 09f2 C7       		.byte	-57
+ 2575 09f3 00       		.byte	0
+ 2576 09f4 01       		.byte	1
+ 2577 09f5 00       		.byte	0
+ 2578 09f6 00       		.byte	0
+ 2579 09f7 00       		.byte	0
+ 2580 09f8 00       		.byte	0
+ 2581 09f9 7F       		.byte	127
+ 2582 09fa 7F       		.byte	127
+ 2583 09fb 00       		.byte	0
+ 2584 09fc 00       		.byte	0
+ 2585 09fd 00       		.byte	0
+ 2586 09fe 00       		.byte	0
+ 2587 09ff 00       		.byte	0
+ 2588              		.section	.cywolatch,"a",%progbits
+ 2589              		.align	2
+ 2590              		.type	cy_meta_wonvl, %object
+ 2591              		.size	cy_meta_wonvl, 4
+ 2592              	cy_meta_wonvl:
+ 2593 0000 BC       		.byte	-68
+ 2594 0001 90       		.byte	-112
+ 2595 0002 AC       		.byte	-84
+ 2596 0003 AF       		.byte	-81
+ 2597              		.section	.cycustnvl,"a",%progbits
+ 2598              		.align	2
+ 2599              		.type	cy_meta_custnvl, %object
+ 2600              		.size	cy_meta_custnvl, 4
+ 2601              	cy_meta_custnvl:
+ 2602 0000 00       		.byte	0
+ 2603 0001 00       		.byte	0
+ 2604 0002 40       		.byte	64
+ 2605 0003 05       		.byte	5
+ 2606              		.section	.cymeta,"a",%progbits
+ 2607              		.align	2
+ 2608              		.type	cy_metadata, %object
+ 2609              		.size	cy_metadata, 12
+ 2610              	cy_metadata:
+ 2611 0000 00       		.byte	0
+ 2612 0001 01       		.byte	1
+ 2613 0002 2E       		.byte	46
+ 2614 0003 16       		.byte	22
+ 2615 0004 10       		.byte	16
+ 2616 0005 69       		.byte	105
+ 2617 0006 00       		.byte	0
+ 2618 0007 01       		.byte	1
+ 2619 0008 00       		.byte	0
+ 2620 0009 00       		.byte	0
+ 2621 000a 00       		.byte	0
+ 2622 000b 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 47
+
+
+ 2623              		.section	.cyflashprotect,"a",%progbits
+ 2624              		.align	2
+ 2625              		.type	cy_meta_flashprotect, %object
+ 2626              		.size	cy_meta_flashprotect, 256
+ 2627              	cy_meta_flashprotect:
+ 2628 0000 00000000 		.space	256
+ 2628      00000000 
+ 2628      00000000 
+ 2628      00000000 
+ 2628      00000000 
+ 2629              		.text
+ 2630              	.Letext0:
+ 2631              		.file 1 "Generated_Source\\PSoC5\\cymetadata.c"
+ 2632              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 2633              		.section	.debug_info,"",%progbits
+ 2634              	.Ldebug_info0:
+ 2635 0000 3B010000 		.4byte	0x13b
+ 2636 0004 0400     		.2byte	0x4
+ 2637 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 2638 000a 04       		.byte	0x4
+ 2639 000b 01       		.uleb128 0x1
+ 2640 000c 7A000000 		.4byte	.LASF18
+ 2641 0010 01       		.byte	0x1
+ 2642 0011 B9010000 		.4byte	.LASF19
+ 2643 0015 84010000 		.4byte	.LASF20
+ 2644 0019 00000000 		.4byte	.Ldebug_line0
+ 2645 001d 02       		.uleb128 0x2
+ 2646 001e 01       		.byte	0x1
+ 2647 001f 06       		.byte	0x6
+ 2648 0020 12000000 		.4byte	.LASF0
+ 2649 0024 02       		.uleb128 0x2
+ 2650 0025 01       		.byte	0x1
+ 2651 0026 08       		.byte	0x8
+ 2652 0027 1E000000 		.4byte	.LASF1
+ 2653 002b 02       		.uleb128 0x2
+ 2654 002c 02       		.byte	0x2
+ 2655 002d 05       		.byte	0x5
+ 2656 002e 6B010000 		.4byte	.LASF2
+ 2657 0032 02       		.uleb128 0x2
+ 2658 0033 02       		.byte	0x2
+ 2659 0034 07       		.byte	0x7
+ 2660 0035 3E000000 		.4byte	.LASF3
+ 2661 0039 02       		.uleb128 0x2
+ 2662 003a 04       		.byte	0x4
+ 2663 003b 05       		.byte	0x5
+ 2664 003c 7B010000 		.4byte	.LASF4
+ 2665 0040 02       		.uleb128 0x2
+ 2666 0041 04       		.byte	0x4
+ 2667 0042 07       		.byte	0x7
+ 2668 0043 2C000000 		.4byte	.LASF5
+ 2669 0047 02       		.uleb128 0x2
+ 2670 0048 08       		.byte	0x8
+ 2671 0049 05       		.byte	0x5
+ 2672 004a 58010000 		.4byte	.LASF6
+ 2673 004e 02       		.uleb128 0x2
+ 2674 004f 08       		.byte	0x8
+ 2675 0050 07       		.byte	0x7
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 48
+
+
+ 2676 0051 15010000 		.4byte	.LASF7
+ 2677 0055 03       		.uleb128 0x3
+ 2678 0056 04       		.byte	0x4
+ 2679 0057 05       		.byte	0x5
+ 2680 0058 696E7400 		.ascii	"int\000"
+ 2681 005c 02       		.uleb128 0x2
+ 2682 005d 04       		.byte	0x4
+ 2683 005e 07       		.byte	0x7
+ 2684 005f 08010000 		.4byte	.LASF8
+ 2685 0063 04       		.uleb128 0x4
+ 2686 0064 75010000 		.4byte	.LASF21
+ 2687 0068 02       		.byte	0x2
+ 2688 0069 9201     		.2byte	0x192
+ 2689 006b 24000000 		.4byte	0x24
+ 2690 006f 02       		.uleb128 0x2
+ 2691 0070 04       		.byte	0x4
+ 2692 0071 04       		.byte	0x4
+ 2693 0072 0C000000 		.4byte	.LASF9
+ 2694 0076 02       		.uleb128 0x2
+ 2695 0077 08       		.byte	0x8
+ 2696 0078 04       		.byte	0x4
+ 2697 0079 51000000 		.4byte	.LASF10
+ 2698 007d 02       		.uleb128 0x2
+ 2699 007e 01       		.byte	0x1
+ 2700 007f 08       		.byte	0x8
+ 2701 0080 66010000 		.4byte	.LASF11
+ 2702 0084 05       		.uleb128 0x5
+ 2703 0085 63000000 		.4byte	0x63
+ 2704 0089 95000000 		.4byte	0x95
+ 2705 008d 06       		.uleb128 0x6
+ 2706 008e 95000000 		.4byte	0x95
+ 2707 0092 FF09     		.2byte	0x9ff
+ 2708 0094 00       		.byte	0
+ 2709 0095 02       		.uleb128 0x2
+ 2710 0096 04       		.byte	0x4
+ 2711 0097 07       		.byte	0x7
+ 2712 0098 4F010000 		.4byte	.LASF12
+ 2713 009c 07       		.uleb128 0x7
+ 2714 009d 68000000 		.4byte	.LASF13
+ 2715 00a1 01       		.byte	0x1
+ 2716 00a2 1F       		.byte	0x1f
+ 2717 00a3 AD000000 		.4byte	0xad
+ 2718 00a7 05       		.uleb128 0x5
+ 2719 00a8 03       		.byte	0x3
+ 2720 00a9 00000000 		.4byte	cy_meta_configecc
+ 2721 00ad 08       		.uleb128 0x8
+ 2722 00ae 84000000 		.4byte	0x84
+ 2723 00b2 05       		.uleb128 0x5
+ 2724 00b3 63000000 		.4byte	0x63
+ 2725 00b7 C2000000 		.4byte	0xc2
+ 2726 00bb 09       		.uleb128 0x9
+ 2727 00bc 95000000 		.4byte	0x95
+ 2728 00c0 03       		.byte	0x3
+ 2729 00c1 00       		.byte	0
+ 2730 00c2 0A       		.uleb128 0xa
+ 2731 00c3 58000000 		.4byte	.LASF14
+ 2732 00c7 01       		.byte	0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 49
+
+
+ 2733 00c8 6C01     		.2byte	0x16c
+ 2734 00ca D4000000 		.4byte	0xd4
+ 2735 00ce 05       		.uleb128 0x5
+ 2736 00cf 03       		.byte	0x3
+ 2737 00d0 00000000 		.4byte	cy_meta_custnvl
+ 2738 00d4 08       		.uleb128 0x8
+ 2739 00d5 B2000000 		.4byte	0xb2
+ 2740 00d9 0A       		.uleb128 0xa
+ 2741 00da 41010000 		.4byte	.LASF15
+ 2742 00de 01       		.byte	0x1
+ 2743 00df 7A01     		.2byte	0x17a
+ 2744 00e1 EB000000 		.4byte	0xeb
+ 2745 00e5 05       		.uleb128 0x5
+ 2746 00e6 03       		.byte	0x3
+ 2747 00e7 00000000 		.4byte	cy_meta_wonvl
+ 2748 00eb 08       		.uleb128 0x8
+ 2749 00ec B2000000 		.4byte	0xb2
+ 2750 00f0 05       		.uleb128 0x5
+ 2751 00f1 63000000 		.4byte	0x63
+ 2752 00f5 00010000 		.4byte	0x100
+ 2753 00f9 09       		.uleb128 0x9
+ 2754 00fa 95000000 		.4byte	0x95
+ 2755 00fe FF       		.byte	0xff
+ 2756 00ff 00       		.byte	0
+ 2757 0100 0A       		.uleb128 0xa
+ 2758 0101 2C010000 		.4byte	.LASF16
+ 2759 0105 01       		.byte	0x1
+ 2760 0106 8801     		.2byte	0x188
+ 2761 0108 12010000 		.4byte	0x112
+ 2762 010c 05       		.uleb128 0x5
+ 2763 010d 03       		.byte	0x3
+ 2764 010e 00000000 		.4byte	cy_meta_flashprotect
+ 2765 0112 08       		.uleb128 0x8
+ 2766 0113 F0000000 		.4byte	0xf0
+ 2767 0117 05       		.uleb128 0x5
+ 2768 0118 63000000 		.4byte	0x63
+ 2769 011c 27010000 		.4byte	0x127
+ 2770 0120 09       		.uleb128 0x9
+ 2771 0121 95000000 		.4byte	0x95
+ 2772 0125 0B       		.byte	0xb
+ 2773 0126 00       		.byte	0
+ 2774 0127 0A       		.uleb128 0xa
+ 2775 0128 00000000 		.4byte	.LASF17
+ 2776 012c 01       		.byte	0x1
+ 2777 012d B501     		.2byte	0x1b5
+ 2778 012f 39010000 		.4byte	0x139
+ 2779 0133 05       		.uleb128 0x5
+ 2780 0134 03       		.byte	0x3
+ 2781 0135 00000000 		.4byte	cy_metadata
+ 2782 0139 08       		.uleb128 0x8
+ 2783 013a 17010000 		.4byte	0x117
+ 2784 013e 00       		.byte	0
+ 2785              		.section	.debug_abbrev,"",%progbits
+ 2786              	.Ldebug_abbrev0:
+ 2787 0000 01       		.uleb128 0x1
+ 2788 0001 11       		.uleb128 0x11
+ 2789 0002 01       		.byte	0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 50
+
+
+ 2790 0003 25       		.uleb128 0x25
+ 2791 0004 0E       		.uleb128 0xe
+ 2792 0005 13       		.uleb128 0x13
+ 2793 0006 0B       		.uleb128 0xb
+ 2794 0007 03       		.uleb128 0x3
+ 2795 0008 0E       		.uleb128 0xe
+ 2796 0009 1B       		.uleb128 0x1b
+ 2797 000a 0E       		.uleb128 0xe
+ 2798 000b 10       		.uleb128 0x10
+ 2799 000c 17       		.uleb128 0x17
+ 2800 000d 00       		.byte	0
+ 2801 000e 00       		.byte	0
+ 2802 000f 02       		.uleb128 0x2
+ 2803 0010 24       		.uleb128 0x24
+ 2804 0011 00       		.byte	0
+ 2805 0012 0B       		.uleb128 0xb
+ 2806 0013 0B       		.uleb128 0xb
+ 2807 0014 3E       		.uleb128 0x3e
+ 2808 0015 0B       		.uleb128 0xb
+ 2809 0016 03       		.uleb128 0x3
+ 2810 0017 0E       		.uleb128 0xe
+ 2811 0018 00       		.byte	0
+ 2812 0019 00       		.byte	0
+ 2813 001a 03       		.uleb128 0x3
+ 2814 001b 24       		.uleb128 0x24
+ 2815 001c 00       		.byte	0
+ 2816 001d 0B       		.uleb128 0xb
+ 2817 001e 0B       		.uleb128 0xb
+ 2818 001f 3E       		.uleb128 0x3e
+ 2819 0020 0B       		.uleb128 0xb
+ 2820 0021 03       		.uleb128 0x3
+ 2821 0022 08       		.uleb128 0x8
+ 2822 0023 00       		.byte	0
+ 2823 0024 00       		.byte	0
+ 2824 0025 04       		.uleb128 0x4
+ 2825 0026 16       		.uleb128 0x16
+ 2826 0027 00       		.byte	0
+ 2827 0028 03       		.uleb128 0x3
+ 2828 0029 0E       		.uleb128 0xe
+ 2829 002a 3A       		.uleb128 0x3a
+ 2830 002b 0B       		.uleb128 0xb
+ 2831 002c 3B       		.uleb128 0x3b
+ 2832 002d 05       		.uleb128 0x5
+ 2833 002e 49       		.uleb128 0x49
+ 2834 002f 13       		.uleb128 0x13
+ 2835 0030 00       		.byte	0
+ 2836 0031 00       		.byte	0
+ 2837 0032 05       		.uleb128 0x5
+ 2838 0033 01       		.uleb128 0x1
+ 2839 0034 01       		.byte	0x1
+ 2840 0035 49       		.uleb128 0x49
+ 2841 0036 13       		.uleb128 0x13
+ 2842 0037 01       		.uleb128 0x1
+ 2843 0038 13       		.uleb128 0x13
+ 2844 0039 00       		.byte	0
+ 2845 003a 00       		.byte	0
+ 2846 003b 06       		.uleb128 0x6
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 51
+
+
+ 2847 003c 21       		.uleb128 0x21
+ 2848 003d 00       		.byte	0
+ 2849 003e 49       		.uleb128 0x49
+ 2850 003f 13       		.uleb128 0x13
+ 2851 0040 2F       		.uleb128 0x2f
+ 2852 0041 05       		.uleb128 0x5
+ 2853 0042 00       		.byte	0
+ 2854 0043 00       		.byte	0
+ 2855 0044 07       		.uleb128 0x7
+ 2856 0045 34       		.uleb128 0x34
+ 2857 0046 00       		.byte	0
+ 2858 0047 03       		.uleb128 0x3
+ 2859 0048 0E       		.uleb128 0xe
+ 2860 0049 3A       		.uleb128 0x3a
+ 2861 004a 0B       		.uleb128 0xb
+ 2862 004b 3B       		.uleb128 0x3b
+ 2863 004c 0B       		.uleb128 0xb
+ 2864 004d 49       		.uleb128 0x49
+ 2865 004e 13       		.uleb128 0x13
+ 2866 004f 3F       		.uleb128 0x3f
+ 2867 0050 19       		.uleb128 0x19
+ 2868 0051 02       		.uleb128 0x2
+ 2869 0052 18       		.uleb128 0x18
+ 2870 0053 00       		.byte	0
+ 2871 0054 00       		.byte	0
+ 2872 0055 08       		.uleb128 0x8
+ 2873 0056 26       		.uleb128 0x26
+ 2874 0057 00       		.byte	0
+ 2875 0058 49       		.uleb128 0x49
+ 2876 0059 13       		.uleb128 0x13
+ 2877 005a 00       		.byte	0
+ 2878 005b 00       		.byte	0
+ 2879 005c 09       		.uleb128 0x9
+ 2880 005d 21       		.uleb128 0x21
+ 2881 005e 00       		.byte	0
+ 2882 005f 49       		.uleb128 0x49
+ 2883 0060 13       		.uleb128 0x13
+ 2884 0061 2F       		.uleb128 0x2f
+ 2885 0062 0B       		.uleb128 0xb
+ 2886 0063 00       		.byte	0
+ 2887 0064 00       		.byte	0
+ 2888 0065 0A       		.uleb128 0xa
+ 2889 0066 34       		.uleb128 0x34
+ 2890 0067 00       		.byte	0
+ 2891 0068 03       		.uleb128 0x3
+ 2892 0069 0E       		.uleb128 0xe
+ 2893 006a 3A       		.uleb128 0x3a
+ 2894 006b 0B       		.uleb128 0xb
+ 2895 006c 3B       		.uleb128 0x3b
+ 2896 006d 05       		.uleb128 0x5
+ 2897 006e 49       		.uleb128 0x49
+ 2898 006f 13       		.uleb128 0x13
+ 2899 0070 3F       		.uleb128 0x3f
+ 2900 0071 19       		.uleb128 0x19
+ 2901 0072 02       		.uleb128 0x2
+ 2902 0073 18       		.uleb128 0x18
+ 2903 0074 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 52
+
+
+ 2904 0075 00       		.byte	0
+ 2905 0076 00       		.byte	0
+ 2906              		.section	.debug_aranges,"",%progbits
+ 2907 0000 14000000 		.4byte	0x14
+ 2908 0004 0200     		.2byte	0x2
+ 2909 0006 00000000 		.4byte	.Ldebug_info0
+ 2910 000a 04       		.byte	0x4
+ 2911 000b 00       		.byte	0
+ 2912 000c 0000     		.2byte	0
+ 2913 000e 0000     		.2byte	0
+ 2914 0010 00000000 		.4byte	0
+ 2915 0014 00000000 		.4byte	0
+ 2916              		.section	.debug_line,"",%progbits
+ 2917              	.Ldebug_line0:
+ 2918 0000 4D000000 		.section	.debug_str,"MS",%progbits,1
+ 2918      02004700 
+ 2918      00000201 
+ 2918      FB0E0D00 
+ 2918      01010101 
+ 2919              	.LASF17:
+ 2920 0000 63795F6D 		.ascii	"cy_metadata\000"
+ 2920      65746164 
+ 2920      61746100 
+ 2921              	.LASF9:
+ 2922 000c 666C6F61 		.ascii	"float\000"
+ 2922      7400
+ 2923              	.LASF0:
+ 2924 0012 7369676E 		.ascii	"signed char\000"
+ 2924      65642063 
+ 2924      68617200 
+ 2925              	.LASF1:
+ 2926 001e 756E7369 		.ascii	"unsigned char\000"
+ 2926      676E6564 
+ 2926      20636861 
+ 2926      7200
+ 2927              	.LASF5:
+ 2928 002c 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2928      20756E73 
+ 2928      69676E65 
+ 2928      6420696E 
+ 2928      7400
+ 2929              	.LASF3:
+ 2930 003e 73686F72 		.ascii	"short unsigned int\000"
+ 2930      7420756E 
+ 2930      7369676E 
+ 2930      65642069 
+ 2930      6E7400
+ 2931              	.LASF10:
+ 2932 0051 646F7562 		.ascii	"double\000"
+ 2932      6C6500
+ 2933              	.LASF14:
+ 2934 0058 63795F6D 		.ascii	"cy_meta_custnvl\000"
+ 2934      6574615F 
+ 2934      63757374 
+ 2934      6E766C00 
+ 2935              	.LASF13:
+ 2936 0068 63795F6D 		.ascii	"cy_meta_configecc\000"
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 53
+
+
+ 2936      6574615F 
+ 2936      636F6E66 
+ 2936      69676563 
+ 2936      6300
+ 2937              	.LASF18:
+ 2938 007a 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 2938      4320342E 
+ 2938      392E3320 
+ 2938      32303135 
+ 2938      30333033 
+ 2939 00ad 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 2939      20726576 
+ 2939      6973696F 
+ 2939      6E203232 
+ 2939      31323230 
+ 2940 00e0 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2940      66756E63 
+ 2940      74696F6E 
+ 2940      2D736563 
+ 2940      74696F6E 
+ 2941              	.LASF8:
+ 2942 0108 756E7369 		.ascii	"unsigned int\000"
+ 2942      676E6564 
+ 2942      20696E74 
+ 2942      00
+ 2943              	.LASF7:
+ 2944 0115 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2944      206C6F6E 
+ 2944      6720756E 
+ 2944      7369676E 
+ 2944      65642069 
+ 2945              	.LASF16:
+ 2946 012c 63795F6D 		.ascii	"cy_meta_flashprotect\000"
+ 2946      6574615F 
+ 2946      666C6173 
+ 2946      6870726F 
+ 2946      74656374 
+ 2947              	.LASF15:
+ 2948 0141 63795F6D 		.ascii	"cy_meta_wonvl\000"
+ 2948      6574615F 
+ 2948      776F6E76 
+ 2948      6C00
+ 2949              	.LASF12:
+ 2950 014f 73697A65 		.ascii	"sizetype\000"
+ 2950      74797065 
+ 2950      00
+ 2951              	.LASF6:
+ 2952 0158 6C6F6E67 		.ascii	"long long int\000"
+ 2952      206C6F6E 
+ 2952      6720696E 
+ 2952      7400
+ 2953              	.LASF11:
+ 2954 0166 63686172 		.ascii	"char\000"
+ 2954      00
+ 2955              	.LASF2:
+ 2956 016b 73686F72 		.ascii	"short int\000"
+ 2956      7420696E 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccTPan9D.s 			page 54
+
+
+ 2956      7400
+ 2957              	.LASF21:
+ 2958 0175 75696E74 		.ascii	"uint8\000"
+ 2958      3800
+ 2959              	.LASF4:
+ 2960 017b 6C6F6E67 		.ascii	"long int\000"
+ 2960      20696E74 
+ 2960      00
+ 2961              	.LASF20:
+ 2962 0184 433A5C55 		.ascii	"C:\\Users\\Bart\\Dropbox\\PSoC\\PSoC_Grbl\\PSoC_Grb"
+ 2962      73657273 
+ 2962      5C426172 
+ 2962      745C4472 
+ 2962      6F70626F 
+ 2963 01b1 6C2E6379 		.ascii	"l.cydsn\000"
+ 2963      64736E00 
+ 2964              	.LASF19:
+ 2965 01b9 47656E65 		.ascii	"Generated_Source\\PSoC5\\cymetadata.c\000"
+ 2965      72617465 
+ 2965      645F536F 
+ 2965      75726365 
+ 2965      5C50536F 
+ 2966              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

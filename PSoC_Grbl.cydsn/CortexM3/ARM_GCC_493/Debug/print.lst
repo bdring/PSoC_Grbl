@@ -1,0 +1,3041 @@
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"print.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.printString,"ax",%progbits
+  19              		.align	2
+  20              		.global	printString
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	printString, %function
+  24              	printString:
+  25              	.LFB63:
+  26              		.file 1 "print.c"
+   1:print.c       **** /*
+   2:print.c       ****   print.c - Functions for formatting output strings
+   3:print.c       ****   Part of Grbl
+   4:print.c       **** 
+   5:print.c       ****   Copyright (c) 2011-2015 Sungeun K. Jeon
+   6:print.c       ****   Copyright (c) 2009-2011 Simen Svale Skogsrud
+   7:print.c       ****   Updated For PSOC BJD 2017
+   8:print.c       **** 
+   9:print.c       ****   Grbl is free software: you can redistribute it and/or modify
+  10:print.c       ****   it under the terms of the GNU General Public License as published by
+  11:print.c       ****   the Free Software Foundation, either version 3 of the License, or
+  12:print.c       ****   (at your option) any later version.
+  13:print.c       **** 
+  14:print.c       ****   Grbl is distributed in the hope that it will be useful,
+  15:print.c       ****   but WITHOUT ANY WARRANTY; without even the implied warranty of
+  16:print.c       ****   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  17:print.c       ****   GNU General Public License for more details.
+  18:print.c       **** 
+  19:print.c       ****   You should have received a copy of the GNU General Public License
+  20:print.c       ****   along with Grbl.  If not, see <http://www.gnu.org/licenses/>.
+  21:print.c       **** */
+  22:print.c       **** #include "grbl.h"
+  23:print.c       **** 
+  24:print.c       **** 
+  25:print.c       **** 
+  26:print.c       **** //PSOC Map these functions to PSoC
+  27:print.c       **** void printString(const char *s)
+  28:print.c       **** {
+  27              		.loc 1 28 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 2
+
+
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  29:print.c       ****   UART_PutString(s);
+  36              		.loc 1 29 0
+  37 0002 FFF7FEFF 		bl	UART_PutString
+  38              	.LVL1:
+  39 0006 08BD     		pop	{r3, pc}
+  40              		.cfi_endproc
+  41              	.LFE63:
+  42              		.size	printString, .-printString
+  43              		.section	.text.printPgmString,"ax",%progbits
+  44              		.align	2
+  45              		.global	printPgmString
+  46              		.thumb
+  47              		.thumb_func
+  48              		.type	printPgmString, %function
+  49              	printPgmString:
+  50              	.LFB64:
+  30:print.c       **** }
+  31:print.c       **** 
+  32:print.c       **** // Print a string stored in PGM-memory
+  33:print.c       **** void printPgmString(const char *s)
+  34:print.c       **** {
+  51              		.loc 1 34 0
+  52              		.cfi_startproc
+  53              		@ args = 0, pretend = 0, frame = 0
+  54              		@ frame_needed = 0, uses_anonymous_args = 0
+  55              	.LVL2:
+  56 0000 08B5     		push	{r3, lr}
+  57              		.cfi_def_cfa_offset 8
+  58              		.cfi_offset 3, -8
+  59              		.cfi_offset 14, -4
+  35:print.c       ****   UART_PutString(s);
+  60              		.loc 1 35 0
+  61 0002 FFF7FEFF 		bl	UART_PutString
+  62              	.LVL3:
+  63 0006 08BD     		pop	{r3, pc}
+  64              		.cfi_endproc
+  65              	.LFE64:
+  66              		.size	printPgmString, .-printPgmString
+  67              		.section	.text.print_uint8_base10,"ax",%progbits
+  68              		.align	2
+  69              		.global	print_uint8_base10
+  70              		.thumb
+  71              		.thumb_func
+  72              		.type	print_uint8_base10, %function
+  73              	print_uint8_base10:
+  74              	.LFB65:
+  36:print.c       **** }
+  37:print.c       **** 
+  38:print.c       **** // Prints an uint8 variable in base 10.
+  39:print.c       **** void print_uint8_base10(uint8_t n)
+  40:print.c       **** {
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 3
+
+
+  75              		.loc 1 40 0
+  76              		.cfi_startproc
+  77              		@ args = 0, pretend = 0, frame = 0
+  78              		@ frame_needed = 0, uses_anonymous_args = 0
+  79              	.LVL4:
+  80 0000 38B5     		push	{r3, r4, r5, lr}
+  81              		.cfi_def_cfa_offset 16
+  82              		.cfi_offset 3, -16
+  83              		.cfi_offset 4, -12
+  84              		.cfi_offset 5, -8
+  85              		.cfi_offset 14, -4
+  86              	.LVL5:
+  41:print.c       ****   uint8_t digit_a = 0;
+  42:print.c       ****   uint8_t digit_b = 0;
+  43:print.c       ****   if (n >= 100) { // 100-255
+  87              		.loc 1 43 0
+  88 0002 6328     		cmp	r0, #99
+  89 0004 0BD9     		bls	.L10
+  44:print.c       ****     digit_a = '0' + n % 10;
+  90              		.loc 1 44 0
+  91 0006 144B     		ldr	r3, .L13
+  92 0008 A3FB0023 		umull	r2, r3, r3, r0
+  93 000c DB08     		lsrs	r3, r3, #3
+  94 000e 03EB8302 		add	r2, r3, r3, lsl #2
+  95 0012 5200     		lsls	r2, r2, #1
+  96 0014 801A     		subs	r0, r0, r2
+  97              	.LVL6:
+  98 0016 3030     		adds	r0, r0, #48
+  99 0018 C4B2     		uxtb	r4, r0
+ 100              	.LVL7:
+  45:print.c       ****     n /= 10;
+ 101              		.loc 1 45 0
+ 102 001a D8B2     		uxtb	r0, r3
+ 103              	.LVL8:
+ 104 001c 00E0     		b	.L6
+ 105              	.LVL9:
+ 106              	.L10:
+  41:print.c       ****   uint8_t digit_a = 0;
+ 107              		.loc 1 41 0
+ 108 001e 0024     		movs	r4, #0
+ 109              	.LVL10:
+ 110              	.L6:
+  46:print.c       ****   }
+  47:print.c       ****   if (n >= 10) { // 10-99
+ 111              		.loc 1 47 0
+ 112 0020 0928     		cmp	r0, #9
+ 113 0022 0BD9     		bls	.L11
+  48:print.c       ****     digit_b = '0' + n % 10;
+ 114              		.loc 1 48 0
+ 115 0024 0C4B     		ldr	r3, .L13
+ 116 0026 A3FB0023 		umull	r2, r3, r3, r0
+ 117 002a DB08     		lsrs	r3, r3, #3
+ 118 002c 03EB8302 		add	r2, r3, r3, lsl #2
+ 119 0030 5200     		lsls	r2, r2, #1
+ 120 0032 801A     		subs	r0, r0, r2
+ 121              	.LVL11:
+ 122 0034 3030     		adds	r0, r0, #48
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 4
+
+
+ 123 0036 C5B2     		uxtb	r5, r0
+ 124              	.LVL12:
+  49:print.c       ****     n /= 10;
+ 125              		.loc 1 49 0
+ 126 0038 D8B2     		uxtb	r0, r3
+ 127              	.LVL13:
+ 128 003a 00E0     		b	.L7
+ 129              	.LVL14:
+ 130              	.L11:
+  42:print.c       ****   if (n >= 100) { // 100-255
+ 131              		.loc 1 42 0
+ 132 003c 0025     		movs	r5, #0
+ 133              	.LVL15:
+ 134              	.L7:
+  50:print.c       ****   }
+  51:print.c       ****   serial_write('0' + n);
+ 135              		.loc 1 51 0
+ 136 003e 3030     		adds	r0, r0, #48
+ 137              	.LVL16:
+ 138 0040 C0B2     		uxtb	r0, r0
+ 139 0042 FFF7FEFF 		bl	serial_write
+ 140              	.LVL17:
+  52:print.c       ****   if (digit_b) { serial_write(digit_b); }
+ 141              		.loc 1 52 0
+ 142 0046 15B1     		cbz	r5, .L8
+ 143              		.loc 1 52 0 is_stmt 0 discriminator 1
+ 144 0048 2846     		mov	r0, r5
+ 145 004a FFF7FEFF 		bl	serial_write
+ 146              	.LVL18:
+ 147              	.L8:
+  53:print.c       ****   if (digit_a) { serial_write(digit_a); }
+ 148              		.loc 1 53 0 is_stmt 1
+ 149 004e 14B1     		cbz	r4, .L5
+ 150              		.loc 1 53 0 is_stmt 0 discriminator 1
+ 151 0050 2046     		mov	r0, r4
+ 152 0052 FFF7FEFF 		bl	serial_write
+ 153              	.LVL19:
+ 154              	.L5:
+ 155 0056 38BD     		pop	{r3, r4, r5, pc}
+ 156              	.LVL20:
+ 157              	.L14:
+ 158              		.align	2
+ 159              	.L13:
+ 160 0058 CDCCCCCC 		.word	-858993459
+ 161              		.cfi_endproc
+ 162              	.LFE65:
+ 163              		.size	print_uint8_base10, .-print_uint8_base10
+ 164              		.section	.text.print_uint8_base2_ndigit,"ax",%progbits
+ 165              		.align	2
+ 166              		.global	print_uint8_base2_ndigit
+ 167              		.thumb
+ 168              		.thumb_func
+ 169              		.type	print_uint8_base2_ndigit, %function
+ 170              	print_uint8_base2_ndigit:
+ 171              	.LFB66:
+  54:print.c       **** }
+  55:print.c       **** 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 5
+
+
+  56:print.c       **** 
+  57:print.c       **** // Prints an uint8 variable in base 2 with desired number of desired digits.
+  58:print.c       **** void print_uint8_base2_ndigit(uint8_t n, uint8_t digits) {
+ 172              		.loc 1 58 0 is_stmt 1
+ 173              		.cfi_startproc
+ 174              		@ args = 0, pretend = 0, frame = 0
+ 175              		@ frame_needed = 1, uses_anonymous_args = 0
+ 176              	.LVL21:
+ 177 0000 B0B5     		push	{r4, r5, r7, lr}
+ 178              		.cfi_def_cfa_offset 16
+ 179              		.cfi_offset 4, -16
+ 180              		.cfi_offset 5, -12
+ 181              		.cfi_offset 7, -8
+ 182              		.cfi_offset 14, -4
+ 183 0002 00AF     		add	r7, sp, #0
+ 184              		.cfi_def_cfa_register 7
+ 185              	.LVL22:
+  59:print.c       ****   unsigned char buf[digits];
+ 186              		.loc 1 59 0
+ 187 0004 CB1D     		adds	r3, r1, #7
+ 188 0006 23F00703 		bic	r3, r3, #7
+ 189 000a ADEB030D 		sub	sp, sp, r3
+ 190 000e 6D46     		mov	r5, sp
+ 191              	.LVL23:
+  60:print.c       ****   uint8_t i = 0;
+ 192              		.loc 1 60 0
+ 193 0010 0023     		movs	r3, #0
+  61:print.c       **** 
+  62:print.c       ****   for (; i < digits; i++) {
+ 194              		.loc 1 62 0
+ 195 0012 05E0     		b	.L16
+ 196              	.LVL24:
+ 197              	.L17:
+  63:print.c       ****       buf[i] = n % 2 ;
+ 198              		.loc 1 63 0 discriminator 2
+ 199 0014 00F00102 		and	r2, r0, #1
+ 200 0018 EA54     		strb	r2, [r5, r3]
+  64:print.c       ****       n /= 2;
+ 201              		.loc 1 64 0 discriminator 2
+ 202 001a 4008     		lsrs	r0, r0, #1
+ 203              	.LVL25:
+  62:print.c       ****       buf[i] = n % 2 ;
+ 204              		.loc 1 62 0 discriminator 2
+ 205 001c 0133     		adds	r3, r3, #1
+ 206              	.LVL26:
+ 207 001e DBB2     		uxtb	r3, r3
+ 208              	.LVL27:
+ 209              	.L16:
+  62:print.c       ****       buf[i] = n % 2 ;
+ 210              		.loc 1 62 0 is_stmt 0 discriminator 1
+ 211 0020 8B42     		cmp	r3, r1
+ 212 0022 F7D3     		bcc	.L17
+ 213 0024 06E0     		b	.L18
+ 214              	.LVL28:
+ 215              	.L19:
+  65:print.c       ****   }
+  66:print.c       **** 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 6
+
+
+  67:print.c       ****   for (; i > 0; i--)
+  68:print.c       ****       serial_write('0' + buf[i - 1]);
+ 216              		.loc 1 68 0 is_stmt 1 discriminator 2
+ 217 0026 5C1E     		subs	r4, r3, #1
+ 218 0028 285D     		ldrb	r0, [r5, r4]	@ zero_extendqisi2
+ 219 002a 3030     		adds	r0, r0, #48
+ 220 002c C0B2     		uxtb	r0, r0
+ 221 002e FFF7FEFF 		bl	serial_write
+ 222              	.LVL29:
+  67:print.c       ****       serial_write('0' + buf[i - 1]);
+ 223              		.loc 1 67 0 discriminator 2
+ 224 0032 E3B2     		uxtb	r3, r4
+ 225              	.LVL30:
+ 226              	.L18:
+  67:print.c       ****       serial_write('0' + buf[i - 1]);
+ 227              		.loc 1 67 0 is_stmt 0 discriminator 1
+ 228 0034 002B     		cmp	r3, #0
+ 229 0036 F6D1     		bne	.L19
+  69:print.c       **** }
+ 230              		.loc 1 69 0 is_stmt 1
+ 231 0038 BD46     		mov	sp, r7
+ 232              		.cfi_def_cfa_register 13
+ 233              		@ sp needed
+ 234 003a B0BD     		pop	{r4, r5, r7, pc}
+ 235              		.cfi_endproc
+ 236              	.LFE66:
+ 237              		.size	print_uint8_base2_ndigit, .-print_uint8_base2_ndigit
+ 238              		.section	.text.print_uint32_base10,"ax",%progbits
+ 239              		.align	2
+ 240              		.global	print_uint32_base10
+ 241              		.thumb
+ 242              		.thumb_func
+ 243              		.type	print_uint32_base10, %function
+ 244              	print_uint32_base10:
+ 245              	.LFB67:
+  70:print.c       **** 
+  71:print.c       **** 
+  72:print.c       **** void print_uint32_base10(uint32_t n)
+  73:print.c       **** {
+ 246              		.loc 1 73 0
+ 247              		.cfi_startproc
+ 248              		@ args = 0, pretend = 0, frame = 16
+ 249              		@ frame_needed = 0, uses_anonymous_args = 0
+ 250              	.LVL31:
+ 251 0000 10B5     		push	{r4, lr}
+ 252              		.cfi_def_cfa_offset 8
+ 253              		.cfi_offset 4, -8
+ 254              		.cfi_offset 14, -4
+ 255 0002 84B0     		sub	sp, sp, #16
+ 256              		.cfi_def_cfa_offset 24
+  74:print.c       ****   if (n == 0) {
+ 257              		.loc 1 74 0
+ 258 0004 A0B9     		cbnz	r0, .L27
+  75:print.c       ****     serial_write('0');
+ 259              		.loc 1 75 0
+ 260 0006 3020     		movs	r0, #48
+ 261              	.LVL32:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 7
+
+
+ 262 0008 FFF7FEFF 		bl	serial_write
+ 263              	.LVL33:
+ 264 000c 21E0     		b	.L21
+ 265              	.LVL34:
+ 266              	.L24:
+  76:print.c       ****     return;
+  77:print.c       ****   }
+  78:print.c       **** 
+  79:print.c       ****   unsigned char buf[10];
+  80:print.c       ****   uint8_t i = 0;
+  81:print.c       **** 
+  82:print.c       ****   while (n > 0) {
+  83:print.c       ****     buf[i++] = n % 10;
+ 267              		.loc 1 83 0
+ 268 000e 501C     		adds	r0, r2, #1
+ 269              	.LVL35:
+ 270 0010 114B     		ldr	r3, .L29
+ 271 0012 A3FB0143 		umull	r4, r3, r3, r1
+ 272 0016 DB08     		lsrs	r3, r3, #3
+ 273 0018 1C46     		mov	r4, r3
+ 274 001a 03EB8303 		add	r3, r3, r3, lsl #2
+ 275 001e 5B00     		lsls	r3, r3, #1
+ 276 0020 CB1A     		subs	r3, r1, r3
+ 277 0022 04A9     		add	r1, sp, #16
+ 278              	.LVL36:
+ 279 0024 0A44     		add	r2, r2, r1
+ 280 0026 02F80C3C 		strb	r3, [r2, #-12]
+  84:print.c       ****     n /= 10;
+ 281              		.loc 1 84 0
+ 282 002a 2146     		mov	r1, r4
+ 283              	.LVL37:
+  83:print.c       ****     n /= 10;
+ 284              		.loc 1 83 0
+ 285 002c C2B2     		uxtb	r2, r0
+ 286 002e 01E0     		b	.L22
+ 287              	.LVL38:
+ 288              	.L27:
+ 289 0030 0146     		mov	r1, r0
+ 290 0032 0022     		movs	r2, #0
+ 291              	.LVL39:
+ 292              	.L22:
+  82:print.c       ****     buf[i++] = n % 10;
+ 293              		.loc 1 82 0
+ 294 0034 0029     		cmp	r1, #0
+ 295 0036 EAD1     		bne	.L24
+ 296 0038 09E0     		b	.L25
+ 297              	.LVL40:
+ 298              	.L26:
+  85:print.c       ****   }
+  86:print.c       **** 
+  87:print.c       ****   for (; i > 0; i--)
+  88:print.c       ****     serial_write('0' + buf[i-1]);
+ 299              		.loc 1 88 0 discriminator 2
+ 300 003a 541E     		subs	r4, r2, #1
+ 301 003c 04AB     		add	r3, sp, #16
+ 302 003e 2344     		add	r3, r3, r4
+ 303 0040 13F80C0C 		ldrb	r0, [r3, #-12]	@ zero_extendqisi2
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 8
+
+
+ 304 0044 3030     		adds	r0, r0, #48
+ 305 0046 C0B2     		uxtb	r0, r0
+ 306 0048 FFF7FEFF 		bl	serial_write
+ 307              	.LVL41:
+  87:print.c       ****     serial_write('0' + buf[i-1]);
+ 308              		.loc 1 87 0 discriminator 2
+ 309 004c E2B2     		uxtb	r2, r4
+ 310              	.LVL42:
+ 311              	.L25:
+  87:print.c       ****     serial_write('0' + buf[i-1]);
+ 312              		.loc 1 87 0 is_stmt 0 discriminator 1
+ 313 004e 002A     		cmp	r2, #0
+ 314 0050 F3D1     		bne	.L26
+ 315              	.LVL43:
+ 316              	.L21:
+  89:print.c       **** }
+ 317              		.loc 1 89 0 is_stmt 1
+ 318 0052 04B0     		add	sp, sp, #16
+ 319              		.cfi_def_cfa_offset 8
+ 320              		@ sp needed
+ 321 0054 10BD     		pop	{r4, pc}
+ 322              	.L30:
+ 323 0056 00BF     		.align	2
+ 324              	.L29:
+ 325 0058 CDCCCCCC 		.word	-858993459
+ 326              		.cfi_endproc
+ 327              	.LFE67:
+ 328              		.size	print_uint32_base10, .-print_uint32_base10
+ 329              		.section	.text.printInteger,"ax",%progbits
+ 330              		.align	2
+ 331              		.global	printInteger
+ 332              		.thumb
+ 333              		.thumb_func
+ 334              		.type	printInteger, %function
+ 335              	printInteger:
+ 336              	.LFB68:
+  90:print.c       **** 
+  91:print.c       **** 
+  92:print.c       **** void printInteger(long n)
+  93:print.c       **** {
+ 337              		.loc 1 93 0
+ 338              		.cfi_startproc
+ 339              		@ args = 0, pretend = 0, frame = 0
+ 340              		@ frame_needed = 0, uses_anonymous_args = 0
+ 341              	.LVL44:
+ 342 0000 10B5     		push	{r4, lr}
+ 343              		.cfi_def_cfa_offset 8
+ 344              		.cfi_offset 4, -8
+ 345              		.cfi_offset 14, -4
+  94:print.c       ****   if (n < 0) {
+ 346              		.loc 1 94 0
+ 347 0002 041E     		subs	r4, r0, #0
+ 348 0004 06DA     		bge	.L32
+  95:print.c       ****     serial_write('-');
+ 349              		.loc 1 95 0
+ 350 0006 2D20     		movs	r0, #45
+ 351              	.LVL45:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 9
+
+
+ 352 0008 FFF7FEFF 		bl	serial_write
+ 353              	.LVL46:
+  96:print.c       ****     print_uint32_base10(-n);
+ 354              		.loc 1 96 0
+ 355 000c 6042     		negs	r0, r4
+ 356 000e FFF7FEFF 		bl	print_uint32_base10
+ 357              	.LVL47:
+ 358 0012 10BD     		pop	{r4, pc}
+ 359              	.LVL48:
+ 360              	.L32:
+  97:print.c       ****   } else {
+  98:print.c       ****     print_uint32_base10(n);
+ 361              		.loc 1 98 0
+ 362 0014 2046     		mov	r0, r4
+ 363              	.LVL49:
+ 364 0016 FFF7FEFF 		bl	print_uint32_base10
+ 365              	.LVL50:
+ 366 001a 10BD     		pop	{r4, pc}
+ 367              		.cfi_endproc
+ 368              	.LFE68:
+ 369              		.size	printInteger, .-printInteger
+ 370              		.global	__aeabi_fcmplt
+ 371              		.global	__aeabi_fmul
+ 372              		.global	__aeabi_fadd
+ 373              		.global	__aeabi_f2iz
+ 374              		.section	.text.printFloat,"ax",%progbits
+ 375              		.align	2
+ 376              		.global	printFloat
+ 377              		.thumb
+ 378              		.thumb_func
+ 379              		.type	printFloat, %function
+ 380              	printFloat:
+ 381              	.LFB69:
+  99:print.c       ****   }
+ 100:print.c       **** }
+ 101:print.c       **** 
+ 102:print.c       **** 
+ 103:print.c       **** // Convert float to string by immediately converting to a long integer, which contains
+ 104:print.c       **** // more digits than a float. Number of decimal places, which are tracked by a counter,
+ 105:print.c       **** // may be set by the user. The integer is then efficiently converted to a string.
+ 106:print.c       **** // NOTE: AVR '%' and '/' integer operations are very efficient. Bitshifting speed-up
+ 107:print.c       **** // techniques are actually just slightly slower. Found this out the hard way.
+ 108:print.c       **** void printFloat(float n, uint8_t decimal_places)
+ 109:print.c       **** {
+ 382              		.loc 1 109 0
+ 383              		.cfi_startproc
+ 384              		@ args = 0, pretend = 0, frame = 16
+ 385              		@ frame_needed = 0, uses_anonymous_args = 0
+ 386              	.LVL51:
+ 387 0000 70B5     		push	{r4, r5, r6, lr}
+ 388              		.cfi_def_cfa_offset 16
+ 389              		.cfi_offset 4, -16
+ 390              		.cfi_offset 5, -12
+ 391              		.cfi_offset 6, -8
+ 392              		.cfi_offset 14, -4
+ 393 0002 84B0     		sub	sp, sp, #16
+ 394              		.cfi_def_cfa_offset 32
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 10
+
+
+ 395 0004 0646     		mov	r6, r0
+ 396 0006 0D46     		mov	r5, r1
+ 110:print.c       ****   if (n < 0) {
+ 397              		.loc 1 110 0
+ 398 0008 0021     		movs	r1, #0
+ 399              	.LVL52:
+ 400 000a FFF7FEFF 		bl	__aeabi_fcmplt
+ 401              	.LVL53:
+ 402 000e 20B1     		cbz	r0, .L36
+ 111:print.c       ****     serial_write('-');
+ 403              		.loc 1 111 0
+ 404 0010 2D20     		movs	r0, #45
+ 405 0012 FFF7FEFF 		bl	serial_write
+ 406              	.LVL54:
+ 112:print.c       ****     n = -n;
+ 407              		.loc 1 112 0
+ 408 0016 06F10046 		add	r6, r6, #-2147483648
+ 409              	.LVL55:
+ 410              	.L36:
+ 113:print.c       ****   }
+ 114:print.c       **** 
+ 115:print.c       ****   uint8_t decimals = decimal_places;
+ 411              		.loc 1 115 0
+ 412 001a 2C46     		mov	r4, r5
+ 116:print.c       ****   while (decimals >= 2) { // Quickly convert values expected to be E0 to E-4.
+ 413              		.loc 1 116 0
+ 414 001c 06E0     		b	.L38
+ 415              	.LVL56:
+ 416              	.L39:
+ 117:print.c       ****     n *= 100;
+ 417              		.loc 1 117 0
+ 418 001e 3046     		mov	r0, r6
+ 419 0020 2649     		ldr	r1, .L51
+ 420 0022 FFF7FEFF 		bl	__aeabi_fmul
+ 421              	.LVL57:
+ 422 0026 0646     		mov	r6, r0
+ 423              	.LVL58:
+ 118:print.c       ****     decimals -= 2;
+ 424              		.loc 1 118 0
+ 425 0028 023C     		subs	r4, r4, #2
+ 426              	.LVL59:
+ 427 002a E4B2     		uxtb	r4, r4
+ 428              	.LVL60:
+ 429              	.L38:
+ 116:print.c       ****   while (decimals >= 2) { // Quickly convert values expected to be E0 to E-4.
+ 430              		.loc 1 116 0
+ 431 002c 012C     		cmp	r4, #1
+ 432 002e F6D8     		bhi	.L39
+ 119:print.c       ****   }
+ 120:print.c       ****   if (decimals) { n *= 10; }
+ 433              		.loc 1 120 0
+ 434 0030 24B1     		cbz	r4, .L40
+ 435              		.loc 1 120 0 is_stmt 0 discriminator 1
+ 436 0032 3046     		mov	r0, r6
+ 437 0034 2249     		ldr	r1, .L51+4
+ 438 0036 FFF7FEFF 		bl	__aeabi_fmul
+ 439              	.LVL61:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 11
+
+
+ 440 003a 0646     		mov	r6, r0
+ 441              	.LVL62:
+ 442              	.L40:
+ 121:print.c       ****   n += 0.5; // Add rounding factor. Ensures carryover through entire value.
+ 443              		.loc 1 121 0 is_stmt 1
+ 444 003c 3046     		mov	r0, r6
+ 445 003e 4FF07C51 		mov	r1, #1056964608
+ 446 0042 FFF7FEFF 		bl	__aeabi_fadd
+ 447              	.LVL63:
+ 122:print.c       **** 
+ 123:print.c       ****   // Generate digits backwards and store in string.
+ 124:print.c       ****   unsigned char buf[13];
+ 125:print.c       ****   uint8_t i = 0;
+ 126:print.c       ****   uint32_t a = (long)n;
+ 448              		.loc 1 126 0
+ 449 0046 FFF7FEFF 		bl	__aeabi_f2iz
+ 450              	.LVL64:
+ 125:print.c       ****   uint32_t a = (long)n;
+ 451              		.loc 1 125 0
+ 452 004a 0024     		movs	r4, #0
+ 453              	.LVL65:
+ 127:print.c       ****   while(a > 0) {
+ 454              		.loc 1 127 0
+ 455 004c 10E0     		b	.L41
+ 456              	.LVL66:
+ 457              	.L42:
+ 128:print.c       ****     buf[i++] = (a % 10) + '0'; // Get digit
+ 458              		.loc 1 128 0
+ 459 004e 621C     		adds	r2, r4, #1
+ 460              	.LVL67:
+ 461 0050 1C4B     		ldr	r3, .L51+8
+ 462 0052 A3FB0013 		umull	r1, r3, r3, r0
+ 463 0056 DB08     		lsrs	r3, r3, #3
+ 464 0058 1946     		mov	r1, r3
+ 465 005a 03EB8303 		add	r3, r3, r3, lsl #2
+ 466 005e 5B00     		lsls	r3, r3, #1
+ 467 0060 C31A     		subs	r3, r0, r3
+ 468 0062 04A8     		add	r0, sp, #16
+ 469              	.LVL68:
+ 470 0064 0444     		add	r4, r4, r0
+ 471 0066 3033     		adds	r3, r3, #48
+ 472 0068 04F8103C 		strb	r3, [r4, #-16]
+ 129:print.c       ****     a /= 10;
+ 473              		.loc 1 129 0
+ 474 006c 0846     		mov	r0, r1
+ 475              	.LVL69:
+ 128:print.c       ****     buf[i++] = (a % 10) + '0'; // Get digit
+ 476              		.loc 1 128 0
+ 477 006e D4B2     		uxtb	r4, r2
+ 478              	.LVL70:
+ 479              	.L41:
+ 127:print.c       ****   while(a > 0) {
+ 480              		.loc 1 127 0
+ 481 0070 0028     		cmp	r0, #0
+ 482 0072 ECD1     		bne	.L42
+ 483 0074 06E0     		b	.L43
+ 484              	.L44:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 12
+
+
+ 130:print.c       ****   }
+ 131:print.c       ****   while (i < decimal_places) {
+ 132:print.c       ****      buf[i++] = '0'; // Fill in zeros to decimal point for (n < 1)
+ 485              		.loc 1 132 0
+ 486 0076 631C     		adds	r3, r4, #1
+ 487              	.LVL71:
+ 488 0078 04AA     		add	r2, sp, #16
+ 489 007a 1444     		add	r4, r4, r2
+ 490 007c 3022     		movs	r2, #48
+ 491 007e 04F8102C 		strb	r2, [r4, #-16]
+ 492 0082 DCB2     		uxtb	r4, r3
+ 493              	.LVL72:
+ 494              	.L43:
+ 131:print.c       ****      buf[i++] = '0'; // Fill in zeros to decimal point for (n < 1)
+ 495              		.loc 1 131 0
+ 496 0084 AC42     		cmp	r4, r5
+ 497 0086 F6D3     		bcc	.L44
+ 133:print.c       ****   }
+ 134:print.c       ****   if (i == decimal_places) { // Fill in leading zero, if needed.
+ 498              		.loc 1 134 0
+ 499 0088 14D1     		bne	.L46
+ 135:print.c       ****     buf[i++] = '0';
+ 500              		.loc 1 135 0
+ 501 008a 631C     		adds	r3, r4, #1
+ 502              	.LVL73:
+ 503 008c 04AA     		add	r2, sp, #16
+ 504 008e 1444     		add	r4, r4, r2
+ 505 0090 3022     		movs	r2, #48
+ 506 0092 04F8102C 		strb	r2, [r4, #-16]
+ 507 0096 DCB2     		uxtb	r4, r3
+ 508 0098 0CE0     		b	.L46
+ 509              	.LVL74:
+ 510              	.L48:
+ 136:print.c       ****   }
+ 137:print.c       **** 
+ 138:print.c       ****   // Print the generated string.
+ 139:print.c       ****   for (; i > 0; i--) {
+ 140:print.c       ****     if (i == decimal_places) { serial_write('.'); } // Insert decimal point in right place.
+ 511              		.loc 1 140 0
+ 512 009a AC42     		cmp	r4, r5
+ 513 009c 02D1     		bne	.L47
+ 514              		.loc 1 140 0 is_stmt 0 discriminator 1
+ 515 009e 2E20     		movs	r0, #46
+ 516 00a0 FFF7FEFF 		bl	serial_write
+ 517              	.LVL75:
+ 518              	.L47:
+ 141:print.c       ****     serial_write(buf[i-1]);
+ 519              		.loc 1 141 0 is_stmt 1
+ 520 00a4 013C     		subs	r4, r4, #1
+ 521              	.LVL76:
+ 522 00a6 04AB     		add	r3, sp, #16
+ 523 00a8 2344     		add	r3, r3, r4
+ 524 00aa 13F8100C 		ldrb	r0, [r3, #-16]	@ zero_extendqisi2
+ 525 00ae FFF7FEFF 		bl	serial_write
+ 526              	.LVL77:
+ 139:print.c       ****     if (i == decimal_places) { serial_write('.'); } // Insert decimal point in right place.
+ 527              		.loc 1 139 0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 13
+
+
+ 528 00b2 E4B2     		uxtb	r4, r4
+ 529              	.LVL78:
+ 530              	.L46:
+ 139:print.c       ****     if (i == decimal_places) { serial_write('.'); } // Insert decimal point in right place.
+ 531              		.loc 1 139 0 is_stmt 0 discriminator 1
+ 532 00b4 002C     		cmp	r4, #0
+ 533 00b6 F0D1     		bne	.L48
+ 142:print.c       ****   }
+ 143:print.c       **** }
+ 534              		.loc 1 143 0 is_stmt 1
+ 535 00b8 04B0     		add	sp, sp, #16
+ 536              		.cfi_def_cfa_offset 16
+ 537              		@ sp needed
+ 538 00ba 70BD     		pop	{r4, r5, r6, pc}
+ 539              	.LVL79:
+ 540              	.L52:
+ 541              		.align	2
+ 542              	.L51:
+ 543 00bc 0000C842 		.word	1120403456
+ 544 00c0 00002041 		.word	1092616192
+ 545 00c4 CDCCCCCC 		.word	-858993459
+ 546              		.cfi_endproc
+ 547              	.LFE69:
+ 548              		.size	printFloat, .-printFloat
+ 549              		.global	__aeabi_f2d
+ 550              		.global	__aeabi_dmul
+ 551              		.global	__aeabi_d2f
+ 552              		.section	.text.printFloat_CoordValue,"ax",%progbits
+ 553              		.align	2
+ 554              		.global	printFloat_CoordValue
+ 555              		.thumb
+ 556              		.thumb_func
+ 557              		.type	printFloat_CoordValue, %function
+ 558              	printFloat_CoordValue:
+ 559              	.LFB70:
+ 144:print.c       **** 
+ 145:print.c       **** 
+ 146:print.c       **** // Floating value printing handlers for special variables types used in Grbl and are defined
+ 147:print.c       **** // in the config.h.
+ 148:print.c       **** //  - CoordValue: Handles all position or coordinate values in inches or mm reporting.
+ 149:print.c       **** //  - RateValue: Handles feed rate and current velocity in inches or mm reporting.
+ 150:print.c       **** void printFloat_CoordValue(float n) {
+ 560              		.loc 1 150 0
+ 561              		.cfi_startproc
+ 562              		@ args = 0, pretend = 0, frame = 0
+ 563              		@ frame_needed = 0, uses_anonymous_args = 0
+ 564              	.LVL80:
+ 565 0000 08B5     		push	{r3, lr}
+ 566              		.cfi_def_cfa_offset 8
+ 567              		.cfi_offset 3, -8
+ 568              		.cfi_offset 14, -4
+ 151:print.c       ****   if (bit_istrue(settings.flags,BITFLAG_REPORT_INCHES)) {
+ 569              		.loc 1 151 0
+ 570 0002 0D4B     		ldr	r3, .L57+8
+ 571 0004 93F84830 		ldrb	r3, [r3, #72]	@ zero_extendqisi2
+ 572 0008 13F0010F 		tst	r3, #1
+ 573 000c 0CD0     		beq	.L54
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 14
+
+
+ 152:print.c       ****     printFloat(n*INCH_PER_MM,N_DECIMAL_COORDVALUE_INCH);
+ 574              		.loc 1 152 0
+ 575 000e FFF7FEFF 		bl	__aeabi_f2d
+ 576              	.LVL81:
+ 577 0012 07A3     		adr	r3, .L57
+ 578 0014 D3E90023 		ldrd	r2, [r3]
+ 579 0018 FFF7FEFF 		bl	__aeabi_dmul
+ 580              	.LVL82:
+ 581 001c FFF7FEFF 		bl	__aeabi_d2f
+ 582              	.LVL83:
+ 583 0020 0421     		movs	r1, #4
+ 584 0022 FFF7FEFF 		bl	printFloat
+ 585              	.LVL84:
+ 586 0026 08BD     		pop	{r3, pc}
+ 587              	.LVL85:
+ 588              	.L54:
+ 153:print.c       ****   } else {
+ 154:print.c       ****     printFloat(n,N_DECIMAL_COORDVALUE_MM);
+ 589              		.loc 1 154 0
+ 590 0028 0321     		movs	r1, #3
+ 591 002a FFF7FEFF 		bl	printFloat
+ 592              	.LVL86:
+ 593 002e 08BD     		pop	{r3, pc}
+ 594              	.L58:
+ 595              		.align	3
+ 596              	.L57:
+ 597 0030 6568E157 		.word	1474390117
+ 598 0034 5128A43F 		.word	1067722833
+ 599 0038 00000000 		.word	settings
+ 600              		.cfi_endproc
+ 601              	.LFE70:
+ 602              		.size	printFloat_CoordValue, .-printFloat_CoordValue
+ 603 003c AFF30080 		.section	.text.printFloat_RateValue,"ax",%progbits
+ 604              		.align	2
+ 605              		.global	printFloat_RateValue
+ 606              		.thumb
+ 607              		.thumb_func
+ 608              		.type	printFloat_RateValue, %function
+ 609              	printFloat_RateValue:
+ 610              	.LFB71:
+ 155:print.c       ****   }
+ 156:print.c       **** }
+ 157:print.c       **** 
+ 158:print.c       **** void printFloat_RateValue(float n) {
+ 611              		.loc 1 158 0
+ 612              		.cfi_startproc
+ 613              		@ args = 0, pretend = 0, frame = 0
+ 614              		@ frame_needed = 0, uses_anonymous_args = 0
+ 615              	.LVL87:
+ 616 0000 08B5     		push	{r3, lr}
+ 617              		.cfi_def_cfa_offset 8
+ 618              		.cfi_offset 3, -8
+ 619              		.cfi_offset 14, -4
+ 159:print.c       ****   if (bit_istrue(settings.flags,BITFLAG_REPORT_INCHES)) {
+ 620              		.loc 1 159 0
+ 621 0002 0D4B     		ldr	r3, .L63+8
+ 622 0004 93F84830 		ldrb	r3, [r3, #72]	@ zero_extendqisi2
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 15
+
+
+ 623 0008 13F0010F 		tst	r3, #1
+ 624 000c 0CD0     		beq	.L60
+ 160:print.c       ****     printFloat(n*INCH_PER_MM,N_DECIMAL_RATEVALUE_INCH);
+ 625              		.loc 1 160 0
+ 626 000e FFF7FEFF 		bl	__aeabi_f2d
+ 627              	.LVL88:
+ 628 0012 07A3     		adr	r3, .L63
+ 629 0014 D3E90023 		ldrd	r2, [r3]
+ 630 0018 FFF7FEFF 		bl	__aeabi_dmul
+ 631              	.LVL89:
+ 632 001c FFF7FEFF 		bl	__aeabi_d2f
+ 633              	.LVL90:
+ 634 0020 0121     		movs	r1, #1
+ 635 0022 FFF7FEFF 		bl	printFloat
+ 636              	.LVL91:
+ 637 0026 08BD     		pop	{r3, pc}
+ 638              	.LVL92:
+ 639              	.L60:
+ 161:print.c       ****   } else {
+ 162:print.c       ****     printFloat(n,N_DECIMAL_RATEVALUE_MM);
+ 640              		.loc 1 162 0
+ 641 0028 0021     		movs	r1, #0
+ 642 002a FFF7FEFF 		bl	printFloat
+ 643              	.LVL93:
+ 644 002e 08BD     		pop	{r3, pc}
+ 645              	.L64:
+ 646              		.align	3
+ 647              	.L63:
+ 648 0030 6568E157 		.word	1474390117
+ 649 0034 5128A43F 		.word	1067722833
+ 650 0038 00000000 		.word	settings
+ 651              		.cfi_endproc
+ 652              	.LFE71:
+ 653              		.size	printFloat_RateValue, .-printFloat_RateValue
+ 654              		.comm	exec_lcd_status,1,1
+ 655              		.comm	sys_rt_exec_debug,1,1
+ 656              		.comm	sys_rt_exec_accessory_override,1,1
+ 657              		.comm	sys_rt_exec_motion_override,1,1
+ 658              		.comm	sys_rt_exec_alarm,1,1
+ 659              		.comm	sys_rt_exec_state,1,1
+ 660              		.comm	sys_probe_state,1,1
+ 661              		.comm	sys_probe_position,12,4
+ 662              		.comm	sys_position,12,4
+ 663 003c AFF30080 		.text
+ 664              	.Letext0:
+ 665              		.file 2 "d:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 666              		.file 3 "d:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 667              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 668              		.file 5 "settings.h"
+ 669              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
+ 670              		.file 7 "system.h"
+ 671              		.file 8 "lcd_report.h"
+ 672              		.file 9 "Generated_Source\\PSoC5/UART.h"
+ 673              		.file 10 "serial.h"
+ 674              		.section	.debug_info,"",%progbits
+ 675              	.Ldebug_info0:
+ 676 0000 5F060000 		.4byte	0x65f
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 16
+
+
+ 677 0004 0400     		.2byte	0x4
+ 678 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 679 000a 04       		.byte	0x4
+ 680 000b 01       		.uleb128 0x1
+ 681 000c 55030000 		.4byte	.LASF68
+ 682 0010 01       		.byte	0x1
+ 683 0011 3E000000 		.4byte	.LASF69
+ 684 0015 5F000000 		.4byte	.LASF70
+ 685 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 686 001d 00000000 		.4byte	0
+ 687 0021 00000000 		.4byte	.Ldebug_line0
+ 688 0025 02       		.uleb128 0x2
+ 689 0026 04       		.byte	0x4
+ 690 0027 04       		.byte	0x4
+ 691 0028 05010000 		.4byte	.LASF0
+ 692 002c 02       		.uleb128 0x2
+ 693 002d 01       		.byte	0x1
+ 694 002e 06       		.byte	0x6
+ 695 002f C1010000 		.4byte	.LASF1
+ 696 0033 03       		.uleb128 0x3
+ 697 0034 5F010000 		.4byte	.LASF4
+ 698 0038 02       		.byte	0x2
+ 699 0039 1D       		.byte	0x1d
+ 700 003a 3E000000 		.4byte	0x3e
+ 701 003e 02       		.uleb128 0x2
+ 702 003f 01       		.byte	0x1
+ 703 0040 08       		.byte	0x8
+ 704 0041 B3010000 		.4byte	.LASF2
+ 705 0045 02       		.uleb128 0x2
+ 706 0046 02       		.byte	0x2
+ 707 0047 05       		.byte	0x5
+ 708 0048 46000000 		.4byte	.LASF3
+ 709 004c 03       		.uleb128 0x3
+ 710 004d 9F000000 		.4byte	.LASF5
+ 711 0051 02       		.byte	0x2
+ 712 0052 2B       		.byte	0x2b
+ 713 0053 57000000 		.4byte	0x57
+ 714 0057 02       		.uleb128 0x2
+ 715 0058 02       		.byte	0x2
+ 716 0059 07       		.byte	0x7
+ 717 005a 5D020000 		.4byte	.LASF6
+ 718 005e 03       		.uleb128 0x3
+ 719 005f 40030000 		.4byte	.LASF7
+ 720 0063 02       		.byte	0x2
+ 721 0064 3F       		.byte	0x3f
+ 722 0065 69000000 		.4byte	0x69
+ 723 0069 02       		.uleb128 0x2
+ 724 006a 04       		.byte	0x4
+ 725 006b 05       		.byte	0x5
+ 726 006c 75020000 		.4byte	.LASF8
+ 727 0070 03       		.uleb128 0x3
+ 728 0071 94000000 		.4byte	.LASF9
+ 729 0075 02       		.byte	0x2
+ 730 0076 41       		.byte	0x41
+ 731 0077 7B000000 		.4byte	0x7b
+ 732 007b 02       		.uleb128 0x2
+ 733 007c 04       		.byte	0x4
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 17
+
+
+ 734 007d 07       		.byte	0x7
+ 735 007e 09020000 		.4byte	.LASF10
+ 736 0082 02       		.uleb128 0x2
+ 737 0083 08       		.byte	0x8
+ 738 0084 05       		.byte	0x5
+ 739 0085 14010000 		.4byte	.LASF11
+ 740 0089 02       		.uleb128 0x2
+ 741 008a 08       		.byte	0x8
+ 742 008b 07       		.byte	0x7
+ 743 008c D3010000 		.4byte	.LASF12
+ 744 0090 04       		.uleb128 0x4
+ 745 0091 04       		.byte	0x4
+ 746 0092 05       		.byte	0x5
+ 747 0093 696E7400 		.ascii	"int\000"
+ 748 0097 02       		.uleb128 0x2
+ 749 0098 04       		.byte	0x4
+ 750 0099 07       		.byte	0x7
+ 751 009a F3010000 		.4byte	.LASF13
+ 752 009e 03       		.uleb128 0x3
+ 753 009f D8000000 		.4byte	.LASF14
+ 754 00a3 03       		.byte	0x3
+ 755 00a4 15       		.byte	0x15
+ 756 00a5 33000000 		.4byte	0x33
+ 757 00a9 03       		.uleb128 0x3
+ 758 00aa 00020000 		.4byte	.LASF15
+ 759 00ae 03       		.byte	0x3
+ 760 00af 21       		.byte	0x21
+ 761 00b0 4C000000 		.4byte	0x4c
+ 762 00b4 03       		.uleb128 0x3
+ 763 00b5 8E020000 		.4byte	.LASF16
+ 764 00b9 03       		.byte	0x3
+ 765 00ba 2C       		.byte	0x2c
+ 766 00bb 5E000000 		.4byte	0x5e
+ 767 00bf 03       		.uleb128 0x3
+ 768 00c0 EA010000 		.4byte	.LASF17
+ 769 00c4 03       		.byte	0x3
+ 770 00c5 2D       		.byte	0x2d
+ 771 00c6 70000000 		.4byte	0x70
+ 772 00ca 02       		.uleb128 0x2
+ 773 00cb 08       		.byte	0x8
+ 774 00cc 04       		.byte	0x4
+ 775 00cd E6020000 		.4byte	.LASF18
+ 776 00d1 05       		.uleb128 0x5
+ 777 00d2 59000000 		.4byte	.LASF19
+ 778 00d6 04       		.byte	0x4
+ 779 00d7 A301     		.2byte	0x1a3
+ 780 00d9 DD000000 		.4byte	0xdd
+ 781 00dd 02       		.uleb128 0x2
+ 782 00de 01       		.byte	0x1
+ 783 00df 08       		.byte	0x8
+ 784 00e0 70020000 		.4byte	.LASF20
+ 785 00e4 02       		.uleb128 0x2
+ 786 00e5 04       		.byte	0x4
+ 787 00e6 07       		.byte	0x7
+ 788 00e7 50000000 		.4byte	.LASF21
+ 789 00eb 06       		.uleb128 0x6
+ 790 00ec 04       		.byte	0x4
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 18
+
+
+ 791 00ed F1000000 		.4byte	0xf1
+ 792 00f1 07       		.uleb128 0x7
+ 793 00f2 DD000000 		.4byte	0xdd
+ 794 00f6 08       		.uleb128 0x8
+ 795 00f7 9E000000 		.4byte	0x9e
+ 796 00fb 02       		.uleb128 0x2
+ 797 00fc 08       		.byte	0x8
+ 798 00fd 04       		.byte	0x4
+ 799 00fe 97010000 		.4byte	.LASF22
+ 800 0102 09       		.uleb128 0x9
+ 801 0103 5C       		.byte	0x5c
+ 802 0104 05       		.byte	0x5
+ 803 0105 4F       		.byte	0x4f
+ 804 0106 EF010000 		.4byte	0x1ef
+ 805 010a 0A       		.uleb128 0xa
+ 806 010b 52010000 		.4byte	.LASF23
+ 807 010f 05       		.byte	0x5
+ 808 0110 51       		.byte	0x51
+ 809 0111 EF010000 		.4byte	0x1ef
+ 810 0115 00       		.byte	0
+ 811 0116 0A       		.uleb128 0xa
+ 812 0117 3D040000 		.4byte	.LASF24
+ 813 011b 05       		.byte	0x5
+ 814 011c 52       		.byte	0x52
+ 815 011d EF010000 		.4byte	0x1ef
+ 816 0121 0C       		.byte	0xc
+ 817 0122 0A       		.uleb128 0xa
+ 818 0123 31000000 		.4byte	.LASF25
+ 819 0127 05       		.byte	0x5
+ 820 0128 53       		.byte	0x53
+ 821 0129 EF010000 		.4byte	0x1ef
+ 822 012d 18       		.byte	0x18
+ 823 012e 0A       		.uleb128 0xa
+ 824 012f E3030000 		.4byte	.LASF26
+ 825 0133 05       		.byte	0x5
+ 826 0134 54       		.byte	0x54
+ 827 0135 EF010000 		.4byte	0x1ef
+ 828 0139 24       		.byte	0x24
+ 829 013a 0A       		.uleb128 0xa
+ 830 013b B4020000 		.4byte	.LASF27
+ 831 013f 05       		.byte	0x5
+ 832 0140 57       		.byte	0x57
+ 833 0141 9E000000 		.4byte	0x9e
+ 834 0145 30       		.byte	0x30
+ 835 0146 0A       		.uleb128 0xa
+ 836 0147 2C040000 		.4byte	.LASF28
+ 837 014b 05       		.byte	0x5
+ 838 014c 58       		.byte	0x58
+ 839 014d 9E000000 		.4byte	0x9e
+ 840 0151 31       		.byte	0x31
+ 841 0152 0A       		.uleb128 0xa
+ 842 0153 7E020000 		.4byte	.LASF29
+ 843 0157 05       		.byte	0x5
+ 844 0158 59       		.byte	0x59
+ 845 0159 9E000000 		.4byte	0x9e
+ 846 015d 32       		.byte	0x32
+ 847 015e 0A       		.uleb128 0xa
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 19
+
+
+ 848 015f AA000000 		.4byte	.LASF30
+ 849 0163 05       		.byte	0x5
+ 850 0164 5A       		.byte	0x5a
+ 851 0165 9E000000 		.4byte	0x9e
+ 852 0169 33       		.byte	0x33
+ 853 016a 0A       		.uleb128 0xa
+ 854 016b 4A020000 		.4byte	.LASF31
+ 855 016f 05       		.byte	0x5
+ 856 0170 5B       		.byte	0x5b
+ 857 0171 9E000000 		.4byte	0x9e
+ 858 0175 34       		.byte	0x34
+ 859 0176 0A       		.uleb128 0xa
+ 860 0177 22010000 		.4byte	.LASF32
+ 861 017b 05       		.byte	0x5
+ 862 017c 5C       		.byte	0x5c
+ 863 017d 25000000 		.4byte	0x25
+ 864 0181 38       		.byte	0x38
+ 865 0182 0A       		.uleb128 0xa
+ 866 0183 7C010000 		.4byte	.LASF33
+ 867 0187 05       		.byte	0x5
+ 868 0188 5D       		.byte	0x5d
+ 869 0189 25000000 		.4byte	0x25
+ 870 018d 3C       		.byte	0x3c
+ 871 018e 0A       		.uleb128 0xa
+ 872 018f 96020000 		.4byte	.LASF34
+ 873 0193 05       		.byte	0x5
+ 874 0194 5F       		.byte	0x5f
+ 875 0195 25000000 		.4byte	0x25
+ 876 0199 40       		.byte	0x40
+ 877 019a 0A       		.uleb128 0xa
+ 878 019b 1F030000 		.4byte	.LASF35
+ 879 019f 05       		.byte	0x5
+ 880 01a0 60       		.byte	0x60
+ 881 01a1 25000000 		.4byte	0x25
+ 882 01a5 44       		.byte	0x44
+ 883 01a6 0A       		.uleb128 0xa
+ 884 01a7 CD010000 		.4byte	.LASF36
+ 885 01ab 05       		.byte	0x5
+ 886 01ac 62       		.byte	0x62
+ 887 01ad 9E000000 		.4byte	0x9e
+ 888 01b1 48       		.byte	0x48
+ 889 01b2 0A       		.uleb128 0xa
+ 890 01b3 A3010000 		.4byte	.LASF37
+ 891 01b7 05       		.byte	0x5
+ 892 01b8 64       		.byte	0x64
+ 893 01b9 9E000000 		.4byte	0x9e
+ 894 01bd 49       		.byte	0x49
+ 895 01be 0A       		.uleb128 0xa
+ 896 01bf FD030000 		.4byte	.LASF38
+ 897 01c3 05       		.byte	0x5
+ 898 01c4 65       		.byte	0x65
+ 899 01c5 25000000 		.4byte	0x25
+ 900 01c9 4C       		.byte	0x4c
+ 901 01ca 0A       		.uleb128 0xa
+ 902 01cb ED020000 		.4byte	.LASF39
+ 903 01cf 05       		.byte	0x5
+ 904 01d0 66       		.byte	0x66
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 20
+
+
+ 905 01d1 25000000 		.4byte	0x25
+ 906 01d5 50       		.byte	0x50
+ 907 01d6 0A       		.uleb128 0xa
+ 908 01d7 9E020000 		.4byte	.LASF40
+ 909 01db 05       		.byte	0x5
+ 910 01dc 67       		.byte	0x67
+ 911 01dd A9000000 		.4byte	0xa9
+ 912 01e1 54       		.byte	0x54
+ 913 01e2 0A       		.uleb128 0xa
+ 914 01e3 E0000000 		.4byte	.LASF41
+ 915 01e7 05       		.byte	0x5
+ 916 01e8 68       		.byte	0x68
+ 917 01e9 25000000 		.4byte	0x25
+ 918 01ed 58       		.byte	0x58
+ 919 01ee 00       		.byte	0
+ 920 01ef 0B       		.uleb128 0xb
+ 921 01f0 25000000 		.4byte	0x25
+ 922 01f4 FF010000 		.4byte	0x1ff
+ 923 01f8 0C       		.uleb128 0xc
+ 924 01f9 E4000000 		.4byte	0xe4
+ 925 01fd 02       		.byte	0x2
+ 926 01fe 00       		.byte	0
+ 927 01ff 03       		.uleb128 0x3
+ 928 0200 21040000 		.4byte	.LASF42
+ 929 0204 05       		.byte	0x5
+ 930 0205 69       		.byte	0x69
+ 931 0206 02010000 		.4byte	0x102
+ 932 020a 0D       		.uleb128 0xd
+ 933 020b 69010000 		.4byte	.LASF43
+ 934 020f 01       		.byte	0x1
+ 935 0210 1B       		.byte	0x1b
+ 936 0211 00000000 		.4byte	.LFB63
+ 937 0215 08000000 		.4byte	.LFE63-.LFB63
+ 938 0219 01       		.uleb128 0x1
+ 939 021a 9C       		.byte	0x9c
+ 940 021b 3E020000 		.4byte	0x23e
+ 941 021f 0E       		.uleb128 0xe
+ 942 0220 7300     		.ascii	"s\000"
+ 943 0222 01       		.byte	0x1
+ 944 0223 1B       		.byte	0x1b
+ 945 0224 EB000000 		.4byte	0xeb
+ 946 0228 00000000 		.4byte	.LLST0
+ 947 022c 0F       		.uleb128 0xf
+ 948 022d 06000000 		.4byte	.LVL1
+ 949 0231 39060000 		.4byte	0x639
+ 950 0235 10       		.uleb128 0x10
+ 951 0236 01       		.uleb128 0x1
+ 952 0237 50       		.byte	0x50
+ 953 0238 03       		.uleb128 0x3
+ 954 0239 F3       		.byte	0xf3
+ 955 023a 01       		.uleb128 0x1
+ 956 023b 50       		.byte	0x50
+ 957 023c 00       		.byte	0
+ 958 023d 00       		.byte	0
+ 959 023e 0D       		.uleb128 0xd
+ 960 023f D7020000 		.4byte	.LASF44
+ 961 0243 01       		.byte	0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 21
+
+
+ 962 0244 21       		.byte	0x21
+ 963 0245 00000000 		.4byte	.LFB64
+ 964 0249 08000000 		.4byte	.LFE64-.LFB64
+ 965 024d 01       		.uleb128 0x1
+ 966 024e 9C       		.byte	0x9c
+ 967 024f 72020000 		.4byte	0x272
+ 968 0253 0E       		.uleb128 0xe
+ 969 0254 7300     		.ascii	"s\000"
+ 970 0256 01       		.byte	0x1
+ 971 0257 21       		.byte	0x21
+ 972 0258 EB000000 		.4byte	0xeb
+ 973 025c 21000000 		.4byte	.LLST1
+ 974 0260 0F       		.uleb128 0xf
+ 975 0261 06000000 		.4byte	.LVL3
+ 976 0265 39060000 		.4byte	0x639
+ 977 0269 10       		.uleb128 0x10
+ 978 026a 01       		.uleb128 0x1
+ 979 026b 50       		.byte	0x50
+ 980 026c 03       		.uleb128 0x3
+ 981 026d F3       		.byte	0xf3
+ 982 026e 01       		.uleb128 0x1
+ 983 026f 50       		.byte	0x50
+ 984 0270 00       		.byte	0
+ 985 0271 00       		.byte	0
+ 986 0272 0D       		.uleb128 0xd
+ 987 0273 0E040000 		.4byte	.LASF45
+ 988 0277 01       		.byte	0x1
+ 989 0278 27       		.byte	0x27
+ 990 0279 00000000 		.4byte	.LFB65
+ 991 027d 5C000000 		.4byte	.LFE65-.LFB65
+ 992 0281 01       		.uleb128 0x1
+ 993 0282 9C       		.byte	0x9c
+ 994 0283 E0020000 		.4byte	0x2e0
+ 995 0287 0E       		.uleb128 0xe
+ 996 0288 6E00     		.ascii	"n\000"
+ 997 028a 01       		.byte	0x1
+ 998 028b 27       		.byte	0x27
+ 999 028c 9E000000 		.4byte	0x9e
+ 1000 0290 42000000 		.4byte	.LLST2
+ 1001 0294 11       		.uleb128 0x11
+ 1002 0295 46040000 		.4byte	.LASF46
+ 1003 0299 01       		.byte	0x1
+ 1004 029a 29       		.byte	0x29
+ 1005 029b 9E000000 		.4byte	0x9e
+ 1006 029f 79000000 		.4byte	.LLST3
+ 1007 02a3 11       		.uleb128 0x11
+ 1008 02a4 C1000000 		.4byte	.LASF47
+ 1009 02a8 01       		.byte	0x1
+ 1010 02a9 2A       		.byte	0x2a
+ 1011 02aa 9E000000 		.4byte	0x9e
+ 1012 02ae AF000000 		.4byte	.LLST4
+ 1013 02b2 12       		.uleb128 0x12
+ 1014 02b3 46000000 		.4byte	.LVL17
+ 1015 02b7 55060000 		.4byte	0x655
+ 1016 02bb 13       		.uleb128 0x13
+ 1017 02bc 4E000000 		.4byte	.LVL18
+ 1018 02c0 55060000 		.4byte	0x655
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 22
+
+
+ 1019 02c4 CF020000 		.4byte	0x2cf
+ 1020 02c8 10       		.uleb128 0x10
+ 1021 02c9 01       		.uleb128 0x1
+ 1022 02ca 50       		.byte	0x50
+ 1023 02cb 02       		.uleb128 0x2
+ 1024 02cc 75       		.byte	0x75
+ 1025 02cd 00       		.sleb128 0
+ 1026 02ce 00       		.byte	0
+ 1027 02cf 0F       		.uleb128 0xf
+ 1028 02d0 56000000 		.4byte	.LVL19
+ 1029 02d4 55060000 		.4byte	0x655
+ 1030 02d8 10       		.uleb128 0x10
+ 1031 02d9 01       		.uleb128 0x1
+ 1032 02da 50       		.byte	0x50
+ 1033 02db 02       		.uleb128 0x2
+ 1034 02dc 74       		.byte	0x74
+ 1035 02dd 00       		.sleb128 0
+ 1036 02de 00       		.byte	0
+ 1037 02df 00       		.byte	0
+ 1038 02e0 0D       		.uleb128 0xd
+ 1039 02e1 27030000 		.4byte	.LASF48
+ 1040 02e5 01       		.byte	0x1
+ 1041 02e6 3A       		.byte	0x3a
+ 1042 02e7 00000000 		.4byte	.LFB66
+ 1043 02eb 3C000000 		.4byte	.LFE66-.LFB66
+ 1044 02ef 01       		.uleb128 0x1
+ 1045 02f0 9C       		.byte	0x9c
+ 1046 02f1 3F030000 		.4byte	0x33f
+ 1047 02f5 0E       		.uleb128 0xe
+ 1048 02f6 6E00     		.ascii	"n\000"
+ 1049 02f8 01       		.byte	0x1
+ 1050 02f9 3A       		.byte	0x3a
+ 1051 02fa 9E000000 		.4byte	0x9e
+ 1052 02fe E5000000 		.4byte	.LLST5
+ 1053 0302 14       		.uleb128 0x14
+ 1054 0303 75010000 		.4byte	.LASF49
+ 1055 0307 01       		.byte	0x1
+ 1056 0308 3A       		.byte	0x3a
+ 1057 0309 9E000000 		.4byte	0x9e
+ 1058 030d 03010000 		.4byte	.LLST6
+ 1059 0311 15       		.uleb128 0x15
+ 1060 0312 52030000 		.4byte	0x352
+ 1061 0316 24010000 		.4byte	.LLST7
+ 1062 031a 16       		.uleb128 0x16
+ 1063 031b 62756600 		.ascii	"buf\000"
+ 1064 031f 01       		.byte	0x1
+ 1065 0320 3B       		.byte	0x3b
+ 1066 0321 3F030000 		.4byte	0x33f
+ 1067 0325 02       		.uleb128 0x2
+ 1068 0326 75       		.byte	0x75
+ 1069 0327 00       		.sleb128 0
+ 1070 0328 17       		.uleb128 0x17
+ 1071 0329 6900     		.ascii	"i\000"
+ 1072 032b 01       		.byte	0x1
+ 1073 032c 3C       		.byte	0x3c
+ 1074 032d 9E000000 		.4byte	0x9e
+ 1075 0331 51010000 		.4byte	.LLST8
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 23
+
+
+ 1076 0335 12       		.uleb128 0x12
+ 1077 0336 32000000 		.4byte	.LVL29
+ 1078 033a 55060000 		.4byte	0x655
+ 1079 033e 00       		.byte	0
+ 1080 033f 0B       		.uleb128 0xb
+ 1081 0340 3E000000 		.4byte	0x3e
+ 1082 0344 52030000 		.4byte	0x352
+ 1083 0348 18       		.uleb128 0x18
+ 1084 0349 E4000000 		.4byte	0xe4
+ 1085 034d 11030000 		.4byte	0x311
+ 1086 0351 00       		.byte	0
+ 1087 0352 07       		.uleb128 0x7
+ 1088 0353 E4000000 		.4byte	0xe4
+ 1089 0357 0D       		.uleb128 0xd
+ 1090 0358 0B030000 		.4byte	.LASF50
+ 1091 035c 01       		.byte	0x1
+ 1092 035d 48       		.byte	0x48
+ 1093 035e 00000000 		.4byte	.LFB67
+ 1094 0362 5C000000 		.4byte	.LFE67-.LFB67
+ 1095 0366 01       		.uleb128 0x1
+ 1096 0367 9C       		.byte	0x9c
+ 1097 0368 C5030000 		.4byte	0x3c5
+ 1098 036c 0E       		.uleb128 0xe
+ 1099 036d 6E00     		.ascii	"n\000"
+ 1100 036f 01       		.byte	0x1
+ 1101 0370 48       		.byte	0x48
+ 1102 0371 BF000000 		.4byte	0xbf
+ 1103 0375 86010000 		.4byte	.LLST9
+ 1104 0379 16       		.uleb128 0x16
+ 1105 037a 62756600 		.ascii	"buf\000"
+ 1106 037e 01       		.byte	0x1
+ 1107 037f 4F       		.byte	0x4f
+ 1108 0380 C5030000 		.4byte	0x3c5
+ 1109 0384 02       		.uleb128 0x2
+ 1110 0385 91       		.byte	0x91
+ 1111 0386 6C       		.sleb128 -20
+ 1112 0387 17       		.uleb128 0x17
+ 1113 0388 6900     		.ascii	"i\000"
+ 1114 038a 01       		.byte	0x1
+ 1115 038b 50       		.byte	0x50
+ 1116 038c 9E000000 		.4byte	0x9e
+ 1117 0390 D3010000 		.4byte	.LLST10
+ 1118 0394 13       		.uleb128 0x13
+ 1119 0395 0C000000 		.4byte	.LVL33
+ 1120 0399 55060000 		.4byte	0x655
+ 1121 039d A8030000 		.4byte	0x3a8
+ 1122 03a1 10       		.uleb128 0x10
+ 1123 03a2 01       		.uleb128 0x1
+ 1124 03a3 50       		.byte	0x50
+ 1125 03a4 02       		.uleb128 0x2
+ 1126 03a5 08       		.byte	0x8
+ 1127 03a6 30       		.byte	0x30
+ 1128 03a7 00       		.byte	0
+ 1129 03a8 0F       		.uleb128 0xf
+ 1130 03a9 4C000000 		.4byte	.LVL41
+ 1131 03ad 55060000 		.4byte	0x655
+ 1132 03b1 10       		.uleb128 0x10
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 24
+
+
+ 1133 03b2 01       		.uleb128 0x1
+ 1134 03b3 50       		.byte	0x50
+ 1135 03b4 0E       		.uleb128 0xe
+ 1136 03b5 91       		.byte	0x91
+ 1137 03b6 00       		.sleb128 0
+ 1138 03b7 74       		.byte	0x74
+ 1139 03b8 00       		.sleb128 0
+ 1140 03b9 22       		.byte	0x22
+ 1141 03ba 44       		.byte	0x44
+ 1142 03bb 1C       		.byte	0x1c
+ 1143 03bc 94       		.byte	0x94
+ 1144 03bd 01       		.byte	0x1
+ 1145 03be 08       		.byte	0x8
+ 1146 03bf FF       		.byte	0xff
+ 1147 03c0 1A       		.byte	0x1a
+ 1148 03c1 23       		.byte	0x23
+ 1149 03c2 30       		.uleb128 0x30
+ 1150 03c3 00       		.byte	0
+ 1151 03c4 00       		.byte	0
+ 1152 03c5 0B       		.uleb128 0xb
+ 1153 03c6 3E000000 		.4byte	0x3e
+ 1154 03ca D5030000 		.4byte	0x3d5
+ 1155 03ce 0C       		.uleb128 0xc
+ 1156 03cf E4000000 		.4byte	0xe4
+ 1157 03d3 09       		.byte	0x9
+ 1158 03d4 00       		.byte	0
+ 1159 03d5 0D       		.uleb128 0xd
+ 1160 03d6 F8000000 		.4byte	.LASF51
+ 1161 03da 01       		.byte	0x1
+ 1162 03db 5C       		.byte	0x5c
+ 1163 03dc 00000000 		.4byte	.LFB68
+ 1164 03e0 1C000000 		.4byte	.LFE68-.LFB68
+ 1165 03e4 01       		.uleb128 0x1
+ 1166 03e5 9C       		.byte	0x9c
+ 1167 03e6 31040000 		.4byte	0x431
+ 1168 03ea 0E       		.uleb128 0xe
+ 1169 03eb 6E00     		.ascii	"n\000"
+ 1170 03ed 01       		.byte	0x1
+ 1171 03ee 5C       		.byte	0x5c
+ 1172 03ef 69000000 		.4byte	0x69
+ 1173 03f3 07020000 		.4byte	.LLST11
+ 1174 03f7 13       		.uleb128 0x13
+ 1175 03f8 0C000000 		.4byte	.LVL46
+ 1176 03fc 55060000 		.4byte	0x655
+ 1177 0400 0B040000 		.4byte	0x40b
+ 1178 0404 10       		.uleb128 0x10
+ 1179 0405 01       		.uleb128 0x1
+ 1180 0406 50       		.byte	0x50
+ 1181 0407 02       		.uleb128 0x2
+ 1182 0408 08       		.byte	0x8
+ 1183 0409 2D       		.byte	0x2d
+ 1184 040a 00       		.byte	0
+ 1185 040b 13       		.uleb128 0x13
+ 1186 040c 12000000 		.4byte	.LVL47
+ 1187 0410 57030000 		.4byte	0x357
+ 1188 0414 20040000 		.4byte	0x420
+ 1189 0418 10       		.uleb128 0x10
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 25
+
+
+ 1190 0419 01       		.uleb128 0x1
+ 1191 041a 50       		.byte	0x50
+ 1192 041b 03       		.uleb128 0x3
+ 1193 041c 74       		.byte	0x74
+ 1194 041d 00       		.sleb128 0
+ 1195 041e 1F       		.byte	0x1f
+ 1196 041f 00       		.byte	0
+ 1197 0420 0F       		.uleb128 0xf
+ 1198 0421 1A000000 		.4byte	.LVL50
+ 1199 0425 57030000 		.4byte	0x357
+ 1200 0429 10       		.uleb128 0x10
+ 1201 042a 01       		.uleb128 0x1
+ 1202 042b 50       		.byte	0x50
+ 1203 042c 02       		.uleb128 0x2
+ 1204 042d 74       		.byte	0x74
+ 1205 042e 00       		.sleb128 0
+ 1206 042f 00       		.byte	0
+ 1207 0430 00       		.byte	0
+ 1208 0431 19       		.uleb128 0x19
+ 1209 0432 4A030000 		.4byte	.LASF52
+ 1210 0436 01       		.byte	0x1
+ 1211 0437 6C       		.byte	0x6c
+ 1212 0438 00000000 		.4byte	.LFB69
+ 1213 043c C8000000 		.4byte	.LFE69-.LFB69
+ 1214 0440 01       		.uleb128 0x1
+ 1215 0441 9C       		.byte	0x9c
+ 1216 0442 DA040000 		.4byte	0x4da
+ 1217 0446 0E       		.uleb128 0xe
+ 1218 0447 6E00     		.ascii	"n\000"
+ 1219 0449 01       		.byte	0x1
+ 1220 044a 6C       		.byte	0x6c
+ 1221 044b 25000000 		.4byte	0x25
+ 1222 044f 3B020000 		.4byte	.LLST12
+ 1223 0453 14       		.uleb128 0x14
+ 1224 0454 EE030000 		.4byte	.LASF53
+ 1225 0458 01       		.byte	0x1
+ 1226 0459 6C       		.byte	0x6c
+ 1227 045a 9E000000 		.4byte	0x9e
+ 1228 045e 7A020000 		.4byte	.LLST13
+ 1229 0462 11       		.uleb128 0x11
+ 1230 0463 EF000000 		.4byte	.LASF54
+ 1231 0467 01       		.byte	0x1
+ 1232 0468 73       		.byte	0x73
+ 1233 0469 9E000000 		.4byte	0x9e
+ 1234 046d 9B020000 		.4byte	.LLST14
+ 1235 0471 16       		.uleb128 0x16
+ 1236 0472 62756600 		.ascii	"buf\000"
+ 1237 0476 01       		.byte	0x1
+ 1238 0477 7C       		.byte	0x7c
+ 1239 0478 DA040000 		.4byte	0x4da
+ 1240 047c 02       		.uleb128 0x2
+ 1241 047d 91       		.byte	0x91
+ 1242 047e 60       		.sleb128 -32
+ 1243 047f 17       		.uleb128 0x17
+ 1244 0480 6900     		.ascii	"i\000"
+ 1245 0482 01       		.byte	0x1
+ 1246 0483 7D       		.byte	0x7d
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 26
+
+
+ 1247 0484 9E000000 		.4byte	0x9e
+ 1248 0488 C4020000 		.4byte	.LLST15
+ 1249 048c 17       		.uleb128 0x17
+ 1250 048d 6100     		.ascii	"a\000"
+ 1251 048f 01       		.byte	0x1
+ 1252 0490 7E       		.byte	0x7e
+ 1253 0491 BF000000 		.4byte	0xbf
+ 1254 0495 30030000 		.4byte	.LLST16
+ 1255 0499 13       		.uleb128 0x13
+ 1256 049a 16000000 		.4byte	.LVL54
+ 1257 049e 55060000 		.4byte	0x655
+ 1258 04a2 AD040000 		.4byte	0x4ad
+ 1259 04a6 10       		.uleb128 0x10
+ 1260 04a7 01       		.uleb128 0x1
+ 1261 04a8 50       		.byte	0x50
+ 1262 04a9 02       		.uleb128 0x2
+ 1263 04aa 08       		.byte	0x8
+ 1264 04ab 2D       		.byte	0x2d
+ 1265 04ac 00       		.byte	0
+ 1266 04ad 13       		.uleb128 0x13
+ 1267 04ae A4000000 		.4byte	.LVL75
+ 1268 04b2 55060000 		.4byte	0x655
+ 1269 04b6 C1040000 		.4byte	0x4c1
+ 1270 04ba 10       		.uleb128 0x10
+ 1271 04bb 01       		.uleb128 0x1
+ 1272 04bc 50       		.byte	0x50
+ 1273 04bd 02       		.uleb128 0x2
+ 1274 04be 08       		.byte	0x8
+ 1275 04bf 2E       		.byte	0x2e
+ 1276 04c0 00       		.byte	0
+ 1277 04c1 0F       		.uleb128 0xf
+ 1278 04c2 B2000000 		.4byte	.LVL77
+ 1279 04c6 55060000 		.4byte	0x655
+ 1280 04ca 10       		.uleb128 0x10
+ 1281 04cb 01       		.uleb128 0x1
+ 1282 04cc 50       		.byte	0x50
+ 1283 04cd 0A       		.uleb128 0xa
+ 1284 04ce 91       		.byte	0x91
+ 1285 04cf 00       		.sleb128 0
+ 1286 04d0 74       		.byte	0x74
+ 1287 04d1 00       		.sleb128 0
+ 1288 04d2 22       		.byte	0x22
+ 1289 04d3 08       		.byte	0x8
+ 1290 04d4 20       		.byte	0x20
+ 1291 04d5 1C       		.byte	0x1c
+ 1292 04d6 94       		.byte	0x94
+ 1293 04d7 01       		.byte	0x1
+ 1294 04d8 00       		.byte	0
+ 1295 04d9 00       		.byte	0
+ 1296 04da 0B       		.uleb128 0xb
+ 1297 04db 3E000000 		.4byte	0x3e
+ 1298 04df EA040000 		.4byte	0x4ea
+ 1299 04e3 0C       		.uleb128 0xc
+ 1300 04e4 E4000000 		.4byte	0xe4
+ 1301 04e8 0C       		.byte	0xc
+ 1302 04e9 00       		.byte	0
+ 1303 04ea 19       		.uleb128 0x19
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 27
+
+
+ 1304 04eb 60040000 		.4byte	.LASF55
+ 1305 04ef 01       		.byte	0x1
+ 1306 04f0 96       		.byte	0x96
+ 1307 04f1 00000000 		.4byte	.LFB70
+ 1308 04f5 3C000000 		.4byte	.LFE70-.LFB70
+ 1309 04f9 01       		.uleb128 0x1
+ 1310 04fa 9C       		.byte	0x9c
+ 1311 04fb 2F050000 		.4byte	0x52f
+ 1312 04ff 0E       		.uleb128 0xe
+ 1313 0500 6E00     		.ascii	"n\000"
+ 1314 0502 01       		.byte	0x1
+ 1315 0503 96       		.byte	0x96
+ 1316 0504 25000000 		.4byte	0x25
+ 1317 0508 4E030000 		.4byte	.LLST17
+ 1318 050c 13       		.uleb128 0x13
+ 1319 050d 26000000 		.4byte	.LVL84
+ 1320 0511 31040000 		.4byte	0x431
+ 1321 0515 1F050000 		.4byte	0x51f
+ 1322 0519 10       		.uleb128 0x10
+ 1323 051a 01       		.uleb128 0x1
+ 1324 051b 51       		.byte	0x51
+ 1325 051c 01       		.uleb128 0x1
+ 1326 051d 34       		.byte	0x34
+ 1327 051e 00       		.byte	0
+ 1328 051f 0F       		.uleb128 0xf
+ 1329 0520 2E000000 		.4byte	.LVL86
+ 1330 0524 31040000 		.4byte	0x431
+ 1331 0528 10       		.uleb128 0x10
+ 1332 0529 01       		.uleb128 0x1
+ 1333 052a 51       		.byte	0x51
+ 1334 052b 01       		.uleb128 0x1
+ 1335 052c 33       		.byte	0x33
+ 1336 052d 00       		.byte	0
+ 1337 052e 00       		.byte	0
+ 1338 052f 19       		.uleb128 0x19
+ 1339 0530 88040000 		.4byte	.LASF56
+ 1340 0534 01       		.byte	0x1
+ 1341 0535 9E       		.byte	0x9e
+ 1342 0536 00000000 		.4byte	.LFB71
+ 1343 053a 3C000000 		.4byte	.LFE71-.LFB71
+ 1344 053e 01       		.uleb128 0x1
+ 1345 053f 9C       		.byte	0x9c
+ 1346 0540 74050000 		.4byte	0x574
+ 1347 0544 0E       		.uleb128 0xe
+ 1348 0545 6E00     		.ascii	"n\000"
+ 1349 0547 01       		.byte	0x1
+ 1350 0548 9E       		.byte	0x9e
+ 1351 0549 25000000 		.4byte	0x25
+ 1352 054d 8C030000 		.4byte	.LLST18
+ 1353 0551 13       		.uleb128 0x13
+ 1354 0552 26000000 		.4byte	.LVL91
+ 1355 0556 31040000 		.4byte	0x431
+ 1356 055a 64050000 		.4byte	0x564
+ 1357 055e 10       		.uleb128 0x10
+ 1358 055f 01       		.uleb128 0x1
+ 1359 0560 51       		.byte	0x51
+ 1360 0561 01       		.uleb128 0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 28
+
+
+ 1361 0562 31       		.byte	0x31
+ 1362 0563 00       		.byte	0
+ 1363 0564 0F       		.uleb128 0xf
+ 1364 0565 2E000000 		.4byte	.LVL93
+ 1365 0569 31040000 		.4byte	0x431
+ 1366 056d 10       		.uleb128 0x10
+ 1367 056e 01       		.uleb128 0x1
+ 1368 056f 51       		.byte	0x51
+ 1369 0570 01       		.uleb128 0x1
+ 1370 0571 30       		.byte	0x30
+ 1371 0572 00       		.byte	0
+ 1372 0573 00       		.byte	0
+ 1373 0574 1A       		.uleb128 0x1a
+ 1374 0575 FE020000 		.4byte	.LASF57
+ 1375 0579 06       		.byte	0x6
+ 1376 057a 9606     		.2byte	0x696
+ 1377 057c 80050000 		.4byte	0x580
+ 1378 0580 08       		.uleb128 0x8
+ 1379 0581 B4000000 		.4byte	0xb4
+ 1380 0585 1B       		.uleb128 0x1b
+ 1381 0586 0B010000 		.4byte	.LASF58
+ 1382 058a 05       		.byte	0x5
+ 1383 058b 6A       		.byte	0x6a
+ 1384 058c FF010000 		.4byte	0x1ff
+ 1385 0590 0B       		.uleb128 0xb
+ 1386 0591 B4000000 		.4byte	0xb4
+ 1387 0595 A0050000 		.4byte	0x5a0
+ 1388 0599 0C       		.uleb128 0xc
+ 1389 059a E4000000 		.4byte	0xe4
+ 1390 059e 02       		.byte	0x2
+ 1391 059f 00       		.byte	0
+ 1392 05a0 1C       		.uleb128 0x1c
+ 1393 05a1 35010000 		.4byte	.LASF59
+ 1394 05a5 07       		.byte	0x7
+ 1395 05a6 95       		.byte	0x95
+ 1396 05a7 90050000 		.4byte	0x590
+ 1397 05ab 05       		.uleb128 0x5
+ 1398 05ac 03       		.byte	0x3
+ 1399 05ad 00000000 		.4byte	sys_position
+ 1400 05b1 1C       		.uleb128 0x1c
+ 1401 05b2 1B020000 		.4byte	.LASF60
+ 1402 05b6 07       		.byte	0x7
+ 1403 05b7 96       		.byte	0x96
+ 1404 05b8 90050000 		.4byte	0x590
+ 1405 05bc 05       		.uleb128 0x5
+ 1406 05bd 03       		.byte	0x3
+ 1407 05be 00000000 		.4byte	sys_probe_position
+ 1408 05c2 1C       		.uleb128 0x1c
+ 1409 05c3 C7020000 		.4byte	.LASF61
+ 1410 05c7 07       		.byte	0x7
+ 1411 05c8 98       		.byte	0x98
+ 1412 05c9 F6000000 		.4byte	0xf6
+ 1413 05cd 05       		.uleb128 0x5
+ 1414 05ce 03       		.byte	0x3
+ 1415 05cf 00000000 		.4byte	sys_probe_state
+ 1416 05d3 1C       		.uleb128 0x1c
+ 1417 05d4 4E040000 		.4byte	.LASF62
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 29
+
+
+ 1418 05d8 07       		.byte	0x7
+ 1419 05d9 99       		.byte	0x99
+ 1420 05da F6000000 		.4byte	0xf6
+ 1421 05de 05       		.uleb128 0x5
+ 1422 05df 03       		.byte	0x3
+ 1423 05e0 00000000 		.4byte	sys_rt_exec_state
+ 1424 05e4 1C       		.uleb128 0x1c
+ 1425 05e5 00000000 		.4byte	.LASF63
+ 1426 05e9 07       		.byte	0x7
+ 1427 05ea 9A       		.byte	0x9a
+ 1428 05eb F6000000 		.4byte	0xf6
+ 1429 05ef 05       		.uleb128 0x5
+ 1430 05f0 03       		.byte	0x3
+ 1431 05f1 00000000 		.4byte	sys_rt_exec_alarm
+ 1432 05f5 1C       		.uleb128 0x1c
+ 1433 05f6 2E020000 		.4byte	.LASF64
+ 1434 05fa 07       		.byte	0x7
+ 1435 05fb 9B       		.byte	0x9b
+ 1436 05fc F6000000 		.4byte	0xf6
+ 1437 0600 05       		.uleb128 0x5
+ 1438 0601 03       		.byte	0x3
+ 1439 0602 00000000 		.4byte	sys_rt_exec_motion_override
+ 1440 0606 1C       		.uleb128 0x1c
+ 1441 0607 12000000 		.4byte	.LASF65
+ 1442 060b 07       		.byte	0x7
+ 1443 060c 9C       		.byte	0x9c
+ 1444 060d F6000000 		.4byte	0xf6
+ 1445 0611 05       		.uleb128 0x5
+ 1446 0612 03       		.byte	0x3
+ 1447 0613 00000000 		.4byte	sys_rt_exec_accessory_override
+ 1448 0617 1C       		.uleb128 0x1c
+ 1449 0618 76040000 		.4byte	.LASF66
+ 1450 061c 07       		.byte	0x7
+ 1451 061d A0       		.byte	0xa0
+ 1452 061e F6000000 		.4byte	0xf6
+ 1453 0622 05       		.uleb128 0x5
+ 1454 0623 03       		.byte	0x3
+ 1455 0624 00000000 		.4byte	sys_rt_exec_debug
+ 1456 0628 1C       		.uleb128 0x1c
+ 1457 0629 42010000 		.4byte	.LASF67
+ 1458 062d 08       		.byte	0x8
+ 1459 062e 11       		.byte	0x11
+ 1460 062f 9E000000 		.4byte	0x9e
+ 1461 0633 05       		.uleb128 0x5
+ 1462 0634 03       		.byte	0x3
+ 1463 0635 00000000 		.4byte	exec_lcd_status
+ 1464 0639 1D       		.uleb128 0x1d
+ 1465 063a C9000000 		.4byte	.LASF71
+ 1466 063e 09       		.byte	0x9
+ 1467 063f 8B       		.byte	0x8b
+ 1468 0640 4A060000 		.4byte	0x64a
+ 1469 0644 1E       		.uleb128 0x1e
+ 1470 0645 4A060000 		.4byte	0x64a
+ 1471 0649 00       		.byte	0
+ 1472 064a 06       		.uleb128 0x6
+ 1473 064b 04       		.byte	0x4
+ 1474 064c 50060000 		.4byte	0x650
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 30
+
+
+ 1475 0650 07       		.uleb128 0x7
+ 1476 0651 D1000000 		.4byte	0xd1
+ 1477 0655 1F       		.uleb128 0x1f
+ 1478 0656 8A010000 		.4byte	.LASF72
+ 1479 065a 0A       		.byte	0xa
+ 1480 065b 2F       		.byte	0x2f
+ 1481 065c 1E       		.uleb128 0x1e
+ 1482 065d 9E000000 		.4byte	0x9e
+ 1483 0661 00       		.byte	0
+ 1484 0662 00       		.byte	0
+ 1485              		.section	.debug_abbrev,"",%progbits
+ 1486              	.Ldebug_abbrev0:
+ 1487 0000 01       		.uleb128 0x1
+ 1488 0001 11       		.uleb128 0x11
+ 1489 0002 01       		.byte	0x1
+ 1490 0003 25       		.uleb128 0x25
+ 1491 0004 0E       		.uleb128 0xe
+ 1492 0005 13       		.uleb128 0x13
+ 1493 0006 0B       		.uleb128 0xb
+ 1494 0007 03       		.uleb128 0x3
+ 1495 0008 0E       		.uleb128 0xe
+ 1496 0009 1B       		.uleb128 0x1b
+ 1497 000a 0E       		.uleb128 0xe
+ 1498 000b 55       		.uleb128 0x55
+ 1499 000c 17       		.uleb128 0x17
+ 1500 000d 11       		.uleb128 0x11
+ 1501 000e 01       		.uleb128 0x1
+ 1502 000f 10       		.uleb128 0x10
+ 1503 0010 17       		.uleb128 0x17
+ 1504 0011 00       		.byte	0
+ 1505 0012 00       		.byte	0
+ 1506 0013 02       		.uleb128 0x2
+ 1507 0014 24       		.uleb128 0x24
+ 1508 0015 00       		.byte	0
+ 1509 0016 0B       		.uleb128 0xb
+ 1510 0017 0B       		.uleb128 0xb
+ 1511 0018 3E       		.uleb128 0x3e
+ 1512 0019 0B       		.uleb128 0xb
+ 1513 001a 03       		.uleb128 0x3
+ 1514 001b 0E       		.uleb128 0xe
+ 1515 001c 00       		.byte	0
+ 1516 001d 00       		.byte	0
+ 1517 001e 03       		.uleb128 0x3
+ 1518 001f 16       		.uleb128 0x16
+ 1519 0020 00       		.byte	0
+ 1520 0021 03       		.uleb128 0x3
+ 1521 0022 0E       		.uleb128 0xe
+ 1522 0023 3A       		.uleb128 0x3a
+ 1523 0024 0B       		.uleb128 0xb
+ 1524 0025 3B       		.uleb128 0x3b
+ 1525 0026 0B       		.uleb128 0xb
+ 1526 0027 49       		.uleb128 0x49
+ 1527 0028 13       		.uleb128 0x13
+ 1528 0029 00       		.byte	0
+ 1529 002a 00       		.byte	0
+ 1530 002b 04       		.uleb128 0x4
+ 1531 002c 24       		.uleb128 0x24
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 31
+
+
+ 1532 002d 00       		.byte	0
+ 1533 002e 0B       		.uleb128 0xb
+ 1534 002f 0B       		.uleb128 0xb
+ 1535 0030 3E       		.uleb128 0x3e
+ 1536 0031 0B       		.uleb128 0xb
+ 1537 0032 03       		.uleb128 0x3
+ 1538 0033 08       		.uleb128 0x8
+ 1539 0034 00       		.byte	0
+ 1540 0035 00       		.byte	0
+ 1541 0036 05       		.uleb128 0x5
+ 1542 0037 16       		.uleb128 0x16
+ 1543 0038 00       		.byte	0
+ 1544 0039 03       		.uleb128 0x3
+ 1545 003a 0E       		.uleb128 0xe
+ 1546 003b 3A       		.uleb128 0x3a
+ 1547 003c 0B       		.uleb128 0xb
+ 1548 003d 3B       		.uleb128 0x3b
+ 1549 003e 05       		.uleb128 0x5
+ 1550 003f 49       		.uleb128 0x49
+ 1551 0040 13       		.uleb128 0x13
+ 1552 0041 00       		.byte	0
+ 1553 0042 00       		.byte	0
+ 1554 0043 06       		.uleb128 0x6
+ 1555 0044 0F       		.uleb128 0xf
+ 1556 0045 00       		.byte	0
+ 1557 0046 0B       		.uleb128 0xb
+ 1558 0047 0B       		.uleb128 0xb
+ 1559 0048 49       		.uleb128 0x49
+ 1560 0049 13       		.uleb128 0x13
+ 1561 004a 00       		.byte	0
+ 1562 004b 00       		.byte	0
+ 1563 004c 07       		.uleb128 0x7
+ 1564 004d 26       		.uleb128 0x26
+ 1565 004e 00       		.byte	0
+ 1566 004f 49       		.uleb128 0x49
+ 1567 0050 13       		.uleb128 0x13
+ 1568 0051 00       		.byte	0
+ 1569 0052 00       		.byte	0
+ 1570 0053 08       		.uleb128 0x8
+ 1571 0054 35       		.uleb128 0x35
+ 1572 0055 00       		.byte	0
+ 1573 0056 49       		.uleb128 0x49
+ 1574 0057 13       		.uleb128 0x13
+ 1575 0058 00       		.byte	0
+ 1576 0059 00       		.byte	0
+ 1577 005a 09       		.uleb128 0x9
+ 1578 005b 13       		.uleb128 0x13
+ 1579 005c 01       		.byte	0x1
+ 1580 005d 0B       		.uleb128 0xb
+ 1581 005e 0B       		.uleb128 0xb
+ 1582 005f 3A       		.uleb128 0x3a
+ 1583 0060 0B       		.uleb128 0xb
+ 1584 0061 3B       		.uleb128 0x3b
+ 1585 0062 0B       		.uleb128 0xb
+ 1586 0063 01       		.uleb128 0x1
+ 1587 0064 13       		.uleb128 0x13
+ 1588 0065 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 32
+
+
+ 1589 0066 00       		.byte	0
+ 1590 0067 0A       		.uleb128 0xa
+ 1591 0068 0D       		.uleb128 0xd
+ 1592 0069 00       		.byte	0
+ 1593 006a 03       		.uleb128 0x3
+ 1594 006b 0E       		.uleb128 0xe
+ 1595 006c 3A       		.uleb128 0x3a
+ 1596 006d 0B       		.uleb128 0xb
+ 1597 006e 3B       		.uleb128 0x3b
+ 1598 006f 0B       		.uleb128 0xb
+ 1599 0070 49       		.uleb128 0x49
+ 1600 0071 13       		.uleb128 0x13
+ 1601 0072 38       		.uleb128 0x38
+ 1602 0073 0B       		.uleb128 0xb
+ 1603 0074 00       		.byte	0
+ 1604 0075 00       		.byte	0
+ 1605 0076 0B       		.uleb128 0xb
+ 1606 0077 01       		.uleb128 0x1
+ 1607 0078 01       		.byte	0x1
+ 1608 0079 49       		.uleb128 0x49
+ 1609 007a 13       		.uleb128 0x13
+ 1610 007b 01       		.uleb128 0x1
+ 1611 007c 13       		.uleb128 0x13
+ 1612 007d 00       		.byte	0
+ 1613 007e 00       		.byte	0
+ 1614 007f 0C       		.uleb128 0xc
+ 1615 0080 21       		.uleb128 0x21
+ 1616 0081 00       		.byte	0
+ 1617 0082 49       		.uleb128 0x49
+ 1618 0083 13       		.uleb128 0x13
+ 1619 0084 2F       		.uleb128 0x2f
+ 1620 0085 0B       		.uleb128 0xb
+ 1621 0086 00       		.byte	0
+ 1622 0087 00       		.byte	0
+ 1623 0088 0D       		.uleb128 0xd
+ 1624 0089 2E       		.uleb128 0x2e
+ 1625 008a 01       		.byte	0x1
+ 1626 008b 3F       		.uleb128 0x3f
+ 1627 008c 19       		.uleb128 0x19
+ 1628 008d 03       		.uleb128 0x3
+ 1629 008e 0E       		.uleb128 0xe
+ 1630 008f 3A       		.uleb128 0x3a
+ 1631 0090 0B       		.uleb128 0xb
+ 1632 0091 3B       		.uleb128 0x3b
+ 1633 0092 0B       		.uleb128 0xb
+ 1634 0093 27       		.uleb128 0x27
+ 1635 0094 19       		.uleb128 0x19
+ 1636 0095 11       		.uleb128 0x11
+ 1637 0096 01       		.uleb128 0x1
+ 1638 0097 12       		.uleb128 0x12
+ 1639 0098 06       		.uleb128 0x6
+ 1640 0099 40       		.uleb128 0x40
+ 1641 009a 18       		.uleb128 0x18
+ 1642 009b 9742     		.uleb128 0x2117
+ 1643 009d 19       		.uleb128 0x19
+ 1644 009e 01       		.uleb128 0x1
+ 1645 009f 13       		.uleb128 0x13
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 33
+
+
+ 1646 00a0 00       		.byte	0
+ 1647 00a1 00       		.byte	0
+ 1648 00a2 0E       		.uleb128 0xe
+ 1649 00a3 05       		.uleb128 0x5
+ 1650 00a4 00       		.byte	0
+ 1651 00a5 03       		.uleb128 0x3
+ 1652 00a6 08       		.uleb128 0x8
+ 1653 00a7 3A       		.uleb128 0x3a
+ 1654 00a8 0B       		.uleb128 0xb
+ 1655 00a9 3B       		.uleb128 0x3b
+ 1656 00aa 0B       		.uleb128 0xb
+ 1657 00ab 49       		.uleb128 0x49
+ 1658 00ac 13       		.uleb128 0x13
+ 1659 00ad 02       		.uleb128 0x2
+ 1660 00ae 17       		.uleb128 0x17
+ 1661 00af 00       		.byte	0
+ 1662 00b0 00       		.byte	0
+ 1663 00b1 0F       		.uleb128 0xf
+ 1664 00b2 898201   		.uleb128 0x4109
+ 1665 00b5 01       		.byte	0x1
+ 1666 00b6 11       		.uleb128 0x11
+ 1667 00b7 01       		.uleb128 0x1
+ 1668 00b8 31       		.uleb128 0x31
+ 1669 00b9 13       		.uleb128 0x13
+ 1670 00ba 00       		.byte	0
+ 1671 00bb 00       		.byte	0
+ 1672 00bc 10       		.uleb128 0x10
+ 1673 00bd 8A8201   		.uleb128 0x410a
+ 1674 00c0 00       		.byte	0
+ 1675 00c1 02       		.uleb128 0x2
+ 1676 00c2 18       		.uleb128 0x18
+ 1677 00c3 9142     		.uleb128 0x2111
+ 1678 00c5 18       		.uleb128 0x18
+ 1679 00c6 00       		.byte	0
+ 1680 00c7 00       		.byte	0
+ 1681 00c8 11       		.uleb128 0x11
+ 1682 00c9 34       		.uleb128 0x34
+ 1683 00ca 00       		.byte	0
+ 1684 00cb 03       		.uleb128 0x3
+ 1685 00cc 0E       		.uleb128 0xe
+ 1686 00cd 3A       		.uleb128 0x3a
+ 1687 00ce 0B       		.uleb128 0xb
+ 1688 00cf 3B       		.uleb128 0x3b
+ 1689 00d0 0B       		.uleb128 0xb
+ 1690 00d1 49       		.uleb128 0x49
+ 1691 00d2 13       		.uleb128 0x13
+ 1692 00d3 02       		.uleb128 0x2
+ 1693 00d4 17       		.uleb128 0x17
+ 1694 00d5 00       		.byte	0
+ 1695 00d6 00       		.byte	0
+ 1696 00d7 12       		.uleb128 0x12
+ 1697 00d8 898201   		.uleb128 0x4109
+ 1698 00db 00       		.byte	0
+ 1699 00dc 11       		.uleb128 0x11
+ 1700 00dd 01       		.uleb128 0x1
+ 1701 00de 31       		.uleb128 0x31
+ 1702 00df 13       		.uleb128 0x13
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 34
+
+
+ 1703 00e0 00       		.byte	0
+ 1704 00e1 00       		.byte	0
+ 1705 00e2 13       		.uleb128 0x13
+ 1706 00e3 898201   		.uleb128 0x4109
+ 1707 00e6 01       		.byte	0x1
+ 1708 00e7 11       		.uleb128 0x11
+ 1709 00e8 01       		.uleb128 0x1
+ 1710 00e9 31       		.uleb128 0x31
+ 1711 00ea 13       		.uleb128 0x13
+ 1712 00eb 01       		.uleb128 0x1
+ 1713 00ec 13       		.uleb128 0x13
+ 1714 00ed 00       		.byte	0
+ 1715 00ee 00       		.byte	0
+ 1716 00ef 14       		.uleb128 0x14
+ 1717 00f0 05       		.uleb128 0x5
+ 1718 00f1 00       		.byte	0
+ 1719 00f2 03       		.uleb128 0x3
+ 1720 00f3 0E       		.uleb128 0xe
+ 1721 00f4 3A       		.uleb128 0x3a
+ 1722 00f5 0B       		.uleb128 0xb
+ 1723 00f6 3B       		.uleb128 0x3b
+ 1724 00f7 0B       		.uleb128 0xb
+ 1725 00f8 49       		.uleb128 0x49
+ 1726 00f9 13       		.uleb128 0x13
+ 1727 00fa 02       		.uleb128 0x2
+ 1728 00fb 17       		.uleb128 0x17
+ 1729 00fc 00       		.byte	0
+ 1730 00fd 00       		.byte	0
+ 1731 00fe 15       		.uleb128 0x15
+ 1732 00ff 34       		.uleb128 0x34
+ 1733 0100 00       		.byte	0
+ 1734 0101 34       		.uleb128 0x34
+ 1735 0102 19       		.uleb128 0x19
+ 1736 0103 49       		.uleb128 0x49
+ 1737 0104 13       		.uleb128 0x13
+ 1738 0105 02       		.uleb128 0x2
+ 1739 0106 17       		.uleb128 0x17
+ 1740 0107 00       		.byte	0
+ 1741 0108 00       		.byte	0
+ 1742 0109 16       		.uleb128 0x16
+ 1743 010a 34       		.uleb128 0x34
+ 1744 010b 00       		.byte	0
+ 1745 010c 03       		.uleb128 0x3
+ 1746 010d 08       		.uleb128 0x8
+ 1747 010e 3A       		.uleb128 0x3a
+ 1748 010f 0B       		.uleb128 0xb
+ 1749 0110 3B       		.uleb128 0x3b
+ 1750 0111 0B       		.uleb128 0xb
+ 1751 0112 49       		.uleb128 0x49
+ 1752 0113 13       		.uleb128 0x13
+ 1753 0114 02       		.uleb128 0x2
+ 1754 0115 18       		.uleb128 0x18
+ 1755 0116 00       		.byte	0
+ 1756 0117 00       		.byte	0
+ 1757 0118 17       		.uleb128 0x17
+ 1758 0119 34       		.uleb128 0x34
+ 1759 011a 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 35
+
+
+ 1760 011b 03       		.uleb128 0x3
+ 1761 011c 08       		.uleb128 0x8
+ 1762 011d 3A       		.uleb128 0x3a
+ 1763 011e 0B       		.uleb128 0xb
+ 1764 011f 3B       		.uleb128 0x3b
+ 1765 0120 0B       		.uleb128 0xb
+ 1766 0121 49       		.uleb128 0x49
+ 1767 0122 13       		.uleb128 0x13
+ 1768 0123 02       		.uleb128 0x2
+ 1769 0124 17       		.uleb128 0x17
+ 1770 0125 00       		.byte	0
+ 1771 0126 00       		.byte	0
+ 1772 0127 18       		.uleb128 0x18
+ 1773 0128 21       		.uleb128 0x21
+ 1774 0129 00       		.byte	0
+ 1775 012a 49       		.uleb128 0x49
+ 1776 012b 13       		.uleb128 0x13
+ 1777 012c 2F       		.uleb128 0x2f
+ 1778 012d 13       		.uleb128 0x13
+ 1779 012e 00       		.byte	0
+ 1780 012f 00       		.byte	0
+ 1781 0130 19       		.uleb128 0x19
+ 1782 0131 2E       		.uleb128 0x2e
+ 1783 0132 01       		.byte	0x1
+ 1784 0133 3F       		.uleb128 0x3f
+ 1785 0134 19       		.uleb128 0x19
+ 1786 0135 03       		.uleb128 0x3
+ 1787 0136 0E       		.uleb128 0xe
+ 1788 0137 3A       		.uleb128 0x3a
+ 1789 0138 0B       		.uleb128 0xb
+ 1790 0139 3B       		.uleb128 0x3b
+ 1791 013a 0B       		.uleb128 0xb
+ 1792 013b 27       		.uleb128 0x27
+ 1793 013c 19       		.uleb128 0x19
+ 1794 013d 11       		.uleb128 0x11
+ 1795 013e 01       		.uleb128 0x1
+ 1796 013f 12       		.uleb128 0x12
+ 1797 0140 06       		.uleb128 0x6
+ 1798 0141 40       		.uleb128 0x40
+ 1799 0142 18       		.uleb128 0x18
+ 1800 0143 9642     		.uleb128 0x2116
+ 1801 0145 19       		.uleb128 0x19
+ 1802 0146 01       		.uleb128 0x1
+ 1803 0147 13       		.uleb128 0x13
+ 1804 0148 00       		.byte	0
+ 1805 0149 00       		.byte	0
+ 1806 014a 1A       		.uleb128 0x1a
+ 1807 014b 34       		.uleb128 0x34
+ 1808 014c 00       		.byte	0
+ 1809 014d 03       		.uleb128 0x3
+ 1810 014e 0E       		.uleb128 0xe
+ 1811 014f 3A       		.uleb128 0x3a
+ 1812 0150 0B       		.uleb128 0xb
+ 1813 0151 3B       		.uleb128 0x3b
+ 1814 0152 05       		.uleb128 0x5
+ 1815 0153 49       		.uleb128 0x49
+ 1816 0154 13       		.uleb128 0x13
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 36
+
+
+ 1817 0155 3F       		.uleb128 0x3f
+ 1818 0156 19       		.uleb128 0x19
+ 1819 0157 3C       		.uleb128 0x3c
+ 1820 0158 19       		.uleb128 0x19
+ 1821 0159 00       		.byte	0
+ 1822 015a 00       		.byte	0
+ 1823 015b 1B       		.uleb128 0x1b
+ 1824 015c 34       		.uleb128 0x34
+ 1825 015d 00       		.byte	0
+ 1826 015e 03       		.uleb128 0x3
+ 1827 015f 0E       		.uleb128 0xe
+ 1828 0160 3A       		.uleb128 0x3a
+ 1829 0161 0B       		.uleb128 0xb
+ 1830 0162 3B       		.uleb128 0x3b
+ 1831 0163 0B       		.uleb128 0xb
+ 1832 0164 49       		.uleb128 0x49
+ 1833 0165 13       		.uleb128 0x13
+ 1834 0166 3F       		.uleb128 0x3f
+ 1835 0167 19       		.uleb128 0x19
+ 1836 0168 3C       		.uleb128 0x3c
+ 1837 0169 19       		.uleb128 0x19
+ 1838 016a 00       		.byte	0
+ 1839 016b 00       		.byte	0
+ 1840 016c 1C       		.uleb128 0x1c
+ 1841 016d 34       		.uleb128 0x34
+ 1842 016e 00       		.byte	0
+ 1843 016f 03       		.uleb128 0x3
+ 1844 0170 0E       		.uleb128 0xe
+ 1845 0171 3A       		.uleb128 0x3a
+ 1846 0172 0B       		.uleb128 0xb
+ 1847 0173 3B       		.uleb128 0x3b
+ 1848 0174 0B       		.uleb128 0xb
+ 1849 0175 49       		.uleb128 0x49
+ 1850 0176 13       		.uleb128 0x13
+ 1851 0177 3F       		.uleb128 0x3f
+ 1852 0178 19       		.uleb128 0x19
+ 1853 0179 02       		.uleb128 0x2
+ 1854 017a 18       		.uleb128 0x18
+ 1855 017b 00       		.byte	0
+ 1856 017c 00       		.byte	0
+ 1857 017d 1D       		.uleb128 0x1d
+ 1858 017e 2E       		.uleb128 0x2e
+ 1859 017f 01       		.byte	0x1
+ 1860 0180 3F       		.uleb128 0x3f
+ 1861 0181 19       		.uleb128 0x19
+ 1862 0182 03       		.uleb128 0x3
+ 1863 0183 0E       		.uleb128 0xe
+ 1864 0184 3A       		.uleb128 0x3a
+ 1865 0185 0B       		.uleb128 0xb
+ 1866 0186 3B       		.uleb128 0x3b
+ 1867 0187 0B       		.uleb128 0xb
+ 1868 0188 27       		.uleb128 0x27
+ 1869 0189 19       		.uleb128 0x19
+ 1870 018a 3C       		.uleb128 0x3c
+ 1871 018b 19       		.uleb128 0x19
+ 1872 018c 01       		.uleb128 0x1
+ 1873 018d 13       		.uleb128 0x13
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 37
+
+
+ 1874 018e 00       		.byte	0
+ 1875 018f 00       		.byte	0
+ 1876 0190 1E       		.uleb128 0x1e
+ 1877 0191 05       		.uleb128 0x5
+ 1878 0192 00       		.byte	0
+ 1879 0193 49       		.uleb128 0x49
+ 1880 0194 13       		.uleb128 0x13
+ 1881 0195 00       		.byte	0
+ 1882 0196 00       		.byte	0
+ 1883 0197 1F       		.uleb128 0x1f
+ 1884 0198 2E       		.uleb128 0x2e
+ 1885 0199 01       		.byte	0x1
+ 1886 019a 3F       		.uleb128 0x3f
+ 1887 019b 19       		.uleb128 0x19
+ 1888 019c 03       		.uleb128 0x3
+ 1889 019d 0E       		.uleb128 0xe
+ 1890 019e 3A       		.uleb128 0x3a
+ 1891 019f 0B       		.uleb128 0xb
+ 1892 01a0 3B       		.uleb128 0x3b
+ 1893 01a1 0B       		.uleb128 0xb
+ 1894 01a2 27       		.uleb128 0x27
+ 1895 01a3 19       		.uleb128 0x19
+ 1896 01a4 3C       		.uleb128 0x3c
+ 1897 01a5 19       		.uleb128 0x19
+ 1898 01a6 00       		.byte	0
+ 1899 01a7 00       		.byte	0
+ 1900 01a8 00       		.byte	0
+ 1901              		.section	.debug_loc,"",%progbits
+ 1902              	.Ldebug_loc0:
+ 1903              	.LLST0:
+ 1904 0000 00000000 		.4byte	.LVL0
+ 1905 0004 05000000 		.4byte	.LVL1-1
+ 1906 0008 0100     		.2byte	0x1
+ 1907 000a 50       		.byte	0x50
+ 1908 000b 05000000 		.4byte	.LVL1-1
+ 1909 000f 08000000 		.4byte	.LFE63
+ 1910 0013 0400     		.2byte	0x4
+ 1911 0015 F3       		.byte	0xf3
+ 1912 0016 01       		.uleb128 0x1
+ 1913 0017 50       		.byte	0x50
+ 1914 0018 9F       		.byte	0x9f
+ 1915 0019 00000000 		.4byte	0
+ 1916 001d 00000000 		.4byte	0
+ 1917              	.LLST1:
+ 1918 0021 00000000 		.4byte	.LVL2
+ 1919 0025 05000000 		.4byte	.LVL3-1
+ 1920 0029 0100     		.2byte	0x1
+ 1921 002b 50       		.byte	0x50
+ 1922 002c 05000000 		.4byte	.LVL3-1
+ 1923 0030 08000000 		.4byte	.LFE64
+ 1924 0034 0400     		.2byte	0x4
+ 1925 0036 F3       		.byte	0xf3
+ 1926 0037 01       		.uleb128 0x1
+ 1927 0038 50       		.byte	0x50
+ 1928 0039 9F       		.byte	0x9f
+ 1929 003a 00000000 		.4byte	0
+ 1930 003e 00000000 		.4byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 38
+
+
+ 1931              	.LLST2:
+ 1932 0042 00000000 		.4byte	.LVL4
+ 1933 0046 16000000 		.4byte	.LVL6
+ 1934 004a 0100     		.2byte	0x1
+ 1935 004c 50       		.byte	0x50
+ 1936 004d 16000000 		.4byte	.LVL6
+ 1937 0051 1C000000 		.4byte	.LVL8
+ 1938 0055 0400     		.2byte	0x4
+ 1939 0057 F3       		.byte	0xf3
+ 1940 0058 01       		.uleb128 0x1
+ 1941 0059 50       		.byte	0x50
+ 1942 005a 9F       		.byte	0x9f
+ 1943 005b 1C000000 		.4byte	.LVL8
+ 1944 005f 34000000 		.4byte	.LVL11
+ 1945 0063 0100     		.2byte	0x1
+ 1946 0065 50       		.byte	0x50
+ 1947 0066 3A000000 		.4byte	.LVL13
+ 1948 006a 40000000 		.4byte	.LVL16
+ 1949 006e 0100     		.2byte	0x1
+ 1950 0070 50       		.byte	0x50
+ 1951 0071 00000000 		.4byte	0
+ 1952 0075 00000000 		.4byte	0
+ 1953              	.LLST3:
+ 1954 0079 02000000 		.4byte	.LVL5
+ 1955 007d 1A000000 		.4byte	.LVL7
+ 1956 0081 0200     		.2byte	0x2
+ 1957 0083 30       		.byte	0x30
+ 1958 0084 9F       		.byte	0x9f
+ 1959 0085 1A000000 		.4byte	.LVL7
+ 1960 0089 1E000000 		.4byte	.LVL9
+ 1961 008d 0100     		.2byte	0x1
+ 1962 008f 54       		.byte	0x54
+ 1963 0090 1E000000 		.4byte	.LVL9
+ 1964 0094 20000000 		.4byte	.LVL10
+ 1965 0098 0200     		.2byte	0x2
+ 1966 009a 30       		.byte	0x30
+ 1967 009b 9F       		.byte	0x9f
+ 1968 009c 20000000 		.4byte	.LVL10
+ 1969 00a0 58000000 		.4byte	.LVL20
+ 1970 00a4 0100     		.2byte	0x1
+ 1971 00a6 54       		.byte	0x54
+ 1972 00a7 00000000 		.4byte	0
+ 1973 00ab 00000000 		.4byte	0
+ 1974              	.LLST4:
+ 1975 00af 02000000 		.4byte	.LVL5
+ 1976 00b3 38000000 		.4byte	.LVL12
+ 1977 00b7 0200     		.2byte	0x2
+ 1978 00b9 30       		.byte	0x30
+ 1979 00ba 9F       		.byte	0x9f
+ 1980 00bb 38000000 		.4byte	.LVL12
+ 1981 00bf 3C000000 		.4byte	.LVL14
+ 1982 00c3 0100     		.2byte	0x1
+ 1983 00c5 55       		.byte	0x55
+ 1984 00c6 3C000000 		.4byte	.LVL14
+ 1985 00ca 3E000000 		.4byte	.LVL15
+ 1986 00ce 0200     		.2byte	0x2
+ 1987 00d0 30       		.byte	0x30
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 39
+
+
+ 1988 00d1 9F       		.byte	0x9f
+ 1989 00d2 3E000000 		.4byte	.LVL15
+ 1990 00d6 58000000 		.4byte	.LVL20
+ 1991 00da 0100     		.2byte	0x1
+ 1992 00dc 55       		.byte	0x55
+ 1993 00dd 00000000 		.4byte	0
+ 1994 00e1 00000000 		.4byte	0
+ 1995              	.LLST5:
+ 1996 00e5 00000000 		.4byte	.LVL21
+ 1997 00e9 1C000000 		.4byte	.LVL25
+ 1998 00ed 0100     		.2byte	0x1
+ 1999 00ef 50       		.byte	0x50
+ 2000 00f0 1C000000 		.4byte	.LVL25
+ 2001 00f4 26000000 		.4byte	.LVL28
+ 2002 00f8 0100     		.2byte	0x1
+ 2003 00fa 50       		.byte	0x50
+ 2004 00fb 00000000 		.4byte	0
+ 2005 00ff 00000000 		.4byte	0
+ 2006              	.LLST6:
+ 2007 0103 00000000 		.4byte	.LVL21
+ 2008 0107 26000000 		.4byte	.LVL28
+ 2009 010b 0100     		.2byte	0x1
+ 2010 010d 51       		.byte	0x51
+ 2011 010e 26000000 		.4byte	.LVL28
+ 2012 0112 3C000000 		.4byte	.LFE66
+ 2013 0116 0400     		.2byte	0x4
+ 2014 0118 F3       		.byte	0xf3
+ 2015 0119 01       		.uleb128 0x1
+ 2016 011a 51       		.byte	0x51
+ 2017 011b 9F       		.byte	0x9f
+ 2018 011c 00000000 		.4byte	0
+ 2019 0120 00000000 		.4byte	0
+ 2020              	.LLST7:
+ 2021 0124 04000000 		.4byte	.LVL22
+ 2022 0128 26000000 		.4byte	.LVL28
+ 2023 012c 0800     		.2byte	0x8
+ 2024 012e 71       		.byte	0x71
+ 2025 012f 00       		.sleb128 0
+ 2026 0130 08       		.byte	0x8
+ 2027 0131 FF       		.byte	0xff
+ 2028 0132 1A       		.byte	0x1a
+ 2029 0133 31       		.byte	0x31
+ 2030 0134 1C       		.byte	0x1c
+ 2031 0135 9F       		.byte	0x9f
+ 2032 0136 26000000 		.4byte	.LVL28
+ 2033 013a 3C000000 		.4byte	.LFE66
+ 2034 013e 0900     		.2byte	0x9
+ 2035 0140 F3       		.byte	0xf3
+ 2036 0141 01       		.uleb128 0x1
+ 2037 0142 51       		.byte	0x51
+ 2038 0143 08       		.byte	0x8
+ 2039 0144 FF       		.byte	0xff
+ 2040 0145 1A       		.byte	0x1a
+ 2041 0146 31       		.byte	0x31
+ 2042 0147 1C       		.byte	0x1c
+ 2043 0148 9F       		.byte	0x9f
+ 2044 0149 00000000 		.4byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 40
+
+
+ 2045 014d 00000000 		.4byte	0
+ 2046              	.LLST8:
+ 2047 0151 10000000 		.4byte	.LVL23
+ 2048 0155 14000000 		.4byte	.LVL24
+ 2049 0159 0200     		.2byte	0x2
+ 2050 015b 30       		.byte	0x30
+ 2051 015c 9F       		.byte	0x9f
+ 2052 015d 14000000 		.4byte	.LVL24
+ 2053 0161 1E000000 		.4byte	.LVL26
+ 2054 0165 0100     		.2byte	0x1
+ 2055 0167 53       		.byte	0x53
+ 2056 0168 20000000 		.4byte	.LVL27
+ 2057 016c 31000000 		.4byte	.LVL29-1
+ 2058 0170 0100     		.2byte	0x1
+ 2059 0172 53       		.byte	0x53
+ 2060 0173 34000000 		.4byte	.LVL30
+ 2061 0177 3C000000 		.4byte	.LFE66
+ 2062 017b 0100     		.2byte	0x1
+ 2063 017d 53       		.byte	0x53
+ 2064 017e 00000000 		.4byte	0
+ 2065 0182 00000000 		.4byte	0
+ 2066              	.LLST9:
+ 2067 0186 00000000 		.4byte	.LVL31
+ 2068 018a 08000000 		.4byte	.LVL32
+ 2069 018e 0100     		.2byte	0x1
+ 2070 0190 50       		.byte	0x50
+ 2071 0191 08000000 		.4byte	.LVL32
+ 2072 0195 0E000000 		.4byte	.LVL34
+ 2073 0199 0400     		.2byte	0x4
+ 2074 019b F3       		.byte	0xf3
+ 2075 019c 01       		.uleb128 0x1
+ 2076 019d 50       		.byte	0x50
+ 2077 019e 9F       		.byte	0x9f
+ 2078 019f 0E000000 		.4byte	.LVL34
+ 2079 01a3 24000000 		.4byte	.LVL36
+ 2080 01a7 0100     		.2byte	0x1
+ 2081 01a9 51       		.byte	0x51
+ 2082 01aa 2C000000 		.4byte	.LVL37
+ 2083 01ae 30000000 		.4byte	.LVL38
+ 2084 01b2 0100     		.2byte	0x1
+ 2085 01b4 51       		.byte	0x51
+ 2086 01b5 30000000 		.4byte	.LVL38
+ 2087 01b9 34000000 		.4byte	.LVL39
+ 2088 01bd 0100     		.2byte	0x1
+ 2089 01bf 50       		.byte	0x50
+ 2090 01c0 34000000 		.4byte	.LVL39
+ 2091 01c4 3A000000 		.4byte	.LVL40
+ 2092 01c8 0100     		.2byte	0x1
+ 2093 01ca 51       		.byte	0x51
+ 2094 01cb 00000000 		.4byte	0
+ 2095 01cf 00000000 		.4byte	0
+ 2096              	.LLST10:
+ 2097 01d3 0E000000 		.4byte	.LVL34
+ 2098 01d7 10000000 		.4byte	.LVL35
+ 2099 01db 0100     		.2byte	0x1
+ 2100 01dd 52       		.byte	0x52
+ 2101 01de 10000000 		.4byte	.LVL35
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 41
+
+
+ 2102 01e2 30000000 		.4byte	.LVL38
+ 2103 01e6 0100     		.2byte	0x1
+ 2104 01e8 50       		.byte	0x50
+ 2105 01e9 34000000 		.4byte	.LVL39
+ 2106 01ed 4B000000 		.4byte	.LVL41-1
+ 2107 01f1 0100     		.2byte	0x1
+ 2108 01f3 52       		.byte	0x52
+ 2109 01f4 4E000000 		.4byte	.LVL42
+ 2110 01f8 52000000 		.4byte	.LVL43
+ 2111 01fc 0100     		.2byte	0x1
+ 2112 01fe 52       		.byte	0x52
+ 2113 01ff 00000000 		.4byte	0
+ 2114 0203 00000000 		.4byte	0
+ 2115              	.LLST11:
+ 2116 0207 00000000 		.4byte	.LVL44
+ 2117 020b 08000000 		.4byte	.LVL45
+ 2118 020f 0100     		.2byte	0x1
+ 2119 0211 50       		.byte	0x50
+ 2120 0212 08000000 		.4byte	.LVL45
+ 2121 0216 14000000 		.4byte	.LVL48
+ 2122 021a 0100     		.2byte	0x1
+ 2123 021c 54       		.byte	0x54
+ 2124 021d 14000000 		.4byte	.LVL48
+ 2125 0221 16000000 		.4byte	.LVL49
+ 2126 0225 0100     		.2byte	0x1
+ 2127 0227 50       		.byte	0x50
+ 2128 0228 16000000 		.4byte	.LVL49
+ 2129 022c 1C000000 		.4byte	.LFE68
+ 2130 0230 0100     		.2byte	0x1
+ 2131 0232 54       		.byte	0x54
+ 2132 0233 00000000 		.4byte	0
+ 2133 0237 00000000 		.4byte	0
+ 2134              	.LLST12:
+ 2135 023b 00000000 		.4byte	.LVL51
+ 2136 023f 0D000000 		.4byte	.LVL53-1
+ 2137 0243 0100     		.2byte	0x1
+ 2138 0245 50       		.byte	0x50
+ 2139 0246 0D000000 		.4byte	.LVL53-1
+ 2140 024a 28000000 		.4byte	.LVL58
+ 2141 024e 0100     		.2byte	0x1
+ 2142 0250 56       		.byte	0x56
+ 2143 0251 28000000 		.4byte	.LVL58
+ 2144 0255 2C000000 		.4byte	.LVL60
+ 2145 0259 0100     		.2byte	0x1
+ 2146 025b 50       		.byte	0x50
+ 2147 025c 2C000000 		.4byte	.LVL60
+ 2148 0260 46000000 		.4byte	.LVL63
+ 2149 0264 0100     		.2byte	0x1
+ 2150 0266 56       		.byte	0x56
+ 2151 0267 46000000 		.4byte	.LVL63
+ 2152 026b 49000000 		.4byte	.LVL64-1
+ 2153 026f 0100     		.2byte	0x1
+ 2154 0271 50       		.byte	0x50
+ 2155 0272 00000000 		.4byte	0
+ 2156 0276 00000000 		.4byte	0
+ 2157              	.LLST13:
+ 2158 027a 00000000 		.4byte	.LVL51
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 42
+
+
+ 2159 027e 0A000000 		.4byte	.LVL52
+ 2160 0282 0100     		.2byte	0x1
+ 2161 0284 51       		.byte	0x51
+ 2162 0285 0A000000 		.4byte	.LVL52
+ 2163 0289 C8000000 		.4byte	.LFE69
+ 2164 028d 0400     		.2byte	0x4
+ 2165 028f F3       		.byte	0xf3
+ 2166 0290 01       		.uleb128 0x1
+ 2167 0291 51       		.byte	0x51
+ 2168 0292 9F       		.byte	0x9f
+ 2169 0293 00000000 		.4byte	0
+ 2170 0297 00000000 		.4byte	0
+ 2171              	.LLST14:
+ 2172 029b 1A000000 		.4byte	.LVL55
+ 2173 029f 1E000000 		.4byte	.LVL56
+ 2174 02a3 0100     		.2byte	0x1
+ 2175 02a5 55       		.byte	0x55
+ 2176 02a6 1E000000 		.4byte	.LVL56
+ 2177 02aa 2A000000 		.4byte	.LVL59
+ 2178 02ae 0100     		.2byte	0x1
+ 2179 02b0 54       		.byte	0x54
+ 2180 02b1 2C000000 		.4byte	.LVL60
+ 2181 02b5 4C000000 		.4byte	.LVL65
+ 2182 02b9 0100     		.2byte	0x1
+ 2183 02bb 54       		.byte	0x54
+ 2184 02bc 00000000 		.4byte	0
+ 2185 02c0 00000000 		.4byte	0
+ 2186              	.LLST15:
+ 2187 02c4 46000000 		.4byte	.LVL63
+ 2188 02c8 4E000000 		.4byte	.LVL66
+ 2189 02cc 0200     		.2byte	0x2
+ 2190 02ce 30       		.byte	0x30
+ 2191 02cf 9F       		.byte	0x9f
+ 2192 02d0 4E000000 		.4byte	.LVL66
+ 2193 02d4 50000000 		.4byte	.LVL67
+ 2194 02d8 0100     		.2byte	0x1
+ 2195 02da 54       		.byte	0x54
+ 2196 02db 50000000 		.4byte	.LVL67
+ 2197 02df 70000000 		.4byte	.LVL70
+ 2198 02e3 0100     		.2byte	0x1
+ 2199 02e5 52       		.byte	0x52
+ 2200 02e6 70000000 		.4byte	.LVL70
+ 2201 02ea 78000000 		.4byte	.LVL71
+ 2202 02ee 0100     		.2byte	0x1
+ 2203 02f0 54       		.byte	0x54
+ 2204 02f1 78000000 		.4byte	.LVL71
+ 2205 02f5 84000000 		.4byte	.LVL72
+ 2206 02f9 0100     		.2byte	0x1
+ 2207 02fb 53       		.byte	0x53
+ 2208 02fc 84000000 		.4byte	.LVL72
+ 2209 0300 8C000000 		.4byte	.LVL73
+ 2210 0304 0100     		.2byte	0x1
+ 2211 0306 54       		.byte	0x54
+ 2212 0307 8C000000 		.4byte	.LVL73
+ 2213 030b 9A000000 		.4byte	.LVL74
+ 2214 030f 0100     		.2byte	0x1
+ 2215 0311 53       		.byte	0x53
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 43
+
+
+ 2216 0312 9A000000 		.4byte	.LVL74
+ 2217 0316 A6000000 		.4byte	.LVL76
+ 2218 031a 0100     		.2byte	0x1
+ 2219 031c 54       		.byte	0x54
+ 2220 031d B4000000 		.4byte	.LVL78
+ 2221 0321 BC000000 		.4byte	.LVL79
+ 2222 0325 0100     		.2byte	0x1
+ 2223 0327 54       		.byte	0x54
+ 2224 0328 00000000 		.4byte	0
+ 2225 032c 00000000 		.4byte	0
+ 2226              	.LLST16:
+ 2227 0330 4A000000 		.4byte	.LVL64
+ 2228 0334 64000000 		.4byte	.LVL68
+ 2229 0338 0100     		.2byte	0x1
+ 2230 033a 50       		.byte	0x50
+ 2231 033b 6E000000 		.4byte	.LVL69
+ 2232 033f 9A000000 		.4byte	.LVL74
+ 2233 0343 0100     		.2byte	0x1
+ 2234 0345 50       		.byte	0x50
+ 2235 0346 00000000 		.4byte	0
+ 2236 034a 00000000 		.4byte	0
+ 2237              	.LLST17:
+ 2238 034e 00000000 		.4byte	.LVL80
+ 2239 0352 11000000 		.4byte	.LVL81-1
+ 2240 0356 0100     		.2byte	0x1
+ 2241 0358 50       		.byte	0x50
+ 2242 0359 11000000 		.4byte	.LVL81-1
+ 2243 035d 28000000 		.4byte	.LVL85
+ 2244 0361 0600     		.2byte	0x6
+ 2245 0363 F3       		.byte	0xf3
+ 2246 0364 03       		.uleb128 0x3
+ 2247 0365 F5       		.byte	0xf5
+ 2248 0366 00       		.uleb128 0
+ 2249 0367 25       		.uleb128 0x25
+ 2250 0368 9F       		.byte	0x9f
+ 2251 0369 28000000 		.4byte	.LVL85
+ 2252 036d 2D000000 		.4byte	.LVL86-1
+ 2253 0371 0100     		.2byte	0x1
+ 2254 0373 50       		.byte	0x50
+ 2255 0374 2D000000 		.4byte	.LVL86-1
+ 2256 0378 3C000000 		.4byte	.LFE70
+ 2257 037c 0600     		.2byte	0x6
+ 2258 037e F3       		.byte	0xf3
+ 2259 037f 03       		.uleb128 0x3
+ 2260 0380 F5       		.byte	0xf5
+ 2261 0381 00       		.uleb128 0
+ 2262 0382 25       		.uleb128 0x25
+ 2263 0383 9F       		.byte	0x9f
+ 2264 0384 00000000 		.4byte	0
+ 2265 0388 00000000 		.4byte	0
+ 2266              	.LLST18:
+ 2267 038c 00000000 		.4byte	.LVL87
+ 2268 0390 11000000 		.4byte	.LVL88-1
+ 2269 0394 0100     		.2byte	0x1
+ 2270 0396 50       		.byte	0x50
+ 2271 0397 11000000 		.4byte	.LVL88-1
+ 2272 039b 28000000 		.4byte	.LVL92
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 44
+
+
+ 2273 039f 0600     		.2byte	0x6
+ 2274 03a1 F3       		.byte	0xf3
+ 2275 03a2 03       		.uleb128 0x3
+ 2276 03a3 F5       		.byte	0xf5
+ 2277 03a4 00       		.uleb128 0
+ 2278 03a5 25       		.uleb128 0x25
+ 2279 03a6 9F       		.byte	0x9f
+ 2280 03a7 28000000 		.4byte	.LVL92
+ 2281 03ab 2D000000 		.4byte	.LVL93-1
+ 2282 03af 0100     		.2byte	0x1
+ 2283 03b1 50       		.byte	0x50
+ 2284 03b2 2D000000 		.4byte	.LVL93-1
+ 2285 03b6 3C000000 		.4byte	.LFE71
+ 2286 03ba 0600     		.2byte	0x6
+ 2287 03bc F3       		.byte	0xf3
+ 2288 03bd 03       		.uleb128 0x3
+ 2289 03be F5       		.byte	0xf5
+ 2290 03bf 00       		.uleb128 0
+ 2291 03c0 25       		.uleb128 0x25
+ 2292 03c1 9F       		.byte	0x9f
+ 2293 03c2 00000000 		.4byte	0
+ 2294 03c6 00000000 		.4byte	0
+ 2295              		.section	.debug_aranges,"",%progbits
+ 2296 0000 5C000000 		.4byte	0x5c
+ 2297 0004 0200     		.2byte	0x2
+ 2298 0006 00000000 		.4byte	.Ldebug_info0
+ 2299 000a 04       		.byte	0x4
+ 2300 000b 00       		.byte	0
+ 2301 000c 0000     		.2byte	0
+ 2302 000e 0000     		.2byte	0
+ 2303 0010 00000000 		.4byte	.LFB63
+ 2304 0014 08000000 		.4byte	.LFE63-.LFB63
+ 2305 0018 00000000 		.4byte	.LFB64
+ 2306 001c 08000000 		.4byte	.LFE64-.LFB64
+ 2307 0020 00000000 		.4byte	.LFB65
+ 2308 0024 5C000000 		.4byte	.LFE65-.LFB65
+ 2309 0028 00000000 		.4byte	.LFB66
+ 2310 002c 3C000000 		.4byte	.LFE66-.LFB66
+ 2311 0030 00000000 		.4byte	.LFB67
+ 2312 0034 5C000000 		.4byte	.LFE67-.LFB67
+ 2313 0038 00000000 		.4byte	.LFB68
+ 2314 003c 1C000000 		.4byte	.LFE68-.LFB68
+ 2315 0040 00000000 		.4byte	.LFB69
+ 2316 0044 C8000000 		.4byte	.LFE69-.LFB69
+ 2317 0048 00000000 		.4byte	.LFB70
+ 2318 004c 3C000000 		.4byte	.LFE70-.LFB70
+ 2319 0050 00000000 		.4byte	.LFB71
+ 2320 0054 3C000000 		.4byte	.LFE71-.LFB71
+ 2321 0058 00000000 		.4byte	0
+ 2322 005c 00000000 		.4byte	0
+ 2323              		.section	.debug_ranges,"",%progbits
+ 2324              	.Ldebug_ranges0:
+ 2325 0000 00000000 		.4byte	.LFB63
+ 2326 0004 08000000 		.4byte	.LFE63
+ 2327 0008 00000000 		.4byte	.LFB64
+ 2328 000c 08000000 		.4byte	.LFE64
+ 2329 0010 00000000 		.4byte	.LFB65
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 45
+
+
+ 2330 0014 5C000000 		.4byte	.LFE65
+ 2331 0018 00000000 		.4byte	.LFB66
+ 2332 001c 3C000000 		.4byte	.LFE66
+ 2333 0020 00000000 		.4byte	.LFB67
+ 2334 0024 5C000000 		.4byte	.LFE67
+ 2335 0028 00000000 		.4byte	.LFB68
+ 2336 002c 1C000000 		.4byte	.LFE68
+ 2337 0030 00000000 		.4byte	.LFB69
+ 2338 0034 C8000000 		.4byte	.LFE69
+ 2339 0038 00000000 		.4byte	.LFB70
+ 2340 003c 3C000000 		.4byte	.LFE70
+ 2341 0040 00000000 		.4byte	.LFB71
+ 2342 0044 3C000000 		.4byte	.LFE71
+ 2343 0048 00000000 		.4byte	0
+ 2344 004c 00000000 		.4byte	0
+ 2345              		.section	.debug_line,"",%progbits
+ 2346              	.Ldebug_line0:
+ 2347 0000 B3020000 		.section	.debug_str,"MS",%progbits,1
+ 2347      02008801 
+ 2347      00000201 
+ 2347      FB0E0D00 
+ 2347      01010101 
+ 2348              	.LASF63:
+ 2349 0000 7379735F 		.ascii	"sys_rt_exec_alarm\000"
+ 2349      72745F65 
+ 2349      7865635F 
+ 2349      616C6172 
+ 2349      6D00
+ 2350              	.LASF65:
+ 2351 0012 7379735F 		.ascii	"sys_rt_exec_accessory_override\000"
+ 2351      72745F65 
+ 2351      7865635F 
+ 2351      61636365 
+ 2351      73736F72 
+ 2352              	.LASF25:
+ 2353 0031 61636365 		.ascii	"acceleration\000"
+ 2353      6C657261 
+ 2353      74696F6E 
+ 2353      00
+ 2354              	.LASF69:
+ 2355 003e 7072696E 		.ascii	"print.c\000"
+ 2355      742E6300 
+ 2356              	.LASF3:
+ 2357 0046 73686F72 		.ascii	"short int\000"
+ 2357      7420696E 
+ 2357      7400
+ 2358              	.LASF21:
+ 2359 0050 73697A65 		.ascii	"sizetype\000"
+ 2359      74797065 
+ 2359      00
+ 2360              	.LASF19:
+ 2361 0059 63686172 		.ascii	"char8\000"
+ 2361      3800
+ 2362              	.LASF70:
+ 2363 005f 433A5C55 		.ascii	"C:\\Users\\Bart\\Dropbox\\PSoC\\PSoC_Grbl\\PSoC_Grb"
+ 2363      73657273 
+ 2363      5C426172 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 46
+
+
+ 2363      745C4472 
+ 2363      6F70626F 
+ 2364 008c 6C2E6379 		.ascii	"l.cydsn\000"
+ 2364      64736E00 
+ 2365              	.LASF9:
+ 2366 0094 5F5F7569 		.ascii	"__uint32_t\000"
+ 2366      6E743332 
+ 2366      5F7400
+ 2367              	.LASF5:
+ 2368 009f 5F5F7569 		.ascii	"__uint16_t\000"
+ 2368      6E743136 
+ 2368      5F7400
+ 2369              	.LASF30:
+ 2370 00aa 73746570 		.ascii	"stepper_idle_lock_time\000"
+ 2370      7065725F 
+ 2370      69646C65 
+ 2370      5F6C6F63 
+ 2370      6B5F7469 
+ 2371              	.LASF47:
+ 2372 00c1 64696769 		.ascii	"digit_b\000"
+ 2372      745F6200 
+ 2373              	.LASF71:
+ 2374 00c9 55415254 		.ascii	"UART_PutString\000"
+ 2374      5F507574 
+ 2374      53747269 
+ 2374      6E6700
+ 2375              	.LASF14:
+ 2376 00d8 75696E74 		.ascii	"uint8_t\000"
+ 2376      385F7400 
+ 2377              	.LASF41:
+ 2378 00e0 686F6D69 		.ascii	"homing_pulloff\000"
+ 2378      6E675F70 
+ 2378      756C6C6F 
+ 2378      666600
+ 2379              	.LASF54:
+ 2380 00ef 64656369 		.ascii	"decimals\000"
+ 2380      6D616C73 
+ 2380      00
+ 2381              	.LASF51:
+ 2382 00f8 7072696E 		.ascii	"printInteger\000"
+ 2382      74496E74 
+ 2382      65676572 
+ 2382      00
+ 2383              	.LASF0:
+ 2384 0105 666C6F61 		.ascii	"float\000"
+ 2384      7400
+ 2385              	.LASF58:
+ 2386 010b 73657474 		.ascii	"settings\000"
+ 2386      696E6773 
+ 2386      00
+ 2387              	.LASF11:
+ 2388 0114 6C6F6E67 		.ascii	"long long int\000"
+ 2388      206C6F6E 
+ 2388      6720696E 
+ 2388      7400
+ 2389              	.LASF32:
+ 2390 0122 6A756E63 		.ascii	"junction_deviation\000"
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 47
+
+
+ 2390      74696F6E 
+ 2390      5F646576 
+ 2390      69617469 
+ 2390      6F6E00
+ 2391              	.LASF59:
+ 2392 0135 7379735F 		.ascii	"sys_position\000"
+ 2392      706F7369 
+ 2392      74696F6E 
+ 2392      00
+ 2393              	.LASF67:
+ 2394 0142 65786563 		.ascii	"exec_lcd_status\000"
+ 2394      5F6C6364 
+ 2394      5F737461 
+ 2394      74757300 
+ 2395              	.LASF23:
+ 2396 0152 73746570 		.ascii	"steps_per_mm\000"
+ 2396      735F7065 
+ 2396      725F6D6D 
+ 2396      00
+ 2397              	.LASF4:
+ 2398 015f 5F5F7569 		.ascii	"__uint8_t\000"
+ 2398      6E74385F 
+ 2398      7400
+ 2399              	.LASF43:
+ 2400 0169 7072696E 		.ascii	"printString\000"
+ 2400      74537472 
+ 2400      696E6700 
+ 2401              	.LASF49:
+ 2402 0175 64696769 		.ascii	"digits\000"
+ 2402      747300
+ 2403              	.LASF33:
+ 2404 017c 6172635F 		.ascii	"arc_tolerance\000"
+ 2404      746F6C65 
+ 2404      72616E63 
+ 2404      6500
+ 2405              	.LASF72:
+ 2406 018a 73657269 		.ascii	"serial_write\000"
+ 2406      616C5F77 
+ 2406      72697465 
+ 2406      00
+ 2407              	.LASF22:
+ 2408 0197 6C6F6E67 		.ascii	"long double\000"
+ 2408      20646F75 
+ 2408      626C6500 
+ 2409              	.LASF37:
+ 2410 01a3 686F6D69 		.ascii	"homing_dir_mask\000"
+ 2410      6E675F64 
+ 2410      69725F6D 
+ 2410      61736B00 
+ 2411              	.LASF2:
+ 2412 01b3 756E7369 		.ascii	"unsigned char\000"
+ 2412      676E6564 
+ 2412      20636861 
+ 2412      7200
+ 2413              	.LASF1:
+ 2414 01c1 7369676E 		.ascii	"signed char\000"
+ 2414      65642063 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 48
+
+
+ 2414      68617200 
+ 2415              	.LASF36:
+ 2416 01cd 666C6167 		.ascii	"flags\000"
+ 2416      7300
+ 2417              	.LASF12:
+ 2418 01d3 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2418      206C6F6E 
+ 2418      6720756E 
+ 2418      7369676E 
+ 2418      65642069 
+ 2419              	.LASF17:
+ 2420 01ea 75696E74 		.ascii	"uint32_t\000"
+ 2420      33325F74 
+ 2420      00
+ 2421              	.LASF13:
+ 2422 01f3 756E7369 		.ascii	"unsigned int\000"
+ 2422      676E6564 
+ 2422      20696E74 
+ 2422      00
+ 2423              	.LASF15:
+ 2424 0200 75696E74 		.ascii	"uint16_t\000"
+ 2424      31365F74 
+ 2424      00
+ 2425              	.LASF10:
+ 2426 0209 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2426      20756E73 
+ 2426      69676E65 
+ 2426      6420696E 
+ 2426      7400
+ 2427              	.LASF60:
+ 2428 021b 7379735F 		.ascii	"sys_probe_position\000"
+ 2428      70726F62 
+ 2428      655F706F 
+ 2428      73697469 
+ 2428      6F6E00
+ 2429              	.LASF64:
+ 2430 022e 7379735F 		.ascii	"sys_rt_exec_motion_override\000"
+ 2430      72745F65 
+ 2430      7865635F 
+ 2430      6D6F7469 
+ 2430      6F6E5F6F 
+ 2431              	.LASF31:
+ 2432 024a 73746174 		.ascii	"status_report_mask\000"
+ 2432      75735F72 
+ 2432      65706F72 
+ 2432      745F6D61 
+ 2432      736B00
+ 2433              	.LASF6:
+ 2434 025d 73686F72 		.ascii	"short unsigned int\000"
+ 2434      7420756E 
+ 2434      7369676E 
+ 2434      65642069 
+ 2434      6E7400
+ 2435              	.LASF20:
+ 2436 0270 63686172 		.ascii	"char\000"
+ 2436      00
+ 2437              	.LASF8:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 49
+
+
+ 2438 0275 6C6F6E67 		.ascii	"long int\000"
+ 2438      20696E74 
+ 2438      00
+ 2439              	.LASF29:
+ 2440 027e 6469725F 		.ascii	"dir_invert_mask\000"
+ 2440      696E7665 
+ 2440      72745F6D 
+ 2440      61736B00 
+ 2441              	.LASF16:
+ 2442 028e 696E7433 		.ascii	"int32_t\000"
+ 2442      325F7400 
+ 2443              	.LASF34:
+ 2444 0296 72706D5F 		.ascii	"rpm_max\000"
+ 2444      6D617800 
+ 2445              	.LASF40:
+ 2446 029e 686F6D69 		.ascii	"homing_debounce_delay\000"
+ 2446      6E675F64 
+ 2446      65626F75 
+ 2446      6E63655F 
+ 2446      64656C61 
+ 2447              	.LASF27:
+ 2448 02b4 70756C73 		.ascii	"pulse_microseconds\000"
+ 2448      655F6D69 
+ 2448      63726F73 
+ 2448      65636F6E 
+ 2448      647300
+ 2449              	.LASF61:
+ 2450 02c7 7379735F 		.ascii	"sys_probe_state\000"
+ 2450      70726F62 
+ 2450      655F7374 
+ 2450      61746500 
+ 2451              	.LASF44:
+ 2452 02d7 7072696E 		.ascii	"printPgmString\000"
+ 2452      7450676D 
+ 2452      53747269 
+ 2452      6E6700
+ 2453              	.LASF18:
+ 2454 02e6 646F7562 		.ascii	"double\000"
+ 2454      6C6500
+ 2455              	.LASF39:
+ 2456 02ed 686F6D69 		.ascii	"homing_seek_rate\000"
+ 2456      6E675F73 
+ 2456      65656B5F 
+ 2456      72617465 
+ 2456      00
+ 2457              	.LASF57:
+ 2458 02fe 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2458      52784275 
+ 2458      66666572 
+ 2458      00
+ 2459              	.LASF50:
+ 2460 030b 7072696E 		.ascii	"print_uint32_base10\000"
+ 2460      745F7569 
+ 2460      6E743332 
+ 2460      5F626173 
+ 2460      65313000 
+ 2461              	.LASF35:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 50
+
+
+ 2462 031f 72706D5F 		.ascii	"rpm_min\000"
+ 2462      6D696E00 
+ 2463              	.LASF48:
+ 2464 0327 7072696E 		.ascii	"print_uint8_base2_ndigit\000"
+ 2464      745F7569 
+ 2464      6E74385F 
+ 2464      62617365 
+ 2464      325F6E64 
+ 2465              	.LASF7:
+ 2466 0340 5F5F696E 		.ascii	"__int32_t\000"
+ 2466      7433325F 
+ 2466      7400
+ 2467              	.LASF52:
+ 2468 034a 7072696E 		.ascii	"printFloat\000"
+ 2468      74466C6F 
+ 2468      617400
+ 2469              	.LASF68:
+ 2470 0355 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 2470      4320342E 
+ 2470      392E3320 
+ 2470      32303135 
+ 2470      30333033 
+ 2471 0388 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 2471      20726576 
+ 2471      6973696F 
+ 2471      6E203232 
+ 2471      31323230 
+ 2472 03bb 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2472      66756E63 
+ 2472      74696F6E 
+ 2472      2D736563 
+ 2472      74696F6E 
+ 2473              	.LASF26:
+ 2474 03e3 6D61785F 		.ascii	"max_travel\000"
+ 2474      74726176 
+ 2474      656C00
+ 2475              	.LASF53:
+ 2476 03ee 64656369 		.ascii	"decimal_places\000"
+ 2476      6D616C5F 
+ 2476      706C6163 
+ 2476      657300
+ 2477              	.LASF38:
+ 2478 03fd 686F6D69 		.ascii	"homing_feed_rate\000"
+ 2478      6E675F66 
+ 2478      6565645F 
+ 2478      72617465 
+ 2478      00
+ 2479              	.LASF45:
+ 2480 040e 7072696E 		.ascii	"print_uint8_base10\000"
+ 2480      745F7569 
+ 2480      6E74385F 
+ 2480      62617365 
+ 2480      313000
+ 2481              	.LASF42:
+ 2482 0421 73657474 		.ascii	"settings_t\000"
+ 2482      696E6773 
+ 2482      5F7400
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cciD5iHp.s 			page 51
+
+
+ 2483              	.LASF28:
+ 2484 042c 73746570 		.ascii	"step_invert_mask\000"
+ 2484      5F696E76 
+ 2484      6572745F 
+ 2484      6D61736B 
+ 2484      00
+ 2485              	.LASF24:
+ 2486 043d 6D61785F 		.ascii	"max_rate\000"
+ 2486      72617465 
+ 2486      00
+ 2487              	.LASF46:
+ 2488 0446 64696769 		.ascii	"digit_a\000"
+ 2488      745F6100 
+ 2489              	.LASF62:
+ 2490 044e 7379735F 		.ascii	"sys_rt_exec_state\000"
+ 2490      72745F65 
+ 2490      7865635F 
+ 2490      73746174 
+ 2490      6500
+ 2491              	.LASF55:
+ 2492 0460 7072696E 		.ascii	"printFloat_CoordValue\000"
+ 2492      74466C6F 
+ 2492      61745F43 
+ 2492      6F6F7264 
+ 2492      56616C75 
+ 2493              	.LASF66:
+ 2494 0476 7379735F 		.ascii	"sys_rt_exec_debug\000"
+ 2494      72745F65 
+ 2494      7865635F 
+ 2494      64656275 
+ 2494      6700
+ 2495              	.LASF56:
+ 2496 0488 7072696E 		.ascii	"printFloat_RateValue\000"
+ 2496      74466C6F 
+ 2496      61745F52 
+ 2496      61746556 
+ 2496      616C7565 
+ 2497              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

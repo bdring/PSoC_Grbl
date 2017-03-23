@@ -1,0 +1,135 @@
+# PSoC_Grbl
+# 2017-03-22 23:18:54Z
+
+# IO_0@[IOP=(1)][IoId=(0)] is reserved: SWDDebugEnabled
+dont_use_io iocell 1 0
+# IO_1@[IOP=(1)][IoId=(1)] is reserved: SWDDebugEnabled
+dont_use_io iocell 1 1
+# IO_3@[IOP=(1)][IoId=(3)] is reserved: SWDDebugEnabled
+dont_use_io iocell 1 3
+set_location "ClockBlock" clockblockcell -1 -1 0
+set_io "\LCD:LCDPort(0)\" iocell 3 0
+set_io "\LCD:LCDPort(1)\" iocell 3 1
+set_io "\LCD:LCDPort(2)\" iocell 3 2
+set_io "\LCD:LCDPort(3)\" iocell 3 3
+set_io "\LCD:LCDPort(4)\" iocell 3 4
+set_io "\LCD:LCDPort(5)\" iocell 3 5
+set_io "\LCD:LCDPort(6)\" iocell 3 6
+set_io "Rx_1(0)" iocell 12 6
+set_io "Tx_1(0)" iocell 12 7
+set_io "Pin_Step_Y(0)" iocell 0 1
+set_io "Probe_Pin(0)" iocell 12 4
+set_io "Control_Pin(0)" iocell 15 0
+set_io "Control_Pin(1)" iocell 15 1
+set_io "Control_Pin(2)" iocell 15 2
+set_io "Control_Pin(3)" iocell 15 3
+set_io "Pin_Dir_Z(0)" iocell 0 6
+set_io "Pin_Dir_Y(0)" iocell 0 5
+set_io "Pin_Dir_X(0)" iocell 0 4
+set_io "Pin_Step_Z(0)" iocell 15 4
+set_io "Pin_Step_X(0)" iocell 0 0
+set_io "Flood_Coolant_Pin(0)" iocell 2 7
+set_io "Pin_Spindle(0)" iocell 2 0
+set_io "Pin_Spindle_Direction(0)" iocell 2 1
+set_io "Pin_Spindle_Enable(0)" iocell 2 2
+set_io "Mist_Coolant_Pin(0)" iocell 2 6
+set_io "Pin_Quad_A(0)" iocell 1 7
+set_io "Pin_Quad_B(0)" iocell 1 6
+set_io "Pin_Encoder_Sw(0)" iocell 1 5
+set_io "Pin_X_Lim(0)" iocell 12 0
+set_io "Pin_Y_Lim(0)" iocell 12 1
+set_io "Pin_Z_Lim(0)" iocell 12 2
+set_io "Stepper_Enable_Pin(0)" iocell 15 5
+set_location "Net_14" 1 1 0 2
+set_location "\UART:BUART:counter_load_not\" 3 2 1 0
+set_location "\UART:BUART:tx_status_0\" 2 4 0 1
+set_location "\UART:BUART:tx_status_2\" 2 3 1 2
+set_location "\UART:BUART:rx_counter_load\" 2 1 0 0
+set_location "\UART:BUART:rx_postpoll\" 2 1 1 1
+set_location "\UART:BUART:rx_status_4\" 2 1 0 1
+set_location "\UART:BUART:rx_status_5\" 2 2 1 3
+set_location "Net_612" 3 1 0 2
+set_location "Net_611" 3 1 1 0
+set_location "Net_572" 3 2 0 0
+set_location "Net_423" 3 2 1 2
+set_location "Net_584" 3 3 0 2
+set_location "Net_587" 3 3 0 3
+set_location "Net_610" 3 1 1 2
+set_location "Net_639" 0 2 1 2
+set_location "\QuadDec:Cnt16:CounterUDB:reload\" 0 2 0 0
+set_location "\QuadDec:Cnt16:CounterUDB:status_0\" 0 1 1 0
+set_location "\QuadDec:Cnt16:CounterUDB:status_2\" 1 2 1 3
+set_location "\QuadDec:Cnt16:CounterUDB:status_3\" 0 1 1 1
+set_location "\QuadDec:Cnt16:CounterUDB:count_enable\" 1 1 1 3
+set_location "\QuadDec:Net_530\" 0 2 0 1
+set_location "\QuadDec:Net_611\" 0 2 1 1
+set_location "\UART:TXInternalInterrupt\" interrupt -1 -1 0
+set_location "__ONE__" 1 2 0 1
+set_location "\UART:BUART:sTX:TxShifter:u0\" 2 4 2
+set_location "\UART:BUART:sTX:sCLOCK:TxBitClkGen\" 3 2 2
+set_location "\UART:BUART:sTX:TxSts\" 2 4 4
+set_location "\UART:BUART:sRX:RxShifter:u0\" 2 1 2
+set_location "\UART:BUART:sRX:RxBitCounter\" 2 0 7
+set_location "\UART:BUART:sRX:RxSts\" 2 2 4
+set_location "isr_UART_Rx" interrupt -1 -1 6
+set_location "isr_Control" interrupt -1 -1 1
+set_location "\Status_Control:sts_intr:sts_reg\" 3 3 4
+set_location "\Status_Limit:sts_intr:sts_reg\" 3 1 4
+set_location "isr_Limits" interrupt -1 -1 4
+set_location "\Status_Probe:sts_intr:sts_reg\" 1 2 4
+set_location "isr_Probe" interrupt -1 -1 5
+set_location "\Control_Step_Enable:Sync:ctrl_reg\" 0 2 6
+set_location "\PWM_Spindle:PWMHW\" timercell -1 -1 0
+set_location "\Stepper_Timer:TimerHW\" timercell -1 -1 1
+set_location "isr_Step" interrupt -1 -1 18
+set_location "isr_LCD_Update" interrupt -1 -1 3
+set_location "\QuadDec:Cnt16:CounterUDB:sCTRLReg:ctrlreg\" 1 1 6
+set_location "\QuadDec:Cnt16:CounterUDB:sSTSReg:stsreg\" 0 1 4
+set_location "\QuadDec:Cnt16:CounterUDB:sC16:counterdp:u0\" 1 2 2
+set_location "\QuadDec:Cnt16:CounterUDB:sC16:counterdp:u1\" 0 2 2
+set_location "\QuadDec:bQuadDec:quad_A_delayed_0\" 2 3 1 1
+set_location "\QuadDec:bQuadDec:quad_A_delayed_1\" 3 3 1 1
+set_location "\QuadDec:bQuadDec:quad_A_delayed_2\" 3 3 0 0
+set_location "\QuadDec:bQuadDec:quad_B_delayed_0\" 2 1 0 2
+set_location "\QuadDec:bQuadDec:quad_B_delayed_1\" 3 2 0 1
+set_location "\QuadDec:bQuadDec:quad_B_delayed_2\" 3 2 0 2
+set_location "\QuadDec:bQuadDec:Stsreg\" 0 2 4
+set_location "isr_Enc_Sw" interrupt -1 -1 2
+set_location "\Control_Reg_Dir:Sync:ctrl_reg\" 3 4 6
+set_location "\Control_Reg_Step:Sync:ctrl_reg\" 3 3 6
+set_location "\UART:BUART:txn\" 2 4 1 2
+set_location "\UART:BUART:tx_state_1\" 2 2 1 1
+set_location "\UART:BUART:tx_state_0\" 2 2 1 0
+set_location "\UART:BUART:tx_state_2\" 3 4 1 3
+set_location "\UART:BUART:tx_bitclk\" 2 2 0 2
+set_location "\UART:BUART:tx_ctrl_mark_last\" 2 2 0 1
+set_location "\UART:BUART:rx_state_0\" 2 0 0 0
+set_location "\UART:BUART:rx_load_fifo\" 3 0 0 1
+set_location "\UART:BUART:rx_state_3\" 3 0 1 0
+set_location "\UART:BUART:rx_state_2\" 2 0 1 0
+set_location "\UART:BUART:rx_bitclk_enable\" 2 1 1 3
+set_location "\UART:BUART:rx_state_stop1_reg\" 2 2 0 0
+set_location "\UART:BUART:pollcount_1\" 1 1 1 2
+set_location "\UART:BUART:pollcount_0\" 1 1 1 0
+set_location "\UART:BUART:rx_status_3\" 2 1 1 2
+set_location "\UART:BUART:rx_last\" 2 0 1 2
+set_location "Net_406" 3 1 0 0
+set_location "\QuadDec:Net_1251\" 2 3 1 0
+set_location "\QuadDec:Cnt16:CounterUDB:overflow_reg_i\" 1 2 0 2
+set_location "\QuadDec:Cnt16:CounterUDB:underflow_reg_i\" 0 1 0 1
+set_location "\QuadDec:Net_1275\" 0 2 1 3
+set_location "\QuadDec:Cnt16:CounterUDB:prevCompare\" 0 1 0 2
+set_location "\QuadDec:Net_1251_split\" 2 3 0 0
+set_location "\QuadDec:Cnt16:CounterUDB:count_stored_i\" 1 1 0 3
+set_location "\QuadDec:Net_1203\" 1 1 0 1
+set_location "\QuadDec:bQuadDec:quad_A_filt\" 3 3 0 1
+set_location "\QuadDec:bQuadDec:quad_B_filt\" 3 2 1 3
+set_location "\QuadDec:Net_1260\" 0 1 0 3
+set_location "\QuadDec:bQuadDec:error\" 1 2 1 2
+set_location "\QuadDec:bQuadDec:state_1\" 3 3 1 0
+set_location "\QuadDec:bQuadDec:state_0\" 2 4 0 0
+set_location "\Debouncer_Enc_Sw:DEBOUNCER[0]:d_sync_0\" 3 4 0 2
+set_location "\Debouncer_Enc_Sw:DEBOUNCER[0]:d_sync_1\" 3 4 0 1
+set_location "Net_300" 3 4 0 0
+set_location "Net_378" 3 1 0 3
+set_location "Net_408" 3 1 0 1

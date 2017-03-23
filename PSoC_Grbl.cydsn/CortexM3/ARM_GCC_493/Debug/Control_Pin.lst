@@ -1,0 +1,814 @@
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3JPlQY.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"Control_Pin.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.Control_Pin_Write,"ax",%progbits
+  19              		.align	2
+  20              		.global	Control_Pin_Write
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	Control_Pin_Write, %function
+  24              	Control_Pin_Write:
+  25              	.LFB0:
+  26              		.file 1 "Generated_Source\\PSoC5\\Control_Pin.c"
+   1:Generated_Source\PSoC5/Control_Pin.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/Control_Pin.c **** * File Name: Control_Pin.c  
+   3:Generated_Source\PSoC5/Control_Pin.c **** * Version 2.20
+   4:Generated_Source\PSoC5/Control_Pin.c **** *
+   5:Generated_Source\PSoC5/Control_Pin.c **** * Description:
+   6:Generated_Source\PSoC5/Control_Pin.c **** *  This file contains API to enable firmware control of a Pins component.
+   7:Generated_Source\PSoC5/Control_Pin.c **** *
+   8:Generated_Source\PSoC5/Control_Pin.c **** * Note:
+   9:Generated_Source\PSoC5/Control_Pin.c **** *
+  10:Generated_Source\PSoC5/Control_Pin.c **** ********************************************************************************
+  11:Generated_Source\PSoC5/Control_Pin.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  12:Generated_Source\PSoC5/Control_Pin.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  13:Generated_Source\PSoC5/Control_Pin.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  14:Generated_Source\PSoC5/Control_Pin.c **** * the software package with which this file was provided.
+  15:Generated_Source\PSoC5/Control_Pin.c **** *******************************************************************************/
+  16:Generated_Source\PSoC5/Control_Pin.c **** 
+  17:Generated_Source\PSoC5/Control_Pin.c **** #include "cytypes.h"
+  18:Generated_Source\PSoC5/Control_Pin.c **** #include "Control_Pin.h"
+  19:Generated_Source\PSoC5/Control_Pin.c **** 
+  20:Generated_Source\PSoC5/Control_Pin.c **** /* APIs are not generated for P15[7:6] on PSoC 5 */
+  21:Generated_Source\PSoC5/Control_Pin.c **** #if !(CY_PSOC5A &&\
+  22:Generated_Source\PSoC5/Control_Pin.c **** 	 Control_Pin__PORT == 15 && ((Control_Pin__MASK & 0xC0) != 0))
+  23:Generated_Source\PSoC5/Control_Pin.c **** 
+  24:Generated_Source\PSoC5/Control_Pin.c **** 
+  25:Generated_Source\PSoC5/Control_Pin.c **** /*******************************************************************************
+  26:Generated_Source\PSoC5/Control_Pin.c **** * Function Name: Control_Pin_Write
+  27:Generated_Source\PSoC5/Control_Pin.c **** ****************************************************************************//**
+  28:Generated_Source\PSoC5/Control_Pin.c **** *
+  29:Generated_Source\PSoC5/Control_Pin.c **** * \brief Writes the value to the physical port (data output register), masking
+  30:Generated_Source\PSoC5/Control_Pin.c **** *  and shifting the bits appropriately. 
+  31:Generated_Source\PSoC5/Control_Pin.c **** *
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3JPlQY.s 			page 2
+
+
+  32:Generated_Source\PSoC5/Control_Pin.c **** * The data output register controls the signal applied to the physical pin in 
+  33:Generated_Source\PSoC5/Control_Pin.c **** * conjunction with the drive mode parameter. This function avoids changing 
+  34:Generated_Source\PSoC5/Control_Pin.c **** * other bits in the port by using the appropriate method (read-modify-write or
+  35:Generated_Source\PSoC5/Control_Pin.c **** * bit banding).
+  36:Generated_Source\PSoC5/Control_Pin.c **** *
+  37:Generated_Source\PSoC5/Control_Pin.c **** * <b>Note</b> This function should not be used on a hardware digital output pin 
+  38:Generated_Source\PSoC5/Control_Pin.c **** * as it is driven by the hardware signal attached to it.
+  39:Generated_Source\PSoC5/Control_Pin.c **** *
+  40:Generated_Source\PSoC5/Control_Pin.c **** * \param value
+  41:Generated_Source\PSoC5/Control_Pin.c **** *  Value to write to the component instance.
+  42:Generated_Source\PSoC5/Control_Pin.c **** *
+  43:Generated_Source\PSoC5/Control_Pin.c **** * \return 
+  44:Generated_Source\PSoC5/Control_Pin.c **** *  None 
+  45:Generated_Source\PSoC5/Control_Pin.c **** *
+  46:Generated_Source\PSoC5/Control_Pin.c **** * \sideeffect
+  47:Generated_Source\PSoC5/Control_Pin.c **** *  If you use read-modify-write operations that are not atomic; the Interrupt 
+  48:Generated_Source\PSoC5/Control_Pin.c **** *  Service Routines (ISR) can cause corruption of this function. An ISR that 
+  49:Generated_Source\PSoC5/Control_Pin.c **** *  interrupts this function and performs writes to the Pins component data 
+  50:Generated_Source\PSoC5/Control_Pin.c **** *  register can cause corrupted port data. To avoid this issue, you should 
+  51:Generated_Source\PSoC5/Control_Pin.c **** *  either use the Per-Pin APIs (primary method) or disable interrupts around 
+  52:Generated_Source\PSoC5/Control_Pin.c **** *  this function.
+  53:Generated_Source\PSoC5/Control_Pin.c **** *
+  54:Generated_Source\PSoC5/Control_Pin.c **** * \funcusage
+  55:Generated_Source\PSoC5/Control_Pin.c **** *  \snippet Control_Pin_SUT.c usage_Control_Pin_Write
+  56:Generated_Source\PSoC5/Control_Pin.c **** *******************************************************************************/
+  57:Generated_Source\PSoC5/Control_Pin.c **** void Control_Pin_Write(uint8 value)
+  58:Generated_Source\PSoC5/Control_Pin.c **** {
+  27              		.loc 1 58 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32              	.LVL0:
+  59:Generated_Source\PSoC5/Control_Pin.c ****     uint8 staticBits = (Control_Pin_DR & (uint8)(~Control_Pin_MASK));
+  33              		.loc 1 59 0
+  34 0000 044A     		ldr	r2, .L2
+  35 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  36 0004 03F0F003 		and	r3, r3, #240
+  37              	.LVL1:
+  60:Generated_Source\PSoC5/Control_Pin.c ****     Control_Pin_DR = staticBits | ((uint8)(value << Control_Pin_SHIFT) & Control_Pin_MASK);
+  38              		.loc 1 60 0
+  39 0008 00F00F00 		and	r0, r0, #15
+  40              	.LVL2:
+  41 000c 1843     		orrs	r0, r0, r3
+  42 000e 1070     		strb	r0, [r2]
+  43 0010 7047     		bx	lr
+  44              	.L3:
+  45 0012 00BF     		.align	2
+  46              	.L2:
+  47 0014 F0510040 		.word	1073762800
+  48              		.cfi_endproc
+  49              	.LFE0:
+  50              		.size	Control_Pin_Write, .-Control_Pin_Write
+  51              		.section	.text.Control_Pin_SetDriveMode,"ax",%progbits
+  52              		.align	2
+  53              		.global	Control_Pin_SetDriveMode
+  54              		.thumb
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3JPlQY.s 			page 3
+
+
+  55              		.thumb_func
+  56              		.type	Control_Pin_SetDriveMode, %function
+  57              	Control_Pin_SetDriveMode:
+  58              	.LFB1:
+  61:Generated_Source\PSoC5/Control_Pin.c **** }
+  62:Generated_Source\PSoC5/Control_Pin.c **** 
+  63:Generated_Source\PSoC5/Control_Pin.c **** 
+  64:Generated_Source\PSoC5/Control_Pin.c **** /*******************************************************************************
+  65:Generated_Source\PSoC5/Control_Pin.c **** * Function Name: Control_Pin_SetDriveMode
+  66:Generated_Source\PSoC5/Control_Pin.c **** ****************************************************************************//**
+  67:Generated_Source\PSoC5/Control_Pin.c **** *
+  68:Generated_Source\PSoC5/Control_Pin.c **** * \brief Sets the drive mode for each of the Pins component's pins.
+  69:Generated_Source\PSoC5/Control_Pin.c **** * 
+  70:Generated_Source\PSoC5/Control_Pin.c **** * <b>Note</b> This affects all pins in the Pins component instance. Use the
+  71:Generated_Source\PSoC5/Control_Pin.c **** * Per-Pin APIs if you wish to control individual pin's drive modes.
+  72:Generated_Source\PSoC5/Control_Pin.c **** *
+  73:Generated_Source\PSoC5/Control_Pin.c **** * \param mode
+  74:Generated_Source\PSoC5/Control_Pin.c **** *  Mode for the selected signals. Valid options are documented in 
+  75:Generated_Source\PSoC5/Control_Pin.c **** *  \ref driveMode.
+  76:Generated_Source\PSoC5/Control_Pin.c **** *
+  77:Generated_Source\PSoC5/Control_Pin.c **** * \return
+  78:Generated_Source\PSoC5/Control_Pin.c **** *  None
+  79:Generated_Source\PSoC5/Control_Pin.c **** *
+  80:Generated_Source\PSoC5/Control_Pin.c **** * \sideeffect
+  81:Generated_Source\PSoC5/Control_Pin.c **** *  If you use read-modify-write operations that are not atomic, the ISR can
+  82:Generated_Source\PSoC5/Control_Pin.c **** *  cause corruption of this function. An ISR that interrupts this function 
+  83:Generated_Source\PSoC5/Control_Pin.c **** *  and performs writes to the Pins component Drive Mode registers can cause 
+  84:Generated_Source\PSoC5/Control_Pin.c **** *  corrupted port data. To avoid this issue, you should either use the Per-Pin
+  85:Generated_Source\PSoC5/Control_Pin.c **** *  APIs (primary method) or disable interrupts around this function.
+  86:Generated_Source\PSoC5/Control_Pin.c **** *
+  87:Generated_Source\PSoC5/Control_Pin.c **** * \funcusage
+  88:Generated_Source\PSoC5/Control_Pin.c **** *  \snippet Control_Pin_SUT.c usage_Control_Pin_SetDriveMode
+  89:Generated_Source\PSoC5/Control_Pin.c **** *******************************************************************************/
+  90:Generated_Source\PSoC5/Control_Pin.c **** void Control_Pin_SetDriveMode(uint8 mode)
+  91:Generated_Source\PSoC5/Control_Pin.c **** {
+  59              		.loc 1 91 0
+  60              		.cfi_startproc
+  61              		@ args = 0, pretend = 0, frame = 0
+  62              		@ frame_needed = 0, uses_anonymous_args = 0
+  63              		@ link register save eliminated.
+  64              	.LVL3:
+  92:Generated_Source\PSoC5/Control_Pin.c **** 	CyPins_SetPinDriveMode(Control_Pin_0, mode);
+  65              		.loc 1 92 0
+  66 0000 0D4A     		ldr	r2, .L5
+  67 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  68 0004 00F00E00 		and	r0, r0, #14
+  69              	.LVL4:
+  70 0008 03F0F103 		and	r3, r3, #241
+  71 000c 0343     		orrs	r3, r3, r0
+  72 000e 1370     		strb	r3, [r2]
+  93:Generated_Source\PSoC5/Control_Pin.c **** 	CyPins_SetPinDriveMode(Control_Pin_1, mode);
+  73              		.loc 1 93 0
+  74 0010 0132     		adds	r2, r2, #1
+  75 0012 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  76 0014 03F0F103 		and	r3, r3, #241
+  77 0018 0343     		orrs	r3, r3, r0
+  78 001a 1370     		strb	r3, [r2]
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3JPlQY.s 			page 4
+
+
+  94:Generated_Source\PSoC5/Control_Pin.c **** 	CyPins_SetPinDriveMode(Control_Pin_2, mode);
+  79              		.loc 1 94 0
+  80 001c 0132     		adds	r2, r2, #1
+  81 001e 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  82 0020 03F0F103 		and	r3, r3, #241
+  83 0024 0343     		orrs	r3, r3, r0
+  84 0026 1370     		strb	r3, [r2]
+  95:Generated_Source\PSoC5/Control_Pin.c **** 	CyPins_SetPinDriveMode(Control_Pin_3, mode);
+  85              		.loc 1 95 0
+  86 0028 0132     		adds	r2, r2, #1
+  87 002a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  88 002c 03F0F103 		and	r3, r3, #241
+  89 0030 1843     		orrs	r0, r0, r3
+  90 0032 1070     		strb	r0, [r2]
+  91 0034 7047     		bx	lr
+  92              	.L6:
+  93 0036 00BF     		.align	2
+  94              	.L5:
+  95 0038 78500040 		.word	1073762424
+  96              		.cfi_endproc
+  97              	.LFE1:
+  98              		.size	Control_Pin_SetDriveMode, .-Control_Pin_SetDriveMode
+  99              		.section	.text.Control_Pin_Read,"ax",%progbits
+ 100              		.align	2
+ 101              		.global	Control_Pin_Read
+ 102              		.thumb
+ 103              		.thumb_func
+ 104              		.type	Control_Pin_Read, %function
+ 105              	Control_Pin_Read:
+ 106              	.LFB2:
+  96:Generated_Source\PSoC5/Control_Pin.c **** }
+  97:Generated_Source\PSoC5/Control_Pin.c **** 
+  98:Generated_Source\PSoC5/Control_Pin.c **** 
+  99:Generated_Source\PSoC5/Control_Pin.c **** /*******************************************************************************
+ 100:Generated_Source\PSoC5/Control_Pin.c **** * Function Name: Control_Pin_Read
+ 101:Generated_Source\PSoC5/Control_Pin.c **** ****************************************************************************//**
+ 102:Generated_Source\PSoC5/Control_Pin.c **** *
+ 103:Generated_Source\PSoC5/Control_Pin.c **** * \brief Reads the associated physical port (pin status register) and masks 
+ 104:Generated_Source\PSoC5/Control_Pin.c **** *  the required bits according to the width and bit position of the component
+ 105:Generated_Source\PSoC5/Control_Pin.c **** *  instance. 
+ 106:Generated_Source\PSoC5/Control_Pin.c **** *
+ 107:Generated_Source\PSoC5/Control_Pin.c **** * The pin's status register returns the current logic level present on the 
+ 108:Generated_Source\PSoC5/Control_Pin.c **** * physical pin.
+ 109:Generated_Source\PSoC5/Control_Pin.c **** *
+ 110:Generated_Source\PSoC5/Control_Pin.c **** * \return 
+ 111:Generated_Source\PSoC5/Control_Pin.c **** *  The current value for the pins in the component as a right justified number.
+ 112:Generated_Source\PSoC5/Control_Pin.c **** *
+ 113:Generated_Source\PSoC5/Control_Pin.c **** * \funcusage
+ 114:Generated_Source\PSoC5/Control_Pin.c **** *  \snippet Control_Pin_SUT.c usage_Control_Pin_Read  
+ 115:Generated_Source\PSoC5/Control_Pin.c **** *******************************************************************************/
+ 116:Generated_Source\PSoC5/Control_Pin.c **** uint8 Control_Pin_Read(void)
+ 117:Generated_Source\PSoC5/Control_Pin.c **** {
+ 107              		.loc 1 117 0
+ 108              		.cfi_startproc
+ 109              		@ args = 0, pretend = 0, frame = 0
+ 110              		@ frame_needed = 0, uses_anonymous_args = 0
+ 111              		@ link register save eliminated.
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3JPlQY.s 			page 5
+
+
+ 118:Generated_Source\PSoC5/Control_Pin.c ****     return (Control_Pin_PS & Control_Pin_MASK) >> Control_Pin_SHIFT;
+ 112              		.loc 1 118 0
+ 113 0000 024B     		ldr	r3, .L8
+ 114 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 119:Generated_Source\PSoC5/Control_Pin.c **** }
+ 115              		.loc 1 119 0
+ 116 0004 00F00F00 		and	r0, r0, #15
+ 117 0008 7047     		bx	lr
+ 118              	.L9:
+ 119 000a 00BF     		.align	2
+ 120              	.L8:
+ 121 000c F1510040 		.word	1073762801
+ 122              		.cfi_endproc
+ 123              	.LFE2:
+ 124              		.size	Control_Pin_Read, .-Control_Pin_Read
+ 125              		.section	.text.Control_Pin_ReadDataReg,"ax",%progbits
+ 126              		.align	2
+ 127              		.global	Control_Pin_ReadDataReg
+ 128              		.thumb
+ 129              		.thumb_func
+ 130              		.type	Control_Pin_ReadDataReg, %function
+ 131              	Control_Pin_ReadDataReg:
+ 132              	.LFB3:
+ 120:Generated_Source\PSoC5/Control_Pin.c **** 
+ 121:Generated_Source\PSoC5/Control_Pin.c **** 
+ 122:Generated_Source\PSoC5/Control_Pin.c **** /*******************************************************************************
+ 123:Generated_Source\PSoC5/Control_Pin.c **** * Function Name: Control_Pin_ReadDataReg
+ 124:Generated_Source\PSoC5/Control_Pin.c **** ****************************************************************************//**
+ 125:Generated_Source\PSoC5/Control_Pin.c **** *
+ 126:Generated_Source\PSoC5/Control_Pin.c **** * \brief Reads the associated physical port's data output register and masks 
+ 127:Generated_Source\PSoC5/Control_Pin.c **** *  the correct bits according to the width and bit position of the component 
+ 128:Generated_Source\PSoC5/Control_Pin.c **** *  instance. 
+ 129:Generated_Source\PSoC5/Control_Pin.c **** *
+ 130:Generated_Source\PSoC5/Control_Pin.c **** * The data output register controls the signal applied to the physical pin in 
+ 131:Generated_Source\PSoC5/Control_Pin.c **** * conjunction with the drive mode parameter. This is not the same as the 
+ 132:Generated_Source\PSoC5/Control_Pin.c **** * preferred Control_Pin_Read() API because the 
+ 133:Generated_Source\PSoC5/Control_Pin.c **** * Control_Pin_ReadDataReg() reads the data register instead of the status 
+ 134:Generated_Source\PSoC5/Control_Pin.c **** * register. For output pins this is a useful function to determine the value 
+ 135:Generated_Source\PSoC5/Control_Pin.c **** * just written to the pin.
+ 136:Generated_Source\PSoC5/Control_Pin.c **** *
+ 137:Generated_Source\PSoC5/Control_Pin.c **** * \return 
+ 138:Generated_Source\PSoC5/Control_Pin.c **** *  The current value of the data register masked and shifted into a right 
+ 139:Generated_Source\PSoC5/Control_Pin.c **** *  justified number for the component instance.
+ 140:Generated_Source\PSoC5/Control_Pin.c **** *
+ 141:Generated_Source\PSoC5/Control_Pin.c **** * \funcusage
+ 142:Generated_Source\PSoC5/Control_Pin.c **** *  \snippet Control_Pin_SUT.c usage_Control_Pin_ReadDataReg 
+ 143:Generated_Source\PSoC5/Control_Pin.c **** *******************************************************************************/
+ 144:Generated_Source\PSoC5/Control_Pin.c **** uint8 Control_Pin_ReadDataReg(void)
+ 145:Generated_Source\PSoC5/Control_Pin.c **** {
+ 133              		.loc 1 145 0
+ 134              		.cfi_startproc
+ 135              		@ args = 0, pretend = 0, frame = 0
+ 136              		@ frame_needed = 0, uses_anonymous_args = 0
+ 137              		@ link register save eliminated.
+ 146:Generated_Source\PSoC5/Control_Pin.c ****     return (Control_Pin_DR & Control_Pin_MASK) >> Control_Pin_SHIFT;
+ 138              		.loc 1 146 0
+ 139 0000 024B     		ldr	r3, .L11
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3JPlQY.s 			page 6
+
+
+ 140 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 147:Generated_Source\PSoC5/Control_Pin.c **** }
+ 141              		.loc 1 147 0
+ 142 0004 00F00F00 		and	r0, r0, #15
+ 143 0008 7047     		bx	lr
+ 144              	.L12:
+ 145 000a 00BF     		.align	2
+ 146              	.L11:
+ 147 000c F0510040 		.word	1073762800
+ 148              		.cfi_endproc
+ 149              	.LFE3:
+ 150              		.size	Control_Pin_ReadDataReg, .-Control_Pin_ReadDataReg
+ 151              		.text
+ 152              	.Letext0:
+ 153              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 154              		.section	.debug_info,"",%progbits
+ 155              	.Ldebug_info0:
+ 156 0000 1B010000 		.4byte	0x11b
+ 157 0004 0400     		.2byte	0x4
+ 158 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 159 000a 04       		.byte	0x4
+ 160 000b 01       		.uleb128 0x1
+ 161 000c AA000000 		.4byte	.LASF20
+ 162 0010 01       		.byte	0x1
+ 163 0011 00000000 		.4byte	.LASF21
+ 164 0015 A5010000 		.4byte	.LASF22
+ 165 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 166 001d 00000000 		.4byte	0
+ 167 0021 00000000 		.4byte	.Ldebug_line0
+ 168 0025 02       		.uleb128 0x2
+ 169 0026 01       		.byte	0x1
+ 170 0027 06       		.byte	0x6
+ 171 0028 4E000000 		.4byte	.LASF0
+ 172 002c 02       		.uleb128 0x2
+ 173 002d 01       		.byte	0x1
+ 174 002e 08       		.byte	0x8
+ 175 002f 5A000000 		.4byte	.LASF1
+ 176 0033 02       		.uleb128 0x2
+ 177 0034 02       		.byte	0x2
+ 178 0035 05       		.byte	0x5
+ 179 0036 74010000 		.4byte	.LASF2
+ 180 003a 02       		.uleb128 0x2
+ 181 003b 02       		.byte	0x2
+ 182 003c 07       		.byte	0x7
+ 183 003d 7F000000 		.4byte	.LASF3
+ 184 0041 02       		.uleb128 0x2
+ 185 0042 04       		.byte	0x4
+ 186 0043 05       		.byte	0x5
+ 187 0044 9C010000 		.4byte	.LASF4
+ 188 0048 02       		.uleb128 0x2
+ 189 0049 04       		.byte	0x4
+ 190 004a 07       		.byte	0x7
+ 191 004b 6D000000 		.4byte	.LASF5
+ 192 004f 02       		.uleb128 0x2
+ 193 0050 08       		.byte	0x8
+ 194 0051 05       		.byte	0x5
+ 195 0052 61010000 		.4byte	.LASF6
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3JPlQY.s 			page 7
+
+
+ 196 0056 02       		.uleb128 0x2
+ 197 0057 08       		.byte	0x8
+ 198 0058 07       		.byte	0x7
+ 199 0059 45010000 		.4byte	.LASF7
+ 200 005d 03       		.uleb128 0x3
+ 201 005e 04       		.byte	0x4
+ 202 005f 05       		.byte	0x5
+ 203 0060 696E7400 		.ascii	"int\000"
+ 204 0064 02       		.uleb128 0x2
+ 205 0065 04       		.byte	0x4
+ 206 0066 07       		.byte	0x7
+ 207 0067 38010000 		.4byte	.LASF8
+ 208 006b 04       		.uleb128 0x4
+ 209 006c 7E010000 		.4byte	.LASF12
+ 210 0070 02       		.byte	0x2
+ 211 0071 9201     		.2byte	0x192
+ 212 0073 2C000000 		.4byte	0x2c
+ 213 0077 02       		.uleb128 0x2
+ 214 0078 04       		.byte	0x4
+ 215 0079 04       		.byte	0x4
+ 216 007a 48000000 		.4byte	.LASF9
+ 217 007e 02       		.uleb128 0x2
+ 218 007f 08       		.byte	0x8
+ 219 0080 04       		.byte	0x4
+ 220 0081 92000000 		.4byte	.LASF10
+ 221 0085 02       		.uleb128 0x2
+ 222 0086 01       		.byte	0x1
+ 223 0087 08       		.byte	0x8
+ 224 0088 6F010000 		.4byte	.LASF11
+ 225 008c 04       		.uleb128 0x4
+ 226 008d 68000000 		.4byte	.LASF13
+ 227 0091 02       		.byte	0x2
+ 228 0092 3C02     		.2byte	0x23c
+ 229 0094 98000000 		.4byte	0x98
+ 230 0098 05       		.uleb128 0x5
+ 231 0099 6B000000 		.4byte	0x6b
+ 232 009d 06       		.uleb128 0x6
+ 233 009e 25000000 		.4byte	.LASF14
+ 234 00a2 01       		.byte	0x1
+ 235 00a3 39       		.byte	0x39
+ 236 00a4 00000000 		.4byte	.LFB0
+ 237 00a8 18000000 		.4byte	.LFE0-.LFB0
+ 238 00ac 01       		.uleb128 0x1
+ 239 00ad 9C       		.byte	0x9c
+ 240 00ae CF000000 		.4byte	0xcf
+ 241 00b2 07       		.uleb128 0x7
+ 242 00b3 37000000 		.4byte	.LASF16
+ 243 00b7 01       		.byte	0x1
+ 244 00b8 39       		.byte	0x39
+ 245 00b9 6B000000 		.4byte	0x6b
+ 246 00bd 00000000 		.4byte	.LLST0
+ 247 00c1 08       		.uleb128 0x8
+ 248 00c2 3D000000 		.4byte	.LASF23
+ 249 00c6 01       		.byte	0x1
+ 250 00c7 3B       		.byte	0x3b
+ 251 00c8 6B000000 		.4byte	0x6b
+ 252 00cc 01       		.uleb128 0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3JPlQY.s 			page 8
+
+
+ 253 00cd 53       		.byte	0x53
+ 254 00ce 00       		.byte	0
+ 255 00cf 06       		.uleb128 0x6
+ 256 00d0 DA010000 		.4byte	.LASF15
+ 257 00d4 01       		.byte	0x1
+ 258 00d5 5A       		.byte	0x5a
+ 259 00d6 00000000 		.4byte	.LFB1
+ 260 00da 3C000000 		.4byte	.LFE1-.LFB1
+ 261 00de 01       		.uleb128 0x1
+ 262 00df 9C       		.byte	0x9c
+ 263 00e0 F4000000 		.4byte	0xf4
+ 264 00e4 07       		.uleb128 0x7
+ 265 00e5 5C010000 		.4byte	.LASF17
+ 266 00e9 01       		.byte	0x1
+ 267 00ea 5A       		.byte	0x5a
+ 268 00eb 6B000000 		.4byte	0x6b
+ 269 00ef 21000000 		.4byte	.LLST1
+ 270 00f3 00       		.byte	0
+ 271 00f4 09       		.uleb128 0x9
+ 272 00f5 99000000 		.4byte	.LASF18
+ 273 00f9 01       		.byte	0x1
+ 274 00fa 74       		.byte	0x74
+ 275 00fb 6B000000 		.4byte	0x6b
+ 276 00ff 00000000 		.4byte	.LFB2
+ 277 0103 10000000 		.4byte	.LFE2-.LFB2
+ 278 0107 01       		.uleb128 0x1
+ 279 0108 9C       		.byte	0x9c
+ 280 0109 09       		.uleb128 0x9
+ 281 010a 84010000 		.4byte	.LASF19
+ 282 010e 01       		.byte	0x1
+ 283 010f 90       		.byte	0x90
+ 284 0110 6B000000 		.4byte	0x6b
+ 285 0114 00000000 		.4byte	.LFB3
+ 286 0118 10000000 		.4byte	.LFE3-.LFB3
+ 287 011c 01       		.uleb128 0x1
+ 288 011d 9C       		.byte	0x9c
+ 289 011e 00       		.byte	0
+ 290              		.section	.debug_abbrev,"",%progbits
+ 291              	.Ldebug_abbrev0:
+ 292 0000 01       		.uleb128 0x1
+ 293 0001 11       		.uleb128 0x11
+ 294 0002 01       		.byte	0x1
+ 295 0003 25       		.uleb128 0x25
+ 296 0004 0E       		.uleb128 0xe
+ 297 0005 13       		.uleb128 0x13
+ 298 0006 0B       		.uleb128 0xb
+ 299 0007 03       		.uleb128 0x3
+ 300 0008 0E       		.uleb128 0xe
+ 301 0009 1B       		.uleb128 0x1b
+ 302 000a 0E       		.uleb128 0xe
+ 303 000b 55       		.uleb128 0x55
+ 304 000c 17       		.uleb128 0x17
+ 305 000d 11       		.uleb128 0x11
+ 306 000e 01       		.uleb128 0x1
+ 307 000f 10       		.uleb128 0x10
+ 308 0010 17       		.uleb128 0x17
+ 309 0011 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3JPlQY.s 			page 9
+
+
+ 310 0012 00       		.byte	0
+ 311 0013 02       		.uleb128 0x2
+ 312 0014 24       		.uleb128 0x24
+ 313 0015 00       		.byte	0
+ 314 0016 0B       		.uleb128 0xb
+ 315 0017 0B       		.uleb128 0xb
+ 316 0018 3E       		.uleb128 0x3e
+ 317 0019 0B       		.uleb128 0xb
+ 318 001a 03       		.uleb128 0x3
+ 319 001b 0E       		.uleb128 0xe
+ 320 001c 00       		.byte	0
+ 321 001d 00       		.byte	0
+ 322 001e 03       		.uleb128 0x3
+ 323 001f 24       		.uleb128 0x24
+ 324 0020 00       		.byte	0
+ 325 0021 0B       		.uleb128 0xb
+ 326 0022 0B       		.uleb128 0xb
+ 327 0023 3E       		.uleb128 0x3e
+ 328 0024 0B       		.uleb128 0xb
+ 329 0025 03       		.uleb128 0x3
+ 330 0026 08       		.uleb128 0x8
+ 331 0027 00       		.byte	0
+ 332 0028 00       		.byte	0
+ 333 0029 04       		.uleb128 0x4
+ 334 002a 16       		.uleb128 0x16
+ 335 002b 00       		.byte	0
+ 336 002c 03       		.uleb128 0x3
+ 337 002d 0E       		.uleb128 0xe
+ 338 002e 3A       		.uleb128 0x3a
+ 339 002f 0B       		.uleb128 0xb
+ 340 0030 3B       		.uleb128 0x3b
+ 341 0031 05       		.uleb128 0x5
+ 342 0032 49       		.uleb128 0x49
+ 343 0033 13       		.uleb128 0x13
+ 344 0034 00       		.byte	0
+ 345 0035 00       		.byte	0
+ 346 0036 05       		.uleb128 0x5
+ 347 0037 35       		.uleb128 0x35
+ 348 0038 00       		.byte	0
+ 349 0039 49       		.uleb128 0x49
+ 350 003a 13       		.uleb128 0x13
+ 351 003b 00       		.byte	0
+ 352 003c 00       		.byte	0
+ 353 003d 06       		.uleb128 0x6
+ 354 003e 2E       		.uleb128 0x2e
+ 355 003f 01       		.byte	0x1
+ 356 0040 3F       		.uleb128 0x3f
+ 357 0041 19       		.uleb128 0x19
+ 358 0042 03       		.uleb128 0x3
+ 359 0043 0E       		.uleb128 0xe
+ 360 0044 3A       		.uleb128 0x3a
+ 361 0045 0B       		.uleb128 0xb
+ 362 0046 3B       		.uleb128 0x3b
+ 363 0047 0B       		.uleb128 0xb
+ 364 0048 27       		.uleb128 0x27
+ 365 0049 19       		.uleb128 0x19
+ 366 004a 11       		.uleb128 0x11
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3JPlQY.s 			page 10
+
+
+ 367 004b 01       		.uleb128 0x1
+ 368 004c 12       		.uleb128 0x12
+ 369 004d 06       		.uleb128 0x6
+ 370 004e 40       		.uleb128 0x40
+ 371 004f 18       		.uleb128 0x18
+ 372 0050 9742     		.uleb128 0x2117
+ 373 0052 19       		.uleb128 0x19
+ 374 0053 01       		.uleb128 0x1
+ 375 0054 13       		.uleb128 0x13
+ 376 0055 00       		.byte	0
+ 377 0056 00       		.byte	0
+ 378 0057 07       		.uleb128 0x7
+ 379 0058 05       		.uleb128 0x5
+ 380 0059 00       		.byte	0
+ 381 005a 03       		.uleb128 0x3
+ 382 005b 0E       		.uleb128 0xe
+ 383 005c 3A       		.uleb128 0x3a
+ 384 005d 0B       		.uleb128 0xb
+ 385 005e 3B       		.uleb128 0x3b
+ 386 005f 0B       		.uleb128 0xb
+ 387 0060 49       		.uleb128 0x49
+ 388 0061 13       		.uleb128 0x13
+ 389 0062 02       		.uleb128 0x2
+ 390 0063 17       		.uleb128 0x17
+ 391 0064 00       		.byte	0
+ 392 0065 00       		.byte	0
+ 393 0066 08       		.uleb128 0x8
+ 394 0067 34       		.uleb128 0x34
+ 395 0068 00       		.byte	0
+ 396 0069 03       		.uleb128 0x3
+ 397 006a 0E       		.uleb128 0xe
+ 398 006b 3A       		.uleb128 0x3a
+ 399 006c 0B       		.uleb128 0xb
+ 400 006d 3B       		.uleb128 0x3b
+ 401 006e 0B       		.uleb128 0xb
+ 402 006f 49       		.uleb128 0x49
+ 403 0070 13       		.uleb128 0x13
+ 404 0071 02       		.uleb128 0x2
+ 405 0072 18       		.uleb128 0x18
+ 406 0073 00       		.byte	0
+ 407 0074 00       		.byte	0
+ 408 0075 09       		.uleb128 0x9
+ 409 0076 2E       		.uleb128 0x2e
+ 410 0077 00       		.byte	0
+ 411 0078 3F       		.uleb128 0x3f
+ 412 0079 19       		.uleb128 0x19
+ 413 007a 03       		.uleb128 0x3
+ 414 007b 0E       		.uleb128 0xe
+ 415 007c 3A       		.uleb128 0x3a
+ 416 007d 0B       		.uleb128 0xb
+ 417 007e 3B       		.uleb128 0x3b
+ 418 007f 0B       		.uleb128 0xb
+ 419 0080 27       		.uleb128 0x27
+ 420 0081 19       		.uleb128 0x19
+ 421 0082 49       		.uleb128 0x49
+ 422 0083 13       		.uleb128 0x13
+ 423 0084 11       		.uleb128 0x11
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3JPlQY.s 			page 11
+
+
+ 424 0085 01       		.uleb128 0x1
+ 425 0086 12       		.uleb128 0x12
+ 426 0087 06       		.uleb128 0x6
+ 427 0088 40       		.uleb128 0x40
+ 428 0089 18       		.uleb128 0x18
+ 429 008a 9742     		.uleb128 0x2117
+ 430 008c 19       		.uleb128 0x19
+ 431 008d 00       		.byte	0
+ 432 008e 00       		.byte	0
+ 433 008f 00       		.byte	0
+ 434              		.section	.debug_loc,"",%progbits
+ 435              	.Ldebug_loc0:
+ 436              	.LLST0:
+ 437 0000 00000000 		.4byte	.LVL0
+ 438 0004 0C000000 		.4byte	.LVL2
+ 439 0008 0100     		.2byte	0x1
+ 440 000a 50       		.byte	0x50
+ 441 000b 0C000000 		.4byte	.LVL2
+ 442 000f 18000000 		.4byte	.LFE0
+ 443 0013 0400     		.2byte	0x4
+ 444 0015 F3       		.byte	0xf3
+ 445 0016 01       		.uleb128 0x1
+ 446 0017 50       		.byte	0x50
+ 447 0018 9F       		.byte	0x9f
+ 448 0019 00000000 		.4byte	0
+ 449 001d 00000000 		.4byte	0
+ 450              	.LLST1:
+ 451 0021 00000000 		.4byte	.LVL3
+ 452 0025 08000000 		.4byte	.LVL4
+ 453 0029 0100     		.2byte	0x1
+ 454 002b 50       		.byte	0x50
+ 455 002c 08000000 		.4byte	.LVL4
+ 456 0030 3C000000 		.4byte	.LFE1
+ 457 0034 0400     		.2byte	0x4
+ 458 0036 F3       		.byte	0xf3
+ 459 0037 01       		.uleb128 0x1
+ 460 0038 50       		.byte	0x50
+ 461 0039 9F       		.byte	0x9f
+ 462 003a 00000000 		.4byte	0
+ 463 003e 00000000 		.4byte	0
+ 464              		.section	.debug_aranges,"",%progbits
+ 465 0000 34000000 		.4byte	0x34
+ 466 0004 0200     		.2byte	0x2
+ 467 0006 00000000 		.4byte	.Ldebug_info0
+ 468 000a 04       		.byte	0x4
+ 469 000b 00       		.byte	0
+ 470 000c 0000     		.2byte	0
+ 471 000e 0000     		.2byte	0
+ 472 0010 00000000 		.4byte	.LFB0
+ 473 0014 18000000 		.4byte	.LFE0-.LFB0
+ 474 0018 00000000 		.4byte	.LFB1
+ 475 001c 3C000000 		.4byte	.LFE1-.LFB1
+ 476 0020 00000000 		.4byte	.LFB2
+ 477 0024 10000000 		.4byte	.LFE2-.LFB2
+ 478 0028 00000000 		.4byte	.LFB3
+ 479 002c 10000000 		.4byte	.LFE3-.LFB3
+ 480 0030 00000000 		.4byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3JPlQY.s 			page 12
+
+
+ 481 0034 00000000 		.4byte	0
+ 482              		.section	.debug_ranges,"",%progbits
+ 483              	.Ldebug_ranges0:
+ 484 0000 00000000 		.4byte	.LFB0
+ 485 0004 18000000 		.4byte	.LFE0
+ 486 0008 00000000 		.4byte	.LFB1
+ 487 000c 3C000000 		.4byte	.LFE1
+ 488 0010 00000000 		.4byte	.LFB2
+ 489 0014 10000000 		.4byte	.LFE2
+ 490 0018 00000000 		.4byte	.LFB3
+ 491 001c 10000000 		.4byte	.LFE3
+ 492 0020 00000000 		.4byte	0
+ 493 0024 00000000 		.4byte	0
+ 494              		.section	.debug_line,"",%progbits
+ 495              	.Ldebug_line0:
+ 496 0000 97000000 		.section	.debug_str,"MS",%progbits,1
+ 496      02004800 
+ 496      00000201 
+ 496      FB0E0D00 
+ 496      01010101 
+ 497              	.LASF21:
+ 498 0000 47656E65 		.ascii	"Generated_Source\\PSoC5\\Control_Pin.c\000"
+ 498      72617465 
+ 498      645F536F 
+ 498      75726365 
+ 498      5C50536F 
+ 499              	.LASF14:
+ 500 0025 436F6E74 		.ascii	"Control_Pin_Write\000"
+ 500      726F6C5F 
+ 500      50696E5F 
+ 500      57726974 
+ 500      6500
+ 501              	.LASF16:
+ 502 0037 76616C75 		.ascii	"value\000"
+ 502      6500
+ 503              	.LASF23:
+ 504 003d 73746174 		.ascii	"staticBits\000"
+ 504      69634269 
+ 504      747300
+ 505              	.LASF9:
+ 506 0048 666C6F61 		.ascii	"float\000"
+ 506      7400
+ 507              	.LASF0:
+ 508 004e 7369676E 		.ascii	"signed char\000"
+ 508      65642063 
+ 508      68617200 
+ 509              	.LASF1:
+ 510 005a 756E7369 		.ascii	"unsigned char\000"
+ 510      676E6564 
+ 510      20636861 
+ 510      7200
+ 511              	.LASF13:
+ 512 0068 72656738 		.ascii	"reg8\000"
+ 512      00
+ 513              	.LASF5:
+ 514 006d 6C6F6E67 		.ascii	"long unsigned int\000"
+ 514      20756E73 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3JPlQY.s 			page 13
+
+
+ 514      69676E65 
+ 514      6420696E 
+ 514      7400
+ 515              	.LASF3:
+ 516 007f 73686F72 		.ascii	"short unsigned int\000"
+ 516      7420756E 
+ 516      7369676E 
+ 516      65642069 
+ 516      6E7400
+ 517              	.LASF10:
+ 518 0092 646F7562 		.ascii	"double\000"
+ 518      6C6500
+ 519              	.LASF18:
+ 520 0099 436F6E74 		.ascii	"Control_Pin_Read\000"
+ 520      726F6C5F 
+ 520      50696E5F 
+ 520      52656164 
+ 520      00
+ 521              	.LASF20:
+ 522 00aa 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 522      4320342E 
+ 522      392E3320 
+ 522      32303135 
+ 522      30333033 
+ 523 00dd 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 523      20726576 
+ 523      6973696F 
+ 523      6E203232 
+ 523      31323230 
+ 524 0110 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 524      66756E63 
+ 524      74696F6E 
+ 524      2D736563 
+ 524      74696F6E 
+ 525              	.LASF8:
+ 526 0138 756E7369 		.ascii	"unsigned int\000"
+ 526      676E6564 
+ 526      20696E74 
+ 526      00
+ 527              	.LASF7:
+ 528 0145 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 528      206C6F6E 
+ 528      6720756E 
+ 528      7369676E 
+ 528      65642069 
+ 529              	.LASF17:
+ 530 015c 6D6F6465 		.ascii	"mode\000"
+ 530      00
+ 531              	.LASF6:
+ 532 0161 6C6F6E67 		.ascii	"long long int\000"
+ 532      206C6F6E 
+ 532      6720696E 
+ 532      7400
+ 533              	.LASF11:
+ 534 016f 63686172 		.ascii	"char\000"
+ 534      00
+ 535              	.LASF2:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3JPlQY.s 			page 14
+
+
+ 536 0174 73686F72 		.ascii	"short int\000"
+ 536      7420696E 
+ 536      7400
+ 537              	.LASF12:
+ 538 017e 75696E74 		.ascii	"uint8\000"
+ 538      3800
+ 539              	.LASF19:
+ 540 0184 436F6E74 		.ascii	"Control_Pin_ReadDataReg\000"
+ 540      726F6C5F 
+ 540      50696E5F 
+ 540      52656164 
+ 540      44617461 
+ 541              	.LASF4:
+ 542 019c 6C6F6E67 		.ascii	"long int\000"
+ 542      20696E74 
+ 542      00
+ 543              	.LASF22:
+ 544 01a5 433A5C55 		.ascii	"C:\\Users\\Bart\\Dropbox\\PSoC\\PSoC_Grbl\\PSoC_Grb"
+ 544      73657273 
+ 544      5C426172 
+ 544      745C4472 
+ 544      6F70626F 
+ 545 01d2 6C2E6379 		.ascii	"l.cydsn\000"
+ 545      64736E00 
+ 546              	.LASF15:
+ 547 01da 436F6E74 		.ascii	"Control_Pin_SetDriveMode\000"
+ 547      726F6C5F 
+ 547      50696E5F 
+ 547      53657444 
+ 547      72697665 
+ 548              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

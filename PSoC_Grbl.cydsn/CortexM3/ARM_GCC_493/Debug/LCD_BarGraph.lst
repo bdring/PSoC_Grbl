@@ -1,0 +1,1318 @@
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"LCD_BarGraph.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.LCD_LoadCustomFonts,"ax",%progbits
+  19              		.align	2
+  20              		.global	LCD_LoadCustomFonts
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	LCD_LoadCustomFonts, %function
+  24              	LCD_LoadCustomFonts:
+  25              	.LFB0:
+  26              		.file 1 ".\\Generated_Source\\PSoC5\\LCD_BarGraph.c"
+   1:.\Generated_Source\PSoC5/LCD_BarGraph.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/LCD_BarGraph.c **** * File Name: LCD_BarGraph.c
+   3:.\Generated_Source\PSoC5/LCD_BarGraph.c **** * Version 2.20
+   4:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *
+   5:.\Generated_Source\PSoC5/LCD_BarGraph.c **** * Description:
+   6:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *  This file provides the custom character data and API for creating and using
+   7:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *  bar graphs with the Character LCD component.
+   8:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *
+   9:.\Generated_Source\PSoC5/LCD_BarGraph.c **** * Note:
+  10:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *
+  11:.\Generated_Source\PSoC5/LCD_BarGraph.c **** ********************************************************************************
+  12:.\Generated_Source\PSoC5/LCD_BarGraph.c **** * Copyright 2008-2014, Cypress Semiconductor Corporation.  All rights reserved.
+  13:.\Generated_Source\PSoC5/LCD_BarGraph.c **** * You may use this file only in accordance with the license, terms, conditions,
+  14:.\Generated_Source\PSoC5/LCD_BarGraph.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  15:.\Generated_Source\PSoC5/LCD_BarGraph.c **** * the software package with which this file was provided.
+  16:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *******************************************************************************/
+  17:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  18:.\Generated_Source\PSoC5/LCD_BarGraph.c **** #include "LCD.h"
+  19:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  20:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  21:.\Generated_Source\PSoC5/LCD_BarGraph.c **** uint8 const CYCODE LCD_customFonts[] = \
+  22:.\Generated_Source\PSoC5/LCD_BarGraph.c **** {
+  23:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_0   */
+  24:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     0x00u,    0x00u,    0x00u,    0x00u,    0x00u,    0x00u,    0x00u,    0x00u, \
+  25:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_1   */
+  26:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     0x10u,    0x10u,    0x10u,    0x10u,    0x10u,    0x10u,    0x10u,    0x10u, \
+  27:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_2   */
+  28:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     0x18u,    0x18u,    0x18u,    0x18u,    0x18u,    0x18u,    0x18u,    0x18u, \
+  29:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_3   */
+  30:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     0x1Cu,    0x1Cu,    0x1Cu,    0x1Cu,    0x1Cu,    0x1Cu,    0x1Cu,    0x1Cu, \
+  31:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_4   */
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 2
+
+
+  32:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     0x1Eu,    0x1Eu,    0x1Eu,    0x1Eu,    0x1Eu,    0x1Eu,    0x1Eu,    0x1Eu, \
+  33:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_5   */
+  34:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu,    0x1Fu, \
+  35:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_6   */
+  36:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     0x00u,    0x00u,    0x00u,    0x00u,    0x00u,    0x00u,    0x00u,    0x00u, \
+  37:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Character LCD_CUSTOM_7   */
+  38:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     0x00u,    0x00u,    0x00u,    0x00u,    0x00u,    0x00u,    0x00u,    0x00u \
+  39:.\Generated_Source\PSoC5/LCD_BarGraph.c **** };
+  40:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  41:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  42:.\Generated_Source\PSoC5/LCD_BarGraph.c **** /*******************************************************************************
+  43:.\Generated_Source\PSoC5/LCD_BarGraph.c **** * Function Name: LCD_LoadCustomFonts
+  44:.\Generated_Source\PSoC5/LCD_BarGraph.c **** ********************************************************************************
+  45:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *
+  46:.\Generated_Source\PSoC5/LCD_BarGraph.c **** * Summary:
+  47:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *  Loads 8 custom font characters into the LCD Module for use.  Cannot use
+  48:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *  characters from two different font sets at once, but font sets can be
+  49:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *  switched out during runtime.
+  50:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *
+  51:.\Generated_Source\PSoC5/LCD_BarGraph.c **** * Parameters:
+  52:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *  customData:  pointer to a constant array of 64 bytes representing 8 custom
+  53:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *               font characters.
+  54:.\Generated_Source\PSoC5/LCD_BarGraph.c **** * Return:
+  55:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *  None.
+  56:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *
+  57:.\Generated_Source\PSoC5/LCD_BarGraph.c **** * Theory:
+  58:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *  Prior to using this function user need to import the pointer to custom
+  59:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *  font array to your project by writting the following in the source code file
+  60:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *  where custom font will be used:
+  61:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *       extern uint8 const CYCODE LCD_Char_customFonts[];
+  62:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *  This function is not automatically called by the Start() routine and must be
+  63:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *  called manually by the user.
+  64:.\Generated_Source\PSoC5/LCD_BarGraph.c **** *******************************************************************************/
+  65:.\Generated_Source\PSoC5/LCD_BarGraph.c **** void LCD_LoadCustomFonts(uint8 const customData[]) 
+  66:.\Generated_Source\PSoC5/LCD_BarGraph.c **** {
+  27              		.loc 1 66 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 38B5     		push	{r3, r4, r5, lr}
+  33              		.cfi_def_cfa_offset 16
+  34              		.cfi_offset 3, -16
+  35              		.cfi_offset 4, -12
+  36              		.cfi_offset 5, -8
+  37              		.cfi_offset 14, -4
+  38 0002 0546     		mov	r5, r0
+  67:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     uint8 indexU8;
+  68:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  69:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     LCD_IsReady();
+  39              		.loc 1 69 0
+  40 0004 FFF7FEFF 		bl	LCD_IsReady
+  41              	.LVL1:
+  70:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Set starting address in the LCD Module */
+  71:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Optionally: Read the current address to restore at a later time */
+  72:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     LCD_WriteControl(LCD_CGRAM_0);
+  42              		.loc 1 72 0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 3
+
+
+  43 0008 4020     		movs	r0, #64
+  44 000a FFF7FEFF 		bl	LCD_WriteControl
+  45              	.LVL2:
+  73:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  74:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     /* Load in the 64 bytes of CustomChar Data */
+  75:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     for(indexU8 = 0u; indexU8 < LCD_CUSTOM_CHAR_SET_LEN; indexU8++)
+  46              		.loc 1 75 0
+  47 000e 0024     		movs	r4, #0
+  48 0010 04E0     		b	.L2
+  49              	.LVL3:
+  50              	.L3:
+  76:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     {
+  77:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Delay between each write */
+  78:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         LCD_WriteData(customData[indexU8]);
+  51              		.loc 1 78 0 discriminator 3
+  52 0012 285D     		ldrb	r0, [r5, r4]	@ zero_extendqisi2
+  53 0014 FFF7FEFF 		bl	LCD_WriteData
+  54              	.LVL4:
+  75:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     {
+  55              		.loc 1 75 0 discriminator 3
+  56 0018 0134     		adds	r4, r4, #1
+  57              	.LVL5:
+  58 001a E4B2     		uxtb	r4, r4
+  59              	.LVL6:
+  60              	.L2:
+  75:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     {
+  61              		.loc 1 75 0 is_stmt 0 discriminator 1
+  62 001c 3F2C     		cmp	r4, #63
+  63 001e F8D9     		bls	.L3
+  79:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     }
+  80:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  81:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     LCD_IsReady();
+  64              		.loc 1 81 0 is_stmt 1
+  65 0020 FFF7FEFF 		bl	LCD_IsReady
+  66              	.LVL7:
+  82:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     LCD_WriteControl(LCD_DDRAM_0);
+  67              		.loc 1 82 0
+  68 0024 8020     		movs	r0, #128
+  69 0026 FFF7FEFF 		bl	LCD_WriteControl
+  70              	.LVL8:
+  71 002a 38BD     		pop	{r3, r4, r5, pc}
+  72              		.cfi_endproc
+  73              	.LFE0:
+  74              		.size	LCD_LoadCustomFonts, .-LCD_LoadCustomFonts
+  75              		.section	.text.LCD_DrawHorizontalBG,"ax",%progbits
+  76              		.align	2
+  77              		.global	LCD_DrawHorizontalBG
+  78              		.thumb
+  79              		.thumb_func
+  80              		.type	LCD_DrawHorizontalBG, %function
+  81              	LCD_DrawHorizontalBG:
+  82              	.LFB1:
+  83:.\Generated_Source\PSoC5/LCD_BarGraph.c **** }
+  84:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  85:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+  86:.\Generated_Source\PSoC5/LCD_BarGraph.c **** #if (LCD_CUSTOM_CHAR_SET == LCD_HORIZONTAL_BG)
+  87:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 4
+
+
+  88:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     /*******************************************************************************
+  89:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     * Function Name: LCD_DrawHorizontalBG
+  90:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     ********************************************************************************
+  91:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     *
+  92:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     * Summary:
+  93:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     *  Draws the horizontal bargraph.
+  94:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     *
+  95:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     * Parameters:
+  96:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     *  row:            The row in which the bar graph starts.
+  97:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     *  column:         The column in which the bar graph starts.
+  98:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     *  maxCharacters:  The max length of the graph in whole characters.
+  99:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     *  value:          The current length or height of the graph in pixels.
+ 100:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     *
+ 101:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     * Return:
+ 102:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     *  void.
+ 103:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     *
+ 104:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     *******************************************************************************/
+ 105:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     void LCD_DrawHorizontalBG(uint8 row, uint8 column, uint8 maxCharacters, uint8 value) \
+ 106:.\Generated_Source\PSoC5/LCD_BarGraph.c ****                                                             
+ 107:.\Generated_Source\PSoC5/LCD_BarGraph.c ****     {
+  83              		.loc 1 107 0
+  84              		.cfi_startproc
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              	.LVL9:
+  88 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  89              		.cfi_def_cfa_offset 24
+  90              		.cfi_offset 3, -24
+  91              		.cfi_offset 4, -20
+  92              		.cfi_offset 5, -16
+  93              		.cfi_offset 6, -12
+  94              		.cfi_offset 7, -8
+  95              		.cfi_offset 14, -4
+  96 0002 1646     		mov	r6, r2
+ 108:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         /* 8-bit Counter */
+ 109:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         uint8 count8;
+ 110:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         uint8 fullChars;
+ 111:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         uint8 remainingPixels;
+ 112:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 113:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Number of full characters to draw */
+ 114:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         fullChars = value / LCD_CHARACTER_WIDTH;
+  97              		.loc 1 114 0
+  98 0004 154A     		ldr	r2, .L15
+  99              	.LVL10:
+ 100 0006 A2FB0342 		umull	r4, r2, r2, r3
+ 101 000a 9208     		lsrs	r2, r2, #2
+ 102 000c D5B2     		uxtb	r5, r2
+ 103              	.LVL11:
+ 115:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 116:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Number of remaining pixels to draw */
+ 117:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         remainingPixels = value % LCD_CHARACTER_WIDTH;
+ 104              		.loc 1 117 0
+ 105 000e 02EB8202 		add	r2, r2, r2, lsl #2
+ 106 0012 9A1A     		subs	r2, r3, r2
+ 107 0014 D7B2     		uxtb	r7, r2
+ 108              	.LVL12:
+ 118:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 5
+
+
+ 119:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Ensure that the maximum character limit is followed. */
+ 120:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         if(fullChars >= maxCharacters)
+ 109              		.loc 1 120 0
+ 110 0016 B542     		cmp	r5, r6
+ 111 0018 00D3     		bcc	.L6
+ 121:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         {
+ 122:.\Generated_Source\PSoC5/LCD_BarGraph.c ****             fullChars = maxCharacters;
+ 112              		.loc 1 122 0
+ 113 001a 3546     		mov	r5, r6
+ 114              	.LVL13:
+ 115              	.L6:
+ 123:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         }
+ 124:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 125:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Put Cursor at start position */
+ 126:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         LCD_Position(row, column);
+ 116              		.loc 1 126 0
+ 117 001c FFF7FEFF 		bl	LCD_Position
+ 118              	.LVL14:
+ 127:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 128:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         /* Write full characters */
+ 129:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         for(count8 = 0u; count8 < fullChars; count8++)
+ 119              		.loc 1 129 0
+ 120 0020 0024     		movs	r4, #0
+ 121 0022 04E0     		b	.L7
+ 122              	.LVL15:
+ 123              	.L8:
+ 130:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         {
+ 131:.\Generated_Source\PSoC5/LCD_BarGraph.c ****             LCD_WriteData(LCD_CUSTOM_5);
+ 124              		.loc 1 131 0 discriminator 3
+ 125 0024 0520     		movs	r0, #5
+ 126 0026 FFF7FEFF 		bl	LCD_WriteData
+ 127              	.LVL16:
+ 129:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         {
+ 128              		.loc 1 129 0 discriminator 3
+ 129 002a 0134     		adds	r4, r4, #1
+ 130              	.LVL17:
+ 131 002c E4B2     		uxtb	r4, r4
+ 132              	.LVL18:
+ 133              	.L7:
+ 129:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         {
+ 134              		.loc 1 129 0 is_stmt 0 discriminator 1
+ 135 002e AC42     		cmp	r4, r5
+ 136 0030 F8D3     		bcc	.L8
+ 132:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         }
+ 133:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ 134:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         if(fullChars < maxCharacters)
+ 137              		.loc 1 134 0 is_stmt 1
+ 138 0032 B542     		cmp	r5, r6
+ 139 0034 11D2     		bcs	.L5
+ 135:.\Generated_Source\PSoC5/LCD_BarGraph.c ****         {
+ 136:.\Generated_Source\PSoC5/LCD_BarGraph.c ****             /* Write remaining pixels */
+ 137:.\Generated_Source\PSoC5/LCD_BarGraph.c ****             LCD_WriteData(remainingPixels);
+ 140              		.loc 1 137 0
+ 141 0036 3846     		mov	r0, r7
+ 142 0038 FFF7FEFF 		bl	LCD_WriteData
+ 143              	.LVL19:
+ 138:.\Generated_Source\PSoC5/LCD_BarGraph.c **** 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 6
+
+
+ 139:.\Generated_Source\PSoC5/LCD_BarGraph.c ****             if(fullChars < (maxCharacters - 1u))
+ 144              		.loc 1 139 0
+ 145 003c 731E     		subs	r3, r6, #1
+ 146 003e 9D42     		cmp	r5, r3
+ 147 0040 06D3     		bcc	.L13
+ 148 0042 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 149              	.LVL20:
+ 150              	.L11:
+ 140:.\Generated_Source\PSoC5/LCD_BarGraph.c ****             {
+ 141:.\Generated_Source\PSoC5/LCD_BarGraph.c ****                 /* Fill with whitespace to end of bar graph */
+ 142:.\Generated_Source\PSoC5/LCD_BarGraph.c ****                 for(count8 = 0u; count8 < (maxCharacters - fullChars - 1u); count8++)
+ 143:.\Generated_Source\PSoC5/LCD_BarGraph.c ****                 {
+ 144:.\Generated_Source\PSoC5/LCD_BarGraph.c ****                     LCD_WriteData(LCD_CUSTOM_0);
+ 151              		.loc 1 144 0 discriminator 3
+ 152 0044 0020     		movs	r0, #0
+ 153 0046 FFF7FEFF 		bl	LCD_WriteData
+ 154              	.LVL21:
+ 142:.\Generated_Source\PSoC5/LCD_BarGraph.c ****                 {
+ 155              		.loc 1 142 0 discriminator 3
+ 156 004a 0134     		adds	r4, r4, #1
+ 157              	.LVL22:
+ 158 004c E4B2     		uxtb	r4, r4
+ 159              	.LVL23:
+ 160 004e 00E0     		b	.L10
+ 161              	.L13:
+ 162 0050 0024     		movs	r4, #0
+ 163              	.LVL24:
+ 164              	.L10:
+ 142:.\Generated_Source\PSoC5/LCD_BarGraph.c ****                 {
+ 165              		.loc 1 142 0 is_stmt 0 discriminator 1
+ 166 0052 731B     		subs	r3, r6, r5
+ 167 0054 013B     		subs	r3, r3, #1
+ 168 0056 9C42     		cmp	r4, r3
+ 169 0058 F4D3     		bcc	.L11
+ 170              	.L5:
+ 171 005a F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 172              	.LVL25:
+ 173              	.L16:
+ 174              		.align	2
+ 175              	.L15:
+ 176 005c CDCCCCCC 		.word	-858993459
+ 177              		.cfi_endproc
+ 178              	.LFE1:
+ 179              		.size	LCD_DrawHorizontalBG, .-LCD_DrawHorizontalBG
+ 180              		.global	LCD_customFonts
+ 181              		.section	.rodata
+ 182              		.align	2
+ 183              		.type	LCD_customFonts, %object
+ 184              		.size	LCD_customFonts, 64
+ 185              	LCD_customFonts:
+ 186 0000 00       		.byte	0
+ 187 0001 00       		.byte	0
+ 188 0002 00       		.byte	0
+ 189 0003 00       		.byte	0
+ 190 0004 00       		.byte	0
+ 191 0005 00       		.byte	0
+ 192 0006 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 7
+
+
+ 193 0007 00       		.byte	0
+ 194 0008 10       		.byte	16
+ 195 0009 10       		.byte	16
+ 196 000a 10       		.byte	16
+ 197 000b 10       		.byte	16
+ 198 000c 10       		.byte	16
+ 199 000d 10       		.byte	16
+ 200 000e 10       		.byte	16
+ 201 000f 10       		.byte	16
+ 202 0010 18       		.byte	24
+ 203 0011 18       		.byte	24
+ 204 0012 18       		.byte	24
+ 205 0013 18       		.byte	24
+ 206 0014 18       		.byte	24
+ 207 0015 18       		.byte	24
+ 208 0016 18       		.byte	24
+ 209 0017 18       		.byte	24
+ 210 0018 1C       		.byte	28
+ 211 0019 1C       		.byte	28
+ 212 001a 1C       		.byte	28
+ 213 001b 1C       		.byte	28
+ 214 001c 1C       		.byte	28
+ 215 001d 1C       		.byte	28
+ 216 001e 1C       		.byte	28
+ 217 001f 1C       		.byte	28
+ 218 0020 1E       		.byte	30
+ 219 0021 1E       		.byte	30
+ 220 0022 1E       		.byte	30
+ 221 0023 1E       		.byte	30
+ 222 0024 1E       		.byte	30
+ 223 0025 1E       		.byte	30
+ 224 0026 1E       		.byte	30
+ 225 0027 1E       		.byte	30
+ 226 0028 1F       		.byte	31
+ 227 0029 1F       		.byte	31
+ 228 002a 1F       		.byte	31
+ 229 002b 1F       		.byte	31
+ 230 002c 1F       		.byte	31
+ 231 002d 1F       		.byte	31
+ 232 002e 1F       		.byte	31
+ 233 002f 1F       		.byte	31
+ 234 0030 00       		.byte	0
+ 235 0031 00       		.byte	0
+ 236 0032 00       		.byte	0
+ 237 0033 00       		.byte	0
+ 238 0034 00       		.byte	0
+ 239 0035 00       		.byte	0
+ 240 0036 00       		.byte	0
+ 241 0037 00       		.byte	0
+ 242 0038 00       		.byte	0
+ 243 0039 00       		.byte	0
+ 244 003a 00       		.byte	0
+ 245 003b 00       		.byte	0
+ 246 003c 00       		.byte	0
+ 247 003d 00       		.byte	0
+ 248 003e 00       		.byte	0
+ 249 003f 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 8
+
+
+ 250              		.text
+ 251              	.Letext0:
+ 252              		.file 2 ".\\Generated_Source\\PSoC5\\LCD.h"
+ 253              		.file 3 ".\\Generated_Source\\PSoC5\\cytypes.h"
+ 254              		.section	.debug_info,"",%progbits
+ 255              	.Ldebug_info0:
+ 256 0000 2D020000 		.4byte	0x22d
+ 257 0004 0400     		.2byte	0x4
+ 258 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 259 000a 04       		.byte	0x4
+ 260 000b 01       		.uleb128 0x1
+ 261 000c 36010000 		.4byte	.LASF25
+ 262 0010 01       		.byte	0x1
+ 263 0011 08000000 		.4byte	.LASF26
+ 264 0015 C4010000 		.4byte	.LASF27
+ 265 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 266 001d 00000000 		.4byte	0
+ 267 0021 00000000 		.4byte	.Ldebug_line0
+ 268 0025 02       		.uleb128 0x2
+ 269 0026 01       		.byte	0x1
+ 270 0027 06       		.byte	0x6
+ 271 0028 E0000000 		.4byte	.LASF0
+ 272 002c 02       		.uleb128 0x2
+ 273 002d 01       		.byte	0x1
+ 274 002e 08       		.byte	0x8
+ 275 002f C2000000 		.4byte	.LASF1
+ 276 0033 02       		.uleb128 0x2
+ 277 0034 02       		.byte	0x2
+ 278 0035 05       		.byte	0x5
+ 279 0036 5D000000 		.4byte	.LASF2
+ 280 003a 02       		.uleb128 0x2
+ 281 003b 02       		.byte	0x2
+ 282 003c 07       		.byte	0x7
+ 283 003d 1E010000 		.4byte	.LASF3
+ 284 0041 02       		.uleb128 0x2
+ 285 0042 04       		.byte	0x4
+ 286 0043 05       		.byte	0x5
+ 287 0044 90000000 		.4byte	.LASF4
+ 288 0048 02       		.uleb128 0x2
+ 289 0049 04       		.byte	0x4
+ 290 004a 07       		.byte	0x7
+ 291 004b 1D020000 		.4byte	.LASF5
+ 292 004f 02       		.uleb128 0x2
+ 293 0050 08       		.byte	0x8
+ 294 0051 05       		.byte	0x5
+ 295 0052 82000000 		.4byte	.LASF6
+ 296 0056 02       		.uleb128 0x2
+ 297 0057 08       		.byte	0x8
+ 298 0058 07       		.byte	0x7
+ 299 0059 EC000000 		.4byte	.LASF7
+ 300 005d 03       		.uleb128 0x3
+ 301 005e 04       		.byte	0x4
+ 302 005f 05       		.byte	0x5
+ 303 0060 696E7400 		.ascii	"int\000"
+ 304 0064 02       		.uleb128 0x2
+ 305 0065 04       		.byte	0x4
+ 306 0066 07       		.byte	0x7
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 9
+
+
+ 307 0067 03010000 		.4byte	.LASF8
+ 308 006b 04       		.uleb128 0x4
+ 309 006c 76000000 		.4byte	.LASF28
+ 310 0070 03       		.byte	0x3
+ 311 0071 9201     		.2byte	0x192
+ 312 0073 2C000000 		.4byte	0x2c
+ 313 0077 02       		.uleb128 0x2
+ 314 0078 04       		.byte	0x4
+ 315 0079 04       		.byte	0x4
+ 316 007a 7C000000 		.4byte	.LASF9
+ 317 007e 02       		.uleb128 0x2
+ 318 007f 08       		.byte	0x8
+ 319 0080 04       		.byte	0x4
+ 320 0081 2F020000 		.4byte	.LASF10
+ 321 0085 02       		.uleb128 0x2
+ 322 0086 01       		.byte	0x1
+ 323 0087 08       		.byte	0x8
+ 324 0088 31010000 		.4byte	.LASF11
+ 325 008c 05       		.uleb128 0x5
+ 326 008d A4000000 		.4byte	.LASF12
+ 327 0091 01       		.byte	0x1
+ 328 0092 41       		.byte	0x41
+ 329 0093 00000000 		.4byte	.LFB0
+ 330 0097 2C000000 		.4byte	.LFE0-.LFB0
+ 331 009b 01       		.uleb128 0x1
+ 332 009c 9C       		.byte	0x9c
+ 333 009d FF000000 		.4byte	0xff
+ 334 00a1 06       		.uleb128 0x6
+ 335 00a2 99000000 		.4byte	.LASF14
+ 336 00a6 01       		.byte	0x1
+ 337 00a7 41       		.byte	0x41
+ 338 00a8 FF000000 		.4byte	0xff
+ 339 00ac 00000000 		.4byte	.LLST0
+ 340 00b0 07       		.uleb128 0x7
+ 341 00b1 00000000 		.4byte	.LASF18
+ 342 00b5 01       		.byte	0x1
+ 343 00b6 43       		.byte	0x43
+ 344 00b7 6B000000 		.4byte	0x6b
+ 345 00bb 1E000000 		.4byte	.LLST1
+ 346 00bf 08       		.uleb128 0x8
+ 347 00c0 08000000 		.4byte	.LVL1
+ 348 00c4 F5010000 		.4byte	0x1f5
+ 349 00c8 09       		.uleb128 0x9
+ 350 00c9 0E000000 		.4byte	.LVL2
+ 351 00cd FC010000 		.4byte	0x1fc
+ 352 00d1 DC000000 		.4byte	0xdc
+ 353 00d5 0A       		.uleb128 0xa
+ 354 00d6 01       		.uleb128 0x1
+ 355 00d7 50       		.byte	0x50
+ 356 00d8 02       		.uleb128 0x2
+ 357 00d9 08       		.byte	0x8
+ 358 00da 40       		.byte	0x40
+ 359 00db 00       		.byte	0
+ 360 00dc 08       		.uleb128 0x8
+ 361 00dd 18000000 		.4byte	.LVL4
+ 362 00e1 0D020000 		.4byte	0x20d
+ 363 00e5 08       		.uleb128 0x8
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 10
+
+
+ 364 00e6 24000000 		.4byte	.LVL7
+ 365 00ea F5010000 		.4byte	0x1f5
+ 366 00ee 0B       		.uleb128 0xb
+ 367 00ef 2A000000 		.4byte	.LVL8
+ 368 00f3 FC010000 		.4byte	0x1fc
+ 369 00f7 0A       		.uleb128 0xa
+ 370 00f8 01       		.uleb128 0x1
+ 371 00f9 50       		.byte	0x50
+ 372 00fa 02       		.uleb128 0x2
+ 373 00fb 09       		.byte	0x9
+ 374 00fc 80       		.byte	0x80
+ 375 00fd 00       		.byte	0
+ 376 00fe 00       		.byte	0
+ 377 00ff 0C       		.uleb128 0xc
+ 378 0100 04       		.byte	0x4
+ 379 0101 05010000 		.4byte	0x105
+ 380 0105 0D       		.uleb128 0xd
+ 381 0106 6B000000 		.4byte	0x6b
+ 382 010a 05       		.uleb128 0x5
+ 383 010b 30000000 		.4byte	.LASF13
+ 384 010f 01       		.byte	0x1
+ 385 0110 69       		.byte	0x69
+ 386 0111 00000000 		.4byte	.LFB1
+ 387 0115 60000000 		.4byte	.LFE1-.LFB1
+ 388 0119 01       		.uleb128 0x1
+ 389 011a 9C       		.byte	0x9c
+ 390 011b C8010000 		.4byte	0x1c8
+ 391 011f 0E       		.uleb128 0xe
+ 392 0120 726F7700 		.ascii	"row\000"
+ 393 0124 01       		.byte	0x1
+ 394 0125 69       		.byte	0x69
+ 395 0126 6B000000 		.4byte	0x6b
+ 396 012a 48000000 		.4byte	.LLST2
+ 397 012e 06       		.uleb128 0x6
+ 398 012f 45000000 		.4byte	.LASF15
+ 399 0133 01       		.byte	0x1
+ 400 0134 69       		.byte	0x69
+ 401 0135 6B000000 		.4byte	0x6b
+ 402 0139 69000000 		.4byte	.LLST3
+ 403 013d 06       		.uleb128 0x6
+ 404 013e 10010000 		.4byte	.LASF16
+ 405 0142 01       		.byte	0x1
+ 406 0143 69       		.byte	0x69
+ 407 0144 6B000000 		.4byte	0x6b
+ 408 0148 8A000000 		.4byte	.LLST4
+ 409 014c 06       		.uleb128 0x6
+ 410 014d 70000000 		.4byte	.LASF17
+ 411 0151 01       		.byte	0x1
+ 412 0152 69       		.byte	0x69
+ 413 0153 6B000000 		.4byte	0x6b
+ 414 0157 AB000000 		.4byte	.LLST5
+ 415 015b 07       		.uleb128 0x7
+ 416 015c 36020000 		.4byte	.LASF19
+ 417 0160 01       		.byte	0x1
+ 418 0161 6D       		.byte	0x6d
+ 419 0162 6B000000 		.4byte	0x6b
+ 420 0166 CC000000 		.4byte	.LLST6
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 11
+
+
+ 421 016a 07       		.uleb128 0x7
+ 422 016b B8000000 		.4byte	.LASF20
+ 423 016f 01       		.byte	0x1
+ 424 0170 6E       		.byte	0x6e
+ 425 0171 6B000000 		.4byte	0x6b
+ 426 0175 01010000 		.4byte	.LLST7
+ 427 0179 07       		.uleb128 0x7
+ 428 017a D0000000 		.4byte	.LASF21
+ 429 017e 01       		.byte	0x1
+ 430 017f 6F       		.byte	0x6f
+ 431 0180 6B000000 		.4byte	0x6b
+ 432 0184 14010000 		.4byte	.LLST8
+ 433 0188 08       		.uleb128 0x8
+ 434 0189 20000000 		.4byte	.LVL14
+ 435 018d 1E020000 		.4byte	0x21e
+ 436 0191 09       		.uleb128 0x9
+ 437 0192 2A000000 		.4byte	.LVL16
+ 438 0196 0D020000 		.4byte	0x20d
+ 439 019a A4010000 		.4byte	0x1a4
+ 440 019e 0A       		.uleb128 0xa
+ 441 019f 01       		.uleb128 0x1
+ 442 01a0 50       		.byte	0x50
+ 443 01a1 01       		.uleb128 0x1
+ 444 01a2 35       		.byte	0x35
+ 445 01a3 00       		.byte	0
+ 446 01a4 09       		.uleb128 0x9
+ 447 01a5 3C000000 		.4byte	.LVL19
+ 448 01a9 0D020000 		.4byte	0x20d
+ 449 01ad B8010000 		.4byte	0x1b8
+ 450 01b1 0A       		.uleb128 0xa
+ 451 01b2 01       		.uleb128 0x1
+ 452 01b3 50       		.byte	0x50
+ 453 01b4 02       		.uleb128 0x2
+ 454 01b5 77       		.byte	0x77
+ 455 01b6 00       		.sleb128 0
+ 456 01b7 00       		.byte	0
+ 457 01b8 0B       		.uleb128 0xb
+ 458 01b9 4A000000 		.4byte	.LVL21
+ 459 01bd 0D020000 		.4byte	0x20d
+ 460 01c1 0A       		.uleb128 0xa
+ 461 01c2 01       		.uleb128 0x1
+ 462 01c3 50       		.byte	0x50
+ 463 01c4 01       		.uleb128 0x1
+ 464 01c5 30       		.byte	0x30
+ 465 01c6 00       		.byte	0
+ 466 01c7 00       		.byte	0
+ 467 01c8 0F       		.uleb128 0xf
+ 468 01c9 6B000000 		.4byte	0x6b
+ 469 01cd D8010000 		.4byte	0x1d8
+ 470 01d1 10       		.uleb128 0x10
+ 471 01d2 D8010000 		.4byte	0x1d8
+ 472 01d6 3F       		.byte	0x3f
+ 473 01d7 00       		.byte	0
+ 474 01d8 02       		.uleb128 0x2
+ 475 01d9 04       		.byte	0x4
+ 476 01da 07       		.byte	0x7
+ 477 01db 67000000 		.4byte	.LASF22
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 12
+
+
+ 478 01df 11       		.uleb128 0x11
+ 479 01e0 01020000 		.4byte	.LASF29
+ 480 01e4 01       		.byte	0x1
+ 481 01e5 15       		.byte	0x15
+ 482 01e6 F0010000 		.4byte	0x1f0
+ 483 01ea 05       		.uleb128 0x5
+ 484 01eb 03       		.byte	0x3
+ 485 01ec 00000000 		.4byte	LCD_customFonts
+ 486 01f0 0D       		.uleb128 0xd
+ 487 01f1 C8010000 		.4byte	0x1c8
+ 488 01f5 12       		.uleb128 0x12
+ 489 01f6 11020000 		.4byte	.LASF30
+ 490 01fa 02       		.byte	0x2
+ 491 01fb 3F       		.byte	0x3f
+ 492 01fc 13       		.uleb128 0x13
+ 493 01fd 4C000000 		.4byte	.LASF23
+ 494 0201 02       		.byte	0x2
+ 495 0202 3A       		.byte	0x3a
+ 496 0203 0D020000 		.4byte	0x20d
+ 497 0207 14       		.uleb128 0x14
+ 498 0208 6B000000 		.4byte	0x6b
+ 499 020c 00       		.byte	0
+ 500 020d 13       		.uleb128 0x13
+ 501 020e 4A020000 		.4byte	.LASF24
+ 502 0212 02       		.byte	0x2
+ 503 0213 3B       		.byte	0x3b
+ 504 0214 1E020000 		.4byte	0x21e
+ 505 0218 14       		.uleb128 0x14
+ 506 0219 6B000000 		.4byte	0x6b
+ 507 021d 00       		.byte	0
+ 508 021e 15       		.uleb128 0x15
+ 509 021f 3D020000 		.4byte	.LASF31
+ 510 0223 02       		.byte	0x2
+ 511 0224 3D       		.byte	0x3d
+ 512 0225 14       		.uleb128 0x14
+ 513 0226 6B000000 		.4byte	0x6b
+ 514 022a 14       		.uleb128 0x14
+ 515 022b 6B000000 		.4byte	0x6b
+ 516 022f 00       		.byte	0
+ 517 0230 00       		.byte	0
+ 518              		.section	.debug_abbrev,"",%progbits
+ 519              	.Ldebug_abbrev0:
+ 520 0000 01       		.uleb128 0x1
+ 521 0001 11       		.uleb128 0x11
+ 522 0002 01       		.byte	0x1
+ 523 0003 25       		.uleb128 0x25
+ 524 0004 0E       		.uleb128 0xe
+ 525 0005 13       		.uleb128 0x13
+ 526 0006 0B       		.uleb128 0xb
+ 527 0007 03       		.uleb128 0x3
+ 528 0008 0E       		.uleb128 0xe
+ 529 0009 1B       		.uleb128 0x1b
+ 530 000a 0E       		.uleb128 0xe
+ 531 000b 55       		.uleb128 0x55
+ 532 000c 17       		.uleb128 0x17
+ 533 000d 11       		.uleb128 0x11
+ 534 000e 01       		.uleb128 0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 13
+
+
+ 535 000f 10       		.uleb128 0x10
+ 536 0010 17       		.uleb128 0x17
+ 537 0011 00       		.byte	0
+ 538 0012 00       		.byte	0
+ 539 0013 02       		.uleb128 0x2
+ 540 0014 24       		.uleb128 0x24
+ 541 0015 00       		.byte	0
+ 542 0016 0B       		.uleb128 0xb
+ 543 0017 0B       		.uleb128 0xb
+ 544 0018 3E       		.uleb128 0x3e
+ 545 0019 0B       		.uleb128 0xb
+ 546 001a 03       		.uleb128 0x3
+ 547 001b 0E       		.uleb128 0xe
+ 548 001c 00       		.byte	0
+ 549 001d 00       		.byte	0
+ 550 001e 03       		.uleb128 0x3
+ 551 001f 24       		.uleb128 0x24
+ 552 0020 00       		.byte	0
+ 553 0021 0B       		.uleb128 0xb
+ 554 0022 0B       		.uleb128 0xb
+ 555 0023 3E       		.uleb128 0x3e
+ 556 0024 0B       		.uleb128 0xb
+ 557 0025 03       		.uleb128 0x3
+ 558 0026 08       		.uleb128 0x8
+ 559 0027 00       		.byte	0
+ 560 0028 00       		.byte	0
+ 561 0029 04       		.uleb128 0x4
+ 562 002a 16       		.uleb128 0x16
+ 563 002b 00       		.byte	0
+ 564 002c 03       		.uleb128 0x3
+ 565 002d 0E       		.uleb128 0xe
+ 566 002e 3A       		.uleb128 0x3a
+ 567 002f 0B       		.uleb128 0xb
+ 568 0030 3B       		.uleb128 0x3b
+ 569 0031 05       		.uleb128 0x5
+ 570 0032 49       		.uleb128 0x49
+ 571 0033 13       		.uleb128 0x13
+ 572 0034 00       		.byte	0
+ 573 0035 00       		.byte	0
+ 574 0036 05       		.uleb128 0x5
+ 575 0037 2E       		.uleb128 0x2e
+ 576 0038 01       		.byte	0x1
+ 577 0039 3F       		.uleb128 0x3f
+ 578 003a 19       		.uleb128 0x19
+ 579 003b 03       		.uleb128 0x3
+ 580 003c 0E       		.uleb128 0xe
+ 581 003d 3A       		.uleb128 0x3a
+ 582 003e 0B       		.uleb128 0xb
+ 583 003f 3B       		.uleb128 0x3b
+ 584 0040 0B       		.uleb128 0xb
+ 585 0041 27       		.uleb128 0x27
+ 586 0042 19       		.uleb128 0x19
+ 587 0043 11       		.uleb128 0x11
+ 588 0044 01       		.uleb128 0x1
+ 589 0045 12       		.uleb128 0x12
+ 590 0046 06       		.uleb128 0x6
+ 591 0047 40       		.uleb128 0x40
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 14
+
+
+ 592 0048 18       		.uleb128 0x18
+ 593 0049 9742     		.uleb128 0x2117
+ 594 004b 19       		.uleb128 0x19
+ 595 004c 01       		.uleb128 0x1
+ 596 004d 13       		.uleb128 0x13
+ 597 004e 00       		.byte	0
+ 598 004f 00       		.byte	0
+ 599 0050 06       		.uleb128 0x6
+ 600 0051 05       		.uleb128 0x5
+ 601 0052 00       		.byte	0
+ 602 0053 03       		.uleb128 0x3
+ 603 0054 0E       		.uleb128 0xe
+ 604 0055 3A       		.uleb128 0x3a
+ 605 0056 0B       		.uleb128 0xb
+ 606 0057 3B       		.uleb128 0x3b
+ 607 0058 0B       		.uleb128 0xb
+ 608 0059 49       		.uleb128 0x49
+ 609 005a 13       		.uleb128 0x13
+ 610 005b 02       		.uleb128 0x2
+ 611 005c 17       		.uleb128 0x17
+ 612 005d 00       		.byte	0
+ 613 005e 00       		.byte	0
+ 614 005f 07       		.uleb128 0x7
+ 615 0060 34       		.uleb128 0x34
+ 616 0061 00       		.byte	0
+ 617 0062 03       		.uleb128 0x3
+ 618 0063 0E       		.uleb128 0xe
+ 619 0064 3A       		.uleb128 0x3a
+ 620 0065 0B       		.uleb128 0xb
+ 621 0066 3B       		.uleb128 0x3b
+ 622 0067 0B       		.uleb128 0xb
+ 623 0068 49       		.uleb128 0x49
+ 624 0069 13       		.uleb128 0x13
+ 625 006a 02       		.uleb128 0x2
+ 626 006b 17       		.uleb128 0x17
+ 627 006c 00       		.byte	0
+ 628 006d 00       		.byte	0
+ 629 006e 08       		.uleb128 0x8
+ 630 006f 898201   		.uleb128 0x4109
+ 631 0072 00       		.byte	0
+ 632 0073 11       		.uleb128 0x11
+ 633 0074 01       		.uleb128 0x1
+ 634 0075 31       		.uleb128 0x31
+ 635 0076 13       		.uleb128 0x13
+ 636 0077 00       		.byte	0
+ 637 0078 00       		.byte	0
+ 638 0079 09       		.uleb128 0x9
+ 639 007a 898201   		.uleb128 0x4109
+ 640 007d 01       		.byte	0x1
+ 641 007e 11       		.uleb128 0x11
+ 642 007f 01       		.uleb128 0x1
+ 643 0080 31       		.uleb128 0x31
+ 644 0081 13       		.uleb128 0x13
+ 645 0082 01       		.uleb128 0x1
+ 646 0083 13       		.uleb128 0x13
+ 647 0084 00       		.byte	0
+ 648 0085 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 15
+
+
+ 649 0086 0A       		.uleb128 0xa
+ 650 0087 8A8201   		.uleb128 0x410a
+ 651 008a 00       		.byte	0
+ 652 008b 02       		.uleb128 0x2
+ 653 008c 18       		.uleb128 0x18
+ 654 008d 9142     		.uleb128 0x2111
+ 655 008f 18       		.uleb128 0x18
+ 656 0090 00       		.byte	0
+ 657 0091 00       		.byte	0
+ 658 0092 0B       		.uleb128 0xb
+ 659 0093 898201   		.uleb128 0x4109
+ 660 0096 01       		.byte	0x1
+ 661 0097 11       		.uleb128 0x11
+ 662 0098 01       		.uleb128 0x1
+ 663 0099 31       		.uleb128 0x31
+ 664 009a 13       		.uleb128 0x13
+ 665 009b 00       		.byte	0
+ 666 009c 00       		.byte	0
+ 667 009d 0C       		.uleb128 0xc
+ 668 009e 0F       		.uleb128 0xf
+ 669 009f 00       		.byte	0
+ 670 00a0 0B       		.uleb128 0xb
+ 671 00a1 0B       		.uleb128 0xb
+ 672 00a2 49       		.uleb128 0x49
+ 673 00a3 13       		.uleb128 0x13
+ 674 00a4 00       		.byte	0
+ 675 00a5 00       		.byte	0
+ 676 00a6 0D       		.uleb128 0xd
+ 677 00a7 26       		.uleb128 0x26
+ 678 00a8 00       		.byte	0
+ 679 00a9 49       		.uleb128 0x49
+ 680 00aa 13       		.uleb128 0x13
+ 681 00ab 00       		.byte	0
+ 682 00ac 00       		.byte	0
+ 683 00ad 0E       		.uleb128 0xe
+ 684 00ae 05       		.uleb128 0x5
+ 685 00af 00       		.byte	0
+ 686 00b0 03       		.uleb128 0x3
+ 687 00b1 08       		.uleb128 0x8
+ 688 00b2 3A       		.uleb128 0x3a
+ 689 00b3 0B       		.uleb128 0xb
+ 690 00b4 3B       		.uleb128 0x3b
+ 691 00b5 0B       		.uleb128 0xb
+ 692 00b6 49       		.uleb128 0x49
+ 693 00b7 13       		.uleb128 0x13
+ 694 00b8 02       		.uleb128 0x2
+ 695 00b9 17       		.uleb128 0x17
+ 696 00ba 00       		.byte	0
+ 697 00bb 00       		.byte	0
+ 698 00bc 0F       		.uleb128 0xf
+ 699 00bd 01       		.uleb128 0x1
+ 700 00be 01       		.byte	0x1
+ 701 00bf 49       		.uleb128 0x49
+ 702 00c0 13       		.uleb128 0x13
+ 703 00c1 01       		.uleb128 0x1
+ 704 00c2 13       		.uleb128 0x13
+ 705 00c3 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 16
+
+
+ 706 00c4 00       		.byte	0
+ 707 00c5 10       		.uleb128 0x10
+ 708 00c6 21       		.uleb128 0x21
+ 709 00c7 00       		.byte	0
+ 710 00c8 49       		.uleb128 0x49
+ 711 00c9 13       		.uleb128 0x13
+ 712 00ca 2F       		.uleb128 0x2f
+ 713 00cb 0B       		.uleb128 0xb
+ 714 00cc 00       		.byte	0
+ 715 00cd 00       		.byte	0
+ 716 00ce 11       		.uleb128 0x11
+ 717 00cf 34       		.uleb128 0x34
+ 718 00d0 00       		.byte	0
+ 719 00d1 03       		.uleb128 0x3
+ 720 00d2 0E       		.uleb128 0xe
+ 721 00d3 3A       		.uleb128 0x3a
+ 722 00d4 0B       		.uleb128 0xb
+ 723 00d5 3B       		.uleb128 0x3b
+ 724 00d6 0B       		.uleb128 0xb
+ 725 00d7 49       		.uleb128 0x49
+ 726 00d8 13       		.uleb128 0x13
+ 727 00d9 3F       		.uleb128 0x3f
+ 728 00da 19       		.uleb128 0x19
+ 729 00db 02       		.uleb128 0x2
+ 730 00dc 18       		.uleb128 0x18
+ 731 00dd 00       		.byte	0
+ 732 00de 00       		.byte	0
+ 733 00df 12       		.uleb128 0x12
+ 734 00e0 2E       		.uleb128 0x2e
+ 735 00e1 00       		.byte	0
+ 736 00e2 3F       		.uleb128 0x3f
+ 737 00e3 19       		.uleb128 0x19
+ 738 00e4 03       		.uleb128 0x3
+ 739 00e5 0E       		.uleb128 0xe
+ 740 00e6 3A       		.uleb128 0x3a
+ 741 00e7 0B       		.uleb128 0xb
+ 742 00e8 3B       		.uleb128 0x3b
+ 743 00e9 0B       		.uleb128 0xb
+ 744 00ea 27       		.uleb128 0x27
+ 745 00eb 19       		.uleb128 0x19
+ 746 00ec 3C       		.uleb128 0x3c
+ 747 00ed 19       		.uleb128 0x19
+ 748 00ee 00       		.byte	0
+ 749 00ef 00       		.byte	0
+ 750 00f0 13       		.uleb128 0x13
+ 751 00f1 2E       		.uleb128 0x2e
+ 752 00f2 01       		.byte	0x1
+ 753 00f3 3F       		.uleb128 0x3f
+ 754 00f4 19       		.uleb128 0x19
+ 755 00f5 03       		.uleb128 0x3
+ 756 00f6 0E       		.uleb128 0xe
+ 757 00f7 3A       		.uleb128 0x3a
+ 758 00f8 0B       		.uleb128 0xb
+ 759 00f9 3B       		.uleb128 0x3b
+ 760 00fa 0B       		.uleb128 0xb
+ 761 00fb 27       		.uleb128 0x27
+ 762 00fc 19       		.uleb128 0x19
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 17
+
+
+ 763 00fd 3C       		.uleb128 0x3c
+ 764 00fe 19       		.uleb128 0x19
+ 765 00ff 01       		.uleb128 0x1
+ 766 0100 13       		.uleb128 0x13
+ 767 0101 00       		.byte	0
+ 768 0102 00       		.byte	0
+ 769 0103 14       		.uleb128 0x14
+ 770 0104 05       		.uleb128 0x5
+ 771 0105 00       		.byte	0
+ 772 0106 49       		.uleb128 0x49
+ 773 0107 13       		.uleb128 0x13
+ 774 0108 00       		.byte	0
+ 775 0109 00       		.byte	0
+ 776 010a 15       		.uleb128 0x15
+ 777 010b 2E       		.uleb128 0x2e
+ 778 010c 01       		.byte	0x1
+ 779 010d 3F       		.uleb128 0x3f
+ 780 010e 19       		.uleb128 0x19
+ 781 010f 03       		.uleb128 0x3
+ 782 0110 0E       		.uleb128 0xe
+ 783 0111 3A       		.uleb128 0x3a
+ 784 0112 0B       		.uleb128 0xb
+ 785 0113 3B       		.uleb128 0x3b
+ 786 0114 0B       		.uleb128 0xb
+ 787 0115 27       		.uleb128 0x27
+ 788 0116 19       		.uleb128 0x19
+ 789 0117 3C       		.uleb128 0x3c
+ 790 0118 19       		.uleb128 0x19
+ 791 0119 00       		.byte	0
+ 792 011a 00       		.byte	0
+ 793 011b 00       		.byte	0
+ 794              		.section	.debug_loc,"",%progbits
+ 795              	.Ldebug_loc0:
+ 796              	.LLST0:
+ 797 0000 00000000 		.4byte	.LVL0
+ 798 0004 07000000 		.4byte	.LVL1-1
+ 799 0008 0100     		.2byte	0x1
+ 800 000a 50       		.byte	0x50
+ 801 000b 07000000 		.4byte	.LVL1-1
+ 802 000f 2C000000 		.4byte	.LFE0
+ 803 0013 0100     		.2byte	0x1
+ 804 0015 55       		.byte	0x55
+ 805 0016 00000000 		.4byte	0
+ 806 001a 00000000 		.4byte	0
+ 807              	.LLST1:
+ 808 001e 0E000000 		.4byte	.LVL2
+ 809 0022 12000000 		.4byte	.LVL3
+ 810 0026 0200     		.2byte	0x2
+ 811 0028 30       		.byte	0x30
+ 812 0029 9F       		.byte	0x9f
+ 813 002a 12000000 		.4byte	.LVL3
+ 814 002e 1A000000 		.4byte	.LVL5
+ 815 0032 0100     		.2byte	0x1
+ 816 0034 54       		.byte	0x54
+ 817 0035 1C000000 		.4byte	.LVL6
+ 818 0039 2C000000 		.4byte	.LFE0
+ 819 003d 0100     		.2byte	0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 18
+
+
+ 820 003f 54       		.byte	0x54
+ 821 0040 00000000 		.4byte	0
+ 822 0044 00000000 		.4byte	0
+ 823              	.LLST2:
+ 824 0048 00000000 		.4byte	.LVL9
+ 825 004c 1F000000 		.4byte	.LVL14-1
+ 826 0050 0100     		.2byte	0x1
+ 827 0052 50       		.byte	0x50
+ 828 0053 1F000000 		.4byte	.LVL14-1
+ 829 0057 60000000 		.4byte	.LFE1
+ 830 005b 0400     		.2byte	0x4
+ 831 005d F3       		.byte	0xf3
+ 832 005e 01       		.uleb128 0x1
+ 833 005f 50       		.byte	0x50
+ 834 0060 9F       		.byte	0x9f
+ 835 0061 00000000 		.4byte	0
+ 836 0065 00000000 		.4byte	0
+ 837              	.LLST3:
+ 838 0069 00000000 		.4byte	.LVL9
+ 839 006d 1F000000 		.4byte	.LVL14-1
+ 840 0071 0100     		.2byte	0x1
+ 841 0073 51       		.byte	0x51
+ 842 0074 1F000000 		.4byte	.LVL14-1
+ 843 0078 60000000 		.4byte	.LFE1
+ 844 007c 0400     		.2byte	0x4
+ 845 007e F3       		.byte	0xf3
+ 846 007f 01       		.uleb128 0x1
+ 847 0080 51       		.byte	0x51
+ 848 0081 9F       		.byte	0x9f
+ 849 0082 00000000 		.4byte	0
+ 850 0086 00000000 		.4byte	0
+ 851              	.LLST4:
+ 852 008a 00000000 		.4byte	.LVL9
+ 853 008e 06000000 		.4byte	.LVL10
+ 854 0092 0100     		.2byte	0x1
+ 855 0094 52       		.byte	0x52
+ 856 0095 06000000 		.4byte	.LVL10
+ 857 0099 60000000 		.4byte	.LFE1
+ 858 009d 0400     		.2byte	0x4
+ 859 009f F3       		.byte	0xf3
+ 860 00a0 01       		.uleb128 0x1
+ 861 00a1 52       		.byte	0x52
+ 862 00a2 9F       		.byte	0x9f
+ 863 00a3 00000000 		.4byte	0
+ 864 00a7 00000000 		.4byte	0
+ 865              	.LLST5:
+ 866 00ab 00000000 		.4byte	.LVL9
+ 867 00af 1F000000 		.4byte	.LVL14-1
+ 868 00b3 0100     		.2byte	0x1
+ 869 00b5 53       		.byte	0x53
+ 870 00b6 1F000000 		.4byte	.LVL14-1
+ 871 00ba 60000000 		.4byte	.LFE1
+ 872 00be 0400     		.2byte	0x4
+ 873 00c0 F3       		.byte	0xf3
+ 874 00c1 01       		.uleb128 0x1
+ 875 00c2 53       		.byte	0x53
+ 876 00c3 9F       		.byte	0x9f
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 19
+
+
+ 877 00c4 00000000 		.4byte	0
+ 878 00c8 00000000 		.4byte	0
+ 879              	.LLST6:
+ 880 00cc 20000000 		.4byte	.LVL14
+ 881 00d0 24000000 		.4byte	.LVL15
+ 882 00d4 0200     		.2byte	0x2
+ 883 00d6 30       		.byte	0x30
+ 884 00d7 9F       		.byte	0x9f
+ 885 00d8 24000000 		.4byte	.LVL15
+ 886 00dc 2C000000 		.4byte	.LVL17
+ 887 00e0 0100     		.2byte	0x1
+ 888 00e2 54       		.byte	0x54
+ 889 00e3 2E000000 		.4byte	.LVL18
+ 890 00e7 4C000000 		.4byte	.LVL22
+ 891 00eb 0100     		.2byte	0x1
+ 892 00ed 54       		.byte	0x54
+ 893 00ee 4E000000 		.4byte	.LVL23
+ 894 00f2 5C000000 		.4byte	.LVL25
+ 895 00f6 0100     		.2byte	0x1
+ 896 00f8 54       		.byte	0x54
+ 897 00f9 00000000 		.4byte	0
+ 898 00fd 00000000 		.4byte	0
+ 899              	.LLST7:
+ 900 0101 0E000000 		.4byte	.LVL11
+ 901 0105 5C000000 		.4byte	.LVL25
+ 902 0109 0100     		.2byte	0x1
+ 903 010b 55       		.byte	0x55
+ 904 010c 00000000 		.4byte	0
+ 905 0110 00000000 		.4byte	0
+ 906              	.LLST8:
+ 907 0114 16000000 		.4byte	.LVL12
+ 908 0118 5C000000 		.4byte	.LVL25
+ 909 011c 0100     		.2byte	0x1
+ 910 011e 57       		.byte	0x57
+ 911 011f 00000000 		.4byte	0
+ 912 0123 00000000 		.4byte	0
+ 913              		.section	.debug_aranges,"",%progbits
+ 914 0000 24000000 		.4byte	0x24
+ 915 0004 0200     		.2byte	0x2
+ 916 0006 00000000 		.4byte	.Ldebug_info0
+ 917 000a 04       		.byte	0x4
+ 918 000b 00       		.byte	0
+ 919 000c 0000     		.2byte	0
+ 920 000e 0000     		.2byte	0
+ 921 0010 00000000 		.4byte	.LFB0
+ 922 0014 2C000000 		.4byte	.LFE0-.LFB0
+ 923 0018 00000000 		.4byte	.LFB1
+ 924 001c 60000000 		.4byte	.LFE1-.LFB1
+ 925 0020 00000000 		.4byte	0
+ 926 0024 00000000 		.4byte	0
+ 927              		.section	.debug_ranges,"",%progbits
+ 928              	.Ldebug_ranges0:
+ 929 0000 00000000 		.4byte	.LFB0
+ 930 0004 2C000000 		.4byte	.LFE0
+ 931 0008 00000000 		.4byte	.LFB1
+ 932 000c 60000000 		.4byte	.LFE1
+ 933 0010 00000000 		.4byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 20
+
+
+ 934 0014 00000000 		.4byte	0
+ 935              		.section	.debug_line,"",%progbits
+ 936              	.Ldebug_line0:
+ 937 0000 BA000000 		.section	.debug_str,"MS",%progbits,1
+ 937      02005400 
+ 937      00000201 
+ 937      FB0E0D00 
+ 937      01010101 
+ 938              	.LASF18:
+ 939 0000 696E6465 		.ascii	"indexU8\000"
+ 939      78553800 
+ 940              	.LASF26:
+ 941 0008 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\LCD_BarGraph.c\000"
+ 941      6E657261 
+ 941      7465645F 
+ 941      536F7572 
+ 941      63655C50 
+ 942              	.LASF13:
+ 943 0030 4C43445F 		.ascii	"LCD_DrawHorizontalBG\000"
+ 943      44726177 
+ 943      486F7269 
+ 943      7A6F6E74 
+ 943      616C4247 
+ 944              	.LASF15:
+ 945 0045 636F6C75 		.ascii	"column\000"
+ 945      6D6E00
+ 946              	.LASF23:
+ 947 004c 4C43445F 		.ascii	"LCD_WriteControl\000"
+ 947      57726974 
+ 947      65436F6E 
+ 947      74726F6C 
+ 947      00
+ 948              	.LASF2:
+ 949 005d 73686F72 		.ascii	"short int\000"
+ 949      7420696E 
+ 949      7400
+ 950              	.LASF22:
+ 951 0067 73697A65 		.ascii	"sizetype\000"
+ 951      74797065 
+ 951      00
+ 952              	.LASF17:
+ 953 0070 76616C75 		.ascii	"value\000"
+ 953      6500
+ 954              	.LASF28:
+ 955 0076 75696E74 		.ascii	"uint8\000"
+ 955      3800
+ 956              	.LASF9:
+ 957 007c 666C6F61 		.ascii	"float\000"
+ 957      7400
+ 958              	.LASF6:
+ 959 0082 6C6F6E67 		.ascii	"long long int\000"
+ 959      206C6F6E 
+ 959      6720696E 
+ 959      7400
+ 960              	.LASF4:
+ 961 0090 6C6F6E67 		.ascii	"long int\000"
+ 961      20696E74 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 21
+
+
+ 961      00
+ 962              	.LASF14:
+ 963 0099 63757374 		.ascii	"customData\000"
+ 963      6F6D4461 
+ 963      746100
+ 964              	.LASF12:
+ 965 00a4 4C43445F 		.ascii	"LCD_LoadCustomFonts\000"
+ 965      4C6F6164 
+ 965      43757374 
+ 965      6F6D466F 
+ 965      6E747300 
+ 966              	.LASF20:
+ 967 00b8 66756C6C 		.ascii	"fullChars\000"
+ 967      43686172 
+ 967      7300
+ 968              	.LASF1:
+ 969 00c2 756E7369 		.ascii	"unsigned char\000"
+ 969      676E6564 
+ 969      20636861 
+ 969      7200
+ 970              	.LASF21:
+ 971 00d0 72656D61 		.ascii	"remainingPixels\000"
+ 971      696E696E 
+ 971      67506978 
+ 971      656C7300 
+ 972              	.LASF0:
+ 973 00e0 7369676E 		.ascii	"signed char\000"
+ 973      65642063 
+ 973      68617200 
+ 974              	.LASF7:
+ 975 00ec 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 975      206C6F6E 
+ 975      6720756E 
+ 975      7369676E 
+ 975      65642069 
+ 976              	.LASF8:
+ 977 0103 756E7369 		.ascii	"unsigned int\000"
+ 977      676E6564 
+ 977      20696E74 
+ 977      00
+ 978              	.LASF16:
+ 979 0110 6D617843 		.ascii	"maxCharacters\000"
+ 979      68617261 
+ 979      63746572 
+ 979      7300
+ 980              	.LASF3:
+ 981 011e 73686F72 		.ascii	"short unsigned int\000"
+ 981      7420756E 
+ 981      7369676E 
+ 981      65642069 
+ 981      6E7400
+ 982              	.LASF11:
+ 983 0131 63686172 		.ascii	"char\000"
+ 983      00
+ 984              	.LASF25:
+ 985 0136 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 985      4320342E 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc3mxRq4.s 			page 22
+
+
+ 985      392E3320 
+ 985      32303135 
+ 985      30333033 
+ 986 0169 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 986      20726576 
+ 986      6973696F 
+ 986      6E203232 
+ 986      31323230 
+ 987 019c 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 987      66756E63 
+ 987      74696F6E 
+ 987      2D736563 
+ 987      74696F6E 
+ 988              	.LASF27:
+ 989 01c4 433A5C55 		.ascii	"C:\\Users\\Bart\\Documents\\PSoC Creator\\grbl_lcd\\"
+ 989      73657273 
+ 989      5C426172 
+ 989      745C446F 
+ 989      63756D65 
+ 990 01f2 6772626C 		.ascii	"grbl_lcd.cydsn\000"
+ 990      5F6C6364 
+ 990      2E637964 
+ 990      736E00
+ 991              	.LASF29:
+ 992 0201 4C43445F 		.ascii	"LCD_customFonts\000"
+ 992      63757374 
+ 992      6F6D466F 
+ 992      6E747300 
+ 993              	.LASF30:
+ 994 0211 4C43445F 		.ascii	"LCD_IsReady\000"
+ 994      49735265 
+ 994      61647900 
+ 995              	.LASF5:
+ 996 021d 6C6F6E67 		.ascii	"long unsigned int\000"
+ 996      20756E73 
+ 996      69676E65 
+ 996      6420696E 
+ 996      7400
+ 997              	.LASF10:
+ 998 022f 646F7562 		.ascii	"double\000"
+ 998      6C6500
+ 999              	.LASF19:
+ 1000 0236 636F756E 		.ascii	"count8\000"
+ 1000      743800
+ 1001              	.LASF31:
+ 1002 023d 4C43445F 		.ascii	"LCD_Position\000"
+ 1002      506F7369 
+ 1002      74696F6E 
+ 1002      00
+ 1003              	.LASF24:
+ 1004 024a 4C43445F 		.ascii	"LCD_WriteData\000"
+ 1004      57726974 
+ 1004      65446174 
+ 1004      6100
+ 1005              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

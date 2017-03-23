@@ -1,0 +1,4485 @@
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"settings.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.settings_store_startup_line,"ax",%progbits
+  19              		.align	2
+  20              		.global	settings_store_startup_line
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	settings_store_startup_line, %function
+  24              	settings_store_startup_line:
+  25              	.LFB63:
+  26              		.file 1 "settings.c"
+   1:settings.c    **** /*
+   2:settings.c    ****   settings.c - eeprom configuration handling 
+   3:settings.c    ****   Part of Grbl
+   4:settings.c    **** 
+   5:settings.c    ****   Copyright (c) 2011-2015 Sungeun K. Jeon  
+   6:settings.c    ****   Copyright (c) 2009-2011 Simen Svale Skogsrud
+   7:settings.c    **** 
+   8:settings.c    ****   Grbl is free software: you can redistribute it and/or modify
+   9:settings.c    ****   it under the terms of the GNU General Public License as published by
+  10:settings.c    ****   the Free Software Foundation, either version 3 of the License, or
+  11:settings.c    ****   (at your option) any later version.
+  12:settings.c    **** 
+  13:settings.c    ****   Grbl is distributed in the hope that it will be useful,
+  14:settings.c    ****   but WITHOUT ANY WARRANTY; without even the implied warranty of
+  15:settings.c    ****   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  16:settings.c    ****   GNU General Public License for more details.
+  17:settings.c    **** 
+  18:settings.c    ****   You should have received a copy of the GNU General Public License
+  19:settings.c    ****   along with Grbl.  If not, see <http://www.gnu.org/licenses/>.
+  20:settings.c    **** */
+  21:settings.c    **** 
+  22:settings.c    **** #include "grbl.h"
+  23:settings.c    **** 
+  24:settings.c    **** 
+  25:settings.c    **** 
+  26:settings.c    **** settings_t settings;
+  27:settings.c    **** 
+  28:settings.c    **** 
+  29:settings.c    **** // Method to store startup lines into EEPROM
+  30:settings.c    **** void settings_store_startup_line(uint8_t n, char *line)
+  31:settings.c    **** {
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 2
+
+
+  27              		.loc 1 31 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  32:settings.c    ****   uint32_t addr = n*(LINE_BUFFER_SIZE+1)+EEPROM_ADDR_STARTUP_BLOCK;
+  36              		.loc 1 32 0
+  37 0002 00EBC000 		add	r0, r0, r0, lsl #3
+  38              	.LVL1:
+  39 0006 00EBC000 		add	r0, r0, r0, lsl #3
+  40              	.LVL2:
+  33:settings.c    ****   memcpy_to_eeprom_with_checksum(addr,(char*)line, LINE_BUFFER_SIZE);
+  41              		.loc 1 33 0
+  42 000a 00F54070 		add	r0, r0, #768
+  43              	.LVL3:
+  44 000e 5022     		movs	r2, #80
+  45 0010 FFF7FEFF 		bl	memcpy_to_eeprom_with_checksum
+  46              	.LVL4:
+  47 0014 08BD     		pop	{r3, pc}
+  48              		.cfi_endproc
+  49              	.LFE63:
+  50              		.size	settings_store_startup_line, .-settings_store_startup_line
+  51 0016 00BF     		.section	.text.settings_store_build_info,"ax",%progbits
+  52              		.align	2
+  53              		.global	settings_store_build_info
+  54              		.thumb
+  55              		.thumb_func
+  56              		.type	settings_store_build_info, %function
+  57              	settings_store_build_info:
+  58              	.LFB64:
+  34:settings.c    **** }
+  35:settings.c    **** 
+  36:settings.c    **** 
+  37:settings.c    **** // Method to store build info into EEPROM
+  38:settings.c    **** void settings_store_build_info(char *line)
+  39:settings.c    **** {
+  59              		.loc 1 39 0
+  60              		.cfi_startproc
+  61              		@ args = 0, pretend = 0, frame = 0
+  62              		@ frame_needed = 0, uses_anonymous_args = 0
+  63              	.LVL5:
+  64 0000 08B5     		push	{r3, lr}
+  65              		.cfi_def_cfa_offset 8
+  66              		.cfi_offset 3, -8
+  67              		.cfi_offset 14, -4
+  68 0002 0146     		mov	r1, r0
+  40:settings.c    ****   memcpy_to_eeprom_with_checksum(EEPROM_ADDR_BUILD_INFO,(char*)line, LINE_BUFFER_SIZE);
+  69              		.loc 1 40 0
+  70 0004 40F2AE30 		movw	r0, #942
+  71              	.LVL6:
+  72 0008 5022     		movs	r2, #80
+  73 000a FFF7FEFF 		bl	memcpy_to_eeprom_with_checksum
+  74              	.LVL7:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 3
+
+
+  75 000e 08BD     		pop	{r3, pc}
+  76              		.cfi_endproc
+  77              	.LFE64:
+  78              		.size	settings_store_build_info, .-settings_store_build_info
+  79              		.section	.text.settings_write_coord_data,"ax",%progbits
+  80              		.align	2
+  81              		.global	settings_write_coord_data
+  82              		.thumb
+  83              		.thumb_func
+  84              		.type	settings_write_coord_data, %function
+  85              	settings_write_coord_data:
+  86              	.LFB65:
+  41:settings.c    **** }
+  42:settings.c    **** 
+  43:settings.c    **** 
+  44:settings.c    **** // Method to store coord data parameters into EEPROM
+  45:settings.c    **** void settings_write_coord_data(uint8_t coord_select, float *coord_data)
+  46:settings.c    **** {  
+  87              		.loc 1 46 0
+  88              		.cfi_startproc
+  89              		@ args = 0, pretend = 0, frame = 0
+  90              		@ frame_needed = 0, uses_anonymous_args = 0
+  91              	.LVL8:
+  92 0000 08B5     		push	{r3, lr}
+  93              		.cfi_def_cfa_offset 8
+  94              		.cfi_offset 3, -8
+  95              		.cfi_offset 14, -4
+  47:settings.c    ****   uint32_t addr = coord_select*(sizeof(float)*N_AXIS+1) + EEPROM_ADDR_PARAMETERS;
+  96              		.loc 1 47 0
+  97 0002 00EB4003 		add	r3, r0, r0, lsl #1
+  98 0006 00EB8300 		add	r0, r0, r3, lsl #2
+  99              	.LVL9:
+  48:settings.c    ****   memcpy_to_eeprom_with_checksum(addr,(char*)coord_data, sizeof(float)*N_AXIS);
+ 100              		.loc 1 48 0
+ 101 000a 00F50070 		add	r0, r0, #512
+ 102              	.LVL10:
+ 103 000e 0C22     		movs	r2, #12
+ 104 0010 FFF7FEFF 		bl	memcpy_to_eeprom_with_checksum
+ 105              	.LVL11:
+ 106 0014 08BD     		pop	{r3, pc}
+ 107              		.cfi_endproc
+ 108              	.LFE65:
+ 109              		.size	settings_write_coord_data, .-settings_write_coord_data
+ 110 0016 00BF     		.section	.text.write_global_settings,"ax",%progbits
+ 111              		.align	2
+ 112              		.global	write_global_settings
+ 113              		.thumb
+ 114              		.thumb_func
+ 115              		.type	write_global_settings, %function
+ 116              	write_global_settings:
+ 117              	.LFB66:
+  49:settings.c    **** }  
+  50:settings.c    **** 
+  51:settings.c    **** 
+  52:settings.c    **** // Method to store Grbl global settings struct and version number into EEPROM
+  53:settings.c    **** void write_global_settings() 
+  54:settings.c    **** {
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 4
+
+
+ 118              		.loc 1 54 0
+ 119              		.cfi_startproc
+ 120              		@ args = 0, pretend = 0, frame = 0
+ 121              		@ frame_needed = 0, uses_anonymous_args = 0
+ 122 0000 08B5     		push	{r3, lr}
+ 123              		.cfi_def_cfa_offset 8
+ 124              		.cfi_offset 3, -8
+ 125              		.cfi_offset 14, -4
+  55:settings.c    ****   eeprom_put_char(0, SETTINGS_VERSION);
+ 126              		.loc 1 55 0
+ 127 0002 0020     		movs	r0, #0
+ 128 0004 0A21     		movs	r1, #10
+ 129 0006 FFF7FEFF 		bl	eeprom_put_char
+ 130              	.LVL12:
+  56:settings.c    ****   memcpy_to_eeprom_with_checksum(EEPROM_ADDR_GLOBAL, (char*)&settings, sizeof(settings_t));
+ 131              		.loc 1 56 0
+ 132 000a 0120     		movs	r0, #1
+ 133 000c 0249     		ldr	r1, .L9
+ 134 000e 5C22     		movs	r2, #92
+ 135 0010 FFF7FEFF 		bl	memcpy_to_eeprom_with_checksum
+ 136              	.LVL13:
+ 137 0014 08BD     		pop	{r3, pc}
+ 138              	.L10:
+ 139 0016 00BF     		.align	2
+ 140              	.L9:
+ 141 0018 00000000 		.word	settings
+ 142              		.cfi_endproc
+ 143              	.LFE66:
+ 144              		.size	write_global_settings, .-write_global_settings
+ 145              		.section	.text.settings_restore,"ax",%progbits
+ 146              		.align	2
+ 147              		.global	settings_restore
+ 148              		.thumb
+ 149              		.thumb_func
+ 150              		.type	settings_restore, %function
+ 151              	settings_restore:
+ 152              	.LFB67:
+  57:settings.c    **** }
+  58:settings.c    **** 
+  59:settings.c    **** 
+  60:settings.c    **** // Method to restore EEPROM-saved Grbl global settings back to defaults. 
+  61:settings.c    **** void settings_restore(uint8_t restore_flag) {  
+ 153              		.loc 1 61 0
+ 154              		.cfi_startproc
+ 155              		@ args = 0, pretend = 0, frame = 16
+ 156              		@ frame_needed = 0, uses_anonymous_args = 0
+ 157              	.LVL14:
+ 158 0000 30B5     		push	{r4, r5, lr}
+ 159              		.cfi_def_cfa_offset 12
+ 160              		.cfi_offset 4, -12
+ 161              		.cfi_offset 5, -8
+ 162              		.cfi_offset 14, -4
+ 163 0002 85B0     		sub	sp, sp, #20
+ 164              		.cfi_def_cfa_offset 32
+ 165 0004 0546     		mov	r5, r0
+  62:settings.c    ****   if (restore_flag & SETTINGS_RESTORE_DEFAULTS) {
+ 166              		.loc 1 62 0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 5
+
+
+ 167 0006 10F0010F 		tst	r0, #1
+ 168 000a 35D0     		beq	.L12
+  63:settings.c    **** 	settings.pulse_microseconds = DEFAULT_STEP_PULSE_MICROSECONDS;
+ 169              		.loc 1 63 0
+ 170 000c 2E4B     		ldr	r3, .L19
+ 171 000e 0A22     		movs	r2, #10
+ 172 0010 83F83020 		strb	r2, [r3, #48]
+  64:settings.c    **** 	settings.stepper_idle_lock_time = DEFAULT_STEPPER_IDLE_LOCK_TIME;
+ 173              		.loc 1 64 0
+ 174 0014 1922     		movs	r2, #25
+ 175 0016 83F83320 		strb	r2, [r3, #51]
+  65:settings.c    **** 	settings.step_invert_mask = DEFAULT_STEPPING_INVERT_MASK;
+ 176              		.loc 1 65 0
+ 177 001a 0021     		movs	r1, #0
+ 178 001c 83F83110 		strb	r1, [r3, #49]
+  66:settings.c    **** 	settings.dir_invert_mask = DEFAULT_DIRECTION_INVERT_MASK;
+ 179              		.loc 1 66 0
+ 180 0020 83F83210 		strb	r1, [r3, #50]
+  67:settings.c    **** 	settings.status_report_mask = DEFAULT_STATUS_REPORT_MASK;
+ 181              		.loc 1 67 0
+ 182 0024 0122     		movs	r2, #1
+ 183 0026 83F83420 		strb	r2, [r3, #52]
+  68:settings.c    **** 	settings.junction_deviation = DEFAULT_JUNCTION_DEVIATION;
+ 184              		.loc 1 68 0
+ 185 002a 284A     		ldr	r2, .L19+4
+ 186 002c 9A63     		str	r2, [r3, #56]	@ float
+  69:settings.c    **** 	settings.arc_tolerance = DEFAULT_ARC_TOLERANCE;
+ 187              		.loc 1 69 0
+ 188 002e 284A     		ldr	r2, .L19+8
+ 189 0030 DA63     		str	r2, [r3, #60]	@ float
+  70:settings.c    **** 	
+  71:settings.c    **** 	settings.rpm_max = DEFAULT_SPINDLE_RPM_MAX;
+ 190              		.loc 1 71 0
+ 191 0032 284A     		ldr	r2, .L19+12
+ 192 0034 1A64     		str	r2, [r3, #64]	@ float
+  72:settings.c    **** 	settings.rpm_min = DEFAULT_SPINDLE_RPM_MIN;
+ 193              		.loc 1 72 0
+ 194 0036 0022     		movs	r2, #0
+ 195 0038 5A64     		str	r2, [r3, #68]	@ float
+  73:settings.c    **** 	
+  74:settings.c    **** 	settings.homing_dir_mask = DEFAULT_HOMING_DIR_MASK;
+ 196              		.loc 1 74 0
+ 197 003a 83F84910 		strb	r1, [r3, #73]
+  75:settings.c    **** 	settings.homing_feed_rate = DEFAULT_HOMING_FEED_RATE;
+ 198              		.loc 1 75 0
+ 199 003e 264A     		ldr	r2, .L19+16
+ 200 0040 DA64     		str	r2, [r3, #76]	@ float
+  76:settings.c    **** 	settings.homing_seek_rate = DEFAULT_HOMING_SEEK_RATE;
+ 201              		.loc 1 76 0
+ 202 0042 264A     		ldr	r2, .L19+20
+ 203 0044 1A65     		str	r2, [r3, #80]	@ float
+  77:settings.c    **** 	settings.homing_debounce_delay = DEFAULT_HOMING_DEBOUNCE_DELAY;
+ 204              		.loc 1 77 0
+ 205 0046 FA20     		movs	r0, #250
+ 206              	.LVL15:
+ 207 0048 A3F85400 		strh	r0, [r3, #84]	@ movhi
+  78:settings.c    **** 	settings.homing_pulloff = DEFAULT_HOMING_PULLOFF;
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 6
+
+
+ 208              		.loc 1 78 0
+ 209 004c 4FF07E50 		mov	r0, #1065353216
+ 210 0050 9865     		str	r0, [r3, #88]	@ float
+  79:settings.c    **** 
+  80:settings.c    **** 	settings.flags = 0;
+ 211              		.loc 1 80 0
+ 212 0052 83F84810 		strb	r1, [r3, #72]
+  81:settings.c    **** 	if (DEFAULT_REPORT_INCHES) { settings.flags |= BITFLAG_REPORT_INCHES; }
+  82:settings.c    **** 	if (DEFAULT_INVERT_ST_ENABLE) { settings.flags |= BITFLAG_INVERT_ST_ENABLE; }
+  83:settings.c    **** 	if (DEFAULT_INVERT_LIMIT_PINS) { settings.flags |= BITFLAG_INVERT_LIMIT_PINS; }
+  84:settings.c    **** 	if (DEFAULT_SOFT_LIMIT_ENABLE) { settings.flags |= BITFLAG_SOFT_LIMIT_ENABLE; }
+  85:settings.c    **** 	if (DEFAULT_HARD_LIMIT_ENABLE) { settings.flags |= BITFLAG_HARD_LIMIT_ENABLE; }
+  86:settings.c    **** 	if (DEFAULT_HOMING_ENABLE) { settings.flags |= BITFLAG_HOMING_ENABLE; }
+  87:settings.c    ****   
+  88:settings.c    **** 	settings.steps_per_mm[X_AXIS] = DEFAULT_X_STEPS_PER_MM;
+ 213              		.loc 1 88 0
+ 214 0056 2249     		ldr	r1, .L19+24
+ 215 0058 1960     		str	r1, [r3]	@ float
+  89:settings.c    **** 	settings.steps_per_mm[Y_AXIS] = DEFAULT_Y_STEPS_PER_MM;
+ 216              		.loc 1 89 0
+ 217 005a 5960     		str	r1, [r3, #4]	@ float
+  90:settings.c    **** 	settings.steps_per_mm[Z_AXIS] = DEFAULT_Z_STEPS_PER_MM;
+ 218              		.loc 1 90 0
+ 219 005c 9960     		str	r1, [r3, #8]	@ float
+  91:settings.c    **** 	settings.max_rate[X_AXIS] = DEFAULT_X_MAX_RATE;
+ 220              		.loc 1 91 0
+ 221 005e DA60     		str	r2, [r3, #12]	@ float
+  92:settings.c    **** 	settings.max_rate[Y_AXIS] = DEFAULT_Y_MAX_RATE;
+ 222              		.loc 1 92 0
+ 223 0060 1A61     		str	r2, [r3, #16]	@ float
+  93:settings.c    **** 	settings.max_rate[Z_AXIS] = DEFAULT_Z_MAX_RATE;
+ 224              		.loc 1 93 0
+ 225 0062 5A61     		str	r2, [r3, #20]	@ float
+  94:settings.c    **** 	settings.acceleration[X_AXIS] = DEFAULT_X_ACCELERATION;
+ 226              		.loc 1 94 0
+ 227 0064 1F4A     		ldr	r2, .L19+28
+ 228 0066 9A61     		str	r2, [r3, #24]	@ float
+  95:settings.c    **** 	settings.acceleration[Y_AXIS] = DEFAULT_Y_ACCELERATION;
+ 229              		.loc 1 95 0
+ 230 0068 DA61     		str	r2, [r3, #28]	@ float
+  96:settings.c    **** 	settings.acceleration[Z_AXIS] = DEFAULT_Z_ACCELERATION;
+ 231              		.loc 1 96 0
+ 232 006a 1A62     		str	r2, [r3, #32]	@ float
+  97:settings.c    **** 	settings.max_travel[X_AXIS] = (-DEFAULT_X_MAX_TRAVEL);
+ 233              		.loc 1 97 0
+ 234 006c 1E4A     		ldr	r2, .L19+32
+ 235 006e 5A62     		str	r2, [r3, #36]	@ float
+  98:settings.c    **** 	settings.max_travel[Y_AXIS] = (-DEFAULT_Y_MAX_TRAVEL);
+ 236              		.loc 1 98 0
+ 237 0070 9A62     		str	r2, [r3, #40]	@ float
+  99:settings.c    **** 	settings.max_travel[Z_AXIS] = (-DEFAULT_Z_MAX_TRAVEL);    
+ 238              		.loc 1 99 0
+ 239 0072 DA62     		str	r2, [r3, #44]	@ float
+ 100:settings.c    **** 
+ 101:settings.c    **** 	write_global_settings();
+ 240              		.loc 1 101 0
+ 241 0074 FFF7FEFF 		bl	write_global_settings
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 7
+
+
+ 242              	.LVL16:
+ 243              	.L12:
+ 102:settings.c    ****   }
+ 103:settings.c    ****   
+ 104:settings.c    ****   if (restore_flag & SETTINGS_RESTORE_PARAMETERS) {
+ 244              		.loc 1 104 0
+ 245 0078 15F0020F 		tst	r5, #2
+ 246 007c 0CD0     		beq	.L13
+ 247              	.LBB2:
+ 105:settings.c    **** 	uint8_t idx;
+ 106:settings.c    **** 	float coord_data[N_AXIS];
+ 107:settings.c    **** 	memset(&coord_data, 0, sizeof(coord_data));
+ 248              		.loc 1 107 0
+ 249 007e 0024     		movs	r4, #0
+ 250 0080 0194     		str	r4, [sp, #4]
+ 251 0082 0294     		str	r4, [sp, #8]
+ 252 0084 0394     		str	r4, [sp, #12]
+ 253              	.LVL17:
+ 108:settings.c    **** 	for (idx=0; idx <= SETTING_INDEX_NCOORD; idx++) { settings_write_coord_data(idx, coord_data); }
+ 254              		.loc 1 108 0
+ 255 0086 05E0     		b	.L14
+ 256              	.LVL18:
+ 257              	.L15:
+ 258              		.loc 1 108 0 is_stmt 0 discriminator 3
+ 259 0088 2046     		mov	r0, r4
+ 260 008a 01A9     		add	r1, sp, #4
+ 261 008c FFF7FEFF 		bl	settings_write_coord_data
+ 262              	.LVL19:
+ 263 0090 0134     		adds	r4, r4, #1
+ 264              	.LVL20:
+ 265 0092 E4B2     		uxtb	r4, r4
+ 266              	.LVL21:
+ 267              	.L14:
+ 268              		.loc 1 108 0 discriminator 1
+ 269 0094 072C     		cmp	r4, #7
+ 270 0096 F7D9     		bls	.L15
+ 271              	.LVL22:
+ 272              	.L13:
+ 273              	.LBE2:
+ 109:settings.c    ****   }
+ 110:settings.c    ****   
+ 111:settings.c    ****   if (restore_flag & SETTINGS_RESTORE_STARTUP_LINES) {
+ 274              		.loc 1 111 0 is_stmt 1
+ 275 0098 15F0040F 		tst	r5, #4
+ 276 009c 09D0     		beq	.L16
+ 112:settings.c    **** 	#if N_STARTUP_LINE > 0
+ 113:settings.c    **** 	eeprom_put_char(EEPROM_ADDR_STARTUP_BLOCK, 0);
+ 277              		.loc 1 113 0
+ 278 009e 4FF44070 		mov	r0, #768
+ 279 00a2 0021     		movs	r1, #0
+ 280 00a4 FFF7FEFF 		bl	eeprom_put_char
+ 281              	.LVL23:
+ 114:settings.c    **** 	#endif
+ 115:settings.c    **** 	#if N_STARTUP_LINE > 1
+ 116:settings.c    **** 	eeprom_put_char(EEPROM_ADDR_STARTUP_BLOCK+(LINE_BUFFER_SIZE+1), 0);
+ 282              		.loc 1 116 0
+ 283 00a8 40F25130 		movw	r0, #849
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 8
+
+
+ 284 00ac 0021     		movs	r1, #0
+ 285 00ae FFF7FEFF 		bl	eeprom_put_char
+ 286              	.LVL24:
+ 287              	.L16:
+ 117:settings.c    **** 	#endif
+ 118:settings.c    ****   }
+ 119:settings.c    ****   
+ 120:settings.c    ****   if (restore_flag & SETTINGS_RESTORE_BUILD_INFO) { eeprom_put_char(EEPROM_ADDR_BUILD_INFO , 0); }
+ 288              		.loc 1 120 0
+ 289 00b2 15F0080F 		tst	r5, #8
+ 290 00b6 04D0     		beq	.L11
+ 291              		.loc 1 120 0 is_stmt 0 discriminator 1
+ 292 00b8 40F2AE30 		movw	r0, #942
+ 293 00bc 0021     		movs	r1, #0
+ 294 00be FFF7FEFF 		bl	eeprom_put_char
+ 295              	.LVL25:
+ 296              	.L11:
+ 121:settings.c    **** }
+ 297              		.loc 1 121 0 is_stmt 1
+ 298 00c2 05B0     		add	sp, sp, #20
+ 299              		.cfi_def_cfa_offset 12
+ 300              		@ sp needed
+ 301 00c4 30BD     		pop	{r4, r5, pc}
+ 302              	.L20:
+ 303 00c6 00BF     		.align	2
+ 304              	.L19:
+ 305 00c8 00000000 		.word	settings
+ 306 00cc 0AD7233C 		.word	1008981770
+ 307 00d0 6F12033B 		.word	990057071
+ 308 00d4 00007A44 		.word	1148846080
+ 309 00d8 0000C841 		.word	1103626240
+ 310 00dc 0000FA43 		.word	1140457472
+ 311 00e0 00007A43 		.word	1132068864
+ 312 00e4 00A00C47 		.word	1192009728
+ 313 00e8 000048C3 		.word	-1018691584
+ 314              		.cfi_endproc
+ 315              	.LFE67:
+ 316              		.size	settings_restore, .-settings_restore
+ 317              		.section	.text.settings_read_startup_line,"ax",%progbits
+ 318              		.align	2
+ 319              		.global	settings_read_startup_line
+ 320              		.thumb
+ 321              		.thumb_func
+ 322              		.type	settings_read_startup_line, %function
+ 323              	settings_read_startup_line:
+ 324              	.LFB68:
+ 122:settings.c    **** 
+ 123:settings.c    **** 
+ 124:settings.c    **** // Reads startup line from EEPROM. Updated pointed line string data.
+ 125:settings.c    **** uint8_t settings_read_startup_line(uint8_t n, char *line)
+ 126:settings.c    **** {
+ 325              		.loc 1 126 0
+ 326              		.cfi_startproc
+ 327              		@ args = 0, pretend = 0, frame = 0
+ 328              		@ frame_needed = 0, uses_anonymous_args = 0
+ 329              	.LVL26:
+ 330 0000 70B5     		push	{r4, r5, r6, lr}
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 9
+
+
+ 331              		.cfi_def_cfa_offset 16
+ 332              		.cfi_offset 4, -16
+ 333              		.cfi_offset 5, -12
+ 334              		.cfi_offset 6, -8
+ 335              		.cfi_offset 14, -4
+ 336 0002 0446     		mov	r4, r0
+ 337 0004 0E46     		mov	r6, r1
+ 127:settings.c    ****   uint32_t addr = n*(LINE_BUFFER_SIZE+1)+EEPROM_ADDR_STARTUP_BLOCK;
+ 338              		.loc 1 127 0
+ 339 0006 00EBC001 		add	r1, r0, r0, lsl #3
+ 340              	.LVL27:
+ 341 000a 01EBC101 		add	r1, r1, r1, lsl #3
+ 342              	.LVL28:
+ 128:settings.c    ****   if (!(memcpy_from_eeprom_with_checksum((char*)line, addr, LINE_BUFFER_SIZE))) {
+ 343              		.loc 1 128 0
+ 344 000e 3046     		mov	r0, r6
+ 345              	.LVL29:
+ 346 0010 01F54071 		add	r1, r1, #768
+ 347              	.LVL30:
+ 348 0014 5022     		movs	r2, #80
+ 349 0016 FFF7FEFF 		bl	memcpy_from_eeprom_with_checksum
+ 350              	.LVL31:
+ 351 001a 38B9     		cbnz	r0, .L23
+ 129:settings.c    ****     // Reset line with default value
+ 130:settings.c    ****     line[0] = 0; // Empty line
+ 352              		.loc 1 130 0
+ 353 001c 0025     		movs	r5, #0
+ 354 001e 3570     		strb	r5, [r6]
+ 131:settings.c    ****     settings_store_startup_line(n, line);
+ 355              		.loc 1 131 0
+ 356 0020 2046     		mov	r0, r4
+ 357 0022 3146     		mov	r1, r6
+ 358 0024 FFF7FEFF 		bl	settings_store_startup_line
+ 359              	.LVL32:
+ 132:settings.c    ****     return(false);
+ 360              		.loc 1 132 0
+ 361 0028 2846     		mov	r0, r5
+ 362 002a 70BD     		pop	{r4, r5, r6, pc}
+ 363              	.LVL33:
+ 364              	.L23:
+ 133:settings.c    ****   }
+ 134:settings.c    ****   return(true);
+ 365              		.loc 1 134 0
+ 366 002c 0120     		movs	r0, #1
+ 135:settings.c    **** }
+ 367              		.loc 1 135 0
+ 368 002e 70BD     		pop	{r4, r5, r6, pc}
+ 369              		.cfi_endproc
+ 370              	.LFE68:
+ 371              		.size	settings_read_startup_line, .-settings_read_startup_line
+ 372              		.section	.text.settings_read_build_info,"ax",%progbits
+ 373              		.align	2
+ 374              		.global	settings_read_build_info
+ 375              		.thumb
+ 376              		.thumb_func
+ 377              		.type	settings_read_build_info, %function
+ 378              	settings_read_build_info:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 10
+
+
+ 379              	.LFB69:
+ 136:settings.c    **** 
+ 137:settings.c    **** 
+ 138:settings.c    **** // Reads startup line from EEPROM. Updated pointed line string data.
+ 139:settings.c    **** uint8_t settings_read_build_info(char *line)
+ 140:settings.c    **** {
+ 380              		.loc 1 140 0
+ 381              		.cfi_startproc
+ 382              		@ args = 0, pretend = 0, frame = 0
+ 383              		@ frame_needed = 0, uses_anonymous_args = 0
+ 384              	.LVL34:
+ 385 0000 38B5     		push	{r3, r4, r5, lr}
+ 386              		.cfi_def_cfa_offset 16
+ 387              		.cfi_offset 3, -16
+ 388              		.cfi_offset 4, -12
+ 389              		.cfi_offset 5, -8
+ 390              		.cfi_offset 14, -4
+ 391 0002 0546     		mov	r5, r0
+ 141:settings.c    ****   if (!(memcpy_from_eeprom_with_checksum((char*)line, EEPROM_ADDR_BUILD_INFO, LINE_BUFFER_SIZE))) {
+ 392              		.loc 1 141 0
+ 393 0004 40F2AE31 		movw	r1, #942
+ 394 0008 5022     		movs	r2, #80
+ 395 000a FFF7FEFF 		bl	memcpy_from_eeprom_with_checksum
+ 396              	.LVL35:
+ 397 000e 30B9     		cbnz	r0, .L27
+ 142:settings.c    ****     // Reset line with default value
+ 143:settings.c    ****     line[0] = 0; // Empty line
+ 398              		.loc 1 143 0
+ 399 0010 0024     		movs	r4, #0
+ 400 0012 2C70     		strb	r4, [r5]
+ 144:settings.c    ****     settings_store_build_info(line);
+ 401              		.loc 1 144 0
+ 402 0014 2846     		mov	r0, r5
+ 403 0016 FFF7FEFF 		bl	settings_store_build_info
+ 404              	.LVL36:
+ 145:settings.c    ****     return(false);
+ 405              		.loc 1 145 0
+ 406 001a 2046     		mov	r0, r4
+ 407 001c 38BD     		pop	{r3, r4, r5, pc}
+ 408              	.LVL37:
+ 409              	.L27:
+ 146:settings.c    ****   }
+ 147:settings.c    ****   return(true);
+ 410              		.loc 1 147 0
+ 411 001e 0120     		movs	r0, #1
+ 148:settings.c    **** }
+ 412              		.loc 1 148 0
+ 413 0020 38BD     		pop	{r3, r4, r5, pc}
+ 414              		.cfi_endproc
+ 415              	.LFE69:
+ 416              		.size	settings_read_build_info, .-settings_read_build_info
+ 417 0022 00BF     		.section	.text.settings_read_coord_data,"ax",%progbits
+ 418              		.align	2
+ 419              		.global	settings_read_coord_data
+ 420              		.thumb
+ 421              		.thumb_func
+ 422              		.type	settings_read_coord_data, %function
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 11
+
+
+ 423              	settings_read_coord_data:
+ 424              	.LFB70:
+ 149:settings.c    **** 
+ 150:settings.c    **** 
+ 151:settings.c    **** // Read selected coordinate data from EEPROM. Updates pointed coord_data value.
+ 152:settings.c    **** uint8_t settings_read_coord_data(uint8_t coord_select, float *coord_data)
+ 153:settings.c    **** {
+ 425              		.loc 1 153 0
+ 426              		.cfi_startproc
+ 427              		@ args = 0, pretend = 0, frame = 0
+ 428              		@ frame_needed = 0, uses_anonymous_args = 0
+ 429              	.LVL38:
+ 430 0000 70B5     		push	{r4, r5, r6, lr}
+ 431              		.cfi_def_cfa_offset 16
+ 432              		.cfi_offset 4, -16
+ 433              		.cfi_offset 5, -12
+ 434              		.cfi_offset 6, -8
+ 435              		.cfi_offset 14, -4
+ 436 0002 0546     		mov	r5, r0
+ 437 0004 0E46     		mov	r6, r1
+ 154:settings.c    ****   uint32_t addr = coord_select*(sizeof(float)*N_AXIS+1) + EEPROM_ADDR_PARAMETERS;
+ 438              		.loc 1 154 0
+ 439 0006 00EB4001 		add	r1, r0, r0, lsl #1
+ 440              	.LVL39:
+ 441 000a 00EB8101 		add	r1, r0, r1, lsl #2
+ 442              	.LVL40:
+ 155:settings.c    ****   if (!(memcpy_from_eeprom_with_checksum((char*)coord_data, addr, sizeof(float)*N_AXIS))) {
+ 443              		.loc 1 155 0
+ 444 000e 3046     		mov	r0, r6
+ 445              	.LVL41:
+ 446 0010 01F50071 		add	r1, r1, #512
+ 447              	.LVL42:
+ 448 0014 0C22     		movs	r2, #12
+ 449 0016 FFF7FEFF 		bl	memcpy_from_eeprom_with_checksum
+ 450              	.LVL43:
+ 451 001a F0B9     		cbnz	r0, .L31
+ 156:settings.c    ****     // Reset with default zero vector
+ 157:settings.c    ****     clear_vector_float(coord_data); 
+ 452              		.loc 1 157 0
+ 453 001c 3346     		mov	r3, r6
+ 454 001e 0024     		movs	r4, #0
+ 455 0020 03F8014B 		strb	r4, [r3], #1
+ 456 0024 7470     		strb	r4, [r6, #1]
+ 457 0026 0133     		adds	r3, r3, #1
+ 458 0028 03F8014B 		strb	r4, [r3], #1
+ 459 002c 03F8014B 		strb	r4, [r3], #1
+ 460 0030 03F8014B 		strb	r4, [r3], #1
+ 461 0034 03F8014B 		strb	r4, [r3], #1
+ 462 0038 03F8014B 		strb	r4, [r3], #1
+ 463 003c 03F8014B 		strb	r4, [r3], #1
+ 464 0040 03F8014B 		strb	r4, [r3], #1
+ 465 0044 03F8014B 		strb	r4, [r3], #1
+ 466 0048 03F8014B 		strb	r4, [r3], #1
+ 467 004c 1C70     		strb	r4, [r3]
+ 158:settings.c    ****     settings_write_coord_data(coord_select,coord_data);
+ 468              		.loc 1 158 0
+ 469 004e 2846     		mov	r0, r5
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 12
+
+
+ 470 0050 3146     		mov	r1, r6
+ 471 0052 FFF7FEFF 		bl	settings_write_coord_data
+ 472              	.LVL44:
+ 159:settings.c    ****     return(false);
+ 473              		.loc 1 159 0
+ 474 0056 2046     		mov	r0, r4
+ 475 0058 70BD     		pop	{r4, r5, r6, pc}
+ 476              	.LVL45:
+ 477              	.L31:
+ 160:settings.c    ****   }
+ 161:settings.c    ****   return(true);
+ 478              		.loc 1 161 0
+ 479 005a 0120     		movs	r0, #1
+ 162:settings.c    **** }  
+ 480              		.loc 1 162 0
+ 481 005c 70BD     		pop	{r4, r5, r6, pc}
+ 482              		.cfi_endproc
+ 483              	.LFE70:
+ 484              		.size	settings_read_coord_data, .-settings_read_coord_data
+ 485 005e 00BF     		.section	.text.read_global_settings,"ax",%progbits
+ 486              		.align	2
+ 487              		.global	read_global_settings
+ 488              		.thumb
+ 489              		.thumb_func
+ 490              		.type	read_global_settings, %function
+ 491              	read_global_settings:
+ 492              	.LFB71:
+ 163:settings.c    **** 
+ 164:settings.c    **** 
+ 165:settings.c    **** // Reads Grbl global settings struct from EEPROM.
+ 166:settings.c    **** uint8_t read_global_settings() {
+ 493              		.loc 1 166 0
+ 494              		.cfi_startproc
+ 495              		@ args = 0, pretend = 0, frame = 0
+ 496              		@ frame_needed = 0, uses_anonymous_args = 0
+ 497 0000 08B5     		push	{r3, lr}
+ 498              		.cfi_def_cfa_offset 8
+ 499              		.cfi_offset 3, -8
+ 500              		.cfi_offset 14, -4
+ 167:settings.c    ****   // Check version-byte of eeprom
+ 168:settings.c    ****   uint8_t version = eeprom_get_char(0);
+ 501              		.loc 1 168 0
+ 502 0002 0020     		movs	r0, #0
+ 503 0004 FFF7FEFF 		bl	eeprom_get_char
+ 504              	.LVL46:
+ 169:settings.c    ****   if (version == SETTINGS_VERSION) {
+ 505              		.loc 1 169 0
+ 506 0008 0A28     		cmp	r0, #10
+ 507 000a 06D1     		bne	.L35
+ 170:settings.c    ****     // Read settings-record and check checksum
+ 171:settings.c    ****     if (!(memcpy_from_eeprom_with_checksum((char*)&settings, EEPROM_ADDR_GLOBAL, sizeof(settings_t)
+ 508              		.loc 1 171 0
+ 509 000c 0548     		ldr	r0, .L38
+ 510              	.LVL47:
+ 511 000e 0121     		movs	r1, #1
+ 512 0010 5C22     		movs	r2, #92
+ 513 0012 FFF7FEFF 		bl	memcpy_from_eeprom_with_checksum
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 13
+
+
+ 514              	.LVL48:
+ 515 0016 10B9     		cbnz	r0, .L36
+ 516 0018 08BD     		pop	{r3, pc}
+ 517              	.LVL49:
+ 518              	.L35:
+ 172:settings.c    ****       return(false);
+ 173:settings.c    ****     }
+ 174:settings.c    ****   } else {
+ 175:settings.c    ****     return(false); 
+ 519              		.loc 1 175 0
+ 520 001a 0020     		movs	r0, #0
+ 521              	.LVL50:
+ 522 001c 08BD     		pop	{r3, pc}
+ 523              	.L36:
+ 176:settings.c    ****   }
+ 177:settings.c    ****   return(true);
+ 524              		.loc 1 177 0
+ 525 001e 0120     		movs	r0, #1
+ 178:settings.c    **** }
+ 526              		.loc 1 178 0
+ 527 0020 08BD     		pop	{r3, pc}
+ 528              	.L39:
+ 529 0022 00BF     		.align	2
+ 530              	.L38:
+ 531 0024 00000000 		.word	settings
+ 532              		.cfi_endproc
+ 533              	.LFE71:
+ 534              		.size	read_global_settings, .-read_global_settings
+ 535              		.global	__aeabi_fcmplt
+ 536              		.global	__aeabi_fmul
+ 537              		.global	__aeabi_f2d
+ 538              		.global	__aeabi_d2uiz
+ 539              		.section	.text.settings_store_global_setting,"ax",%progbits
+ 540              		.align	2
+ 541              		.global	settings_store_global_setting
+ 542              		.thumb
+ 543              		.thumb_func
+ 544              		.type	settings_store_global_setting, %function
+ 545              	settings_store_global_setting:
+ 546              	.LFB72:
+ 179:settings.c    **** 
+ 180:settings.c    **** 
+ 181:settings.c    **** // A helper method to set settings from command line
+ 182:settings.c    **** uint8_t settings_store_global_setting(uint8_t parameter, float value) {
+ 547              		.loc 1 182 0
+ 548              		.cfi_startproc
+ 549              		@ args = 0, pretend = 0, frame = 0
+ 550              		@ frame_needed = 0, uses_anonymous_args = 0
+ 551              	.LVL51:
+ 552 0000 38B5     		push	{r3, r4, r5, lr}
+ 553              		.cfi_def_cfa_offset 16
+ 554              		.cfi_offset 3, -16
+ 555              		.cfi_offset 4, -12
+ 556              		.cfi_offset 5, -8
+ 557              		.cfi_offset 14, -4
+ 558 0002 0446     		mov	r4, r0
+ 559 0004 0D46     		mov	r5, r1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 14
+
+
+ 183:settings.c    ****   if (value < 0.0) { return(STATUS_NEGATIVE_VALUE); } 
+ 560              		.loc 1 183 0
+ 561 0006 0846     		mov	r0, r1
+ 562              	.LVL52:
+ 563 0008 0021     		movs	r1, #0
+ 564              	.LVL53:
+ 565 000a FFF7FEFF 		bl	__aeabi_fcmplt
+ 566              	.LVL54:
+ 567 000e 0028     		cmp	r0, #0
+ 568 0010 40F00D81 		bne	.L82
+ 184:settings.c    ****   if (parameter >= AXIS_SETTINGS_START_VAL) {
+ 569              		.loc 1 184 0
+ 570 0014 632C     		cmp	r4, #99
+ 571 0016 35D9     		bls	.L42
+ 572              	.LBB3:
+ 185:settings.c    ****     // Store axis configuration. Axis numbering sequence set by AXIS_SETTING defines.
+ 186:settings.c    ****     // NOTE: Ensure the setting index corresponds to the report.c settings printout.
+ 187:settings.c    ****     parameter -= AXIS_SETTINGS_START_VAL;
+ 573              		.loc 1 187 0
+ 574 0018 643C     		subs	r4, r4, #100
+ 575 001a E4B2     		uxtb	r4, r4
+ 576              	.LVL55:
+ 188:settings.c    ****     uint8_t set_idx = 0;
+ 577              		.loc 1 188 0
+ 578 001c 0023     		movs	r3, #0
+ 189:settings.c    ****     while (set_idx < AXIS_N_SETTINGS) {
+ 579              		.loc 1 189 0
+ 580 001e 2EE0     		b	.L43
+ 581              	.LVL56:
+ 582              	.L51:
+ 190:settings.c    ****       if (parameter < N_AXIS) {
+ 583              		.loc 1 190 0
+ 584 0020 022C     		cmp	r4, #2
+ 585 0022 22D8     		bhi	.L44
+ 191:settings.c    ****         // Valid axis setting found.
+ 192:settings.c    ****         switch (set_idx) {
+ 586              		.loc 1 192 0
+ 587 0024 032B     		cmp	r3, #3
+ 588 0026 00F2FE80 		bhi	.L45
+ 589 002a DFE803F0 		tbb	[pc, r3]
+ 590              	.L47:
+ 591 002e 02       		.byte	(.L46-.L47)/2
+ 592 002f 06       		.byte	(.L48-.L47)/2
+ 593 0030 0B       		.byte	(.L49-.L47)/2
+ 594 0031 17       		.byte	(.L50-.L47)/2
+ 595              		.p2align 1
+ 596              	.L46:
+ 193:settings.c    ****           case 0:
+ 194:settings.c    ****             #ifdef MAX_STEP_RATE_HZ
+ 195:settings.c    ****               if (value*settings.max_rate[parameter] > (MAX_STEP_RATE_HZ*60.0)) { return(STATUS_MAX
+ 196:settings.c    ****             #endif
+ 197:settings.c    ****             settings.steps_per_mm[parameter] = value;
+ 597              		.loc 1 197 0
+ 598 0032 854B     		ldr	r3, .L89
+ 599              	.LVL57:
+ 600 0034 43F82450 		str	r5, [r3, r4, lsl #2]	@ float
+ 198:settings.c    ****             break;
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 15
+
+
+ 601              		.loc 1 198 0
+ 602 0038 F5E0     		b	.L45
+ 603              	.LVL58:
+ 604              	.L48:
+ 199:settings.c    ****           case 1:
+ 200:settings.c    ****             #ifdef MAX_STEP_RATE_HZ
+ 201:settings.c    ****               if (value*settings.steps_per_mm[parameter] > (MAX_STEP_RATE_HZ*60.0)) {  return(STATU
+ 202:settings.c    ****             #endif
+ 203:settings.c    ****             settings.max_rate[parameter] = value;
+ 605              		.loc 1 203 0
+ 606 003a 834B     		ldr	r3, .L89
+ 607              	.LVL59:
+ 608 003c 03EB8404 		add	r4, r3, r4, lsl #2
+ 609              	.LVL60:
+ 610 0040 E560     		str	r5, [r4, #12]	@ float
+ 204:settings.c    ****             break;
+ 611              		.loc 1 204 0
+ 612 0042 F0E0     		b	.L45
+ 613              	.LVL61:
+ 614              	.L49:
+ 205:settings.c    ****           case 2: settings.acceleration[parameter] = value*60*60; break; // Convert to mm/min^2 for
+ 615              		.loc 1 205 0
+ 616 0044 2846     		mov	r0, r5
+ 617 0046 8149     		ldr	r1, .L89+4
+ 618 0048 FFF7FEFF 		bl	__aeabi_fmul
+ 619              	.LVL62:
+ 620 004c 7F49     		ldr	r1, .L89+4
+ 621 004e FFF7FEFF 		bl	__aeabi_fmul
+ 622              	.LVL63:
+ 623 0052 0634     		adds	r4, r4, #6
+ 624              	.LVL64:
+ 625 0054 7C4B     		ldr	r3, .L89
+ 626 0056 43F82400 		str	r0, [r3, r4, lsl #2]	@ float
+ 627 005a E4E0     		b	.L45
+ 628              	.LVL65:
+ 629              	.L50:
+ 206:settings.c    ****           case 3: settings.max_travel[parameter] = -value; break;  // Store as negative for grbl in
+ 630              		.loc 1 206 0
+ 631 005c 05F10045 		add	r5, r5, #-2147483648
+ 632              	.LVL66:
+ 633 0060 794B     		ldr	r3, .L89
+ 634              	.LVL67:
+ 635 0062 03EB8404 		add	r4, r3, r4, lsl #2
+ 636              	.LVL68:
+ 637 0066 6562     		str	r5, [r4, #36]	@ float
+ 638 0068 DDE0     		b	.L45
+ 639              	.LVL69:
+ 640              	.L44:
+ 207:settings.c    ****         }
+ 208:settings.c    ****         break; // Exit while-loop after setting has been configured and proceed to the EEPROM write
+ 209:settings.c    ****       } else {
+ 210:settings.c    ****         set_idx++;
+ 641              		.loc 1 210 0
+ 642 006a 0133     		adds	r3, r3, #1
+ 643              	.LVL70:
+ 644 006c DBB2     		uxtb	r3, r3
+ 645              	.LVL71:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 16
+
+
+ 211:settings.c    ****         // If axis index greater than N_AXIS or setting index greater than number of axis settings,
+ 212:settings.c    ****         if ((parameter < AXIS_SETTINGS_INCREMENT) || (set_idx == AXIS_N_SETTINGS)) { return(STATUS_
+ 646              		.loc 1 212 0
+ 647 006e 092C     		cmp	r4, #9
+ 648 0070 40F2DF80 		bls	.L83
+ 649              		.loc 1 212 0 is_stmt 0 discriminator 2
+ 650 0074 042B     		cmp	r3, #4
+ 651 0076 00F0DE80 		beq	.L84
+ 213:settings.c    ****         parameter -= AXIS_SETTINGS_INCREMENT;
+ 652              		.loc 1 213 0 is_stmt 1
+ 653 007a 0A3C     		subs	r4, r4, #10
+ 654              	.LVL72:
+ 655 007c E4B2     		uxtb	r4, r4
+ 656              	.LVL73:
+ 657              	.L43:
+ 189:settings.c    ****       if (parameter < N_AXIS) {
+ 658              		.loc 1 189 0
+ 659 007e 032B     		cmp	r3, #3
+ 660 0080 CED9     		bls	.L51
+ 661 0082 D0E0     		b	.L45
+ 662              	.LVL74:
+ 663              	.L42:
+ 664              	.LBE3:
+ 665              	.LBB4:
+ 214:settings.c    ****       }
+ 215:settings.c    ****     }
+ 216:settings.c    ****   } else {
+ 217:settings.c    ****     // Store non-axis Grbl settings
+ 218:settings.c    ****     uint8_t int_value = trunc(value);
+ 666              		.loc 1 218 0
+ 667 0084 2846     		mov	r0, r5
+ 668 0086 FFF7FEFF 		bl	__aeabi_f2d
+ 669              	.LVL75:
+ 670 008a FFF7FEFF 		bl	trunc
+ 671              	.LVL76:
+ 672 008e FFF7FEFF 		bl	__aeabi_d2uiz
+ 673              	.LVL77:
+ 674 0092 C0B2     		uxtb	r0, r0
+ 675              	.LVL78:
+ 219:settings.c    ****     switch(parameter) {
+ 676              		.loc 1 219 0
+ 677 0094 1F2C     		cmp	r4, #31
+ 678 0096 00F2D080 		bhi	.L85
+ 679 009a DFE804F0 		tbb	[pc, r4]
+ 680              	.L53:
+ 681 009e 10       		.byte	(.L52-.L53)/2
+ 682 009f 17       		.byte	(.L54-.L53)/2
+ 683 00a0 1B       		.byte	(.L55-.L53)/2
+ 684 00a1 21       		.byte	(.L56-.L53)/2
+ 685 00a2 27       		.byte	(.L57-.L53)/2
+ 686 00a3 38       		.byte	(.L58-.L53)/2
+ 687 00a4 49       		.byte	(.L59-.L53)/2
+ 688 00a5 CE       		.byte	(.L85-.L53)/2
+ 689 00a6 CE       		.byte	(.L85-.L53)/2
+ 690 00a7 CE       		.byte	(.L85-.L53)/2
+ 691 00a8 5A       		.byte	(.L60-.L53)/2
+ 692 00a9 5E       		.byte	(.L61-.L53)/2
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 17
+
+
+ 693 00aa 61       		.byte	(.L62-.L53)/2
+ 694 00ab 64       		.byte	(.L63-.L53)/2
+ 695 00ac CE       		.byte	(.L85-.L53)/2
+ 696 00ad CE       		.byte	(.L85-.L53)/2
+ 697 00ae CE       		.byte	(.L85-.L53)/2
+ 698 00af CE       		.byte	(.L85-.L53)/2
+ 699 00b0 CE       		.byte	(.L85-.L53)/2
+ 700 00b1 CE       		.byte	(.L85-.L53)/2
+ 701 00b2 75       		.byte	(.L64-.L53)/2
+ 702 00b3 8A       		.byte	(.L65-.L53)/2
+ 703 00b4 9D       		.byte	(.L66-.L53)/2
+ 704 00b5 AE       		.byte	(.L67-.L53)/2
+ 705 00b6 B2       		.byte	(.L68-.L53)/2
+ 706 00b7 B5       		.byte	(.L69-.L53)/2
+ 707 00b8 B8       		.byte	(.L70-.L53)/2
+ 708 00b9 BC       		.byte	(.L71-.L53)/2
+ 709 00ba CE       		.byte	(.L85-.L53)/2
+ 710 00bb CE       		.byte	(.L85-.L53)/2
+ 711 00bc BF       		.byte	(.L72-.L53)/2
+ 712 00bd C2       		.byte	(.L73-.L53)/2
+ 713              		.p2align 1
+ 714              	.L52:
+ 220:settings.c    ****       case 0: 
+ 221:settings.c    ****         if (int_value < 3) { return(STATUS_SETTING_STEP_PULSE_MIN); }
+ 715              		.loc 1 221 0
+ 716 00be 0228     		cmp	r0, #2
+ 717 00c0 40F2BD80 		bls	.L86
+ 222:settings.c    ****         settings.pulse_microseconds = int_value; break;
+ 718              		.loc 1 222 0
+ 719 00c4 604B     		ldr	r3, .L89
+ 720 00c6 83F83000 		strb	r0, [r3, #48]
+ 721 00ca ACE0     		b	.L45
+ 722              	.L54:
+ 223:settings.c    ****       case 1: settings.stepper_idle_lock_time = int_value; break;
+ 723              		.loc 1 223 0
+ 724 00cc 5E4B     		ldr	r3, .L89
+ 725 00ce 83F83300 		strb	r0, [r3, #51]
+ 726 00d2 A8E0     		b	.L45
+ 727              	.L55:
+ 224:settings.c    ****       case 2: 
+ 225:settings.c    ****         settings.step_invert_mask = int_value; 
+ 728              		.loc 1 225 0
+ 729 00d4 5C4B     		ldr	r3, .L89
+ 730 00d6 83F83100 		strb	r0, [r3, #49]
+ 226:settings.c    ****         st_generate_step_dir_invert_masks(); // Regenerate step and direction port invert masks.
+ 731              		.loc 1 226 0
+ 732 00da FFF7FEFF 		bl	st_generate_step_dir_invert_masks
+ 733              	.LVL79:
+ 227:settings.c    ****         break;
+ 734              		.loc 1 227 0
+ 735 00de A2E0     		b	.L45
+ 736              	.LVL80:
+ 737              	.L56:
+ 228:settings.c    ****       case 3: 
+ 229:settings.c    ****         settings.dir_invert_mask = int_value; 
+ 738              		.loc 1 229 0
+ 739 00e0 594B     		ldr	r3, .L89
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 18
+
+
+ 740 00e2 83F83200 		strb	r0, [r3, #50]
+ 230:settings.c    ****         st_generate_step_dir_invert_masks(); // Regenerate step and direction port invert masks.
+ 741              		.loc 1 230 0
+ 742 00e6 FFF7FEFF 		bl	st_generate_step_dir_invert_masks
+ 743              	.LVL81:
+ 231:settings.c    ****         break;
+ 744              		.loc 1 231 0
+ 745 00ea 9CE0     		b	.L45
+ 746              	.LVL82:
+ 747              	.L57:
+ 232:settings.c    ****       case 4: // Reset to ensure change. Immediate re-init may cause problems.
+ 233:settings.c    ****         if (int_value) { settings.flags |= BITFLAG_INVERT_ST_ENABLE; }
+ 748              		.loc 1 233 0
+ 749 00ec 38B1     		cbz	r0, .L74
+ 750              		.loc 1 233 0 is_stmt 0 discriminator 1
+ 751 00ee 564A     		ldr	r2, .L89
+ 752 00f0 92F84830 		ldrb	r3, [r2, #72]	@ zero_extendqisi2
+ 753 00f4 43F00403 		orr	r3, r3, #4
+ 754 00f8 82F84830 		strb	r3, [r2, #72]
+ 755 00fc 93E0     		b	.L45
+ 756              	.L74:
+ 234:settings.c    ****         else { settings.flags &= ~BITFLAG_INVERT_ST_ENABLE; }
+ 757              		.loc 1 234 0 is_stmt 1
+ 758 00fe 524A     		ldr	r2, .L89
+ 759 0100 92F84830 		ldrb	r3, [r2, #72]	@ zero_extendqisi2
+ 760 0104 23F00403 		bic	r3, r3, #4
+ 761 0108 82F84830 		strb	r3, [r2, #72]
+ 762 010c 8BE0     		b	.L45
+ 763              	.L58:
+ 235:settings.c    ****         break;
+ 236:settings.c    ****       case 5: // Reset to ensure change. Immediate re-init may cause problems.
+ 237:settings.c    ****         if (int_value) { settings.flags |= BITFLAG_INVERT_LIMIT_PINS; }
+ 764              		.loc 1 237 0
+ 765 010e 38B1     		cbz	r0, .L75
+ 766              		.loc 1 237 0 is_stmt 0 discriminator 1
+ 767 0110 4D4A     		ldr	r2, .L89
+ 768 0112 92F84830 		ldrb	r3, [r2, #72]	@ zero_extendqisi2
+ 769 0116 43F04003 		orr	r3, r3, #64
+ 770 011a 82F84830 		strb	r3, [r2, #72]
+ 771 011e 82E0     		b	.L45
+ 772              	.L75:
+ 238:settings.c    ****         else { settings.flags &= ~BITFLAG_INVERT_LIMIT_PINS; }
+ 773              		.loc 1 238 0 is_stmt 1
+ 774 0120 494A     		ldr	r2, .L89
+ 775 0122 92F84830 		ldrb	r3, [r2, #72]	@ zero_extendqisi2
+ 776 0126 23F04003 		bic	r3, r3, #64
+ 777 012a 82F84830 		strb	r3, [r2, #72]
+ 778 012e 7AE0     		b	.L45
+ 779              	.L59:
+ 239:settings.c    ****         break;
+ 240:settings.c    ****       case 6: // Reset to ensure change. Immediate re-init may cause problems.
+ 241:settings.c    ****         if (int_value) { settings.flags |= BITFLAG_INVERT_PROBE_PIN; }
+ 780              		.loc 1 241 0
+ 781 0130 38B1     		cbz	r0, .L76
+ 782              		.loc 1 241 0 is_stmt 0 discriminator 1
+ 783 0132 454A     		ldr	r2, .L89
+ 784 0134 92F84830 		ldrb	r3, [r2, #72]	@ zero_extendqisi2
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 19
+
+
+ 785 0138 63F07F03 		orn	r3, r3, #127
+ 786 013c 82F84830 		strb	r3, [r2, #72]
+ 787 0140 71E0     		b	.L45
+ 788              	.L76:
+ 242:settings.c    ****         else { settings.flags &= ~BITFLAG_INVERT_PROBE_PIN; }
+ 789              		.loc 1 242 0 is_stmt 1
+ 790 0142 414A     		ldr	r2, .L89
+ 791 0144 92F84830 		ldrb	r3, [r2, #72]	@ zero_extendqisi2
+ 792 0148 03F07F03 		and	r3, r3, #127
+ 793 014c 82F84830 		strb	r3, [r2, #72]
+ 794 0150 69E0     		b	.L45
+ 795              	.L60:
+ 243:settings.c    ****         break;
+ 244:settings.c    ****       case 10: settings.status_report_mask = int_value; break;
+ 796              		.loc 1 244 0
+ 797 0152 3D4B     		ldr	r3, .L89
+ 798 0154 83F83400 		strb	r0, [r3, #52]
+ 799 0158 65E0     		b	.L45
+ 800              	.L61:
+ 245:settings.c    ****       case 11: settings.junction_deviation = value; break;
+ 801              		.loc 1 245 0
+ 802 015a 3B4B     		ldr	r3, .L89
+ 803 015c 9D63     		str	r5, [r3, #56]	@ float
+ 804 015e 62E0     		b	.L45
+ 805              	.L62:
+ 246:settings.c    ****       case 12: settings.arc_tolerance = value; break;
+ 806              		.loc 1 246 0
+ 807 0160 394B     		ldr	r3, .L89
+ 808 0162 DD63     		str	r5, [r3, #60]	@ float
+ 809 0164 5FE0     		b	.L45
+ 810              	.L63:
+ 247:settings.c    ****       case 13:
+ 248:settings.c    ****         if (int_value) { settings.flags |= BITFLAG_REPORT_INCHES; }
+ 811              		.loc 1 248 0
+ 812 0166 38B1     		cbz	r0, .L77
+ 813              		.loc 1 248 0 is_stmt 0 discriminator 1
+ 814 0168 374A     		ldr	r2, .L89
+ 815 016a 92F84830 		ldrb	r3, [r2, #72]	@ zero_extendqisi2
+ 816 016e 43F00103 		orr	r3, r3, #1
+ 817 0172 82F84830 		strb	r3, [r2, #72]
+ 818 0176 56E0     		b	.L45
+ 819              	.L77:
+ 249:settings.c    ****         else { settings.flags &= ~BITFLAG_REPORT_INCHES; }
+ 820              		.loc 1 249 0 is_stmt 1
+ 821 0178 334A     		ldr	r2, .L89
+ 822 017a 92F84830 		ldrb	r3, [r2, #72]	@ zero_extendqisi2
+ 823 017e 23F00103 		bic	r3, r3, #1
+ 824 0182 82F84830 		strb	r3, [r2, #72]
+ 825 0186 4EE0     		b	.L45
+ 826              	.L64:
+ 250:settings.c    ****         break;
+ 251:settings.c    ****       case 20:
+ 252:settings.c    ****         if (int_value) { 
+ 827              		.loc 1 252 0
+ 828 0188 58B1     		cbz	r0, .L78
+ 253:settings.c    ****           if (bit_isfalse(settings.flags, BITFLAG_HOMING_ENABLE)) { return(STATUS_SOFT_LIMIT_ERROR)
+ 829              		.loc 1 253 0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 20
+
+
+ 830 018a 2F4B     		ldr	r3, .L89
+ 831 018c 93F84830 		ldrb	r3, [r3, #72]	@ zero_extendqisi2
+ 832 0190 13F0100F 		tst	r3, #16
+ 833 0194 55D0     		beq	.L87
+ 254:settings.c    ****           settings.flags |= BITFLAG_SOFT_LIMIT_ENABLE; 
+ 834              		.loc 1 254 0
+ 835 0196 43F02003 		orr	r3, r3, #32
+ 836 019a 2B4A     		ldr	r2, .L89
+ 837 019c 82F84830 		strb	r3, [r2, #72]
+ 838 01a0 41E0     		b	.L45
+ 839              	.L78:
+ 255:settings.c    ****         } else { settings.flags &= ~BITFLAG_SOFT_LIMIT_ENABLE; }
+ 840              		.loc 1 255 0
+ 841 01a2 294A     		ldr	r2, .L89
+ 842 01a4 92F84830 		ldrb	r3, [r2, #72]	@ zero_extendqisi2
+ 843 01a8 23F02003 		bic	r3, r3, #32
+ 844 01ac 82F84830 		strb	r3, [r2, #72]
+ 845 01b0 39E0     		b	.L45
+ 846              	.L65:
+ 256:settings.c    ****         break;
+ 257:settings.c    ****       case 21:
+ 258:settings.c    ****         if (int_value) { settings.flags |= BITFLAG_HARD_LIMIT_ENABLE; }
+ 847              		.loc 1 258 0
+ 848 01b2 38B1     		cbz	r0, .L79
+ 849              		.loc 1 258 0 is_stmt 0 discriminator 1
+ 850 01b4 244A     		ldr	r2, .L89
+ 851 01b6 92F84830 		ldrb	r3, [r2, #72]	@ zero_extendqisi2
+ 852 01ba 43F00803 		orr	r3, r3, #8
+ 853 01be 82F84830 		strb	r3, [r2, #72]
+ 854 01c2 06E0     		b	.L80
+ 855              	.L79:
+ 259:settings.c    ****         else { settings.flags &= ~BITFLAG_HARD_LIMIT_ENABLE; }
+ 856              		.loc 1 259 0 is_stmt 1
+ 857 01c4 204A     		ldr	r2, .L89
+ 858 01c6 92F84830 		ldrb	r3, [r2, #72]	@ zero_extendqisi2
+ 859 01ca 23F00803 		bic	r3, r3, #8
+ 860 01ce 82F84830 		strb	r3, [r2, #72]
+ 861              	.L80:
+ 260:settings.c    ****         limits_init(); // Re-init to immediately change. NOTE: Nice to have but could be problemati
+ 862              		.loc 1 260 0
+ 863 01d2 FFF7FEFF 		bl	limits_init
+ 864              	.LVL83:
+ 261:settings.c    ****         break;
+ 865              		.loc 1 261 0
+ 866 01d6 26E0     		b	.L45
+ 867              	.LVL84:
+ 868              	.L66:
+ 262:settings.c    ****       case 22:
+ 263:settings.c    ****         if (int_value) { settings.flags |= BITFLAG_HOMING_ENABLE; }
+ 869              		.loc 1 263 0
+ 870 01d8 38B1     		cbz	r0, .L81
+ 871              		.loc 1 263 0 is_stmt 0 discriminator 1
+ 872 01da 1B4A     		ldr	r2, .L89
+ 873 01dc 92F84830 		ldrb	r3, [r2, #72]	@ zero_extendqisi2
+ 874 01e0 43F01003 		orr	r3, r3, #16
+ 875 01e4 82F84830 		strb	r3, [r2, #72]
+ 876 01e8 1DE0     		b	.L45
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 21
+
+
+ 877              	.L81:
+ 264:settings.c    ****         else { 
+ 265:settings.c    ****           settings.flags &= ~BITFLAG_HOMING_ENABLE; 
+ 878              		.loc 1 265 0 is_stmt 1
+ 879 01ea 174A     		ldr	r2, .L89
+ 880 01ec 92F84830 		ldrb	r3, [r2, #72]	@ zero_extendqisi2
+ 266:settings.c    ****           settings.flags &= ~BITFLAG_SOFT_LIMIT_ENABLE; // Force disable soft-limits.
+ 881              		.loc 1 266 0
+ 882 01f0 03F0CF03 		and	r3, r3, #207
+ 883 01f4 82F84830 		strb	r3, [r2, #72]
+ 884 01f8 15E0     		b	.L45
+ 885              	.L67:
+ 267:settings.c    ****         }
+ 268:settings.c    ****         break;
+ 269:settings.c    ****       case 23: settings.homing_dir_mask = int_value; break;
+ 886              		.loc 1 269 0
+ 887 01fa 134B     		ldr	r3, .L89
+ 888 01fc 83F84900 		strb	r0, [r3, #73]
+ 889 0200 11E0     		b	.L45
+ 890              	.L68:
+ 270:settings.c    ****       case 24: settings.homing_feed_rate = value; break;
+ 891              		.loc 1 270 0
+ 892 0202 114B     		ldr	r3, .L89
+ 893 0204 DD64     		str	r5, [r3, #76]	@ float
+ 894 0206 0EE0     		b	.L45
+ 895              	.L69:
+ 271:settings.c    ****       case 25: settings.homing_seek_rate = value; break;
+ 896              		.loc 1 271 0
+ 897 0208 0F4B     		ldr	r3, .L89
+ 898 020a 1D65     		str	r5, [r3, #80]	@ float
+ 899 020c 0BE0     		b	.L45
+ 900              	.L70:
+ 272:settings.c    ****       case 26: settings.homing_debounce_delay = int_value; break;
+ 901              		.loc 1 272 0
+ 902 020e 0E4B     		ldr	r3, .L89
+ 903 0210 A3F85400 		strh	r0, [r3, #84]	@ movhi
+ 904 0214 07E0     		b	.L45
+ 905              	.L71:
+ 273:settings.c    ****       case 27: settings.homing_pulloff = value; break;
+ 906              		.loc 1 273 0
+ 907 0216 0C4B     		ldr	r3, .L89
+ 908 0218 9D65     		str	r5, [r3, #88]	@ float
+ 909 021a 04E0     		b	.L45
+ 910              	.L72:
+ 274:settings.c    ****       case 30: settings.rpm_max = value; break;
+ 911              		.loc 1 274 0
+ 912 021c 0A4B     		ldr	r3, .L89
+ 913 021e 1D64     		str	r5, [r3, #64]	@ float
+ 914 0220 01E0     		b	.L45
+ 915              	.L73:
+ 275:settings.c    ****       case 31: settings.rpm_min = value; break;
+ 916              		.loc 1 275 0
+ 917 0222 094B     		ldr	r3, .L89
+ 918 0224 5D64     		str	r5, [r3, #68]	@ float
+ 919              	.LVL85:
+ 920              	.L45:
+ 921              	.LBE4:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 22
+
+
+ 276:settings.c    ****       default: 
+ 277:settings.c    ****         return(STATUS_INVALID_STATEMENT);
+ 278:settings.c    ****     }
+ 279:settings.c    ****   }
+ 280:settings.c    ****   write_global_settings();
+ 922              		.loc 1 280 0
+ 923 0226 FFF7FEFF 		bl	write_global_settings
+ 924              	.LVL86:
+ 281:settings.c    ****   return(STATUS_OK);
+ 925              		.loc 1 281 0
+ 926 022a 0020     		movs	r0, #0
+ 927 022c 38BD     		pop	{r3, r4, r5, pc}
+ 928              	.LVL87:
+ 929              	.L82:
+ 183:settings.c    ****   if (parameter >= AXIS_SETTINGS_START_VAL) {
+ 930              		.loc 1 183 0
+ 931 022e 0420     		movs	r0, #4
+ 932 0230 38BD     		pop	{r3, r4, r5, pc}
+ 933              	.LVL88:
+ 934              	.L83:
+ 935              	.LBB5:
+ 212:settings.c    ****         parameter -= AXIS_SETTINGS_INCREMENT;
+ 936              		.loc 1 212 0
+ 937 0232 0320     		movs	r0, #3
+ 938 0234 38BD     		pop	{r3, r4, r5, pc}
+ 939              	.LVL89:
+ 940              	.L84:
+ 941 0236 0320     		movs	r0, #3
+ 942 0238 38BD     		pop	{r3, r4, r5, pc}
+ 943              	.LVL90:
+ 944              	.L85:
+ 945              	.LBE5:
+ 946              	.LBB6:
+ 277:settings.c    ****     }
+ 947              		.loc 1 277 0
+ 948 023a 0320     		movs	r0, #3
+ 949              	.LVL91:
+ 950 023c 38BD     		pop	{r3, r4, r5, pc}
+ 951              	.LVL92:
+ 952              	.L86:
+ 221:settings.c    ****         settings.pulse_microseconds = int_value; break;
+ 953              		.loc 1 221 0
+ 954 023e 0620     		movs	r0, #6
+ 955              	.LVL93:
+ 956 0240 38BD     		pop	{r3, r4, r5, pc}
+ 957              	.LVL94:
+ 958              	.L87:
+ 253:settings.c    ****           settings.flags |= BITFLAG_SOFT_LIMIT_ENABLE; 
+ 959              		.loc 1 253 0
+ 960 0242 0A20     		movs	r0, #10
+ 961              	.LVL95:
+ 962              	.LBE6:
+ 282:settings.c    **** }
+ 963              		.loc 1 282 0
+ 964 0244 38BD     		pop	{r3, r4, r5, pc}
+ 965              	.LVL96:
+ 966              	.L90:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 23
+
+
+ 967 0246 00BF     		.align	2
+ 968              	.L89:
+ 969 0248 00000000 		.word	settings
+ 970 024c 00007042 		.word	1114636288
+ 971              		.cfi_endproc
+ 972              	.LFE72:
+ 973              		.size	settings_store_global_setting, .-settings_store_global_setting
+ 974              		.section	.text.settings_init,"ax",%progbits
+ 975              		.align	2
+ 976              		.global	settings_init
+ 977              		.thumb
+ 978              		.thumb_func
+ 979              		.type	settings_init, %function
+ 980              	settings_init:
+ 981              	.LFB73:
+ 283:settings.c    **** 
+ 284:settings.c    **** 
+ 285:settings.c    **** // Initialize the config subsystem
+ 286:settings.c    **** void settings_init() {
+ 982              		.loc 1 286 0
+ 983              		.cfi_startproc
+ 984              		@ args = 0, pretend = 0, frame = 0
+ 985              		@ frame_needed = 0, uses_anonymous_args = 0
+ 986 0000 08B5     		push	{r3, lr}
+ 987              		.cfi_def_cfa_offset 8
+ 988              		.cfi_offset 3, -8
+ 989              		.cfi_offset 14, -4
+ 287:settings.c    ****     
+ 288:settings.c    ****   EEPROM_PSoC_Start();  
+ 990              		.loc 1 288 0
+ 991 0002 FFF7FEFF 		bl	EEPROM_PSoC_Start
+ 992              	.LVL97:
+ 289:settings.c    ****     
+ 290:settings.c    ****   if(!read_global_settings()) {
+ 993              		.loc 1 290 0
+ 994 0006 FFF7FEFF 		bl	read_global_settings
+ 995              	.LVL98:
+ 996 000a 38B9     		cbnz	r0, .L91
+ 291:settings.c    ****     report_status_message(STATUS_SETTING_READ_FAIL);
+ 997              		.loc 1 291 0
+ 998 000c 0720     		movs	r0, #7
+ 999 000e FFF7FEFF 		bl	report_status_message
+ 1000              	.LVL99:
+ 292:settings.c    ****     settings_restore(SETTINGS_RESTORE_ALL); // Force restore all EEPROM data.
+ 1001              		.loc 1 292 0
+ 1002 0012 FF20     		movs	r0, #255
+ 1003 0014 FFF7FEFF 		bl	settings_restore
+ 1004              	.LVL100:
+ 293:settings.c    ****     report_grbl_settings();
+ 1005              		.loc 1 293 0
+ 1006 0018 FFF7FEFF 		bl	report_grbl_settings
+ 1007              	.LVL101:
+ 1008              	.L91:
+ 1009 001c 08BD     		pop	{r3, pc}
+ 1010              		.cfi_endproc
+ 1011              	.LFE73:
+ 1012              		.size	settings_init, .-settings_init
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 24
+
+
+ 1013 001e 00BF     		.section	.text.get_step_pin_mask,"ax",%progbits
+ 1014              		.align	2
+ 1015              		.global	get_step_pin_mask
+ 1016              		.thumb
+ 1017              		.thumb_func
+ 1018              		.type	get_step_pin_mask, %function
+ 1019              	get_step_pin_mask:
+ 1020              	.LFB74:
+ 294:settings.c    ****   }
+ 295:settings.c    **** 
+ 296:settings.c    ****   // NOTE: Checking paramater data, startup lines, and build info string should be done here, 
+ 297:settings.c    ****   // but it seems fairly redundant. Each of these can be manually checked and reset or restored.
+ 298:settings.c    ****   // Check all parameter data into a dummy variable. If error, reset to zero, otherwise do nothing.
+ 299:settings.c    ****   // float coord_data[N_AXIS];
+ 300:settings.c    ****   // uint8_t i;
+ 301:settings.c    ****   // for (i=0; i<=SETTING_INDEX_NCOORD; i++) {
+ 302:settings.c    ****   //   if (!settings_read_coord_data(i, coord_data)) {
+ 303:settings.c    ****   // 	report_status_message(STATUS_SETTING_READ_FAIL);
+ 304:settings.c    ****   //   }
+ 305:settings.c    ****   // }
+ 306:settings.c    ****   // NOTE: Startup lines are checked and executed by protocol_main_loop at the end of initializatio
+ 307:settings.c    **** }
+ 308:settings.c    **** 
+ 309:settings.c    **** 
+ 310:settings.c    **** // Returns step pin mask according to Grbl internal axis indexing.
+ 311:settings.c    **** uint8_t get_step_pin_mask(uint8_t axis_idx)
+ 312:settings.c    **** {
+ 1021              		.loc 1 312 0
+ 1022              		.cfi_startproc
+ 1023              		@ args = 0, pretend = 0, frame = 0
+ 1024              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1025              		@ link register save eliminated.
+ 1026              	.LVL102:
+ 313:settings.c    ****   if ( axis_idx == X_AXIS ) { return((1<<X_STEP_BIT)); }
+ 1027              		.loc 1 313 0
+ 1028 0000 18B1     		cbz	r0, .L96
+ 314:settings.c    ****   if ( axis_idx == Y_AXIS ) { return((1<<Y_STEP_BIT)); }
+ 1029              		.loc 1 314 0
+ 1030 0002 0128     		cmp	r0, #1
+ 1031 0004 03D1     		bne	.L97
+ 1032 0006 0220     		movs	r0, #2
+ 1033              	.LVL103:
+ 1034 0008 7047     		bx	lr
+ 1035              	.LVL104:
+ 1036              	.L96:
+ 313:settings.c    ****   if ( axis_idx == X_AXIS ) { return((1<<X_STEP_BIT)); }
+ 1037              		.loc 1 313 0
+ 1038 000a 0120     		movs	r0, #1
+ 1039              	.LVL105:
+ 1040 000c 7047     		bx	lr
+ 1041              	.LVL106:
+ 1042              	.L97:
+ 315:settings.c    ****   return((1<<Z_STEP_BIT));
+ 1043              		.loc 1 315 0
+ 1044 000e 0420     		movs	r0, #4
+ 1045              	.LVL107:
+ 316:settings.c    **** }
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 25
+
+
+ 1046              		.loc 1 316 0
+ 1047 0010 7047     		bx	lr
+ 1048              		.cfi_endproc
+ 1049              	.LFE74:
+ 1050              		.size	get_step_pin_mask, .-get_step_pin_mask
+ 1051 0012 00BF     		.section	.text.get_direction_pin_mask,"ax",%progbits
+ 1052              		.align	2
+ 1053              		.global	get_direction_pin_mask
+ 1054              		.thumb
+ 1055              		.thumb_func
+ 1056              		.type	get_direction_pin_mask, %function
+ 1057              	get_direction_pin_mask:
+ 1058              	.LFB75:
+ 317:settings.c    **** 
+ 318:settings.c    **** 
+ 319:settings.c    **** // Returns direction pin mask according to Grbl internal axis indexing.
+ 320:settings.c    **** uint8_t get_direction_pin_mask(uint8_t axis_idx)
+ 321:settings.c    **** {
+ 1059              		.loc 1 321 0
+ 1060              		.cfi_startproc
+ 1061              		@ args = 0, pretend = 0, frame = 0
+ 1062              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1063              		@ link register save eliminated.
+ 1064              	.LVL108:
+ 322:settings.c    ****   if ( axis_idx == X_AXIS ) { return((1<<X_DIRECTION_BIT)); }
+ 1065              		.loc 1 322 0
+ 1066 0000 18B1     		cbz	r0, .L100
+ 323:settings.c    ****   if ( axis_idx == Y_AXIS ) { return((1<<Y_DIRECTION_BIT)); }
+ 1067              		.loc 1 323 0
+ 1068 0002 0128     		cmp	r0, #1
+ 1069 0004 03D1     		bne	.L101
+ 1070 0006 0220     		movs	r0, #2
+ 1071              	.LVL109:
+ 1072 0008 7047     		bx	lr
+ 1073              	.LVL110:
+ 1074              	.L100:
+ 322:settings.c    ****   if ( axis_idx == X_AXIS ) { return((1<<X_DIRECTION_BIT)); }
+ 1075              		.loc 1 322 0
+ 1076 000a 0120     		movs	r0, #1
+ 1077              	.LVL111:
+ 1078 000c 7047     		bx	lr
+ 1079              	.LVL112:
+ 1080              	.L101:
+ 324:settings.c    ****   return((1<<Z_DIRECTION_BIT));
+ 1081              		.loc 1 324 0
+ 1082 000e 0420     		movs	r0, #4
+ 1083              	.LVL113:
+ 325:settings.c    ****     //return axis_idx;
+ 326:settings.c    **** }
+ 1084              		.loc 1 326 0
+ 1085 0010 7047     		bx	lr
+ 1086              		.cfi_endproc
+ 1087              	.LFE75:
+ 1088              		.size	get_direction_pin_mask, .-get_direction_pin_mask
+ 1089 0012 00BF     		.section	.text.get_limit_pin_mask,"ax",%progbits
+ 1090              		.align	2
+ 1091              		.global	get_limit_pin_mask
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 26
+
+
+ 1092              		.thumb
+ 1093              		.thumb_func
+ 1094              		.type	get_limit_pin_mask, %function
+ 1095              	get_limit_pin_mask:
+ 1096              	.LFB76:
+ 327:settings.c    **** 
+ 328:settings.c    **** 
+ 329:settings.c    **** // Returns limit pin mask according to Grbl internal axis indexing.
+ 330:settings.c    **** uint8_t get_limit_pin_mask(uint8_t axis_idx)
+ 331:settings.c    **** {
+ 1097              		.loc 1 331 0
+ 1098              		.cfi_startproc
+ 1099              		@ args = 0, pretend = 0, frame = 0
+ 1100              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1101              		@ link register save eliminated.
+ 1102              	.LVL114:
+ 332:settings.c    ****   //if ( axis_idx == X_AXIS ) { return((1<<X_LIMIT_BIT)); }
+ 333:settings.c    ****   //if ( axis_idx == Y_AXIS ) { return((1<<Y_LIMIT_BIT)); }
+ 334:settings.c    ****   //return((1<<Z_LIMIT_BIT));
+ 335:settings.c    ****     return axis_idx;
+ 336:settings.c    **** }
+ 1103              		.loc 1 336 0
+ 1104 0000 7047     		bx	lr
+ 1105              		.cfi_endproc
+ 1106              	.LFE76:
+ 1107              		.size	get_limit_pin_mask, .-get_limit_pin_mask
+ 1108              		.comm	settings,92,4
+ 1109              		.comm	exec_lcd_status,1,1
+ 1110              		.comm	sys_rt_exec_debug,1,1
+ 1111              		.comm	sys_rt_exec_accessory_override,1,1
+ 1112              		.comm	sys_rt_exec_motion_override,1,1
+ 1113              		.comm	sys_rt_exec_alarm,1,1
+ 1114              		.comm	sys_rt_exec_state,1,1
+ 1115              		.comm	sys_probe_state,1,1
+ 1116              		.comm	sys_probe_position,12,4
+ 1117              		.comm	sys_position,12,4
+ 1118 0002 00BF     		.text
+ 1119              	.Letext0:
+ 1120              		.file 2 "d:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 1121              		.file 3 "d:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 1122              		.file 4 "settings.h"
+ 1123              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 1124              		.file 6 "system.h"
+ 1125              		.file 7 "lcd_report.h"
+ 1126              		.file 8 "eeprom.h"
+ 1127              		.file 9 "d:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 1128              		.file 10 "stepper.h"
+ 1129              		.file 11 "./limits.h"
+ 1130              		.file 12 "report.h"
+ 1131              		.file 13 "Generated_Source\\PSoC5/EEPROM_PSoC.h"
+ 1132              		.section	.debug_info,"",%progbits
+ 1133              	.Ldebug_info0:
+ 1134 0000 A7080000 		.4byte	0x8a7
+ 1135 0004 0400     		.2byte	0x4
+ 1136 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1137 000a 04       		.byte	0x4
+ 1138 000b 01       		.uleb128 0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 27
+
+
+ 1139 000c C2040000 		.4byte	.LASF86
+ 1140 0010 01       		.byte	0x1
+ 1141 0011 22040000 		.4byte	.LASF87
+ 1142 0015 A8000000 		.4byte	.LASF88
+ 1143 0019 30000000 		.4byte	.Ldebug_ranges0+0x30
+ 1144 001d 00000000 		.4byte	0
+ 1145 0021 00000000 		.4byte	.Ldebug_line0
+ 1146 0025 02       		.uleb128 0x2
+ 1147 0026 04       		.byte	0x4
+ 1148 0027 04       		.byte	0x4
+ 1149 0028 4D010000 		.4byte	.LASF0
+ 1150 002c 02       		.uleb128 0x2
+ 1151 002d 01       		.byte	0x1
+ 1152 002e 06       		.byte	0x6
+ 1153 002f 5D020000 		.4byte	.LASF1
+ 1154 0033 03       		.uleb128 0x3
+ 1155 0034 B8010000 		.4byte	.LASF4
+ 1156 0038 02       		.byte	0x2
+ 1157 0039 1D       		.byte	0x1d
+ 1158 003a 3E000000 		.4byte	0x3e
+ 1159 003e 02       		.uleb128 0x2
+ 1160 003f 01       		.byte	0x1
+ 1161 0040 08       		.byte	0x8
+ 1162 0041 3A020000 		.4byte	.LASF2
+ 1163 0045 02       		.uleb128 0x2
+ 1164 0046 02       		.byte	0x2
+ 1165 0047 05       		.byte	0x5
+ 1166 0048 7F000000 		.4byte	.LASF3
+ 1167 004c 03       		.uleb128 0x3
+ 1168 004d F0000000 		.4byte	.LASF5
+ 1169 0051 02       		.byte	0x2
+ 1170 0052 2B       		.byte	0x2b
+ 1171 0053 57000000 		.4byte	0x57
+ 1172 0057 02       		.uleb128 0x2
+ 1173 0058 02       		.byte	0x2
+ 1174 0059 07       		.byte	0x7
+ 1175 005a 27030000 		.4byte	.LASF6
+ 1176 005e 03       		.uleb128 0x3
+ 1177 005f A5040000 		.4byte	.LASF7
+ 1178 0063 02       		.byte	0x2
+ 1179 0064 3F       		.byte	0x3f
+ 1180 0065 69000000 		.4byte	0x69
+ 1181 0069 02       		.uleb128 0x2
+ 1182 006a 04       		.byte	0x4
+ 1183 006b 05       		.byte	0x5
+ 1184 006c 55030000 		.4byte	.LASF8
+ 1185 0070 03       		.uleb128 0x3
+ 1186 0071 E5000000 		.4byte	.LASF9
+ 1187 0075 02       		.byte	0x2
+ 1188 0076 41       		.byte	0x41
+ 1189 0077 7B000000 		.4byte	0x7b
+ 1190 007b 02       		.uleb128 0x2
+ 1191 007c 04       		.byte	0x4
+ 1192 007d 07       		.byte	0x7
+ 1193 007e 10040000 		.4byte	.LASF10
+ 1194 0082 02       		.uleb128 0x2
+ 1195 0083 08       		.byte	0x8
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 28
+
+
+ 1196 0084 05       		.byte	0x5
+ 1197 0085 76010000 		.4byte	.LASF11
+ 1198 0089 02       		.uleb128 0x2
+ 1199 008a 08       		.byte	0x8
+ 1200 008b 07       		.byte	0x7
+ 1201 008c 6F020000 		.4byte	.LASF12
+ 1202 0090 04       		.uleb128 0x4
+ 1203 0091 04       		.byte	0x4
+ 1204 0092 05       		.byte	0x5
+ 1205 0093 696E7400 		.ascii	"int\000"
+ 1206 0097 02       		.uleb128 0x2
+ 1207 0098 04       		.byte	0x4
+ 1208 0099 07       		.byte	0x7
+ 1209 009a 8F020000 		.4byte	.LASF13
+ 1210 009e 03       		.uleb128 0x3
+ 1211 009f 18010000 		.4byte	.LASF14
+ 1212 00a3 03       		.byte	0x3
+ 1213 00a4 15       		.byte	0x15
+ 1214 00a5 33000000 		.4byte	0x33
+ 1215 00a9 03       		.uleb128 0x3
+ 1216 00aa B1020000 		.4byte	.LASF15
+ 1217 00ae 03       		.byte	0x3
+ 1218 00af 21       		.byte	0x21
+ 1219 00b0 4C000000 		.4byte	0x4c
+ 1220 00b4 03       		.uleb128 0x3
+ 1221 00b5 79030000 		.4byte	.LASF16
+ 1222 00b9 03       		.byte	0x3
+ 1223 00ba 2C       		.byte	0x2c
+ 1224 00bb 5E000000 		.4byte	0x5e
+ 1225 00bf 03       		.uleb128 0x3
+ 1226 00c0 86020000 		.4byte	.LASF17
+ 1227 00c4 03       		.byte	0x3
+ 1228 00c5 2D       		.byte	0x2d
+ 1229 00c6 70000000 		.4byte	0x70
+ 1230 00ca 02       		.uleb128 0x2
+ 1231 00cb 08       		.byte	0x8
+ 1232 00cc 04       		.byte	0x4
+ 1233 00cd 8B050000 		.4byte	.LASF18
+ 1234 00d1 02       		.uleb128 0x2
+ 1235 00d2 01       		.byte	0x1
+ 1236 00d3 08       		.byte	0x8
+ 1237 00d4 84010000 		.4byte	.LASF19
+ 1238 00d8 02       		.uleb128 0x2
+ 1239 00d9 04       		.byte	0x4
+ 1240 00da 07       		.byte	0x7
+ 1241 00db 79050000 		.4byte	.LASF20
+ 1242 00df 05       		.uleb128 0x5
+ 1243 00e0 04       		.byte	0x4
+ 1244 00e1 D1000000 		.4byte	0xd1
+ 1245 00e5 06       		.uleb128 0x6
+ 1246 00e6 9E000000 		.4byte	0x9e
+ 1247 00ea 02       		.uleb128 0x2
+ 1248 00eb 08       		.byte	0x8
+ 1249 00ec 04       		.byte	0x4
+ 1250 00ed 1E020000 		.4byte	.LASF21
+ 1251 00f1 07       		.uleb128 0x7
+ 1252 00f2 5C       		.byte	0x5c
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 29
+
+
+ 1253 00f3 04       		.byte	0x4
+ 1254 00f4 4F       		.byte	0x4f
+ 1255 00f5 DE010000 		.4byte	0x1de
+ 1256 00f9 08       		.uleb128 0x8
+ 1257 00fa AB010000 		.4byte	.LASF22
+ 1258 00fe 04       		.byte	0x4
+ 1259 00ff 51       		.byte	0x51
+ 1260 0100 DE010000 		.4byte	0x1de
+ 1261 0104 00       		.byte	0
+ 1262 0105 08       		.uleb128 0x8
+ 1263 0106 20010000 		.4byte	.LASF23
+ 1264 010a 04       		.byte	0x4
+ 1265 010b 52       		.byte	0x52
+ 1266 010c DE010000 		.4byte	0x1de
+ 1267 0110 0C       		.byte	0xc
+ 1268 0111 08       		.uleb128 0x8
+ 1269 0112 72000000 		.4byte	.LASF24
+ 1270 0116 04       		.byte	0x4
+ 1271 0117 53       		.byte	0x53
+ 1272 0118 DE010000 		.4byte	0x1de
+ 1273 011c 18       		.byte	0x18
+ 1274 011d 08       		.uleb128 0x8
+ 1275 011e 50050000 		.4byte	.LASF25
+ 1276 0122 04       		.byte	0x4
+ 1277 0123 54       		.byte	0x54
+ 1278 0124 DE010000 		.4byte	0x1de
+ 1279 0128 24       		.byte	0x24
+ 1280 0129 08       		.uleb128 0x8
+ 1281 012a DA030000 		.4byte	.LASF26
+ 1282 012e 04       		.byte	0x4
+ 1283 012f 57       		.byte	0x57
+ 1284 0130 9E000000 		.4byte	0x9e
+ 1285 0134 30       		.byte	0x30
+ 1286 0135 08       		.uleb128 0x8
+ 1287 0136 AE050000 		.4byte	.LASF27
+ 1288 013a 04       		.byte	0x4
+ 1289 013b 58       		.byte	0x58
+ 1290 013c 9E000000 		.4byte	0x9e
+ 1291 0140 31       		.byte	0x31
+ 1292 0141 08       		.uleb128 0x8
+ 1293 0142 69030000 		.4byte	.LASF28
+ 1294 0146 04       		.byte	0x4
+ 1295 0147 59       		.byte	0x59
+ 1296 0148 9E000000 		.4byte	0x9e
+ 1297 014c 32       		.byte	0x32
+ 1298 014d 08       		.uleb128 0x8
+ 1299 014e FB000000 		.4byte	.LASF29
+ 1300 0152 04       		.byte	0x4
+ 1301 0153 5A       		.byte	0x5a
+ 1302 0154 9E000000 		.4byte	0x9e
+ 1303 0158 33       		.byte	0x33
+ 1304 0159 08       		.uleb128 0x8
+ 1305 015a F8020000 		.4byte	.LASF30
+ 1306 015e 04       		.byte	0x4
+ 1307 015f 5B       		.byte	0x5b
+ 1308 0160 9E000000 		.4byte	0x9e
+ 1309 0164 34       		.byte	0x34
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 30
+
+
+ 1310 0165 08       		.uleb128 0x8
+ 1311 0166 AF040000 		.4byte	.LASF31
+ 1312 016a 04       		.byte	0x4
+ 1313 016b 5C       		.byte	0x5c
+ 1314 016c 25000000 		.4byte	0x25
+ 1315 0170 38       		.byte	0x38
+ 1316 0171 08       		.uleb128 0x8
+ 1317 0172 E3010000 		.4byte	.LASF32
+ 1318 0176 04       		.byte	0x4
+ 1319 0177 5D       		.byte	0x5d
+ 1320 0178 25000000 		.4byte	0x25
+ 1321 017c 3C       		.byte	0x3c
+ 1322 017d 08       		.uleb128 0x8
+ 1323 017e 9D030000 		.4byte	.LASF33
+ 1324 0182 04       		.byte	0x4
+ 1325 0183 5F       		.byte	0x5f
+ 1326 0184 25000000 		.4byte	0x25
+ 1327 0188 40       		.byte	0x40
+ 1328 0189 08       		.uleb128 0x8
+ 1329 018a 62040000 		.4byte	.LASF34
+ 1330 018e 04       		.byte	0x4
+ 1331 018f 60       		.byte	0x60
+ 1332 0190 25000000 		.4byte	0x25
+ 1333 0194 44       		.byte	0x44
+ 1334 0195 08       		.uleb128 0x8
+ 1335 0196 69020000 		.4byte	.LASF35
+ 1336 019a 04       		.byte	0x4
+ 1337 019b 62       		.byte	0x62
+ 1338 019c 9E000000 		.4byte	0x9e
+ 1339 01a0 48       		.byte	0x48
+ 1340 01a1 08       		.uleb128 0x8
+ 1341 01a2 2A020000 		.4byte	.LASF36
+ 1342 01a6 04       		.byte	0x4
+ 1343 01a7 64       		.byte	0x64
+ 1344 01a8 9E000000 		.4byte	0x9e
+ 1345 01ac 49       		.byte	0x49
+ 1346 01ad 08       		.uleb128 0x8
+ 1347 01ae 68050000 		.4byte	.LASF37
+ 1348 01b2 04       		.byte	0x4
+ 1349 01b3 65       		.byte	0x65
+ 1350 01b4 25000000 		.4byte	0x25
+ 1351 01b8 4C       		.byte	0x4c
+ 1352 01b9 08       		.uleb128 0x8
+ 1353 01ba 44040000 		.4byte	.LASF38
+ 1354 01be 04       		.byte	0x4
+ 1355 01bf 66       		.byte	0x66
+ 1356 01c0 25000000 		.4byte	0x25
+ 1357 01c4 50       		.byte	0x50
+ 1358 01c5 08       		.uleb128 0x8
+ 1359 01c6 C4030000 		.4byte	.LASF39
+ 1360 01ca 04       		.byte	0x4
+ 1361 01cb 67       		.byte	0x67
+ 1362 01cc A9000000 		.4byte	0xa9
+ 1363 01d0 54       		.byte	0x54
+ 1364 01d1 08       		.uleb128 0x8
+ 1365 01d2 3E010000 		.4byte	.LASF40
+ 1366 01d6 04       		.byte	0x4
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 31
+
+
+ 1367 01d7 68       		.byte	0x68
+ 1368 01d8 25000000 		.4byte	0x25
+ 1369 01dc 58       		.byte	0x58
+ 1370 01dd 00       		.byte	0
+ 1371 01de 09       		.uleb128 0x9
+ 1372 01df 25000000 		.4byte	0x25
+ 1373 01e3 EE010000 		.4byte	0x1ee
+ 1374 01e7 0A       		.uleb128 0xa
+ 1375 01e8 D8000000 		.4byte	0xd8
+ 1376 01ec 02       		.byte	0x2
+ 1377 01ed 00       		.byte	0
+ 1378 01ee 03       		.uleb128 0x3
+ 1379 01ef 92050000 		.4byte	.LASF41
+ 1380 01f3 04       		.byte	0x4
+ 1381 01f4 69       		.byte	0x69
+ 1382 01f5 F1000000 		.4byte	0xf1
+ 1383 01f9 0B       		.uleb128 0xb
+ 1384 01fa 0B030000 		.4byte	.LASF43
+ 1385 01fe 01       		.byte	0x1
+ 1386 01ff 1E       		.byte	0x1e
+ 1387 0200 00000000 		.4byte	.LFB63
+ 1388 0204 16000000 		.4byte	.LFE63-.LFB63
+ 1389 0208 01       		.uleb128 0x1
+ 1390 0209 9C       		.byte	0x9c
+ 1391 020a 51020000 		.4byte	0x251
+ 1392 020e 0C       		.uleb128 0xc
+ 1393 020f 6E00     		.ascii	"n\000"
+ 1394 0211 01       		.byte	0x1
+ 1395 0212 1E       		.byte	0x1e
+ 1396 0213 9E000000 		.4byte	0x9e
+ 1397 0217 00000000 		.4byte	.LLST0
+ 1398 021b 0D       		.uleb128 0xd
+ 1399 021c 39010000 		.4byte	.LASF42
+ 1400 0220 01       		.byte	0x1
+ 1401 0221 1E       		.byte	0x1e
+ 1402 0222 DF000000 		.4byte	0xdf
+ 1403 0226 21000000 		.4byte	.LLST1
+ 1404 022a 0E       		.uleb128 0xe
+ 1405 022b A6010000 		.4byte	.LASF48
+ 1406 022f 01       		.byte	0x1
+ 1407 0230 20       		.byte	0x20
+ 1408 0231 BF000000 		.4byte	0xbf
+ 1409 0235 42000000 		.4byte	.LLST2
+ 1410 0239 0F       		.uleb128 0xf
+ 1411 023a 14000000 		.4byte	.LVL4
+ 1412 023e F4070000 		.4byte	0x7f4
+ 1413 0242 10       		.uleb128 0x10
+ 1414 0243 01       		.uleb128 0x1
+ 1415 0244 52       		.byte	0x52
+ 1416 0245 02       		.uleb128 0x2
+ 1417 0246 08       		.byte	0x8
+ 1418 0247 50       		.byte	0x50
+ 1419 0248 10       		.uleb128 0x10
+ 1420 0249 01       		.uleb128 0x1
+ 1421 024a 51       		.byte	0x51
+ 1422 024b 03       		.uleb128 0x3
+ 1423 024c F3       		.byte	0xf3
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 32
+
+
+ 1424 024d 01       		.uleb128 0x1
+ 1425 024e 51       		.byte	0x51
+ 1426 024f 00       		.byte	0
+ 1427 0250 00       		.byte	0
+ 1428 0251 0B       		.uleb128 0xb
+ 1429 0252 5C010000 		.4byte	.LASF44
+ 1430 0256 01       		.byte	0x1
+ 1431 0257 26       		.byte	0x26
+ 1432 0258 00000000 		.4byte	.LFB64
+ 1433 025c 10000000 		.4byte	.LFE64-.LFB64
+ 1434 0260 01       		.uleb128 0x1
+ 1435 0261 9C       		.byte	0x9c
+ 1436 0262 94020000 		.4byte	0x294
+ 1437 0266 0D       		.uleb128 0xd
+ 1438 0267 39010000 		.4byte	.LASF42
+ 1439 026b 01       		.byte	0x1
+ 1440 026c 26       		.byte	0x26
+ 1441 026d DF000000 		.4byte	0xdf
+ 1442 0271 63000000 		.4byte	.LLST3
+ 1443 0275 0F       		.uleb128 0xf
+ 1444 0276 0E000000 		.4byte	.LVL7
+ 1445 027a F4070000 		.4byte	0x7f4
+ 1446 027e 10       		.uleb128 0x10
+ 1447 027f 01       		.uleb128 0x1
+ 1448 0280 52       		.byte	0x52
+ 1449 0281 02       		.uleb128 0x2
+ 1450 0282 08       		.byte	0x8
+ 1451 0283 50       		.byte	0x50
+ 1452 0284 10       		.uleb128 0x10
+ 1453 0285 01       		.uleb128 0x1
+ 1454 0286 51       		.byte	0x51
+ 1455 0287 03       		.uleb128 0x3
+ 1456 0288 F3       		.byte	0xf3
+ 1457 0289 01       		.uleb128 0x1
+ 1458 028a 50       		.byte	0x50
+ 1459 028b 10       		.uleb128 0x10
+ 1460 028c 01       		.uleb128 0x1
+ 1461 028d 50       		.byte	0x50
+ 1462 028e 03       		.uleb128 0x3
+ 1463 028f 0A       		.byte	0xa
+ 1464 0290 AE03     		.2byte	0x3ae
+ 1465 0292 00       		.byte	0
+ 1466 0293 00       		.byte	0
+ 1467 0294 0B       		.uleb128 0xb
+ 1468 0295 01060000 		.4byte	.LASF45
+ 1469 0299 01       		.byte	0x1
+ 1470 029a 2D       		.byte	0x2d
+ 1471 029b 00000000 		.4byte	.LFB65
+ 1472 029f 16000000 		.4byte	.LFE65-.LFB65
+ 1473 02a3 01       		.uleb128 0x1
+ 1474 02a4 9C       		.byte	0x9c
+ 1475 02a5 ED020000 		.4byte	0x2ed
+ 1476 02a9 0D       		.uleb128 0xd
+ 1477 02aa 5B050000 		.4byte	.LASF46
+ 1478 02ae 01       		.byte	0x1
+ 1479 02af 2D       		.byte	0x2d
+ 1480 02b0 9E000000 		.4byte	0x9e
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 33
+
+
+ 1481 02b4 8F000000 		.4byte	.LLST4
+ 1482 02b8 0D       		.uleb128 0xd
+ 1483 02b9 5E030000 		.4byte	.LASF47
+ 1484 02bd 01       		.byte	0x1
+ 1485 02be 2D       		.byte	0x2d
+ 1486 02bf ED020000 		.4byte	0x2ed
+ 1487 02c3 B0000000 		.4byte	.LLST5
+ 1488 02c7 0E       		.uleb128 0xe
+ 1489 02c8 A6010000 		.4byte	.LASF48
+ 1490 02cc 01       		.byte	0x1
+ 1491 02cd 2F       		.byte	0x2f
+ 1492 02ce BF000000 		.4byte	0xbf
+ 1493 02d2 D1000000 		.4byte	.LLST6
+ 1494 02d6 0F       		.uleb128 0xf
+ 1495 02d7 14000000 		.4byte	.LVL11
+ 1496 02db F4070000 		.4byte	0x7f4
+ 1497 02df 10       		.uleb128 0x10
+ 1498 02e0 01       		.uleb128 0x1
+ 1499 02e1 52       		.byte	0x52
+ 1500 02e2 01       		.uleb128 0x1
+ 1501 02e3 3C       		.byte	0x3c
+ 1502 02e4 10       		.uleb128 0x10
+ 1503 02e5 01       		.uleb128 0x1
+ 1504 02e6 51       		.byte	0x51
+ 1505 02e7 03       		.uleb128 0x3
+ 1506 02e8 F3       		.byte	0xf3
+ 1507 02e9 01       		.uleb128 0x1
+ 1508 02ea 51       		.byte	0x51
+ 1509 02eb 00       		.byte	0
+ 1510 02ec 00       		.byte	0
+ 1511 02ed 05       		.uleb128 0x5
+ 1512 02ee 04       		.byte	0x4
+ 1513 02ef 25000000 		.4byte	0x25
+ 1514 02f3 11       		.uleb128 0x11
+ 1515 02f4 83040000 		.4byte	.LASF61
+ 1516 02f8 01       		.byte	0x1
+ 1517 02f9 35       		.byte	0x35
+ 1518 02fa 00000000 		.4byte	.LFB66
+ 1519 02fe 1C000000 		.4byte	.LFE66-.LFB66
+ 1520 0302 01       		.uleb128 0x1
+ 1521 0303 9C       		.byte	0x9c
+ 1522 0304 3F030000 		.4byte	0x33f
+ 1523 0308 12       		.uleb128 0x12
+ 1524 0309 0A000000 		.4byte	.LVL12
+ 1525 030d 0F080000 		.4byte	0x80f
+ 1526 0311 20030000 		.4byte	0x320
+ 1527 0315 10       		.uleb128 0x10
+ 1528 0316 01       		.uleb128 0x1
+ 1529 0317 51       		.byte	0x51
+ 1530 0318 01       		.uleb128 0x1
+ 1531 0319 3A       		.byte	0x3a
+ 1532 031a 10       		.uleb128 0x10
+ 1533 031b 01       		.uleb128 0x1
+ 1534 031c 50       		.byte	0x50
+ 1535 031d 01       		.uleb128 0x1
+ 1536 031e 30       		.byte	0x30
+ 1537 031f 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 34
+
+
+ 1538 0320 0F       		.uleb128 0xf
+ 1539 0321 14000000 		.4byte	.LVL13
+ 1540 0325 F4070000 		.4byte	0x7f4
+ 1541 0329 10       		.uleb128 0x10
+ 1542 032a 01       		.uleb128 0x1
+ 1543 032b 52       		.byte	0x52
+ 1544 032c 02       		.uleb128 0x2
+ 1545 032d 08       		.byte	0x8
+ 1546 032e 5C       		.byte	0x5c
+ 1547 032f 10       		.uleb128 0x10
+ 1548 0330 01       		.uleb128 0x1
+ 1549 0331 51       		.byte	0x51
+ 1550 0332 05       		.uleb128 0x5
+ 1551 0333 03       		.byte	0x3
+ 1552 0334 00000000 		.4byte	settings
+ 1553 0338 10       		.uleb128 0x10
+ 1554 0339 01       		.uleb128 0x1
+ 1555 033a 50       		.byte	0x50
+ 1556 033b 01       		.uleb128 0x1
+ 1557 033c 31       		.byte	0x31
+ 1558 033d 00       		.byte	0
+ 1559 033e 00       		.byte	0
+ 1560 033f 0B       		.uleb128 0xb
+ 1561 0340 9D050000 		.4byte	.LASF49
+ 1562 0344 01       		.byte	0x1
+ 1563 0345 3D       		.byte	0x3d
+ 1564 0346 00000000 		.4byte	.LFB67
+ 1565 034a EC000000 		.4byte	.LFE67-.LFB67
+ 1566 034e 01       		.uleb128 0x1
+ 1567 034f 9C       		.byte	0x9c
+ 1568 0350 F8030000 		.4byte	0x3f8
+ 1569 0354 0D       		.uleb128 0xd
+ 1570 0355 48030000 		.4byte	.LASF50
+ 1571 0359 01       		.byte	0x1
+ 1572 035a 3D       		.byte	0x3d
+ 1573 035b 9E000000 		.4byte	0x9e
+ 1574 035f F2000000 		.4byte	.LLST7
+ 1575 0363 13       		.uleb128 0x13
+ 1576 0364 7E000000 		.4byte	.LBB2
+ 1577 0368 1A000000 		.4byte	.LBE2-.LBB2
+ 1578 036c A4030000 		.4byte	0x3a4
+ 1579 0370 14       		.uleb128 0x14
+ 1580 0371 69647800 		.ascii	"idx\000"
+ 1581 0375 01       		.byte	0x1
+ 1582 0376 69       		.byte	0x69
+ 1583 0377 9E000000 		.4byte	0x9e
+ 1584 037b 13010000 		.4byte	.LLST8
+ 1585 037f 15       		.uleb128 0x15
+ 1586 0380 5E030000 		.4byte	.LASF47
+ 1587 0384 01       		.byte	0x1
+ 1588 0385 6A       		.byte	0x6a
+ 1589 0386 DE010000 		.4byte	0x1de
+ 1590 038a 02       		.uleb128 0x2
+ 1591 038b 91       		.byte	0x91
+ 1592 038c 64       		.sleb128 -28
+ 1593 038d 0F       		.uleb128 0xf
+ 1594 038e 90000000 		.4byte	.LVL19
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 35
+
+
+ 1595 0392 94020000 		.4byte	0x294
+ 1596 0396 10       		.uleb128 0x10
+ 1597 0397 01       		.uleb128 0x1
+ 1598 0398 51       		.byte	0x51
+ 1599 0399 02       		.uleb128 0x2
+ 1600 039a 91       		.byte	0x91
+ 1601 039b 64       		.sleb128 -28
+ 1602 039c 10       		.uleb128 0x10
+ 1603 039d 01       		.uleb128 0x1
+ 1604 039e 50       		.byte	0x50
+ 1605 039f 02       		.uleb128 0x2
+ 1606 03a0 74       		.byte	0x74
+ 1607 03a1 00       		.sleb128 0
+ 1608 03a2 00       		.byte	0
+ 1609 03a3 00       		.byte	0
+ 1610 03a4 16       		.uleb128 0x16
+ 1611 03a5 78000000 		.4byte	.LVL16
+ 1612 03a9 F3020000 		.4byte	0x2f3
+ 1613 03ad 12       		.uleb128 0x12
+ 1614 03ae A8000000 		.4byte	.LVL23
+ 1615 03b2 0F080000 		.4byte	0x80f
+ 1616 03b6 C7030000 		.4byte	0x3c7
+ 1617 03ba 10       		.uleb128 0x10
+ 1618 03bb 01       		.uleb128 0x1
+ 1619 03bc 51       		.byte	0x51
+ 1620 03bd 01       		.uleb128 0x1
+ 1621 03be 30       		.byte	0x30
+ 1622 03bf 10       		.uleb128 0x10
+ 1623 03c0 01       		.uleb128 0x1
+ 1624 03c1 50       		.byte	0x50
+ 1625 03c2 03       		.uleb128 0x3
+ 1626 03c3 0A       		.byte	0xa
+ 1627 03c4 0003     		.2byte	0x300
+ 1628 03c6 00       		.byte	0
+ 1629 03c7 12       		.uleb128 0x12
+ 1630 03c8 B2000000 		.4byte	.LVL24
+ 1631 03cc 0F080000 		.4byte	0x80f
+ 1632 03d0 E1030000 		.4byte	0x3e1
+ 1633 03d4 10       		.uleb128 0x10
+ 1634 03d5 01       		.uleb128 0x1
+ 1635 03d6 51       		.byte	0x51
+ 1636 03d7 01       		.uleb128 0x1
+ 1637 03d8 30       		.byte	0x30
+ 1638 03d9 10       		.uleb128 0x10
+ 1639 03da 01       		.uleb128 0x1
+ 1640 03db 50       		.byte	0x50
+ 1641 03dc 03       		.uleb128 0x3
+ 1642 03dd 0A       		.byte	0xa
+ 1643 03de 5103     		.2byte	0x351
+ 1644 03e0 00       		.byte	0
+ 1645 03e1 0F       		.uleb128 0xf
+ 1646 03e2 C2000000 		.4byte	.LVL25
+ 1647 03e6 0F080000 		.4byte	0x80f
+ 1648 03ea 10       		.uleb128 0x10
+ 1649 03eb 01       		.uleb128 0x1
+ 1650 03ec 51       		.byte	0x51
+ 1651 03ed 01       		.uleb128 0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 36
+
+
+ 1652 03ee 30       		.byte	0x30
+ 1653 03ef 10       		.uleb128 0x10
+ 1654 03f0 01       		.uleb128 0x1
+ 1655 03f1 50       		.byte	0x50
+ 1656 03f2 03       		.uleb128 0x3
+ 1657 03f3 0A       		.byte	0xa
+ 1658 03f4 AE03     		.2byte	0x3ae
+ 1659 03f6 00       		.byte	0
+ 1660 03f7 00       		.byte	0
+ 1661 03f8 17       		.uleb128 0x17
+ 1662 03f9 03020000 		.4byte	.LASF51
+ 1663 03fd 01       		.byte	0x1
+ 1664 03fe 7D       		.byte	0x7d
+ 1665 03ff 9E000000 		.4byte	0x9e
+ 1666 0403 00000000 		.4byte	.LFB68
+ 1667 0407 30000000 		.4byte	.LFE68-.LFB68
+ 1668 040b 01       		.uleb128 0x1
+ 1669 040c 9C       		.byte	0x9c
+ 1670 040d 7D040000 		.4byte	0x47d
+ 1671 0411 0C       		.uleb128 0xc
+ 1672 0412 6E00     		.ascii	"n\000"
+ 1673 0414 01       		.byte	0x1
+ 1674 0415 7D       		.byte	0x7d
+ 1675 0416 9E000000 		.4byte	0x9e
+ 1676 041a 3D010000 		.4byte	.LLST9
+ 1677 041e 0D       		.uleb128 0xd
+ 1678 041f 39010000 		.4byte	.LASF42
+ 1679 0423 01       		.byte	0x1
+ 1680 0424 7D       		.byte	0x7d
+ 1681 0425 DF000000 		.4byte	0xdf
+ 1682 0429 5E010000 		.4byte	.LLST10
+ 1683 042d 0E       		.uleb128 0xe
+ 1684 042e A6010000 		.4byte	.LASF48
+ 1685 0432 01       		.byte	0x1
+ 1686 0433 7F       		.byte	0x7f
+ 1687 0434 BF000000 		.4byte	0xbf
+ 1688 0438 7C010000 		.4byte	.LLST11
+ 1689 043c 12       		.uleb128 0x12
+ 1690 043d 1A000000 		.4byte	.LVL31
+ 1691 0441 25080000 		.4byte	0x825
+ 1692 0445 66040000 		.4byte	0x466
+ 1693 0449 10       		.uleb128 0x10
+ 1694 044a 01       		.uleb128 0x1
+ 1695 044b 52       		.byte	0x52
+ 1696 044c 02       		.uleb128 0x2
+ 1697 044d 08       		.byte	0x8
+ 1698 044e 50       		.byte	0x50
+ 1699 044f 10       		.uleb128 0x10
+ 1700 0450 01       		.uleb128 0x1
+ 1701 0451 51       		.byte	0x51
+ 1702 0452 0C       		.uleb128 0xc
+ 1703 0453 74       		.byte	0x74
+ 1704 0454 00       		.sleb128 0
+ 1705 0455 33       		.byte	0x33
+ 1706 0456 24       		.byte	0x24
+ 1707 0457 74       		.byte	0x74
+ 1708 0458 00       		.sleb128 0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 37
+
+
+ 1709 0459 22       		.byte	0x22
+ 1710 045a 39       		.byte	0x39
+ 1711 045b 1E       		.byte	0x1e
+ 1712 045c 23       		.byte	0x23
+ 1713 045d 8006     		.uleb128 0x300
+ 1714 045f 10       		.uleb128 0x10
+ 1715 0460 01       		.uleb128 0x1
+ 1716 0461 50       		.byte	0x50
+ 1717 0462 02       		.uleb128 0x2
+ 1718 0463 76       		.byte	0x76
+ 1719 0464 00       		.sleb128 0
+ 1720 0465 00       		.byte	0
+ 1721 0466 0F       		.uleb128 0xf
+ 1722 0467 28000000 		.4byte	.LVL32
+ 1723 046b F9010000 		.4byte	0x1f9
+ 1724 046f 10       		.uleb128 0x10
+ 1725 0470 01       		.uleb128 0x1
+ 1726 0471 51       		.byte	0x51
+ 1727 0472 02       		.uleb128 0x2
+ 1728 0473 76       		.byte	0x76
+ 1729 0474 00       		.sleb128 0
+ 1730 0475 10       		.uleb128 0x10
+ 1731 0476 01       		.uleb128 0x1
+ 1732 0477 50       		.byte	0x50
+ 1733 0478 02       		.uleb128 0x2
+ 1734 0479 74       		.byte	0x74
+ 1735 047a 00       		.sleb128 0
+ 1736 047b 00       		.byte	0
+ 1737 047c 00       		.byte	0
+ 1738 047d 17       		.uleb128 0x17
+ 1739 047e 6A040000 		.4byte	.LASF52
+ 1740 0482 01       		.byte	0x1
+ 1741 0483 8B       		.byte	0x8b
+ 1742 0484 9E000000 		.4byte	0x9e
+ 1743 0488 00000000 		.4byte	.LFB69
+ 1744 048c 22000000 		.4byte	.LFE69-.LFB69
+ 1745 0490 01       		.uleb128 0x1
+ 1746 0491 9C       		.byte	0x9c
+ 1747 0492 D7040000 		.4byte	0x4d7
+ 1748 0496 0D       		.uleb128 0xd
+ 1749 0497 39010000 		.4byte	.LASF42
+ 1750 049b 01       		.byte	0x1
+ 1751 049c 8B       		.byte	0x8b
+ 1752 049d DF000000 		.4byte	0xdf
+ 1753 04a1 B4010000 		.4byte	.LLST12
+ 1754 04a5 12       		.uleb128 0x12
+ 1755 04a6 0E000000 		.4byte	.LVL35
+ 1756 04aa 25080000 		.4byte	0x825
+ 1757 04ae C6040000 		.4byte	0x4c6
+ 1758 04b2 10       		.uleb128 0x10
+ 1759 04b3 01       		.uleb128 0x1
+ 1760 04b4 52       		.byte	0x52
+ 1761 04b5 02       		.uleb128 0x2
+ 1762 04b6 08       		.byte	0x8
+ 1763 04b7 50       		.byte	0x50
+ 1764 04b8 10       		.uleb128 0x10
+ 1765 04b9 01       		.uleb128 0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 38
+
+
+ 1766 04ba 51       		.byte	0x51
+ 1767 04bb 03       		.uleb128 0x3
+ 1768 04bc 0A       		.byte	0xa
+ 1769 04bd AE03     		.2byte	0x3ae
+ 1770 04bf 10       		.uleb128 0x10
+ 1771 04c0 01       		.uleb128 0x1
+ 1772 04c1 50       		.byte	0x50
+ 1773 04c2 02       		.uleb128 0x2
+ 1774 04c3 75       		.byte	0x75
+ 1775 04c4 00       		.sleb128 0
+ 1776 04c5 00       		.byte	0
+ 1777 04c6 0F       		.uleb128 0xf
+ 1778 04c7 1A000000 		.4byte	.LVL36
+ 1779 04cb 51020000 		.4byte	0x251
+ 1780 04cf 10       		.uleb128 0x10
+ 1781 04d0 01       		.uleb128 0x1
+ 1782 04d1 50       		.byte	0x50
+ 1783 04d2 02       		.uleb128 0x2
+ 1784 04d3 75       		.byte	0x75
+ 1785 04d4 00       		.sleb128 0
+ 1786 04d5 00       		.byte	0
+ 1787 04d6 00       		.byte	0
+ 1788 04d7 17       		.uleb128 0x17
+ 1789 04d8 A5030000 		.4byte	.LASF53
+ 1790 04dc 01       		.byte	0x1
+ 1791 04dd 98       		.byte	0x98
+ 1792 04de 9E000000 		.4byte	0x9e
+ 1793 04e2 00000000 		.4byte	.LFB70
+ 1794 04e6 5E000000 		.4byte	.LFE70-.LFB70
+ 1795 04ea 01       		.uleb128 0x1
+ 1796 04eb 9C       		.byte	0x9c
+ 1797 04ec 60050000 		.4byte	0x560
+ 1798 04f0 0D       		.uleb128 0xd
+ 1799 04f1 5B050000 		.4byte	.LASF46
+ 1800 04f5 01       		.byte	0x1
+ 1801 04f6 98       		.byte	0x98
+ 1802 04f7 9E000000 		.4byte	0x9e
+ 1803 04fb D2010000 		.4byte	.LLST13
+ 1804 04ff 0D       		.uleb128 0xd
+ 1805 0500 5E030000 		.4byte	.LASF47
+ 1806 0504 01       		.byte	0x1
+ 1807 0505 98       		.byte	0x98
+ 1808 0506 ED020000 		.4byte	0x2ed
+ 1809 050a F3010000 		.4byte	.LLST14
+ 1810 050e 0E       		.uleb128 0xe
+ 1811 050f A6010000 		.4byte	.LASF48
+ 1812 0513 01       		.byte	0x1
+ 1813 0514 9A       		.byte	0x9a
+ 1814 0515 BF000000 		.4byte	0xbf
+ 1815 0519 11020000 		.4byte	.LLST15
+ 1816 051d 12       		.uleb128 0x12
+ 1817 051e 1A000000 		.4byte	.LVL43
+ 1818 0522 25080000 		.4byte	0x825
+ 1819 0526 49050000 		.4byte	0x549
+ 1820 052a 10       		.uleb128 0x10
+ 1821 052b 01       		.uleb128 0x1
+ 1822 052c 52       		.byte	0x52
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 39
+
+
+ 1823 052d 01       		.uleb128 0x1
+ 1824 052e 3C       		.byte	0x3c
+ 1825 052f 10       		.uleb128 0x10
+ 1826 0530 01       		.uleb128 0x1
+ 1827 0531 51       		.byte	0x51
+ 1828 0532 0F       		.uleb128 0xf
+ 1829 0533 75       		.byte	0x75
+ 1830 0534 00       		.sleb128 0
+ 1831 0535 31       		.byte	0x31
+ 1832 0536 24       		.byte	0x24
+ 1833 0537 75       		.byte	0x75
+ 1834 0538 00       		.sleb128 0
+ 1835 0539 22       		.byte	0x22
+ 1836 053a 32       		.byte	0x32
+ 1837 053b 24       		.byte	0x24
+ 1838 053c 75       		.byte	0x75
+ 1839 053d 00       		.sleb128 0
+ 1840 053e 22       		.byte	0x22
+ 1841 053f 23       		.byte	0x23
+ 1842 0540 8004     		.uleb128 0x200
+ 1843 0542 10       		.uleb128 0x10
+ 1844 0543 01       		.uleb128 0x1
+ 1845 0544 50       		.byte	0x50
+ 1846 0545 02       		.uleb128 0x2
+ 1847 0546 76       		.byte	0x76
+ 1848 0547 00       		.sleb128 0
+ 1849 0548 00       		.byte	0
+ 1850 0549 0F       		.uleb128 0xf
+ 1851 054a 56000000 		.4byte	.LVL44
+ 1852 054e 94020000 		.4byte	0x294
+ 1853 0552 10       		.uleb128 0x10
+ 1854 0553 01       		.uleb128 0x1
+ 1855 0554 51       		.byte	0x51
+ 1856 0555 02       		.uleb128 0x2
+ 1857 0556 76       		.byte	0x76
+ 1858 0557 00       		.sleb128 0
+ 1859 0558 10       		.uleb128 0x10
+ 1860 0559 01       		.uleb128 0x1
+ 1861 055a 50       		.byte	0x50
+ 1862 055b 02       		.uleb128 0x2
+ 1863 055c 75       		.byte	0x75
+ 1864 055d 00       		.sleb128 0
+ 1865 055e 00       		.byte	0
+ 1866 055f 00       		.byte	0
+ 1867 0560 18       		.uleb128 0x18
+ 1868 0561 9C020000 		.4byte	.LASF54
+ 1869 0565 01       		.byte	0x1
+ 1870 0566 A6       		.byte	0xa6
+ 1871 0567 9E000000 		.4byte	0x9e
+ 1872 056b 00000000 		.4byte	.LFB71
+ 1873 056f 28000000 		.4byte	.LFE71-.LFB71
+ 1874 0573 01       		.uleb128 0x1
+ 1875 0574 9C       		.byte	0x9c
+ 1876 0575 BA050000 		.4byte	0x5ba
+ 1877 0579 0E       		.uleb128 0xe
+ 1878 057a 38000000 		.4byte	.LASF55
+ 1879 057e 01       		.byte	0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 40
+
+
+ 1880 057f A8       		.byte	0xa8
+ 1881 0580 9E000000 		.4byte	0x9e
+ 1882 0584 4C020000 		.4byte	.LLST16
+ 1883 0588 12       		.uleb128 0x12
+ 1884 0589 08000000 		.4byte	.LVL46
+ 1885 058d 44080000 		.4byte	0x844
+ 1886 0591 9B050000 		.4byte	0x59b
+ 1887 0595 10       		.uleb128 0x10
+ 1888 0596 01       		.uleb128 0x1
+ 1889 0597 50       		.byte	0x50
+ 1890 0598 01       		.uleb128 0x1
+ 1891 0599 30       		.byte	0x30
+ 1892 059a 00       		.byte	0
+ 1893 059b 0F       		.uleb128 0xf
+ 1894 059c 16000000 		.4byte	.LVL48
+ 1895 05a0 25080000 		.4byte	0x825
+ 1896 05a4 10       		.uleb128 0x10
+ 1897 05a5 01       		.uleb128 0x1
+ 1898 05a6 52       		.byte	0x52
+ 1899 05a7 02       		.uleb128 0x2
+ 1900 05a8 08       		.byte	0x8
+ 1901 05a9 5C       		.byte	0x5c
+ 1902 05aa 10       		.uleb128 0x10
+ 1903 05ab 01       		.uleb128 0x1
+ 1904 05ac 51       		.byte	0x51
+ 1905 05ad 01       		.uleb128 0x1
+ 1906 05ae 31       		.byte	0x31
+ 1907 05af 10       		.uleb128 0x10
+ 1908 05b0 01       		.uleb128 0x1
+ 1909 05b1 50       		.byte	0x50
+ 1910 05b2 05       		.uleb128 0x5
+ 1911 05b3 03       		.byte	0x3
+ 1912 05b4 00000000 		.4byte	settings
+ 1913 05b8 00       		.byte	0
+ 1914 05b9 00       		.byte	0
+ 1915 05ba 19       		.uleb128 0x19
+ 1916 05bb BF050000 		.4byte	.LASF56
+ 1917 05bf 01       		.byte	0x1
+ 1918 05c0 B6       		.byte	0xb6
+ 1919 05c1 9E000000 		.4byte	0x9e
+ 1920 05c5 00000000 		.4byte	.LFB72
+ 1921 05c9 50020000 		.4byte	.LFE72-.LFB72
+ 1922 05cd 01       		.uleb128 0x1
+ 1923 05ce 9C       		.byte	0x9c
+ 1924 05cf 51060000 		.4byte	0x651
+ 1925 05d3 0D       		.uleb128 0xd
+ 1926 05d4 81030000 		.4byte	.LASF57
+ 1927 05d8 01       		.byte	0x1
+ 1928 05d9 B6       		.byte	0xb6
+ 1929 05da 9E000000 		.4byte	0x9e
+ 1930 05de 6A020000 		.4byte	.LLST17
+ 1931 05e2 0D       		.uleb128 0xd
+ 1932 05e3 12010000 		.4byte	.LASF58
+ 1933 05e7 01       		.byte	0x1
+ 1934 05e8 B6       		.byte	0xb6
+ 1935 05e9 25000000 		.4byte	0x25
+ 1936 05ed F7020000 		.4byte	.LLST18
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 41
+
+
+ 1937 05f1 1A       		.uleb128 0x1a
+ 1938 05f2 00000000 		.4byte	.Ldebug_ranges0+0
+ 1939 05f6 0A060000 		.4byte	0x60a
+ 1940 05fa 0E       		.uleb128 0xe
+ 1941 05fb DD000000 		.4byte	.LASF59
+ 1942 05ff 01       		.byte	0x1
+ 1943 0600 BC       		.byte	0xbc
+ 1944 0601 9E000000 		.4byte	0x9e
+ 1945 0605 66030000 		.4byte	.LLST19
+ 1946 0609 00       		.byte	0
+ 1947 060a 1A       		.uleb128 0x1a
+ 1948 060b 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 1949 060f 47060000 		.4byte	0x647
+ 1950 0613 0E       		.uleb128 0xe
+ 1951 0614 1B060000 		.4byte	.LASF60
+ 1952 0618 01       		.byte	0x1
+ 1953 0619 DA       		.byte	0xda
+ 1954 061a 9E000000 		.4byte	0x9e
+ 1955 061e C7030000 		.4byte	.LLST20
+ 1956 0622 16       		.uleb128 0x16
+ 1957 0623 8E000000 		.4byte	.LVL76
+ 1958 0627 59080000 		.4byte	0x859
+ 1959 062b 16       		.uleb128 0x16
+ 1960 062c DE000000 		.4byte	.LVL79
+ 1961 0630 6F080000 		.4byte	0x86f
+ 1962 0634 16       		.uleb128 0x16
+ 1963 0635 EA000000 		.4byte	.LVL81
+ 1964 0639 6F080000 		.4byte	0x86f
+ 1965 063d 16       		.uleb128 0x16
+ 1966 063e D6010000 		.4byte	.LVL83
+ 1967 0642 7C080000 		.4byte	0x87c
+ 1968 0646 00       		.byte	0
+ 1969 0647 16       		.uleb128 0x16
+ 1970 0648 2A020000 		.4byte	.LVL86
+ 1971 064c F3020000 		.4byte	0x2f3
+ 1972 0650 00       		.byte	0
+ 1973 0651 1B       		.uleb128 0x1b
+ 1974 0652 3A030000 		.4byte	.LASF62
+ 1975 0656 01       		.byte	0x1
+ 1976 0657 1E01     		.2byte	0x11e
+ 1977 0659 00000000 		.4byte	.LFB73
+ 1978 065d 1E000000 		.4byte	.LFE73-.LFB73
+ 1979 0661 01       		.uleb128 0x1
+ 1980 0662 9C       		.byte	0x9c
+ 1981 0663 AA060000 		.4byte	0x6aa
+ 1982 0667 16       		.uleb128 0x16
+ 1983 0668 06000000 		.4byte	.LVL97
+ 1984 066c 89080000 		.4byte	0x889
+ 1985 0670 16       		.uleb128 0x16
+ 1986 0671 0A000000 		.4byte	.LVL98
+ 1987 0675 60050000 		.4byte	0x560
+ 1988 0679 12       		.uleb128 0x12
+ 1989 067a 12000000 		.4byte	.LVL99
+ 1990 067e 90080000 		.4byte	0x890
+ 1991 0682 8C060000 		.4byte	0x68c
+ 1992 0686 10       		.uleb128 0x10
+ 1993 0687 01       		.uleb128 0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 42
+
+
+ 1994 0688 50       		.byte	0x50
+ 1995 0689 01       		.uleb128 0x1
+ 1996 068a 37       		.byte	0x37
+ 1997 068b 00       		.byte	0
+ 1998 068c 12       		.uleb128 0x12
+ 1999 068d 18000000 		.4byte	.LVL100
+ 2000 0691 3F030000 		.4byte	0x33f
+ 2001 0695 A0060000 		.4byte	0x6a0
+ 2002 0699 10       		.uleb128 0x10
+ 2003 069a 01       		.uleb128 0x1
+ 2004 069b 50       		.byte	0x50
+ 2005 069c 02       		.uleb128 0x2
+ 2006 069d 09       		.byte	0x9
+ 2007 069e FF       		.byte	0xff
+ 2008 069f 00       		.byte	0
+ 2009 06a0 16       		.uleb128 0x16
+ 2010 06a1 1C000000 		.4byte	.LVL101
+ 2011 06a5 A1080000 		.4byte	0x8a1
+ 2012 06a9 00       		.byte	0
+ 2013 06aa 1C       		.uleb128 0x1c
+ 2014 06ab F1010000 		.4byte	.LASF63
+ 2015 06af 01       		.byte	0x1
+ 2016 06b0 3701     		.2byte	0x137
+ 2017 06b2 9E000000 		.4byte	0x9e
+ 2018 06b6 00000000 		.4byte	.LFB74
+ 2019 06ba 12000000 		.4byte	.LFE74-.LFB74
+ 2020 06be 01       		.uleb128 0x1
+ 2021 06bf 9C       		.byte	0x9c
+ 2022 06c0 D5060000 		.4byte	0x6d5
+ 2023 06c4 1D       		.uleb128 0x1d
+ 2024 06c5 82050000 		.4byte	.LASF64
+ 2025 06c9 01       		.byte	0x1
+ 2026 06ca 3701     		.2byte	0x137
+ 2027 06cc 9E000000 		.4byte	0x9e
+ 2028 06d0 1C040000 		.4byte	.LLST21
+ 2029 06d4 00       		.byte	0
+ 2030 06d5 1C       		.uleb128 0x1c
+ 2031 06d6 2D040000 		.4byte	.LASF65
+ 2032 06da 01       		.byte	0x1
+ 2033 06db 4001     		.2byte	0x140
+ 2034 06dd 9E000000 		.4byte	0x9e
+ 2035 06e1 00000000 		.4byte	.LFB75
+ 2036 06e5 12000000 		.4byte	.LFE75-.LFB75
+ 2037 06e9 01       		.uleb128 0x1
+ 2038 06ea 9C       		.byte	0x9c
+ 2039 06eb 00070000 		.4byte	0x700
+ 2040 06ef 1D       		.uleb128 0x1d
+ 2041 06f0 82050000 		.4byte	.LASF64
+ 2042 06f4 01       		.byte	0x1
+ 2043 06f5 4001     		.2byte	0x140
+ 2044 06f7 9E000000 		.4byte	0x9e
+ 2045 06fb 6F040000 		.4byte	.LLST22
+ 2046 06ff 00       		.byte	0
+ 2047 0700 1C       		.uleb128 0x1c
+ 2048 0701 ED030000 		.4byte	.LASF66
+ 2049 0705 01       		.byte	0x1
+ 2050 0706 4A01     		.2byte	0x14a
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 43
+
+
+ 2051 0708 9E000000 		.4byte	0x9e
+ 2052 070c 00000000 		.4byte	.LFB76
+ 2053 0710 02000000 		.4byte	.LFE76-.LFB76
+ 2054 0714 01       		.uleb128 0x1
+ 2055 0715 9C       		.byte	0x9c
+ 2056 0716 29070000 		.4byte	0x729
+ 2057 071a 1E       		.uleb128 0x1e
+ 2058 071b 82050000 		.4byte	.LASF64
+ 2059 071f 01       		.byte	0x1
+ 2060 0720 4A01     		.2byte	0x14a
+ 2061 0722 9E000000 		.4byte	0x9e
+ 2062 0726 01       		.uleb128 0x1
+ 2063 0727 50       		.byte	0x50
+ 2064 0728 00       		.byte	0
+ 2065 0729 1F       		.uleb128 0x1f
+ 2066 072a 55040000 		.4byte	.LASF67
+ 2067 072e 05       		.byte	0x5
+ 2068 072f 9606     		.2byte	0x696
+ 2069 0731 35070000 		.4byte	0x735
+ 2070 0735 06       		.uleb128 0x6
+ 2071 0736 B4000000 		.4byte	0xb4
+ 2072 073a 20       		.uleb128 0x20
+ 2073 073b 53010000 		.4byte	.LASF68
+ 2074 073f 01       		.byte	0x1
+ 2075 0740 1A       		.byte	0x1a
+ 2076 0741 EE010000 		.4byte	0x1ee
+ 2077 0745 05       		.uleb128 0x5
+ 2078 0746 03       		.byte	0x3
+ 2079 0747 00000000 		.4byte	settings
+ 2080 074b 09       		.uleb128 0x9
+ 2081 074c B4000000 		.4byte	0xb4
+ 2082 0750 5B070000 		.4byte	0x75b
+ 2083 0754 0A       		.uleb128 0xa
+ 2084 0755 D8000000 		.4byte	0xd8
+ 2085 0759 02       		.byte	0x2
+ 2086 075a 00       		.byte	0
+ 2087 075b 20       		.uleb128 0x20
+ 2088 075c 89010000 		.4byte	.LASF69
+ 2089 0760 06       		.byte	0x6
+ 2090 0761 95       		.byte	0x95
+ 2091 0762 4B070000 		.4byte	0x74b
+ 2092 0766 05       		.uleb128 0x5
+ 2093 0767 03       		.byte	0x3
+ 2094 0768 00000000 		.4byte	sys_position
+ 2095 076c 20       		.uleb128 0x20
+ 2096 076d 5F000000 		.4byte	.LASF70
+ 2097 0771 06       		.byte	0x6
+ 2098 0772 96       		.byte	0x96
+ 2099 0773 4B070000 		.4byte	0x74b
+ 2100 0777 05       		.uleb128 0x5
+ 2101 0778 03       		.byte	0x3
+ 2102 0779 00000000 		.4byte	sys_probe_position
+ 2103 077d 20       		.uleb128 0x20
+ 2104 077e 00040000 		.4byte	.LASF71
+ 2105 0782 06       		.byte	0x6
+ 2106 0783 98       		.byte	0x98
+ 2107 0784 E5000000 		.4byte	0xe5
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 44
+
+
+ 2108 0788 05       		.uleb128 0x5
+ 2109 0789 03       		.byte	0x3
+ 2110 078a 00000000 		.4byte	sys_probe_state
+ 2111 078e 20       		.uleb128 0x20
+ 2112 078f DD050000 		.4byte	.LASF72
+ 2113 0793 06       		.byte	0x6
+ 2114 0794 99       		.byte	0x99
+ 2115 0795 E5000000 		.4byte	0xe5
+ 2116 0799 05       		.uleb128 0x5
+ 2117 079a 03       		.byte	0x3
+ 2118 079b 00000000 		.4byte	sys_rt_exec_state
+ 2119 079f 20       		.uleb128 0x20
+ 2120 07a0 16000000 		.4byte	.LASF73
+ 2121 07a4 06       		.byte	0x6
+ 2122 07a5 9A       		.byte	0x9a
+ 2123 07a6 E5000000 		.4byte	0xe5
+ 2124 07aa 05       		.uleb128 0x5
+ 2125 07ab 03       		.byte	0x3
+ 2126 07ac 00000000 		.4byte	sys_rt_exec_alarm
+ 2127 07b0 20       		.uleb128 0x20
+ 2128 07b1 DC020000 		.4byte	.LASF74
+ 2129 07b5 06       		.byte	0x6
+ 2130 07b6 9B       		.byte	0x9b
+ 2131 07b7 E5000000 		.4byte	0xe5
+ 2132 07bb 05       		.uleb128 0x5
+ 2133 07bc 03       		.byte	0x3
+ 2134 07bd 00000000 		.4byte	sys_rt_exec_motion_override
+ 2135 07c1 20       		.uleb128 0x20
+ 2136 07c2 40000000 		.4byte	.LASF75
+ 2137 07c6 06       		.byte	0x6
+ 2138 07c7 9C       		.byte	0x9c
+ 2139 07c8 E5000000 		.4byte	0xe5
+ 2140 07cc 05       		.uleb128 0x5
+ 2141 07cd 03       		.byte	0x3
+ 2142 07ce 00000000 		.4byte	sys_rt_exec_accessory_override
+ 2143 07d2 20       		.uleb128 0x20
+ 2144 07d3 EF050000 		.4byte	.LASF76
+ 2145 07d7 06       		.byte	0x6
+ 2146 07d8 A0       		.byte	0xa0
+ 2147 07d9 E5000000 		.4byte	0xe5
+ 2148 07dd 05       		.uleb128 0x5
+ 2149 07de 03       		.byte	0x3
+ 2150 07df 00000000 		.4byte	sys_rt_exec_debug
+ 2151 07e3 20       		.uleb128 0x20
+ 2152 07e4 96010000 		.4byte	.LASF77
+ 2153 07e8 07       		.byte	0x7
+ 2154 07e9 11       		.byte	0x11
+ 2155 07ea 9E000000 		.4byte	0x9e
+ 2156 07ee 05       		.uleb128 0x5
+ 2157 07ef 03       		.byte	0x3
+ 2158 07f0 00000000 		.4byte	exec_lcd_status
+ 2159 07f4 21       		.uleb128 0x21
+ 2160 07f5 89000000 		.4byte	.LASF78
+ 2161 07f9 08       		.byte	0x8
+ 2162 07fa 1B       		.byte	0x1b
+ 2163 07fb 0F080000 		.4byte	0x80f
+ 2164 07ff 22       		.uleb128 0x22
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 45
+
+
+ 2165 0800 97000000 		.4byte	0x97
+ 2166 0804 22       		.uleb128 0x22
+ 2167 0805 DF000000 		.4byte	0xdf
+ 2168 0809 22       		.uleb128 0x22
+ 2169 080a 97000000 		.4byte	0x97
+ 2170 080e 00       		.byte	0
+ 2171 080f 21       		.uleb128 0x21
+ 2172 0810 28000000 		.4byte	.LASF79
+ 2173 0814 08       		.byte	0x8
+ 2174 0815 1A       		.byte	0x1a
+ 2175 0816 25080000 		.4byte	0x825
+ 2176 081a 22       		.uleb128 0x22
+ 2177 081b 97000000 		.4byte	0x97
+ 2178 081f 22       		.uleb128 0x22
+ 2179 0820 3E000000 		.4byte	0x3e
+ 2180 0824 00       		.byte	0
+ 2181 0825 23       		.uleb128 0x23
+ 2182 0826 C2010000 		.4byte	.LASF80
+ 2183 082a 08       		.byte	0x8
+ 2184 082b 1C       		.byte	0x1c
+ 2185 082c 90000000 		.4byte	0x90
+ 2186 0830 44080000 		.4byte	0x844
+ 2187 0834 22       		.uleb128 0x22
+ 2188 0835 DF000000 		.4byte	0xdf
+ 2189 0839 22       		.uleb128 0x22
+ 2190 083a 97000000 		.4byte	0x97
+ 2191 083e 22       		.uleb128 0x22
+ 2192 083f 97000000 		.4byte	0x97
+ 2193 0843 00       		.byte	0
+ 2194 0844 23       		.uleb128 0x23
+ 2195 0845 29010000 		.4byte	.LASF81
+ 2196 0849 08       		.byte	0x8
+ 2197 084a 19       		.byte	0x19
+ 2198 084b 3E000000 		.4byte	0x3e
+ 2199 084f 59080000 		.4byte	0x859
+ 2200 0853 22       		.uleb128 0x22
+ 2201 0854 97000000 		.4byte	0x97
+ 2202 0858 00       		.byte	0
+ 2203 0859 24       		.uleb128 0x24
+ 2204 085a BE030000 		.4byte	.LASF82
+ 2205 085e 09       		.byte	0x9
+ 2206 085f 1D01     		.2byte	0x11d
+ 2207 0861 CA000000 		.4byte	0xca
+ 2208 0865 6F080000 		.4byte	0x86f
+ 2209 0869 22       		.uleb128 0x22
+ 2210 086a CA000000 		.4byte	0xca
+ 2211 086e 00       		.byte	0
+ 2212 086f 25       		.uleb128 0x25
+ 2213 0870 BA020000 		.4byte	.LASF83
+ 2214 0874 0A       		.byte	0xa
+ 2215 0875 29       		.byte	0x29
+ 2216 0876 7C080000 		.4byte	0x87c
+ 2217 087a 26       		.uleb128 0x26
+ 2218 087b 00       		.byte	0
+ 2219 087c 25       		.uleb128 0x25
+ 2220 087d 99040000 		.4byte	.LASF84
+ 2221 0881 0B       		.byte	0xb
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 46
+
+
+ 2222 0882 22       		.byte	0x22
+ 2223 0883 89080000 		.4byte	0x889
+ 2224 0887 26       		.uleb128 0x26
+ 2225 0888 00       		.byte	0
+ 2226 0889 27       		.uleb128 0x27
+ 2227 088a 8B030000 		.4byte	.LASF89
+ 2228 088e 0D       		.byte	0xd
+ 2229 088f 1F       		.byte	0x1f
+ 2230 0890 21       		.uleb128 0x21
+ 2231 0891 00000000 		.4byte	.LASF85
+ 2232 0895 0C       		.byte	0xc
+ 2233 0896 5F       		.byte	0x5f
+ 2234 0897 A1080000 		.4byte	0x8a1
+ 2235 089b 22       		.uleb128 0x22
+ 2236 089c 9E000000 		.4byte	0x9e
+ 2237 08a0 00       		.byte	0
+ 2238 08a1 28       		.uleb128 0x28
+ 2239 08a2 48020000 		.4byte	.LASF90
+ 2240 08a6 0C       		.byte	0xc
+ 2241 08a7 6E       		.byte	0x6e
+ 2242 08a8 26       		.uleb128 0x26
+ 2243 08a9 00       		.byte	0
+ 2244 08aa 00       		.byte	0
+ 2245              		.section	.debug_abbrev,"",%progbits
+ 2246              	.Ldebug_abbrev0:
+ 2247 0000 01       		.uleb128 0x1
+ 2248 0001 11       		.uleb128 0x11
+ 2249 0002 01       		.byte	0x1
+ 2250 0003 25       		.uleb128 0x25
+ 2251 0004 0E       		.uleb128 0xe
+ 2252 0005 13       		.uleb128 0x13
+ 2253 0006 0B       		.uleb128 0xb
+ 2254 0007 03       		.uleb128 0x3
+ 2255 0008 0E       		.uleb128 0xe
+ 2256 0009 1B       		.uleb128 0x1b
+ 2257 000a 0E       		.uleb128 0xe
+ 2258 000b 55       		.uleb128 0x55
+ 2259 000c 17       		.uleb128 0x17
+ 2260 000d 11       		.uleb128 0x11
+ 2261 000e 01       		.uleb128 0x1
+ 2262 000f 10       		.uleb128 0x10
+ 2263 0010 17       		.uleb128 0x17
+ 2264 0011 00       		.byte	0
+ 2265 0012 00       		.byte	0
+ 2266 0013 02       		.uleb128 0x2
+ 2267 0014 24       		.uleb128 0x24
+ 2268 0015 00       		.byte	0
+ 2269 0016 0B       		.uleb128 0xb
+ 2270 0017 0B       		.uleb128 0xb
+ 2271 0018 3E       		.uleb128 0x3e
+ 2272 0019 0B       		.uleb128 0xb
+ 2273 001a 03       		.uleb128 0x3
+ 2274 001b 0E       		.uleb128 0xe
+ 2275 001c 00       		.byte	0
+ 2276 001d 00       		.byte	0
+ 2277 001e 03       		.uleb128 0x3
+ 2278 001f 16       		.uleb128 0x16
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 47
+
+
+ 2279 0020 00       		.byte	0
+ 2280 0021 03       		.uleb128 0x3
+ 2281 0022 0E       		.uleb128 0xe
+ 2282 0023 3A       		.uleb128 0x3a
+ 2283 0024 0B       		.uleb128 0xb
+ 2284 0025 3B       		.uleb128 0x3b
+ 2285 0026 0B       		.uleb128 0xb
+ 2286 0027 49       		.uleb128 0x49
+ 2287 0028 13       		.uleb128 0x13
+ 2288 0029 00       		.byte	0
+ 2289 002a 00       		.byte	0
+ 2290 002b 04       		.uleb128 0x4
+ 2291 002c 24       		.uleb128 0x24
+ 2292 002d 00       		.byte	0
+ 2293 002e 0B       		.uleb128 0xb
+ 2294 002f 0B       		.uleb128 0xb
+ 2295 0030 3E       		.uleb128 0x3e
+ 2296 0031 0B       		.uleb128 0xb
+ 2297 0032 03       		.uleb128 0x3
+ 2298 0033 08       		.uleb128 0x8
+ 2299 0034 00       		.byte	0
+ 2300 0035 00       		.byte	0
+ 2301 0036 05       		.uleb128 0x5
+ 2302 0037 0F       		.uleb128 0xf
+ 2303 0038 00       		.byte	0
+ 2304 0039 0B       		.uleb128 0xb
+ 2305 003a 0B       		.uleb128 0xb
+ 2306 003b 49       		.uleb128 0x49
+ 2307 003c 13       		.uleb128 0x13
+ 2308 003d 00       		.byte	0
+ 2309 003e 00       		.byte	0
+ 2310 003f 06       		.uleb128 0x6
+ 2311 0040 35       		.uleb128 0x35
+ 2312 0041 00       		.byte	0
+ 2313 0042 49       		.uleb128 0x49
+ 2314 0043 13       		.uleb128 0x13
+ 2315 0044 00       		.byte	0
+ 2316 0045 00       		.byte	0
+ 2317 0046 07       		.uleb128 0x7
+ 2318 0047 13       		.uleb128 0x13
+ 2319 0048 01       		.byte	0x1
+ 2320 0049 0B       		.uleb128 0xb
+ 2321 004a 0B       		.uleb128 0xb
+ 2322 004b 3A       		.uleb128 0x3a
+ 2323 004c 0B       		.uleb128 0xb
+ 2324 004d 3B       		.uleb128 0x3b
+ 2325 004e 0B       		.uleb128 0xb
+ 2326 004f 01       		.uleb128 0x1
+ 2327 0050 13       		.uleb128 0x13
+ 2328 0051 00       		.byte	0
+ 2329 0052 00       		.byte	0
+ 2330 0053 08       		.uleb128 0x8
+ 2331 0054 0D       		.uleb128 0xd
+ 2332 0055 00       		.byte	0
+ 2333 0056 03       		.uleb128 0x3
+ 2334 0057 0E       		.uleb128 0xe
+ 2335 0058 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 48
+
+
+ 2336 0059 0B       		.uleb128 0xb
+ 2337 005a 3B       		.uleb128 0x3b
+ 2338 005b 0B       		.uleb128 0xb
+ 2339 005c 49       		.uleb128 0x49
+ 2340 005d 13       		.uleb128 0x13
+ 2341 005e 38       		.uleb128 0x38
+ 2342 005f 0B       		.uleb128 0xb
+ 2343 0060 00       		.byte	0
+ 2344 0061 00       		.byte	0
+ 2345 0062 09       		.uleb128 0x9
+ 2346 0063 01       		.uleb128 0x1
+ 2347 0064 01       		.byte	0x1
+ 2348 0065 49       		.uleb128 0x49
+ 2349 0066 13       		.uleb128 0x13
+ 2350 0067 01       		.uleb128 0x1
+ 2351 0068 13       		.uleb128 0x13
+ 2352 0069 00       		.byte	0
+ 2353 006a 00       		.byte	0
+ 2354 006b 0A       		.uleb128 0xa
+ 2355 006c 21       		.uleb128 0x21
+ 2356 006d 00       		.byte	0
+ 2357 006e 49       		.uleb128 0x49
+ 2358 006f 13       		.uleb128 0x13
+ 2359 0070 2F       		.uleb128 0x2f
+ 2360 0071 0B       		.uleb128 0xb
+ 2361 0072 00       		.byte	0
+ 2362 0073 00       		.byte	0
+ 2363 0074 0B       		.uleb128 0xb
+ 2364 0075 2E       		.uleb128 0x2e
+ 2365 0076 01       		.byte	0x1
+ 2366 0077 3F       		.uleb128 0x3f
+ 2367 0078 19       		.uleb128 0x19
+ 2368 0079 03       		.uleb128 0x3
+ 2369 007a 0E       		.uleb128 0xe
+ 2370 007b 3A       		.uleb128 0x3a
+ 2371 007c 0B       		.uleb128 0xb
+ 2372 007d 3B       		.uleb128 0x3b
+ 2373 007e 0B       		.uleb128 0xb
+ 2374 007f 27       		.uleb128 0x27
+ 2375 0080 19       		.uleb128 0x19
+ 2376 0081 11       		.uleb128 0x11
+ 2377 0082 01       		.uleb128 0x1
+ 2378 0083 12       		.uleb128 0x12
+ 2379 0084 06       		.uleb128 0x6
+ 2380 0085 40       		.uleb128 0x40
+ 2381 0086 18       		.uleb128 0x18
+ 2382 0087 9742     		.uleb128 0x2117
+ 2383 0089 19       		.uleb128 0x19
+ 2384 008a 01       		.uleb128 0x1
+ 2385 008b 13       		.uleb128 0x13
+ 2386 008c 00       		.byte	0
+ 2387 008d 00       		.byte	0
+ 2388 008e 0C       		.uleb128 0xc
+ 2389 008f 05       		.uleb128 0x5
+ 2390 0090 00       		.byte	0
+ 2391 0091 03       		.uleb128 0x3
+ 2392 0092 08       		.uleb128 0x8
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 49
+
+
+ 2393 0093 3A       		.uleb128 0x3a
+ 2394 0094 0B       		.uleb128 0xb
+ 2395 0095 3B       		.uleb128 0x3b
+ 2396 0096 0B       		.uleb128 0xb
+ 2397 0097 49       		.uleb128 0x49
+ 2398 0098 13       		.uleb128 0x13
+ 2399 0099 02       		.uleb128 0x2
+ 2400 009a 17       		.uleb128 0x17
+ 2401 009b 00       		.byte	0
+ 2402 009c 00       		.byte	0
+ 2403 009d 0D       		.uleb128 0xd
+ 2404 009e 05       		.uleb128 0x5
+ 2405 009f 00       		.byte	0
+ 2406 00a0 03       		.uleb128 0x3
+ 2407 00a1 0E       		.uleb128 0xe
+ 2408 00a2 3A       		.uleb128 0x3a
+ 2409 00a3 0B       		.uleb128 0xb
+ 2410 00a4 3B       		.uleb128 0x3b
+ 2411 00a5 0B       		.uleb128 0xb
+ 2412 00a6 49       		.uleb128 0x49
+ 2413 00a7 13       		.uleb128 0x13
+ 2414 00a8 02       		.uleb128 0x2
+ 2415 00a9 17       		.uleb128 0x17
+ 2416 00aa 00       		.byte	0
+ 2417 00ab 00       		.byte	0
+ 2418 00ac 0E       		.uleb128 0xe
+ 2419 00ad 34       		.uleb128 0x34
+ 2420 00ae 00       		.byte	0
+ 2421 00af 03       		.uleb128 0x3
+ 2422 00b0 0E       		.uleb128 0xe
+ 2423 00b1 3A       		.uleb128 0x3a
+ 2424 00b2 0B       		.uleb128 0xb
+ 2425 00b3 3B       		.uleb128 0x3b
+ 2426 00b4 0B       		.uleb128 0xb
+ 2427 00b5 49       		.uleb128 0x49
+ 2428 00b6 13       		.uleb128 0x13
+ 2429 00b7 02       		.uleb128 0x2
+ 2430 00b8 17       		.uleb128 0x17
+ 2431 00b9 00       		.byte	0
+ 2432 00ba 00       		.byte	0
+ 2433 00bb 0F       		.uleb128 0xf
+ 2434 00bc 898201   		.uleb128 0x4109
+ 2435 00bf 01       		.byte	0x1
+ 2436 00c0 11       		.uleb128 0x11
+ 2437 00c1 01       		.uleb128 0x1
+ 2438 00c2 31       		.uleb128 0x31
+ 2439 00c3 13       		.uleb128 0x13
+ 2440 00c4 00       		.byte	0
+ 2441 00c5 00       		.byte	0
+ 2442 00c6 10       		.uleb128 0x10
+ 2443 00c7 8A8201   		.uleb128 0x410a
+ 2444 00ca 00       		.byte	0
+ 2445 00cb 02       		.uleb128 0x2
+ 2446 00cc 18       		.uleb128 0x18
+ 2447 00cd 9142     		.uleb128 0x2111
+ 2448 00cf 18       		.uleb128 0x18
+ 2449 00d0 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 50
+
+
+ 2450 00d1 00       		.byte	0
+ 2451 00d2 11       		.uleb128 0x11
+ 2452 00d3 2E       		.uleb128 0x2e
+ 2453 00d4 01       		.byte	0x1
+ 2454 00d5 3F       		.uleb128 0x3f
+ 2455 00d6 19       		.uleb128 0x19
+ 2456 00d7 03       		.uleb128 0x3
+ 2457 00d8 0E       		.uleb128 0xe
+ 2458 00d9 3A       		.uleb128 0x3a
+ 2459 00da 0B       		.uleb128 0xb
+ 2460 00db 3B       		.uleb128 0x3b
+ 2461 00dc 0B       		.uleb128 0xb
+ 2462 00dd 11       		.uleb128 0x11
+ 2463 00de 01       		.uleb128 0x1
+ 2464 00df 12       		.uleb128 0x12
+ 2465 00e0 06       		.uleb128 0x6
+ 2466 00e1 40       		.uleb128 0x40
+ 2467 00e2 18       		.uleb128 0x18
+ 2468 00e3 9742     		.uleb128 0x2117
+ 2469 00e5 19       		.uleb128 0x19
+ 2470 00e6 01       		.uleb128 0x1
+ 2471 00e7 13       		.uleb128 0x13
+ 2472 00e8 00       		.byte	0
+ 2473 00e9 00       		.byte	0
+ 2474 00ea 12       		.uleb128 0x12
+ 2475 00eb 898201   		.uleb128 0x4109
+ 2476 00ee 01       		.byte	0x1
+ 2477 00ef 11       		.uleb128 0x11
+ 2478 00f0 01       		.uleb128 0x1
+ 2479 00f1 31       		.uleb128 0x31
+ 2480 00f2 13       		.uleb128 0x13
+ 2481 00f3 01       		.uleb128 0x1
+ 2482 00f4 13       		.uleb128 0x13
+ 2483 00f5 00       		.byte	0
+ 2484 00f6 00       		.byte	0
+ 2485 00f7 13       		.uleb128 0x13
+ 2486 00f8 0B       		.uleb128 0xb
+ 2487 00f9 01       		.byte	0x1
+ 2488 00fa 11       		.uleb128 0x11
+ 2489 00fb 01       		.uleb128 0x1
+ 2490 00fc 12       		.uleb128 0x12
+ 2491 00fd 06       		.uleb128 0x6
+ 2492 00fe 01       		.uleb128 0x1
+ 2493 00ff 13       		.uleb128 0x13
+ 2494 0100 00       		.byte	0
+ 2495 0101 00       		.byte	0
+ 2496 0102 14       		.uleb128 0x14
+ 2497 0103 34       		.uleb128 0x34
+ 2498 0104 00       		.byte	0
+ 2499 0105 03       		.uleb128 0x3
+ 2500 0106 08       		.uleb128 0x8
+ 2501 0107 3A       		.uleb128 0x3a
+ 2502 0108 0B       		.uleb128 0xb
+ 2503 0109 3B       		.uleb128 0x3b
+ 2504 010a 0B       		.uleb128 0xb
+ 2505 010b 49       		.uleb128 0x49
+ 2506 010c 13       		.uleb128 0x13
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 51
+
+
+ 2507 010d 02       		.uleb128 0x2
+ 2508 010e 17       		.uleb128 0x17
+ 2509 010f 00       		.byte	0
+ 2510 0110 00       		.byte	0
+ 2511 0111 15       		.uleb128 0x15
+ 2512 0112 34       		.uleb128 0x34
+ 2513 0113 00       		.byte	0
+ 2514 0114 03       		.uleb128 0x3
+ 2515 0115 0E       		.uleb128 0xe
+ 2516 0116 3A       		.uleb128 0x3a
+ 2517 0117 0B       		.uleb128 0xb
+ 2518 0118 3B       		.uleb128 0x3b
+ 2519 0119 0B       		.uleb128 0xb
+ 2520 011a 49       		.uleb128 0x49
+ 2521 011b 13       		.uleb128 0x13
+ 2522 011c 02       		.uleb128 0x2
+ 2523 011d 18       		.uleb128 0x18
+ 2524 011e 00       		.byte	0
+ 2525 011f 00       		.byte	0
+ 2526 0120 16       		.uleb128 0x16
+ 2527 0121 898201   		.uleb128 0x4109
+ 2528 0124 00       		.byte	0
+ 2529 0125 11       		.uleb128 0x11
+ 2530 0126 01       		.uleb128 0x1
+ 2531 0127 31       		.uleb128 0x31
+ 2532 0128 13       		.uleb128 0x13
+ 2533 0129 00       		.byte	0
+ 2534 012a 00       		.byte	0
+ 2535 012b 17       		.uleb128 0x17
+ 2536 012c 2E       		.uleb128 0x2e
+ 2537 012d 01       		.byte	0x1
+ 2538 012e 3F       		.uleb128 0x3f
+ 2539 012f 19       		.uleb128 0x19
+ 2540 0130 03       		.uleb128 0x3
+ 2541 0131 0E       		.uleb128 0xe
+ 2542 0132 3A       		.uleb128 0x3a
+ 2543 0133 0B       		.uleb128 0xb
+ 2544 0134 3B       		.uleb128 0x3b
+ 2545 0135 0B       		.uleb128 0xb
+ 2546 0136 27       		.uleb128 0x27
+ 2547 0137 19       		.uleb128 0x19
+ 2548 0138 49       		.uleb128 0x49
+ 2549 0139 13       		.uleb128 0x13
+ 2550 013a 11       		.uleb128 0x11
+ 2551 013b 01       		.uleb128 0x1
+ 2552 013c 12       		.uleb128 0x12
+ 2553 013d 06       		.uleb128 0x6
+ 2554 013e 40       		.uleb128 0x40
+ 2555 013f 18       		.uleb128 0x18
+ 2556 0140 9742     		.uleb128 0x2117
+ 2557 0142 19       		.uleb128 0x19
+ 2558 0143 01       		.uleb128 0x1
+ 2559 0144 13       		.uleb128 0x13
+ 2560 0145 00       		.byte	0
+ 2561 0146 00       		.byte	0
+ 2562 0147 18       		.uleb128 0x18
+ 2563 0148 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 52
+
+
+ 2564 0149 01       		.byte	0x1
+ 2565 014a 3F       		.uleb128 0x3f
+ 2566 014b 19       		.uleb128 0x19
+ 2567 014c 03       		.uleb128 0x3
+ 2568 014d 0E       		.uleb128 0xe
+ 2569 014e 3A       		.uleb128 0x3a
+ 2570 014f 0B       		.uleb128 0xb
+ 2571 0150 3B       		.uleb128 0x3b
+ 2572 0151 0B       		.uleb128 0xb
+ 2573 0152 49       		.uleb128 0x49
+ 2574 0153 13       		.uleb128 0x13
+ 2575 0154 11       		.uleb128 0x11
+ 2576 0155 01       		.uleb128 0x1
+ 2577 0156 12       		.uleb128 0x12
+ 2578 0157 06       		.uleb128 0x6
+ 2579 0158 40       		.uleb128 0x40
+ 2580 0159 18       		.uleb128 0x18
+ 2581 015a 9742     		.uleb128 0x2117
+ 2582 015c 19       		.uleb128 0x19
+ 2583 015d 01       		.uleb128 0x1
+ 2584 015e 13       		.uleb128 0x13
+ 2585 015f 00       		.byte	0
+ 2586 0160 00       		.byte	0
+ 2587 0161 19       		.uleb128 0x19
+ 2588 0162 2E       		.uleb128 0x2e
+ 2589 0163 01       		.byte	0x1
+ 2590 0164 3F       		.uleb128 0x3f
+ 2591 0165 19       		.uleb128 0x19
+ 2592 0166 03       		.uleb128 0x3
+ 2593 0167 0E       		.uleb128 0xe
+ 2594 0168 3A       		.uleb128 0x3a
+ 2595 0169 0B       		.uleb128 0xb
+ 2596 016a 3B       		.uleb128 0x3b
+ 2597 016b 0B       		.uleb128 0xb
+ 2598 016c 27       		.uleb128 0x27
+ 2599 016d 19       		.uleb128 0x19
+ 2600 016e 49       		.uleb128 0x49
+ 2601 016f 13       		.uleb128 0x13
+ 2602 0170 11       		.uleb128 0x11
+ 2603 0171 01       		.uleb128 0x1
+ 2604 0172 12       		.uleb128 0x12
+ 2605 0173 06       		.uleb128 0x6
+ 2606 0174 40       		.uleb128 0x40
+ 2607 0175 18       		.uleb128 0x18
+ 2608 0176 9642     		.uleb128 0x2116
+ 2609 0178 19       		.uleb128 0x19
+ 2610 0179 01       		.uleb128 0x1
+ 2611 017a 13       		.uleb128 0x13
+ 2612 017b 00       		.byte	0
+ 2613 017c 00       		.byte	0
+ 2614 017d 1A       		.uleb128 0x1a
+ 2615 017e 0B       		.uleb128 0xb
+ 2616 017f 01       		.byte	0x1
+ 2617 0180 55       		.uleb128 0x55
+ 2618 0181 17       		.uleb128 0x17
+ 2619 0182 01       		.uleb128 0x1
+ 2620 0183 13       		.uleb128 0x13
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 53
+
+
+ 2621 0184 00       		.byte	0
+ 2622 0185 00       		.byte	0
+ 2623 0186 1B       		.uleb128 0x1b
+ 2624 0187 2E       		.uleb128 0x2e
+ 2625 0188 01       		.byte	0x1
+ 2626 0189 3F       		.uleb128 0x3f
+ 2627 018a 19       		.uleb128 0x19
+ 2628 018b 03       		.uleb128 0x3
+ 2629 018c 0E       		.uleb128 0xe
+ 2630 018d 3A       		.uleb128 0x3a
+ 2631 018e 0B       		.uleb128 0xb
+ 2632 018f 3B       		.uleb128 0x3b
+ 2633 0190 05       		.uleb128 0x5
+ 2634 0191 11       		.uleb128 0x11
+ 2635 0192 01       		.uleb128 0x1
+ 2636 0193 12       		.uleb128 0x12
+ 2637 0194 06       		.uleb128 0x6
+ 2638 0195 40       		.uleb128 0x40
+ 2639 0196 18       		.uleb128 0x18
+ 2640 0197 9742     		.uleb128 0x2117
+ 2641 0199 19       		.uleb128 0x19
+ 2642 019a 01       		.uleb128 0x1
+ 2643 019b 13       		.uleb128 0x13
+ 2644 019c 00       		.byte	0
+ 2645 019d 00       		.byte	0
+ 2646 019e 1C       		.uleb128 0x1c
+ 2647 019f 2E       		.uleb128 0x2e
+ 2648 01a0 01       		.byte	0x1
+ 2649 01a1 3F       		.uleb128 0x3f
+ 2650 01a2 19       		.uleb128 0x19
+ 2651 01a3 03       		.uleb128 0x3
+ 2652 01a4 0E       		.uleb128 0xe
+ 2653 01a5 3A       		.uleb128 0x3a
+ 2654 01a6 0B       		.uleb128 0xb
+ 2655 01a7 3B       		.uleb128 0x3b
+ 2656 01a8 05       		.uleb128 0x5
+ 2657 01a9 27       		.uleb128 0x27
+ 2658 01aa 19       		.uleb128 0x19
+ 2659 01ab 49       		.uleb128 0x49
+ 2660 01ac 13       		.uleb128 0x13
+ 2661 01ad 11       		.uleb128 0x11
+ 2662 01ae 01       		.uleb128 0x1
+ 2663 01af 12       		.uleb128 0x12
+ 2664 01b0 06       		.uleb128 0x6
+ 2665 01b1 40       		.uleb128 0x40
+ 2666 01b2 18       		.uleb128 0x18
+ 2667 01b3 9742     		.uleb128 0x2117
+ 2668 01b5 19       		.uleb128 0x19
+ 2669 01b6 01       		.uleb128 0x1
+ 2670 01b7 13       		.uleb128 0x13
+ 2671 01b8 00       		.byte	0
+ 2672 01b9 00       		.byte	0
+ 2673 01ba 1D       		.uleb128 0x1d
+ 2674 01bb 05       		.uleb128 0x5
+ 2675 01bc 00       		.byte	0
+ 2676 01bd 03       		.uleb128 0x3
+ 2677 01be 0E       		.uleb128 0xe
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 54
+
+
+ 2678 01bf 3A       		.uleb128 0x3a
+ 2679 01c0 0B       		.uleb128 0xb
+ 2680 01c1 3B       		.uleb128 0x3b
+ 2681 01c2 05       		.uleb128 0x5
+ 2682 01c3 49       		.uleb128 0x49
+ 2683 01c4 13       		.uleb128 0x13
+ 2684 01c5 02       		.uleb128 0x2
+ 2685 01c6 17       		.uleb128 0x17
+ 2686 01c7 00       		.byte	0
+ 2687 01c8 00       		.byte	0
+ 2688 01c9 1E       		.uleb128 0x1e
+ 2689 01ca 05       		.uleb128 0x5
+ 2690 01cb 00       		.byte	0
+ 2691 01cc 03       		.uleb128 0x3
+ 2692 01cd 0E       		.uleb128 0xe
+ 2693 01ce 3A       		.uleb128 0x3a
+ 2694 01cf 0B       		.uleb128 0xb
+ 2695 01d0 3B       		.uleb128 0x3b
+ 2696 01d1 05       		.uleb128 0x5
+ 2697 01d2 49       		.uleb128 0x49
+ 2698 01d3 13       		.uleb128 0x13
+ 2699 01d4 02       		.uleb128 0x2
+ 2700 01d5 18       		.uleb128 0x18
+ 2701 01d6 00       		.byte	0
+ 2702 01d7 00       		.byte	0
+ 2703 01d8 1F       		.uleb128 0x1f
+ 2704 01d9 34       		.uleb128 0x34
+ 2705 01da 00       		.byte	0
+ 2706 01db 03       		.uleb128 0x3
+ 2707 01dc 0E       		.uleb128 0xe
+ 2708 01dd 3A       		.uleb128 0x3a
+ 2709 01de 0B       		.uleb128 0xb
+ 2710 01df 3B       		.uleb128 0x3b
+ 2711 01e0 05       		.uleb128 0x5
+ 2712 01e1 49       		.uleb128 0x49
+ 2713 01e2 13       		.uleb128 0x13
+ 2714 01e3 3F       		.uleb128 0x3f
+ 2715 01e4 19       		.uleb128 0x19
+ 2716 01e5 3C       		.uleb128 0x3c
+ 2717 01e6 19       		.uleb128 0x19
+ 2718 01e7 00       		.byte	0
+ 2719 01e8 00       		.byte	0
+ 2720 01e9 20       		.uleb128 0x20
+ 2721 01ea 34       		.uleb128 0x34
+ 2722 01eb 00       		.byte	0
+ 2723 01ec 03       		.uleb128 0x3
+ 2724 01ed 0E       		.uleb128 0xe
+ 2725 01ee 3A       		.uleb128 0x3a
+ 2726 01ef 0B       		.uleb128 0xb
+ 2727 01f0 3B       		.uleb128 0x3b
+ 2728 01f1 0B       		.uleb128 0xb
+ 2729 01f2 49       		.uleb128 0x49
+ 2730 01f3 13       		.uleb128 0x13
+ 2731 01f4 3F       		.uleb128 0x3f
+ 2732 01f5 19       		.uleb128 0x19
+ 2733 01f6 02       		.uleb128 0x2
+ 2734 01f7 18       		.uleb128 0x18
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 55
+
+
+ 2735 01f8 00       		.byte	0
+ 2736 01f9 00       		.byte	0
+ 2737 01fa 21       		.uleb128 0x21
+ 2738 01fb 2E       		.uleb128 0x2e
+ 2739 01fc 01       		.byte	0x1
+ 2740 01fd 3F       		.uleb128 0x3f
+ 2741 01fe 19       		.uleb128 0x19
+ 2742 01ff 03       		.uleb128 0x3
+ 2743 0200 0E       		.uleb128 0xe
+ 2744 0201 3A       		.uleb128 0x3a
+ 2745 0202 0B       		.uleb128 0xb
+ 2746 0203 3B       		.uleb128 0x3b
+ 2747 0204 0B       		.uleb128 0xb
+ 2748 0205 27       		.uleb128 0x27
+ 2749 0206 19       		.uleb128 0x19
+ 2750 0207 3C       		.uleb128 0x3c
+ 2751 0208 19       		.uleb128 0x19
+ 2752 0209 01       		.uleb128 0x1
+ 2753 020a 13       		.uleb128 0x13
+ 2754 020b 00       		.byte	0
+ 2755 020c 00       		.byte	0
+ 2756 020d 22       		.uleb128 0x22
+ 2757 020e 05       		.uleb128 0x5
+ 2758 020f 00       		.byte	0
+ 2759 0210 49       		.uleb128 0x49
+ 2760 0211 13       		.uleb128 0x13
+ 2761 0212 00       		.byte	0
+ 2762 0213 00       		.byte	0
+ 2763 0214 23       		.uleb128 0x23
+ 2764 0215 2E       		.uleb128 0x2e
+ 2765 0216 01       		.byte	0x1
+ 2766 0217 3F       		.uleb128 0x3f
+ 2767 0218 19       		.uleb128 0x19
+ 2768 0219 03       		.uleb128 0x3
+ 2769 021a 0E       		.uleb128 0xe
+ 2770 021b 3A       		.uleb128 0x3a
+ 2771 021c 0B       		.uleb128 0xb
+ 2772 021d 3B       		.uleb128 0x3b
+ 2773 021e 0B       		.uleb128 0xb
+ 2774 021f 27       		.uleb128 0x27
+ 2775 0220 19       		.uleb128 0x19
+ 2776 0221 49       		.uleb128 0x49
+ 2777 0222 13       		.uleb128 0x13
+ 2778 0223 3C       		.uleb128 0x3c
+ 2779 0224 19       		.uleb128 0x19
+ 2780 0225 01       		.uleb128 0x1
+ 2781 0226 13       		.uleb128 0x13
+ 2782 0227 00       		.byte	0
+ 2783 0228 00       		.byte	0
+ 2784 0229 24       		.uleb128 0x24
+ 2785 022a 2E       		.uleb128 0x2e
+ 2786 022b 01       		.byte	0x1
+ 2787 022c 3F       		.uleb128 0x3f
+ 2788 022d 19       		.uleb128 0x19
+ 2789 022e 03       		.uleb128 0x3
+ 2790 022f 0E       		.uleb128 0xe
+ 2791 0230 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 56
+
+
+ 2792 0231 0B       		.uleb128 0xb
+ 2793 0232 3B       		.uleb128 0x3b
+ 2794 0233 05       		.uleb128 0x5
+ 2795 0234 27       		.uleb128 0x27
+ 2796 0235 19       		.uleb128 0x19
+ 2797 0236 49       		.uleb128 0x49
+ 2798 0237 13       		.uleb128 0x13
+ 2799 0238 3C       		.uleb128 0x3c
+ 2800 0239 19       		.uleb128 0x19
+ 2801 023a 01       		.uleb128 0x1
+ 2802 023b 13       		.uleb128 0x13
+ 2803 023c 00       		.byte	0
+ 2804 023d 00       		.byte	0
+ 2805 023e 25       		.uleb128 0x25
+ 2806 023f 2E       		.uleb128 0x2e
+ 2807 0240 01       		.byte	0x1
+ 2808 0241 3F       		.uleb128 0x3f
+ 2809 0242 19       		.uleb128 0x19
+ 2810 0243 03       		.uleb128 0x3
+ 2811 0244 0E       		.uleb128 0xe
+ 2812 0245 3A       		.uleb128 0x3a
+ 2813 0246 0B       		.uleb128 0xb
+ 2814 0247 3B       		.uleb128 0x3b
+ 2815 0248 0B       		.uleb128 0xb
+ 2816 0249 3C       		.uleb128 0x3c
+ 2817 024a 19       		.uleb128 0x19
+ 2818 024b 01       		.uleb128 0x1
+ 2819 024c 13       		.uleb128 0x13
+ 2820 024d 00       		.byte	0
+ 2821 024e 00       		.byte	0
+ 2822 024f 26       		.uleb128 0x26
+ 2823 0250 18       		.uleb128 0x18
+ 2824 0251 00       		.byte	0
+ 2825 0252 00       		.byte	0
+ 2826 0253 00       		.byte	0
+ 2827 0254 27       		.uleb128 0x27
+ 2828 0255 2E       		.uleb128 0x2e
+ 2829 0256 00       		.byte	0
+ 2830 0257 3F       		.uleb128 0x3f
+ 2831 0258 19       		.uleb128 0x19
+ 2832 0259 03       		.uleb128 0x3
+ 2833 025a 0E       		.uleb128 0xe
+ 2834 025b 3A       		.uleb128 0x3a
+ 2835 025c 0B       		.uleb128 0xb
+ 2836 025d 3B       		.uleb128 0x3b
+ 2837 025e 0B       		.uleb128 0xb
+ 2838 025f 27       		.uleb128 0x27
+ 2839 0260 19       		.uleb128 0x19
+ 2840 0261 3C       		.uleb128 0x3c
+ 2841 0262 19       		.uleb128 0x19
+ 2842 0263 00       		.byte	0
+ 2843 0264 00       		.byte	0
+ 2844 0265 28       		.uleb128 0x28
+ 2845 0266 2E       		.uleb128 0x2e
+ 2846 0267 01       		.byte	0x1
+ 2847 0268 3F       		.uleb128 0x3f
+ 2848 0269 19       		.uleb128 0x19
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 57
+
+
+ 2849 026a 03       		.uleb128 0x3
+ 2850 026b 0E       		.uleb128 0xe
+ 2851 026c 3A       		.uleb128 0x3a
+ 2852 026d 0B       		.uleb128 0xb
+ 2853 026e 3B       		.uleb128 0x3b
+ 2854 026f 0B       		.uleb128 0xb
+ 2855 0270 3C       		.uleb128 0x3c
+ 2856 0271 19       		.uleb128 0x19
+ 2857 0272 00       		.byte	0
+ 2858 0273 00       		.byte	0
+ 2859 0274 00       		.byte	0
+ 2860              		.section	.debug_loc,"",%progbits
+ 2861              	.Ldebug_loc0:
+ 2862              	.LLST0:
+ 2863 0000 00000000 		.4byte	.LVL0
+ 2864 0004 06000000 		.4byte	.LVL1
+ 2865 0008 0100     		.2byte	0x1
+ 2866 000a 50       		.byte	0x50
+ 2867 000b 06000000 		.4byte	.LVL1
+ 2868 000f 16000000 		.4byte	.LFE63
+ 2869 0013 0400     		.2byte	0x4
+ 2870 0015 F3       		.byte	0xf3
+ 2871 0016 01       		.uleb128 0x1
+ 2872 0017 50       		.byte	0x50
+ 2873 0018 9F       		.byte	0x9f
+ 2874 0019 00000000 		.4byte	0
+ 2875 001d 00000000 		.4byte	0
+ 2876              	.LLST1:
+ 2877 0021 00000000 		.4byte	.LVL0
+ 2878 0025 13000000 		.4byte	.LVL4-1
+ 2879 0029 0100     		.2byte	0x1
+ 2880 002b 51       		.byte	0x51
+ 2881 002c 13000000 		.4byte	.LVL4-1
+ 2882 0030 16000000 		.4byte	.LFE63
+ 2883 0034 0400     		.2byte	0x4
+ 2884 0036 F3       		.byte	0xf3
+ 2885 0037 01       		.uleb128 0x1
+ 2886 0038 51       		.byte	0x51
+ 2887 0039 9F       		.byte	0x9f
+ 2888 003a 00000000 		.4byte	0
+ 2889 003e 00000000 		.4byte	0
+ 2890              	.LLST2:
+ 2891 0042 0A000000 		.4byte	.LVL2
+ 2892 0046 0E000000 		.4byte	.LVL3
+ 2893 004a 0400     		.2byte	0x4
+ 2894 004c 70       		.byte	0x70
+ 2895 004d 8006     		.sleb128 768
+ 2896 004f 9F       		.byte	0x9f
+ 2897 0050 0E000000 		.4byte	.LVL3
+ 2898 0054 13000000 		.4byte	.LVL4-1
+ 2899 0058 0100     		.2byte	0x1
+ 2900 005a 50       		.byte	0x50
+ 2901 005b 00000000 		.4byte	0
+ 2902 005f 00000000 		.4byte	0
+ 2903              	.LLST3:
+ 2904 0063 00000000 		.4byte	.LVL5
+ 2905 0067 08000000 		.4byte	.LVL6
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 58
+
+
+ 2906 006b 0100     		.2byte	0x1
+ 2907 006d 50       		.byte	0x50
+ 2908 006e 08000000 		.4byte	.LVL6
+ 2909 0072 0D000000 		.4byte	.LVL7-1
+ 2910 0076 0100     		.2byte	0x1
+ 2911 0078 51       		.byte	0x51
+ 2912 0079 0D000000 		.4byte	.LVL7-1
+ 2913 007d 10000000 		.4byte	.LFE64
+ 2914 0081 0400     		.2byte	0x4
+ 2915 0083 F3       		.byte	0xf3
+ 2916 0084 01       		.uleb128 0x1
+ 2917 0085 50       		.byte	0x50
+ 2918 0086 9F       		.byte	0x9f
+ 2919 0087 00000000 		.4byte	0
+ 2920 008b 00000000 		.4byte	0
+ 2921              	.LLST4:
+ 2922 008f 00000000 		.4byte	.LVL8
+ 2923 0093 0A000000 		.4byte	.LVL9
+ 2924 0097 0100     		.2byte	0x1
+ 2925 0099 50       		.byte	0x50
+ 2926 009a 0A000000 		.4byte	.LVL9
+ 2927 009e 16000000 		.4byte	.LFE65
+ 2928 00a2 0400     		.2byte	0x4
+ 2929 00a4 F3       		.byte	0xf3
+ 2930 00a5 01       		.uleb128 0x1
+ 2931 00a6 50       		.byte	0x50
+ 2932 00a7 9F       		.byte	0x9f
+ 2933 00a8 00000000 		.4byte	0
+ 2934 00ac 00000000 		.4byte	0
+ 2935              	.LLST5:
+ 2936 00b0 00000000 		.4byte	.LVL8
+ 2937 00b4 13000000 		.4byte	.LVL11-1
+ 2938 00b8 0100     		.2byte	0x1
+ 2939 00ba 51       		.byte	0x51
+ 2940 00bb 13000000 		.4byte	.LVL11-1
+ 2941 00bf 16000000 		.4byte	.LFE65
+ 2942 00c3 0400     		.2byte	0x4
+ 2943 00c5 F3       		.byte	0xf3
+ 2944 00c6 01       		.uleb128 0x1
+ 2945 00c7 51       		.byte	0x51
+ 2946 00c8 9F       		.byte	0x9f
+ 2947 00c9 00000000 		.4byte	0
+ 2948 00cd 00000000 		.4byte	0
+ 2949              	.LLST6:
+ 2950 00d1 0A000000 		.4byte	.LVL9
+ 2951 00d5 0E000000 		.4byte	.LVL10
+ 2952 00d9 0400     		.2byte	0x4
+ 2953 00db 70       		.byte	0x70
+ 2954 00dc 8004     		.sleb128 512
+ 2955 00de 9F       		.byte	0x9f
+ 2956 00df 0E000000 		.4byte	.LVL10
+ 2957 00e3 13000000 		.4byte	.LVL11-1
+ 2958 00e7 0100     		.2byte	0x1
+ 2959 00e9 50       		.byte	0x50
+ 2960 00ea 00000000 		.4byte	0
+ 2961 00ee 00000000 		.4byte	0
+ 2962              	.LLST7:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 59
+
+
+ 2963 00f2 00000000 		.4byte	.LVL14
+ 2964 00f6 48000000 		.4byte	.LVL15
+ 2965 00fa 0100     		.2byte	0x1
+ 2966 00fc 50       		.byte	0x50
+ 2967 00fd 48000000 		.4byte	.LVL15
+ 2968 0101 EC000000 		.4byte	.LFE67
+ 2969 0105 0400     		.2byte	0x4
+ 2970 0107 F3       		.byte	0xf3
+ 2971 0108 01       		.uleb128 0x1
+ 2972 0109 50       		.byte	0x50
+ 2973 010a 9F       		.byte	0x9f
+ 2974 010b 00000000 		.4byte	0
+ 2975 010f 00000000 		.4byte	0
+ 2976              	.LLST8:
+ 2977 0113 86000000 		.4byte	.LVL17
+ 2978 0117 88000000 		.4byte	.LVL18
+ 2979 011b 0200     		.2byte	0x2
+ 2980 011d 30       		.byte	0x30
+ 2981 011e 9F       		.byte	0x9f
+ 2982 011f 88000000 		.4byte	.LVL18
+ 2983 0123 92000000 		.4byte	.LVL20
+ 2984 0127 0100     		.2byte	0x1
+ 2985 0129 54       		.byte	0x54
+ 2986 012a 94000000 		.4byte	.LVL21
+ 2987 012e 98000000 		.4byte	.LVL22
+ 2988 0132 0100     		.2byte	0x1
+ 2989 0134 54       		.byte	0x54
+ 2990 0135 00000000 		.4byte	0
+ 2991 0139 00000000 		.4byte	0
+ 2992              	.LLST9:
+ 2993 013d 00000000 		.4byte	.LVL26
+ 2994 0141 10000000 		.4byte	.LVL29
+ 2995 0145 0100     		.2byte	0x1
+ 2996 0147 50       		.byte	0x50
+ 2997 0148 10000000 		.4byte	.LVL29
+ 2998 014c 30000000 		.4byte	.LFE68
+ 2999 0150 0400     		.2byte	0x4
+ 3000 0152 F3       		.byte	0xf3
+ 3001 0153 01       		.uleb128 0x1
+ 3002 0154 50       		.byte	0x50
+ 3003 0155 9F       		.byte	0x9f
+ 3004 0156 00000000 		.4byte	0
+ 3005 015a 00000000 		.4byte	0
+ 3006              	.LLST10:
+ 3007 015e 00000000 		.4byte	.LVL26
+ 3008 0162 0A000000 		.4byte	.LVL27
+ 3009 0166 0100     		.2byte	0x1
+ 3010 0168 51       		.byte	0x51
+ 3011 0169 0A000000 		.4byte	.LVL27
+ 3012 016d 30000000 		.4byte	.LFE68
+ 3013 0171 0100     		.2byte	0x1
+ 3014 0173 56       		.byte	0x56
+ 3015 0174 00000000 		.4byte	0
+ 3016 0178 00000000 		.4byte	0
+ 3017              	.LLST11:
+ 3018 017c 0E000000 		.4byte	.LVL28
+ 3019 0180 14000000 		.4byte	.LVL30
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 60
+
+
+ 3020 0184 0400     		.2byte	0x4
+ 3021 0186 71       		.byte	0x71
+ 3022 0187 8006     		.sleb128 768
+ 3023 0189 9F       		.byte	0x9f
+ 3024 018a 14000000 		.4byte	.LVL30
+ 3025 018e 19000000 		.4byte	.LVL31-1
+ 3026 0192 0100     		.2byte	0x1
+ 3027 0194 51       		.byte	0x51
+ 3028 0195 19000000 		.4byte	.LVL31-1
+ 3029 0199 30000000 		.4byte	.LFE68
+ 3030 019d 0D00     		.2byte	0xd
+ 3031 019f 74       		.byte	0x74
+ 3032 01a0 00       		.sleb128 0
+ 3033 01a1 33       		.byte	0x33
+ 3034 01a2 24       		.byte	0x24
+ 3035 01a3 74       		.byte	0x74
+ 3036 01a4 00       		.sleb128 0
+ 3037 01a5 22       		.byte	0x22
+ 3038 01a6 39       		.byte	0x39
+ 3039 01a7 1E       		.byte	0x1e
+ 3040 01a8 23       		.byte	0x23
+ 3041 01a9 8006     		.uleb128 0x300
+ 3042 01ab 9F       		.byte	0x9f
+ 3043 01ac 00000000 		.4byte	0
+ 3044 01b0 00000000 		.4byte	0
+ 3045              	.LLST12:
+ 3046 01b4 00000000 		.4byte	.LVL34
+ 3047 01b8 0D000000 		.4byte	.LVL35-1
+ 3048 01bc 0100     		.2byte	0x1
+ 3049 01be 50       		.byte	0x50
+ 3050 01bf 0D000000 		.4byte	.LVL35-1
+ 3051 01c3 22000000 		.4byte	.LFE69
+ 3052 01c7 0100     		.2byte	0x1
+ 3053 01c9 55       		.byte	0x55
+ 3054 01ca 00000000 		.4byte	0
+ 3055 01ce 00000000 		.4byte	0
+ 3056              	.LLST13:
+ 3057 01d2 00000000 		.4byte	.LVL38
+ 3058 01d6 10000000 		.4byte	.LVL41
+ 3059 01da 0100     		.2byte	0x1
+ 3060 01dc 50       		.byte	0x50
+ 3061 01dd 10000000 		.4byte	.LVL41
+ 3062 01e1 5E000000 		.4byte	.LFE70
+ 3063 01e5 0400     		.2byte	0x4
+ 3064 01e7 F3       		.byte	0xf3
+ 3065 01e8 01       		.uleb128 0x1
+ 3066 01e9 50       		.byte	0x50
+ 3067 01ea 9F       		.byte	0x9f
+ 3068 01eb 00000000 		.4byte	0
+ 3069 01ef 00000000 		.4byte	0
+ 3070              	.LLST14:
+ 3071 01f3 00000000 		.4byte	.LVL38
+ 3072 01f7 0A000000 		.4byte	.LVL39
+ 3073 01fb 0100     		.2byte	0x1
+ 3074 01fd 51       		.byte	0x51
+ 3075 01fe 0A000000 		.4byte	.LVL39
+ 3076 0202 5E000000 		.4byte	.LFE70
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 61
+
+
+ 3077 0206 0100     		.2byte	0x1
+ 3078 0208 56       		.byte	0x56
+ 3079 0209 00000000 		.4byte	0
+ 3080 020d 00000000 		.4byte	0
+ 3081              	.LLST15:
+ 3082 0211 0E000000 		.4byte	.LVL40
+ 3083 0215 14000000 		.4byte	.LVL42
+ 3084 0219 0400     		.2byte	0x4
+ 3085 021b 71       		.byte	0x71
+ 3086 021c 8004     		.sleb128 512
+ 3087 021e 9F       		.byte	0x9f
+ 3088 021f 14000000 		.4byte	.LVL42
+ 3089 0223 19000000 		.4byte	.LVL43-1
+ 3090 0227 0100     		.2byte	0x1
+ 3091 0229 51       		.byte	0x51
+ 3092 022a 19000000 		.4byte	.LVL43-1
+ 3093 022e 5E000000 		.4byte	.LFE70
+ 3094 0232 1000     		.2byte	0x10
+ 3095 0234 75       		.byte	0x75
+ 3096 0235 00       		.sleb128 0
+ 3097 0236 31       		.byte	0x31
+ 3098 0237 24       		.byte	0x24
+ 3099 0238 75       		.byte	0x75
+ 3100 0239 00       		.sleb128 0
+ 3101 023a 22       		.byte	0x22
+ 3102 023b 32       		.byte	0x32
+ 3103 023c 24       		.byte	0x24
+ 3104 023d 75       		.byte	0x75
+ 3105 023e 00       		.sleb128 0
+ 3106 023f 22       		.byte	0x22
+ 3107 0240 23       		.byte	0x23
+ 3108 0241 8004     		.uleb128 0x200
+ 3109 0243 9F       		.byte	0x9f
+ 3110 0244 00000000 		.4byte	0
+ 3111 0248 00000000 		.4byte	0
+ 3112              	.LLST16:
+ 3113 024c 08000000 		.4byte	.LVL46
+ 3114 0250 0E000000 		.4byte	.LVL47
+ 3115 0254 0100     		.2byte	0x1
+ 3116 0256 50       		.byte	0x50
+ 3117 0257 1A000000 		.4byte	.LVL49
+ 3118 025b 1C000000 		.4byte	.LVL50
+ 3119 025f 0100     		.2byte	0x1
+ 3120 0261 50       		.byte	0x50
+ 3121 0262 00000000 		.4byte	0
+ 3122 0266 00000000 		.4byte	0
+ 3123              	.LLST17:
+ 3124 026a 00000000 		.4byte	.LVL51
+ 3125 026e 08000000 		.4byte	.LVL52
+ 3126 0272 0100     		.2byte	0x1
+ 3127 0274 50       		.byte	0x50
+ 3128 0275 08000000 		.4byte	.LVL52
+ 3129 0279 1C000000 		.4byte	.LVL55
+ 3130 027d 0400     		.2byte	0x4
+ 3131 027f F3       		.byte	0xf3
+ 3132 0280 01       		.uleb128 0x1
+ 3133 0281 50       		.byte	0x50
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 62
+
+
+ 3134 0282 9F       		.byte	0x9f
+ 3135 0283 1C000000 		.4byte	.LVL55
+ 3136 0287 40000000 		.4byte	.LVL60
+ 3137 028b 0100     		.2byte	0x1
+ 3138 028d 54       		.byte	0x54
+ 3139 028e 44000000 		.4byte	.LVL61
+ 3140 0292 54000000 		.4byte	.LVL64
+ 3141 0296 0100     		.2byte	0x1
+ 3142 0298 54       		.byte	0x54
+ 3143 0299 5C000000 		.4byte	.LVL65
+ 3144 029d 66000000 		.4byte	.LVL68
+ 3145 02a1 0100     		.2byte	0x1
+ 3146 02a3 54       		.byte	0x54
+ 3147 02a4 6A000000 		.4byte	.LVL69
+ 3148 02a8 7C000000 		.4byte	.LVL72
+ 3149 02ac 0100     		.2byte	0x1
+ 3150 02ae 54       		.byte	0x54
+ 3151 02af 7E000000 		.4byte	.LVL73
+ 3152 02b3 84000000 		.4byte	.LVL74
+ 3153 02b7 0100     		.2byte	0x1
+ 3154 02b9 54       		.byte	0x54
+ 3155 02ba 84000000 		.4byte	.LVL74
+ 3156 02be 26020000 		.4byte	.LVL85
+ 3157 02c2 0400     		.2byte	0x4
+ 3158 02c4 F3       		.byte	0xf3
+ 3159 02c5 01       		.uleb128 0x1
+ 3160 02c6 50       		.byte	0x50
+ 3161 02c7 9F       		.byte	0x9f
+ 3162 02c8 2E020000 		.4byte	.LVL87
+ 3163 02cc 32020000 		.4byte	.LVL88
+ 3164 02d0 0400     		.2byte	0x4
+ 3165 02d2 F3       		.byte	0xf3
+ 3166 02d3 01       		.uleb128 0x1
+ 3167 02d4 50       		.byte	0x50
+ 3168 02d5 9F       		.byte	0x9f
+ 3169 02d6 32020000 		.4byte	.LVL88
+ 3170 02da 3A020000 		.4byte	.LVL90
+ 3171 02de 0100     		.2byte	0x1
+ 3172 02e0 54       		.byte	0x54
+ 3173 02e1 3A020000 		.4byte	.LVL90
+ 3174 02e5 50020000 		.4byte	.LFE72
+ 3175 02e9 0400     		.2byte	0x4
+ 3176 02eb F3       		.byte	0xf3
+ 3177 02ec 01       		.uleb128 0x1
+ 3178 02ed 50       		.byte	0x50
+ 3179 02ee 9F       		.byte	0x9f
+ 3180 02ef 00000000 		.4byte	0
+ 3181 02f3 00000000 		.4byte	0
+ 3182              	.LLST18:
+ 3183 02f7 00000000 		.4byte	.LVL51
+ 3184 02fb 0A000000 		.4byte	.LVL53
+ 3185 02ff 0100     		.2byte	0x1
+ 3186 0301 51       		.byte	0x51
+ 3187 0302 0A000000 		.4byte	.LVL53
+ 3188 0306 0D000000 		.4byte	.LVL54-1
+ 3189 030a 0100     		.2byte	0x1
+ 3190 030c 50       		.byte	0x50
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 63
+
+
+ 3191 030d 0D000000 		.4byte	.LVL54-1
+ 3192 0311 60000000 		.4byte	.LVL66
+ 3193 0315 0100     		.2byte	0x1
+ 3194 0317 55       		.byte	0x55
+ 3195 0318 60000000 		.4byte	.LVL66
+ 3196 031c 6A000000 		.4byte	.LVL69
+ 3197 0320 0600     		.2byte	0x6
+ 3198 0322 F3       		.byte	0xf3
+ 3199 0323 03       		.uleb128 0x3
+ 3200 0324 F5       		.byte	0xf5
+ 3201 0325 01       		.uleb128 0x1
+ 3202 0326 25       		.uleb128 0x25
+ 3203 0327 9F       		.byte	0x9f
+ 3204 0328 6A000000 		.4byte	.LVL69
+ 3205 032c 26020000 		.4byte	.LVL85
+ 3206 0330 0100     		.2byte	0x1
+ 3207 0332 55       		.byte	0x55
+ 3208 0333 26020000 		.4byte	.LVL85
+ 3209 0337 2E020000 		.4byte	.LVL87
+ 3210 033b 0600     		.2byte	0x6
+ 3211 033d F3       		.byte	0xf3
+ 3212 033e 03       		.uleb128 0x3
+ 3213 033f F5       		.byte	0xf5
+ 3214 0340 01       		.uleb128 0x1
+ 3215 0341 25       		.uleb128 0x25
+ 3216 0342 9F       		.byte	0x9f
+ 3217 0343 2E020000 		.4byte	.LVL87
+ 3218 0347 46020000 		.4byte	.LVL96
+ 3219 034b 0100     		.2byte	0x1
+ 3220 034d 55       		.byte	0x55
+ 3221 034e 46020000 		.4byte	.LVL96
+ 3222 0352 50020000 		.4byte	.LFE72
+ 3223 0356 0600     		.2byte	0x6
+ 3224 0358 F3       		.byte	0xf3
+ 3225 0359 03       		.uleb128 0x3
+ 3226 035a F5       		.byte	0xf5
+ 3227 035b 01       		.uleb128 0x1
+ 3228 035c 25       		.uleb128 0x25
+ 3229 035d 9F       		.byte	0x9f
+ 3230 035e 00000000 		.4byte	0
+ 3231 0362 00000000 		.4byte	0
+ 3232              	.LLST19:
+ 3233 0366 1C000000 		.4byte	.LVL55
+ 3234 036a 20000000 		.4byte	.LVL56
+ 3235 036e 0200     		.2byte	0x2
+ 3236 0370 30       		.byte	0x30
+ 3237 0371 9F       		.byte	0x9f
+ 3238 0372 20000000 		.4byte	.LVL56
+ 3239 0376 34000000 		.4byte	.LVL57
+ 3240 037a 0100     		.2byte	0x1
+ 3241 037c 53       		.byte	0x53
+ 3242 037d 3A000000 		.4byte	.LVL58
+ 3243 0381 3C000000 		.4byte	.LVL59
+ 3244 0385 0100     		.2byte	0x1
+ 3245 0387 53       		.byte	0x53
+ 3246 0388 44000000 		.4byte	.LVL61
+ 3247 038c 4B000000 		.4byte	.LVL62-1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 64
+
+
+ 3248 0390 0100     		.2byte	0x1
+ 3249 0392 53       		.byte	0x53
+ 3250 0393 5C000000 		.4byte	.LVL65
+ 3251 0397 62000000 		.4byte	.LVL67
+ 3252 039b 0100     		.2byte	0x1
+ 3253 039d 53       		.byte	0x53
+ 3254 039e 6A000000 		.4byte	.LVL69
+ 3255 03a2 6C000000 		.4byte	.LVL70
+ 3256 03a6 0100     		.2byte	0x1
+ 3257 03a8 53       		.byte	0x53
+ 3258 03a9 6E000000 		.4byte	.LVL71
+ 3259 03ad 84000000 		.4byte	.LVL74
+ 3260 03b1 0100     		.2byte	0x1
+ 3261 03b3 53       		.byte	0x53
+ 3262 03b4 32020000 		.4byte	.LVL88
+ 3263 03b8 3A020000 		.4byte	.LVL90
+ 3264 03bc 0100     		.2byte	0x1
+ 3265 03be 53       		.byte	0x53
+ 3266 03bf 00000000 		.4byte	0
+ 3267 03c3 00000000 		.4byte	0
+ 3268              	.LLST20:
+ 3269 03c7 94000000 		.4byte	.LVL78
+ 3270 03cb DD000000 		.4byte	.LVL79-1
+ 3271 03cf 0100     		.2byte	0x1
+ 3272 03d1 50       		.byte	0x50
+ 3273 03d2 E0000000 		.4byte	.LVL80
+ 3274 03d6 E9000000 		.4byte	.LVL81-1
+ 3275 03da 0100     		.2byte	0x1
+ 3276 03dc 50       		.byte	0x50
+ 3277 03dd EC000000 		.4byte	.LVL82
+ 3278 03e1 D5010000 		.4byte	.LVL83-1
+ 3279 03e5 0100     		.2byte	0x1
+ 3280 03e7 50       		.byte	0x50
+ 3281 03e8 D8010000 		.4byte	.LVL84
+ 3282 03ec 26020000 		.4byte	.LVL85
+ 3283 03f0 0100     		.2byte	0x1
+ 3284 03f2 50       		.byte	0x50
+ 3285 03f3 3A020000 		.4byte	.LVL90
+ 3286 03f7 3C020000 		.4byte	.LVL91
+ 3287 03fb 0100     		.2byte	0x1
+ 3288 03fd 50       		.byte	0x50
+ 3289 03fe 3E020000 		.4byte	.LVL92
+ 3290 0402 40020000 		.4byte	.LVL93
+ 3291 0406 0100     		.2byte	0x1
+ 3292 0408 50       		.byte	0x50
+ 3293 0409 42020000 		.4byte	.LVL94
+ 3294 040d 44020000 		.4byte	.LVL95
+ 3295 0411 0100     		.2byte	0x1
+ 3296 0413 50       		.byte	0x50
+ 3297 0414 00000000 		.4byte	0
+ 3298 0418 00000000 		.4byte	0
+ 3299              	.LLST21:
+ 3300 041c 00000000 		.4byte	.LVL102
+ 3301 0420 08000000 		.4byte	.LVL103
+ 3302 0424 0100     		.2byte	0x1
+ 3303 0426 50       		.byte	0x50
+ 3304 0427 08000000 		.4byte	.LVL103
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 65
+
+
+ 3305 042b 0A000000 		.4byte	.LVL104
+ 3306 042f 0400     		.2byte	0x4
+ 3307 0431 F3       		.byte	0xf3
+ 3308 0432 01       		.uleb128 0x1
+ 3309 0433 50       		.byte	0x50
+ 3310 0434 9F       		.byte	0x9f
+ 3311 0435 0A000000 		.4byte	.LVL104
+ 3312 0439 0C000000 		.4byte	.LVL105
+ 3313 043d 0100     		.2byte	0x1
+ 3314 043f 50       		.byte	0x50
+ 3315 0440 0C000000 		.4byte	.LVL105
+ 3316 0444 0E000000 		.4byte	.LVL106
+ 3317 0448 0400     		.2byte	0x4
+ 3318 044a F3       		.byte	0xf3
+ 3319 044b 01       		.uleb128 0x1
+ 3320 044c 50       		.byte	0x50
+ 3321 044d 9F       		.byte	0x9f
+ 3322 044e 0E000000 		.4byte	.LVL106
+ 3323 0452 10000000 		.4byte	.LVL107
+ 3324 0456 0100     		.2byte	0x1
+ 3325 0458 50       		.byte	0x50
+ 3326 0459 10000000 		.4byte	.LVL107
+ 3327 045d 12000000 		.4byte	.LFE74
+ 3328 0461 0400     		.2byte	0x4
+ 3329 0463 F3       		.byte	0xf3
+ 3330 0464 01       		.uleb128 0x1
+ 3331 0465 50       		.byte	0x50
+ 3332 0466 9F       		.byte	0x9f
+ 3333 0467 00000000 		.4byte	0
+ 3334 046b 00000000 		.4byte	0
+ 3335              	.LLST22:
+ 3336 046f 00000000 		.4byte	.LVL108
+ 3337 0473 08000000 		.4byte	.LVL109
+ 3338 0477 0100     		.2byte	0x1
+ 3339 0479 50       		.byte	0x50
+ 3340 047a 08000000 		.4byte	.LVL109
+ 3341 047e 0A000000 		.4byte	.LVL110
+ 3342 0482 0400     		.2byte	0x4
+ 3343 0484 F3       		.byte	0xf3
+ 3344 0485 01       		.uleb128 0x1
+ 3345 0486 50       		.byte	0x50
+ 3346 0487 9F       		.byte	0x9f
+ 3347 0488 0A000000 		.4byte	.LVL110
+ 3348 048c 0C000000 		.4byte	.LVL111
+ 3349 0490 0100     		.2byte	0x1
+ 3350 0492 50       		.byte	0x50
+ 3351 0493 0C000000 		.4byte	.LVL111
+ 3352 0497 0E000000 		.4byte	.LVL112
+ 3353 049b 0400     		.2byte	0x4
+ 3354 049d F3       		.byte	0xf3
+ 3355 049e 01       		.uleb128 0x1
+ 3356 049f 50       		.byte	0x50
+ 3357 04a0 9F       		.byte	0x9f
+ 3358 04a1 0E000000 		.4byte	.LVL112
+ 3359 04a5 10000000 		.4byte	.LVL113
+ 3360 04a9 0100     		.2byte	0x1
+ 3361 04ab 50       		.byte	0x50
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 66
+
+
+ 3362 04ac 10000000 		.4byte	.LVL113
+ 3363 04b0 12000000 		.4byte	.LFE75
+ 3364 04b4 0400     		.2byte	0x4
+ 3365 04b6 F3       		.byte	0xf3
+ 3366 04b7 01       		.uleb128 0x1
+ 3367 04b8 50       		.byte	0x50
+ 3368 04b9 9F       		.byte	0x9f
+ 3369 04ba 00000000 		.4byte	0
+ 3370 04be 00000000 		.4byte	0
+ 3371              		.section	.debug_aranges,"",%progbits
+ 3372 0000 84000000 		.4byte	0x84
+ 3373 0004 0200     		.2byte	0x2
+ 3374 0006 00000000 		.4byte	.Ldebug_info0
+ 3375 000a 04       		.byte	0x4
+ 3376 000b 00       		.byte	0
+ 3377 000c 0000     		.2byte	0
+ 3378 000e 0000     		.2byte	0
+ 3379 0010 00000000 		.4byte	.LFB63
+ 3380 0014 16000000 		.4byte	.LFE63-.LFB63
+ 3381 0018 00000000 		.4byte	.LFB64
+ 3382 001c 10000000 		.4byte	.LFE64-.LFB64
+ 3383 0020 00000000 		.4byte	.LFB65
+ 3384 0024 16000000 		.4byte	.LFE65-.LFB65
+ 3385 0028 00000000 		.4byte	.LFB66
+ 3386 002c 1C000000 		.4byte	.LFE66-.LFB66
+ 3387 0030 00000000 		.4byte	.LFB67
+ 3388 0034 EC000000 		.4byte	.LFE67-.LFB67
+ 3389 0038 00000000 		.4byte	.LFB68
+ 3390 003c 30000000 		.4byte	.LFE68-.LFB68
+ 3391 0040 00000000 		.4byte	.LFB69
+ 3392 0044 22000000 		.4byte	.LFE69-.LFB69
+ 3393 0048 00000000 		.4byte	.LFB70
+ 3394 004c 5E000000 		.4byte	.LFE70-.LFB70
+ 3395 0050 00000000 		.4byte	.LFB71
+ 3396 0054 28000000 		.4byte	.LFE71-.LFB71
+ 3397 0058 00000000 		.4byte	.LFB72
+ 3398 005c 50020000 		.4byte	.LFE72-.LFB72
+ 3399 0060 00000000 		.4byte	.LFB73
+ 3400 0064 1E000000 		.4byte	.LFE73-.LFB73
+ 3401 0068 00000000 		.4byte	.LFB74
+ 3402 006c 12000000 		.4byte	.LFE74-.LFB74
+ 3403 0070 00000000 		.4byte	.LFB75
+ 3404 0074 12000000 		.4byte	.LFE75-.LFB75
+ 3405 0078 00000000 		.4byte	.LFB76
+ 3406 007c 02000000 		.4byte	.LFE76-.LFB76
+ 3407 0080 00000000 		.4byte	0
+ 3408 0084 00000000 		.4byte	0
+ 3409              		.section	.debug_ranges,"",%progbits
+ 3410              	.Ldebug_ranges0:
+ 3411 0000 18000000 		.4byte	.LBB3
+ 3412 0004 84000000 		.4byte	.LBE3
+ 3413 0008 32020000 		.4byte	.LBB5
+ 3414 000c 3A020000 		.4byte	.LBE5
+ 3415 0010 00000000 		.4byte	0
+ 3416 0014 00000000 		.4byte	0
+ 3417 0018 84000000 		.4byte	.LBB4
+ 3418 001c 26020000 		.4byte	.LBE4
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 67
+
+
+ 3419 0020 3A020000 		.4byte	.LBB6
+ 3420 0024 44020000 		.4byte	.LBE6
+ 3421 0028 00000000 		.4byte	0
+ 3422 002c 00000000 		.4byte	0
+ 3423 0030 00000000 		.4byte	.LFB63
+ 3424 0034 16000000 		.4byte	.LFE63
+ 3425 0038 00000000 		.4byte	.LFB64
+ 3426 003c 10000000 		.4byte	.LFE64
+ 3427 0040 00000000 		.4byte	.LFB65
+ 3428 0044 16000000 		.4byte	.LFE65
+ 3429 0048 00000000 		.4byte	.LFB66
+ 3430 004c 1C000000 		.4byte	.LFE66
+ 3431 0050 00000000 		.4byte	.LFB67
+ 3432 0054 EC000000 		.4byte	.LFE67
+ 3433 0058 00000000 		.4byte	.LFB68
+ 3434 005c 30000000 		.4byte	.LFE68
+ 3435 0060 00000000 		.4byte	.LFB69
+ 3436 0064 22000000 		.4byte	.LFE69
+ 3437 0068 00000000 		.4byte	.LFB70
+ 3438 006c 5E000000 		.4byte	.LFE70
+ 3439 0070 00000000 		.4byte	.LFB71
+ 3440 0074 28000000 		.4byte	.LFE71
+ 3441 0078 00000000 		.4byte	.LFB72
+ 3442 007c 50020000 		.4byte	.LFE72
+ 3443 0080 00000000 		.4byte	.LFB73
+ 3444 0084 1E000000 		.4byte	.LFE73
+ 3445 0088 00000000 		.4byte	.LFB74
+ 3446 008c 12000000 		.4byte	.LFE74
+ 3447 0090 00000000 		.4byte	.LFB75
+ 3448 0094 12000000 		.4byte	.LFE75
+ 3449 0098 00000000 		.4byte	.LFB76
+ 3450 009c 02000000 		.4byte	.LFE76
+ 3451 00a0 00000000 		.4byte	0
+ 3452 00a4 00000000 		.4byte	0
+ 3453              		.section	.debug_line,"",%progbits
+ 3454              	.Ldebug_line0:
+ 3455 0000 86030000 		.section	.debug_str,"MS",%progbits,1
+ 3455      0200B601 
+ 3455      00000201 
+ 3455      FB0E0D00 
+ 3455      01010101 
+ 3456              	.LASF85:
+ 3457 0000 7265706F 		.ascii	"report_status_message\000"
+ 3457      72745F73 
+ 3457      74617475 
+ 3457      735F6D65 
+ 3457      73736167 
+ 3458              	.LASF73:
+ 3459 0016 7379735F 		.ascii	"sys_rt_exec_alarm\000"
+ 3459      72745F65 
+ 3459      7865635F 
+ 3459      616C6172 
+ 3459      6D00
+ 3460              	.LASF79:
+ 3461 0028 65657072 		.ascii	"eeprom_put_char\000"
+ 3461      6F6D5F70 
+ 3461      75745F63 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 68
+
+
+ 3461      68617200 
+ 3462              	.LASF55:
+ 3463 0038 76657273 		.ascii	"version\000"
+ 3463      696F6E00 
+ 3464              	.LASF75:
+ 3465 0040 7379735F 		.ascii	"sys_rt_exec_accessory_override\000"
+ 3465      72745F65 
+ 3465      7865635F 
+ 3465      61636365 
+ 3465      73736F72 
+ 3466              	.LASF70:
+ 3467 005f 7379735F 		.ascii	"sys_probe_position\000"
+ 3467      70726F62 
+ 3467      655F706F 
+ 3467      73697469 
+ 3467      6F6E00
+ 3468              	.LASF24:
+ 3469 0072 61636365 		.ascii	"acceleration\000"
+ 3469      6C657261 
+ 3469      74696F6E 
+ 3469      00
+ 3470              	.LASF3:
+ 3471 007f 73686F72 		.ascii	"short int\000"
+ 3471      7420696E 
+ 3471      7400
+ 3472              	.LASF78:
+ 3473 0089 6D656D63 		.ascii	"memcpy_to_eeprom_with_checksum\000"
+ 3473      70795F74 
+ 3473      6F5F6565 
+ 3473      70726F6D 
+ 3473      5F776974 
+ 3474              	.LASF88:
+ 3475 00a8 433A5C55 		.ascii	"C:\\Users\\Bart\\Dropbox\\PSoC\\PSoC_Grbl\\PSoC_Grb"
+ 3475      73657273 
+ 3475      5C426172 
+ 3475      745C4472 
+ 3475      6F70626F 
+ 3476 00d5 6C2E6379 		.ascii	"l.cydsn\000"
+ 3476      64736E00 
+ 3477              	.LASF59:
+ 3478 00dd 7365745F 		.ascii	"set_idx\000"
+ 3478      69647800 
+ 3479              	.LASF9:
+ 3480 00e5 5F5F7569 		.ascii	"__uint32_t\000"
+ 3480      6E743332 
+ 3480      5F7400
+ 3481              	.LASF5:
+ 3482 00f0 5F5F7569 		.ascii	"__uint16_t\000"
+ 3482      6E743136 
+ 3482      5F7400
+ 3483              	.LASF29:
+ 3484 00fb 73746570 		.ascii	"stepper_idle_lock_time\000"
+ 3484      7065725F 
+ 3484      69646C65 
+ 3484      5F6C6F63 
+ 3484      6B5F7469 
+ 3485              	.LASF58:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 69
+
+
+ 3486 0112 76616C75 		.ascii	"value\000"
+ 3486      6500
+ 3487              	.LASF14:
+ 3488 0118 75696E74 		.ascii	"uint8_t\000"
+ 3488      385F7400 
+ 3489              	.LASF23:
+ 3490 0120 6D61785F 		.ascii	"max_rate\000"
+ 3490      72617465 
+ 3490      00
+ 3491              	.LASF81:
+ 3492 0129 65657072 		.ascii	"eeprom_get_char\000"
+ 3492      6F6D5F67 
+ 3492      65745F63 
+ 3492      68617200 
+ 3493              	.LASF42:
+ 3494 0139 6C696E65 		.ascii	"line\000"
+ 3494      00
+ 3495              	.LASF40:
+ 3496 013e 686F6D69 		.ascii	"homing_pulloff\000"
+ 3496      6E675F70 
+ 3496      756C6C6F 
+ 3496      666600
+ 3497              	.LASF0:
+ 3498 014d 666C6F61 		.ascii	"float\000"
+ 3498      7400
+ 3499              	.LASF68:
+ 3500 0153 73657474 		.ascii	"settings\000"
+ 3500      696E6773 
+ 3500      00
+ 3501              	.LASF44:
+ 3502 015c 73657474 		.ascii	"settings_store_build_info\000"
+ 3502      696E6773 
+ 3502      5F73746F 
+ 3502      72655F62 
+ 3502      75696C64 
+ 3503              	.LASF11:
+ 3504 0176 6C6F6E67 		.ascii	"long long int\000"
+ 3504      206C6F6E 
+ 3504      6720696E 
+ 3504      7400
+ 3505              	.LASF19:
+ 3506 0184 63686172 		.ascii	"char\000"
+ 3506      00
+ 3507              	.LASF69:
+ 3508 0189 7379735F 		.ascii	"sys_position\000"
+ 3508      706F7369 
+ 3508      74696F6E 
+ 3508      00
+ 3509              	.LASF77:
+ 3510 0196 65786563 		.ascii	"exec_lcd_status\000"
+ 3510      5F6C6364 
+ 3510      5F737461 
+ 3510      74757300 
+ 3511              	.LASF48:
+ 3512 01a6 61646472 		.ascii	"addr\000"
+ 3512      00
+ 3513              	.LASF22:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 70
+
+
+ 3514 01ab 73746570 		.ascii	"steps_per_mm\000"
+ 3514      735F7065 
+ 3514      725F6D6D 
+ 3514      00
+ 3515              	.LASF4:
+ 3516 01b8 5F5F7569 		.ascii	"__uint8_t\000"
+ 3516      6E74385F 
+ 3516      7400
+ 3517              	.LASF80:
+ 3518 01c2 6D656D63 		.ascii	"memcpy_from_eeprom_with_checksum\000"
+ 3518      70795F66 
+ 3518      726F6D5F 
+ 3518      65657072 
+ 3518      6F6D5F77 
+ 3519              	.LASF32:
+ 3520 01e3 6172635F 		.ascii	"arc_tolerance\000"
+ 3520      746F6C65 
+ 3520      72616E63 
+ 3520      6500
+ 3521              	.LASF63:
+ 3522 01f1 6765745F 		.ascii	"get_step_pin_mask\000"
+ 3522      73746570 
+ 3522      5F70696E 
+ 3522      5F6D6173 
+ 3522      6B00
+ 3523              	.LASF51:
+ 3524 0203 73657474 		.ascii	"settings_read_startup_line\000"
+ 3524      696E6773 
+ 3524      5F726561 
+ 3524      645F7374 
+ 3524      61727475 
+ 3525              	.LASF21:
+ 3526 021e 6C6F6E67 		.ascii	"long double\000"
+ 3526      20646F75 
+ 3526      626C6500 
+ 3527              	.LASF36:
+ 3528 022a 686F6D69 		.ascii	"homing_dir_mask\000"
+ 3528      6E675F64 
+ 3528      69725F6D 
+ 3528      61736B00 
+ 3529              	.LASF2:
+ 3530 023a 756E7369 		.ascii	"unsigned char\000"
+ 3530      676E6564 
+ 3530      20636861 
+ 3530      7200
+ 3531              	.LASF90:
+ 3532 0248 7265706F 		.ascii	"report_grbl_settings\000"
+ 3532      72745F67 
+ 3532      72626C5F 
+ 3532      73657474 
+ 3532      696E6773 
+ 3533              	.LASF1:
+ 3534 025d 7369676E 		.ascii	"signed char\000"
+ 3534      65642063 
+ 3534      68617200 
+ 3535              	.LASF35:
+ 3536 0269 666C6167 		.ascii	"flags\000"
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 71
+
+
+ 3536      7300
+ 3537              	.LASF12:
+ 3538 026f 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3538      206C6F6E 
+ 3538      6720756E 
+ 3538      7369676E 
+ 3538      65642069 
+ 3539              	.LASF17:
+ 3540 0286 75696E74 		.ascii	"uint32_t\000"
+ 3540      33325F74 
+ 3540      00
+ 3541              	.LASF13:
+ 3542 028f 756E7369 		.ascii	"unsigned int\000"
+ 3542      676E6564 
+ 3542      20696E74 
+ 3542      00
+ 3543              	.LASF54:
+ 3544 029c 72656164 		.ascii	"read_global_settings\000"
+ 3544      5F676C6F 
+ 3544      62616C5F 
+ 3544      73657474 
+ 3544      696E6773 
+ 3545              	.LASF15:
+ 3546 02b1 75696E74 		.ascii	"uint16_t\000"
+ 3546      31365F74 
+ 3546      00
+ 3547              	.LASF83:
+ 3548 02ba 73745F67 		.ascii	"st_generate_step_dir_invert_masks\000"
+ 3548      656E6572 
+ 3548      6174655F 
+ 3548      73746570 
+ 3548      5F646972 
+ 3549              	.LASF74:
+ 3550 02dc 7379735F 		.ascii	"sys_rt_exec_motion_override\000"
+ 3550      72745F65 
+ 3550      7865635F 
+ 3550      6D6F7469 
+ 3550      6F6E5F6F 
+ 3551              	.LASF30:
+ 3552 02f8 73746174 		.ascii	"status_report_mask\000"
+ 3552      75735F72 
+ 3552      65706F72 
+ 3552      745F6D61 
+ 3552      736B00
+ 3553              	.LASF43:
+ 3554 030b 73657474 		.ascii	"settings_store_startup_line\000"
+ 3554      696E6773 
+ 3554      5F73746F 
+ 3554      72655F73 
+ 3554      74617274 
+ 3555              	.LASF6:
+ 3556 0327 73686F72 		.ascii	"short unsigned int\000"
+ 3556      7420756E 
+ 3556      7369676E 
+ 3556      65642069 
+ 3556      6E7400
+ 3557              	.LASF62:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 72
+
+
+ 3558 033a 73657474 		.ascii	"settings_init\000"
+ 3558      696E6773 
+ 3558      5F696E69 
+ 3558      7400
+ 3559              	.LASF50:
+ 3560 0348 72657374 		.ascii	"restore_flag\000"
+ 3560      6F72655F 
+ 3560      666C6167 
+ 3560      00
+ 3561              	.LASF8:
+ 3562 0355 6C6F6E67 		.ascii	"long int\000"
+ 3562      20696E74 
+ 3562      00
+ 3563              	.LASF47:
+ 3564 035e 636F6F72 		.ascii	"coord_data\000"
+ 3564      645F6461 
+ 3564      746100
+ 3565              	.LASF28:
+ 3566 0369 6469725F 		.ascii	"dir_invert_mask\000"
+ 3566      696E7665 
+ 3566      72745F6D 
+ 3566      61736B00 
+ 3567              	.LASF16:
+ 3568 0379 696E7433 		.ascii	"int32_t\000"
+ 3568      325F7400 
+ 3569              	.LASF57:
+ 3570 0381 70617261 		.ascii	"parameter\000"
+ 3570      6D657465 
+ 3570      7200
+ 3571              	.LASF89:
+ 3572 038b 45455052 		.ascii	"EEPROM_PSoC_Start\000"
+ 3572      4F4D5F50 
+ 3572      536F435F 
+ 3572      53746172 
+ 3572      7400
+ 3573              	.LASF33:
+ 3574 039d 72706D5F 		.ascii	"rpm_max\000"
+ 3574      6D617800 
+ 3575              	.LASF53:
+ 3576 03a5 73657474 		.ascii	"settings_read_coord_data\000"
+ 3576      696E6773 
+ 3576      5F726561 
+ 3576      645F636F 
+ 3576      6F72645F 
+ 3577              	.LASF82:
+ 3578 03be 7472756E 		.ascii	"trunc\000"
+ 3578      6300
+ 3579              	.LASF39:
+ 3580 03c4 686F6D69 		.ascii	"homing_debounce_delay\000"
+ 3580      6E675F64 
+ 3580      65626F75 
+ 3580      6E63655F 
+ 3580      64656C61 
+ 3581              	.LASF26:
+ 3582 03da 70756C73 		.ascii	"pulse_microseconds\000"
+ 3582      655F6D69 
+ 3582      63726F73 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 73
+
+
+ 3582      65636F6E 
+ 3582      647300
+ 3583              	.LASF66:
+ 3584 03ed 6765745F 		.ascii	"get_limit_pin_mask\000"
+ 3584      6C696D69 
+ 3584      745F7069 
+ 3584      6E5F6D61 
+ 3584      736B00
+ 3585              	.LASF71:
+ 3586 0400 7379735F 		.ascii	"sys_probe_state\000"
+ 3586      70726F62 
+ 3586      655F7374 
+ 3586      61746500 
+ 3587              	.LASF10:
+ 3588 0410 6C6F6E67 		.ascii	"long unsigned int\000"
+ 3588      20756E73 
+ 3588      69676E65 
+ 3588      6420696E 
+ 3588      7400
+ 3589              	.LASF87:
+ 3590 0422 73657474 		.ascii	"settings.c\000"
+ 3590      696E6773 
+ 3590      2E6300
+ 3591              	.LASF65:
+ 3592 042d 6765745F 		.ascii	"get_direction_pin_mask\000"
+ 3592      64697265 
+ 3592      6374696F 
+ 3592      6E5F7069 
+ 3592      6E5F6D61 
+ 3593              	.LASF38:
+ 3594 0444 686F6D69 		.ascii	"homing_seek_rate\000"
+ 3594      6E675F73 
+ 3594      65656B5F 
+ 3594      72617465 
+ 3594      00
+ 3595              	.LASF67:
+ 3596 0455 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 3596      52784275 
+ 3596      66666572 
+ 3596      00
+ 3597              	.LASF34:
+ 3598 0462 72706D5F 		.ascii	"rpm_min\000"
+ 3598      6D696E00 
+ 3599              	.LASF52:
+ 3600 046a 73657474 		.ascii	"settings_read_build_info\000"
+ 3600      696E6773 
+ 3600      5F726561 
+ 3600      645F6275 
+ 3600      696C645F 
+ 3601              	.LASF61:
+ 3602 0483 77726974 		.ascii	"write_global_settings\000"
+ 3602      655F676C 
+ 3602      6F62616C 
+ 3602      5F736574 
+ 3602      74696E67 
+ 3603              	.LASF84:
+ 3604 0499 6C696D69 		.ascii	"limits_init\000"
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 74
+
+
+ 3604      74735F69 
+ 3604      6E697400 
+ 3605              	.LASF7:
+ 3606 04a5 5F5F696E 		.ascii	"__int32_t\000"
+ 3606      7433325F 
+ 3606      7400
+ 3607              	.LASF31:
+ 3608 04af 6A756E63 		.ascii	"junction_deviation\000"
+ 3608      74696F6E 
+ 3608      5F646576 
+ 3608      69617469 
+ 3608      6F6E00
+ 3609              	.LASF86:
+ 3610 04c2 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 3610      4320342E 
+ 3610      392E3320 
+ 3610      32303135 
+ 3610      30333033 
+ 3611 04f5 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 3611      20726576 
+ 3611      6973696F 
+ 3611      6E203232 
+ 3611      31323230 
+ 3612 0528 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 3612      66756E63 
+ 3612      74696F6E 
+ 3612      2D736563 
+ 3612      74696F6E 
+ 3613              	.LASF25:
+ 3614 0550 6D61785F 		.ascii	"max_travel\000"
+ 3614      74726176 
+ 3614      656C00
+ 3615              	.LASF46:
+ 3616 055b 636F6F72 		.ascii	"coord_select\000"
+ 3616      645F7365 
+ 3616      6C656374 
+ 3616      00
+ 3617              	.LASF37:
+ 3618 0568 686F6D69 		.ascii	"homing_feed_rate\000"
+ 3618      6E675F66 
+ 3618      6565645F 
+ 3618      72617465 
+ 3618      00
+ 3619              	.LASF20:
+ 3620 0579 73697A65 		.ascii	"sizetype\000"
+ 3620      74797065 
+ 3620      00
+ 3621              	.LASF64:
+ 3622 0582 61786973 		.ascii	"axis_idx\000"
+ 3622      5F696478 
+ 3622      00
+ 3623              	.LASF18:
+ 3624 058b 646F7562 		.ascii	"double\000"
+ 3624      6C6500
+ 3625              	.LASF41:
+ 3626 0592 73657474 		.ascii	"settings_t\000"
+ 3626      696E6773 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccdZapHm.s 			page 75
+
+
+ 3626      5F7400
+ 3627              	.LASF49:
+ 3628 059d 73657474 		.ascii	"settings_restore\000"
+ 3628      696E6773 
+ 3628      5F726573 
+ 3628      746F7265 
+ 3628      00
+ 3629              	.LASF27:
+ 3630 05ae 73746570 		.ascii	"step_invert_mask\000"
+ 3630      5F696E76 
+ 3630      6572745F 
+ 3630      6D61736B 
+ 3630      00
+ 3631              	.LASF56:
+ 3632 05bf 73657474 		.ascii	"settings_store_global_setting\000"
+ 3632      696E6773 
+ 3632      5F73746F 
+ 3632      72655F67 
+ 3632      6C6F6261 
+ 3633              	.LASF72:
+ 3634 05dd 7379735F 		.ascii	"sys_rt_exec_state\000"
+ 3634      72745F65 
+ 3634      7865635F 
+ 3634      73746174 
+ 3634      6500
+ 3635              	.LASF76:
+ 3636 05ef 7379735F 		.ascii	"sys_rt_exec_debug\000"
+ 3636      72745F65 
+ 3636      7865635F 
+ 3636      64656275 
+ 3636      6700
+ 3637              	.LASF45:
+ 3638 0601 73657474 		.ascii	"settings_write_coord_data\000"
+ 3638      696E6773 
+ 3638      5F777269 
+ 3638      74655F63 
+ 3638      6F6F7264 
+ 3639              	.LASF60:
+ 3640 061b 696E745F 		.ascii	"int_value\000"
+ 3640      76616C75 
+ 3640      6500
+ 3641              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

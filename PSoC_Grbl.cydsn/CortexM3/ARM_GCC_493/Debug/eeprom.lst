@@ -1,0 +1,1283 @@
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"eeprom.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.eeprom_get_char,"ax",%progbits
+  19              		.align	2
+  20              		.global	eeprom_get_char
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	eeprom_get_char, %function
+  24              	eeprom_get_char:
+  25              	.LFB0:
+  26              		.file 1 "eeprom.c"
+   1:eeprom.c      **** // This file has been prepared for Doxygen automatic documentation generation.
+   2:eeprom.c      **** /*! \file ********************************************************************
+   3:eeprom.c      **** *
+   4:eeprom.c      **** * Atmel Corporation
+   5:eeprom.c      **** *
+   6:eeprom.c      **** * \li File:               eeprom.c
+   7:eeprom.c      **** * \li Compiler:           IAR EWAAVR 3.10c
+   8:eeprom.c      **** * \li Support mail:       avr@atmel.com
+   9:eeprom.c      **** *
+  10:eeprom.c      **** * \li Supported devices:  All devices with split EEPROM erase/write
+  11:eeprom.c      **** *                         capabilities can be used.
+  12:eeprom.c      **** *                         The example is written for ATmega48.
+  13:eeprom.c      **** *
+  14:eeprom.c      **** * \li AppNote:            AVR103 - Using the EEPROM Programming Modes.
+  15:eeprom.c      **** *
+  16:eeprom.c      **** * \li Description:        Example on how to use the split EEPROM erase/write
+  17:eeprom.c      **** *                         capabilities in e.g. ATmega48. All EEPROM
+  18:eeprom.c      **** *                         programming modes are tested, i.e. Erase+Write,
+  19:eeprom.c      **** *                         Erase-only and Write-only.
+  20:eeprom.c      **** *
+  21:eeprom.c      **** *                         $Revision: 1.6 $
+  22:eeprom.c      **** *                         $Date: Friday, February 11, 2005 07:16:44 UTC $
+  23:eeprom.c      **** 
+  24:eeprom.c      **** Updated For PSOC BJD 2017
+  25:eeprom.c      **** 
+  26:eeprom.c      **** ****************************************************************************/
+  27:eeprom.c      **** 
+  28:eeprom.c      **** 
+  29:eeprom.c      **** #include "EEPROM_PSoC.h"
+  30:eeprom.c      **** 
+  31:eeprom.c      **** 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 2
+
+
+  32:eeprom.c      **** unsigned char eeprom_get_char( unsigned int addr )
+  33:eeprom.c      **** {
+  27              		.loc 1 33 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  34:eeprom.c      **** 	return EEPROM_PSoC_ReadByte(addr);
+  36              		.loc 1 34 0
+  37 0002 80B2     		uxth	r0, r0
+  38              	.LVL1:
+  39 0004 FFF7FEFF 		bl	EEPROM_PSoC_ReadByte
+  40              	.LVL2:
+  35:eeprom.c      **** }
+  41              		.loc 1 35 0
+  42 0008 08BD     		pop	{r3, pc}
+  43              		.cfi_endproc
+  44              	.LFE0:
+  45              		.size	eeprom_get_char, .-eeprom_get_char
+  46 000a 00BF     		.section	.text.eeprom_put_char,"ax",%progbits
+  47              		.align	2
+  48              		.global	eeprom_put_char
+  49              		.thumb
+  50              		.thumb_func
+  51              		.type	eeprom_put_char, %function
+  52              	eeprom_put_char:
+  53              	.LFB1:
+  36:eeprom.c      **** 
+  37:eeprom.c      **** /*! \brief  Write byte to EEPROM.
+  38:eeprom.c      ****  *
+  39:eeprom.c      ****  *  This function writes one byte to a given EEPROM address.
+  40:eeprom.c      ****  *  The differences between the existing byte and the new value is used
+  41:eeprom.c      ****  *  to select the most efficient EEPROM programming mode.
+  42:eeprom.c      ****  *
+  43:eeprom.c      ****  *  \note  The CPU is halted for 2 clock cycles during EEPROM programming.
+  44:eeprom.c      ****  *
+  45:eeprom.c      ****  *  \note  When this function returns, the new EEPROM value is not available
+  46:eeprom.c      ****  *         until the EEPROM programming time has passed. The EEPE bit in EECR
+  47:eeprom.c      ****  *         should be polled to check whether the programming is finished.
+  48:eeprom.c      ****  *
+  49:eeprom.c      ****  *  \note  The EEPROM_GetChar() function checks the EEPE bit automatically.
+  50:eeprom.c      ****  *
+  51:eeprom.c      ****  *  \param  addr  EEPROM address to write to.
+  52:eeprom.c      ****  *  \param  new_value  New EEPROM value.
+  53:eeprom.c      ****  */
+  54:eeprom.c      **** void eeprom_put_char( unsigned int addr, unsigned char new_value )
+  55:eeprom.c      **** {	
+  54              		.loc 1 55 0
+  55              		.cfi_startproc
+  56              		@ args = 0, pretend = 0, frame = 0
+  57              		@ frame_needed = 0, uses_anonymous_args = 0
+  58              	.LVL3:
+  59 0000 08B5     		push	{r3, lr}
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 3
+
+
+  60              		.cfi_def_cfa_offset 8
+  61              		.cfi_offset 3, -8
+  62              		.cfi_offset 14, -4
+  56:eeprom.c      ****     EEPROM_PSoC_WriteByte(new_value, addr);
+  63              		.loc 1 56 0
+  64 0002 83B2     		uxth	r3, r0
+  65 0004 0846     		mov	r0, r1
+  66              	.LVL4:
+  67 0006 1946     		mov	r1, r3
+  68              	.LVL5:
+  69 0008 FFF7FEFF 		bl	EEPROM_PSoC_WriteByte
+  70              	.LVL6:
+  71 000c 08BD     		pop	{r3, pc}
+  72              		.cfi_endproc
+  73              	.LFE1:
+  74              		.size	eeprom_put_char, .-eeprom_put_char
+  75 000e 00BF     		.section	.text.memcpy_to_eeprom_with_checksum,"ax",%progbits
+  76              		.align	2
+  77              		.global	memcpy_to_eeprom_with_checksum
+  78              		.thumb
+  79              		.thumb_func
+  80              		.type	memcpy_to_eeprom_with_checksum, %function
+  81              	memcpy_to_eeprom_with_checksum:
+  82              	.LFB2:
+  57:eeprom.c      **** }
+  58:eeprom.c      **** 
+  59:eeprom.c      **** // Extensions added as part of Grbl 
+  60:eeprom.c      **** 
+  61:eeprom.c      **** 
+  62:eeprom.c      **** void memcpy_to_eeprom_with_checksum(unsigned int destination, char *source, unsigned int size) {
+  83              		.loc 1 62 0
+  84              		.cfi_startproc
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87              	.LVL7:
+  88 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  89              		.cfi_def_cfa_offset 24
+  90              		.cfi_offset 3, -24
+  91              		.cfi_offset 4, -20
+  92              		.cfi_offset 5, -16
+  93              		.cfi_offset 6, -12
+  94              		.cfi_offset 7, -8
+  95              		.cfi_offset 14, -4
+  96 0002 0E46     		mov	r6, r1
+  97 0004 1546     		mov	r5, r2
+  98              	.LVL8:
+  63:eeprom.c      ****   unsigned char checksum = 0;
+  99              		.loc 1 63 0
+ 100 0006 0024     		movs	r4, #0
+  64:eeprom.c      ****   for(; size > 0; size--) { 
+ 101              		.loc 1 64 0
+ 102 0008 11E0     		b	.L6
+ 103              	.LVL9:
+ 104              	.L8:
+  65:eeprom.c      ****     checksum = (checksum << 1) || (checksum >> 7);
+ 105              		.loc 1 65 0
+ 106 000a 6300     		lsls	r3, r4, #1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 4
+
+
+ 107 000c 24B9     		cbnz	r4, .L9
+ 108              		.loc 1 65 0 is_stmt 0 discriminator 2
+ 109 000e 14F0800F 		tst	r4, #128
+ 110 0012 02D0     		beq	.L7
+ 111              		.loc 1 65 0
+ 112 0014 0123     		movs	r3, #1
+ 113 0016 00E0     		b	.L7
+ 114              	.L9:
+ 115 0018 0123     		movs	r3, #1
+ 116              	.L7:
+ 117              	.LVL10:
+  66:eeprom.c      ****     checksum += *source;
+ 118              		.loc 1 66 0 is_stmt 1 discriminator 6
+ 119 001a 16F8011B 		ldrb	r1, [r6], #1	@ zero_extendqisi2
+ 120              	.LVL11:
+ 121 001e 0B44     		add	r3, r3, r1
+ 122              	.LVL12:
+ 123 0020 03F0FF04 		and	r4, r3, #255
+ 124              	.LVL13:
+  67:eeprom.c      ****     eeprom_put_char(destination++, *(source++)); 
+ 125              		.loc 1 67 0 discriminator 6
+ 126 0024 471C     		adds	r7, r0, #1
+ 127              	.LVL14:
+ 128 0026 FFF7FEFF 		bl	eeprom_put_char
+ 129              	.LVL15:
+  64:eeprom.c      ****     checksum = (checksum << 1) || (checksum >> 7);
+ 130              		.loc 1 64 0 discriminator 6
+ 131 002a 013D     		subs	r5, r5, #1
+ 132              	.LVL16:
+ 133              		.loc 1 67 0 discriminator 6
+ 134 002c 3846     		mov	r0, r7
+ 135              	.LVL17:
+ 136              	.L6:
+  64:eeprom.c      ****     checksum = (checksum << 1) || (checksum >> 7);
+ 137              		.loc 1 64 0 discriminator 1
+ 138 002e 002D     		cmp	r5, #0
+ 139 0030 EBD1     		bne	.L8
+  68:eeprom.c      ****   }
+  69:eeprom.c      ****   eeprom_put_char(destination, checksum);
+ 140              		.loc 1 69 0
+ 141 0032 2146     		mov	r1, r4
+ 142 0034 FFF7FEFF 		bl	eeprom_put_char
+ 143              	.LVL18:
+ 144 0038 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 145              		.cfi_endproc
+ 146              	.LFE2:
+ 147              		.size	memcpy_to_eeprom_with_checksum, .-memcpy_to_eeprom_with_checksum
+ 148 003a 00BF     		.section	.text.memcpy_from_eeprom_with_checksum,"ax",%progbits
+ 149              		.align	2
+ 150              		.global	memcpy_from_eeprom_with_checksum
+ 151              		.thumb
+ 152              		.thumb_func
+ 153              		.type	memcpy_from_eeprom_with_checksum, %function
+ 154              	memcpy_from_eeprom_with_checksum:
+ 155              	.LFB3:
+  70:eeprom.c      **** }
+  71:eeprom.c      **** 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 5
+
+
+  72:eeprom.c      **** int memcpy_from_eeprom_with_checksum(char *destination, unsigned int source, unsigned int size) {
+ 156              		.loc 1 72 0
+ 157              		.cfi_startproc
+ 158              		@ args = 0, pretend = 0, frame = 0
+ 159              		@ frame_needed = 0, uses_anonymous_args = 0
+ 160              	.LVL19:
+ 161 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 162              		.cfi_def_cfa_offset 24
+ 163              		.cfi_offset 3, -24
+ 164              		.cfi_offset 4, -20
+ 165              		.cfi_offset 5, -16
+ 166              		.cfi_offset 6, -12
+ 167              		.cfi_offset 7, -8
+ 168              		.cfi_offset 14, -4
+ 169 0002 0646     		mov	r6, r0
+ 170 0004 0846     		mov	r0, r1
+ 171              	.LVL20:
+ 172 0006 1546     		mov	r5, r2
+ 173              	.LVL21:
+  73:eeprom.c      ****   unsigned char data, checksum = 0;
+ 174              		.loc 1 73 0
+ 175 0008 0024     		movs	r4, #0
+  74:eeprom.c      ****   for(; size > 0; size--) { 
+ 176              		.loc 1 74 0
+ 177 000a 11E0     		b	.L12
+ 178              	.LVL22:
+ 179              	.L14:
+  75:eeprom.c      ****     data = eeprom_get_char(source++);
+ 180              		.loc 1 75 0
+ 181 000c 471C     		adds	r7, r0, #1
+ 182              	.LVL23:
+ 183 000e FFF7FEFF 		bl	eeprom_get_char
+ 184              	.LVL24:
+  76:eeprom.c      ****     checksum = (checksum << 1) || (checksum >> 7);
+ 185              		.loc 1 76 0
+ 186 0012 6300     		lsls	r3, r4, #1
+ 187 0014 24B9     		cbnz	r4, .L15
+ 188              		.loc 1 76 0 is_stmt 0 discriminator 2
+ 189 0016 14F0800F 		tst	r4, #128
+ 190 001a 02D0     		beq	.L13
+ 191              		.loc 1 76 0
+ 192 001c 0123     		movs	r3, #1
+ 193 001e 00E0     		b	.L13
+ 194              	.L15:
+ 195 0020 0123     		movs	r3, #1
+ 196              	.L13:
+ 197              	.LVL25:
+  77:eeprom.c      ****     checksum += data;    
+ 198              		.loc 1 77 0 is_stmt 1 discriminator 6
+ 199 0022 0344     		add	r3, r3, r0
+ 200              	.LVL26:
+ 201 0024 03F0FF04 		and	r4, r3, #255
+ 202              	.LVL27:
+  78:eeprom.c      ****     *(destination++) = data; 
+ 203              		.loc 1 78 0 discriminator 6
+ 204 0028 3070     		strb	r0, [r6]
+  74:eeprom.c      ****     data = eeprom_get_char(source++);
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 6
+
+
+ 205              		.loc 1 74 0 discriminator 6
+ 206 002a 013D     		subs	r5, r5, #1
+ 207              	.LVL28:
+  75:eeprom.c      ****     checksum = (checksum << 1) || (checksum >> 7);
+ 208              		.loc 1 75 0 discriminator 6
+ 209 002c 3846     		mov	r0, r7
+ 210              	.LVL29:
+ 211              		.loc 1 78 0 discriminator 6
+ 212 002e 0136     		adds	r6, r6, #1
+ 213              	.LVL30:
+ 214              	.L12:
+  74:eeprom.c      ****     data = eeprom_get_char(source++);
+ 215              		.loc 1 74 0 discriminator 1
+ 216 0030 002D     		cmp	r5, #0
+ 217 0032 EBD1     		bne	.L14
+  79:eeprom.c      ****   }
+  80:eeprom.c      ****   return(checksum == eeprom_get_char(source));
+ 218              		.loc 1 80 0
+ 219 0034 FFF7FEFF 		bl	eeprom_get_char
+ 220              	.LVL31:
+  81:eeprom.c      **** }
+ 221              		.loc 1 81 0
+ 222 0038 A042     		cmp	r0, r4
+ 223 003a 14BF     		ite	ne
+ 224 003c 0020     		movne	r0, #0
+ 225 003e 0120     		moveq	r0, #1
+ 226 0040 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 227              		.cfi_endproc
+ 228              	.LFE3:
+ 229              		.size	memcpy_from_eeprom_with_checksum, .-memcpy_from_eeprom_with_checksum
+ 230 0042 00BF     		.text
+ 231              	.Letext0:
+ 232              		.file 2 "Generated_Source\\PSoC5/cytypes.h"
+ 233              		.file 3 "Generated_Source\\PSoC5/EEPROM_PSoC.h"
+ 234              		.section	.debug_info,"",%progbits
+ 235              	.Ldebug_info0:
+ 236 0000 50020000 		.4byte	0x250
+ 237 0004 0400     		.2byte	0x4
+ 238 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 239 000a 04       		.byte	0x4
+ 240 000b 01       		.uleb128 0x1
+ 241 000c D3000000 		.4byte	.LASF27
+ 242 0010 01       		.byte	0x1
+ 243 0011 38020000 		.4byte	.LASF28
+ 244 0015 09000000 		.4byte	.LASF29
+ 245 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 246 001d 00000000 		.4byte	0
+ 247 0021 00000000 		.4byte	.Ldebug_line0
+ 248 0025 02       		.uleb128 0x2
+ 249 0026 01       		.byte	0x1
+ 250 0027 06       		.byte	0x6
+ 251 0028 25020000 		.4byte	.LASF0
+ 252 002c 02       		.uleb128 0x2
+ 253 002d 01       		.byte	0x1
+ 254 002e 08       		.byte	0x8
+ 255 002f 97000000 		.4byte	.LASF1
+ 256 0033 02       		.uleb128 0x2
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 7
+
+
+ 257 0034 02       		.byte	0x2
+ 258 0035 05       		.byte	0x5
+ 259 0036 D5010000 		.4byte	.LASF2
+ 260 003a 02       		.uleb128 0x2
+ 261 003b 02       		.byte	0x2
+ 262 003c 07       		.byte	0x7
+ 263 003d 48000000 		.4byte	.LASF3
+ 264 0041 02       		.uleb128 0x2
+ 265 0042 04       		.byte	0x4
+ 266 0043 05       		.byte	0x5
+ 267 0044 1C020000 		.4byte	.LASF4
+ 268 0048 02       		.uleb128 0x2
+ 269 0049 04       		.byte	0x4
+ 270 004a 07       		.byte	0x7
+ 271 004b 80000000 		.4byte	.LASF5
+ 272 004f 02       		.uleb128 0x2
+ 273 0050 08       		.byte	0x8
+ 274 0051 05       		.byte	0x5
+ 275 0052 C2010000 		.4byte	.LASF6
+ 276 0056 02       		.uleb128 0x2
+ 277 0057 08       		.byte	0x8
+ 278 0058 07       		.byte	0x7
+ 279 0059 8D010000 		.4byte	.LASF7
+ 280 005d 03       		.uleb128 0x3
+ 281 005e 04       		.byte	0x4
+ 282 005f 05       		.byte	0x5
+ 283 0060 696E7400 		.ascii	"int\000"
+ 284 0064 02       		.uleb128 0x2
+ 285 0065 04       		.byte	0x4
+ 286 0066 07       		.byte	0x7
+ 287 0067 61010000 		.4byte	.LASF8
+ 288 006b 04       		.uleb128 0x4
+ 289 006c 00020000 		.4byte	.LASF9
+ 290 0070 02       		.byte	0x2
+ 291 0071 9201     		.2byte	0x192
+ 292 0073 2C000000 		.4byte	0x2c
+ 293 0077 04       		.uleb128 0x4
+ 294 0078 CC000000 		.4byte	.LASF10
+ 295 007c 02       		.byte	0x2
+ 296 007d 9301     		.2byte	0x193
+ 297 007f 3A000000 		.4byte	0x3a
+ 298 0083 02       		.uleb128 0x2
+ 299 0084 04       		.byte	0x4
+ 300 0085 04       		.byte	0x4
+ 301 0086 67000000 		.4byte	.LASF11
+ 302 008a 02       		.uleb128 0x2
+ 303 008b 08       		.byte	0x8
+ 304 008c 04       		.byte	0x4
+ 305 008d B5000000 		.4byte	.LASF12
+ 306 0091 02       		.uleb128 0x2
+ 307 0092 01       		.byte	0x1
+ 308 0093 08       		.byte	0x8
+ 309 0094 D0010000 		.4byte	.LASF13
+ 310 0098 04       		.uleb128 0x4
+ 311 0099 00000000 		.4byte	.LASF14
+ 312 009d 02       		.byte	0x2
+ 313 009e 3402     		.2byte	0x234
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 8
+
+
+ 314 00a0 48000000 		.4byte	0x48
+ 315 00a4 02       		.uleb128 0x2
+ 316 00a5 04       		.byte	0x4
+ 317 00a6 07       		.byte	0x7
+ 318 00a7 B9010000 		.4byte	.LASF15
+ 319 00ab 05       		.uleb128 0x5
+ 320 00ac 04       		.byte	0x4
+ 321 00ad 91000000 		.4byte	0x91
+ 322 00b1 06       		.uleb128 0x6
+ 323 00b2 A5000000 		.4byte	.LASF23
+ 324 00b6 01       		.byte	0x1
+ 325 00b7 20       		.byte	0x20
+ 326 00b8 2C000000 		.4byte	0x2c
+ 327 00bc 00000000 		.4byte	.LFB0
+ 328 00c0 0A000000 		.4byte	.LFE0-.LFB0
+ 329 00c4 01       		.uleb128 0x1
+ 330 00c5 9C       		.byte	0x9c
+ 331 00c6 EB000000 		.4byte	0xeb
+ 332 00ca 07       		.uleb128 0x7
+ 333 00cb 92000000 		.4byte	.LASF16
+ 334 00cf 01       		.byte	0x1
+ 335 00d0 20       		.byte	0x20
+ 336 00d1 64000000 		.4byte	0x64
+ 337 00d5 00000000 		.4byte	.LLST0
+ 338 00d9 08       		.uleb128 0x8
+ 339 00da 08000000 		.4byte	.LVL2
+ 340 00de 28020000 		.4byte	0x228
+ 341 00e2 09       		.uleb128 0x9
+ 342 00e3 01       		.uleb128 0x1
+ 343 00e4 50       		.byte	0x50
+ 344 00e5 03       		.uleb128 0x3
+ 345 00e6 F3       		.byte	0xf3
+ 346 00e7 01       		.uleb128 0x1
+ 347 00e8 50       		.byte	0x50
+ 348 00e9 00       		.byte	0
+ 349 00ea 00       		.byte	0
+ 350 00eb 0A       		.uleb128 0xa
+ 351 00ec BC000000 		.4byte	.LASF18
+ 352 00f0 01       		.byte	0x1
+ 353 00f1 36       		.byte	0x36
+ 354 00f2 00000000 		.4byte	.LFB1
+ 355 00f6 0E000000 		.4byte	.LFE1-.LFB1
+ 356 00fa 01       		.uleb128 0x1
+ 357 00fb 9C       		.byte	0x9c
+ 358 00fc 30010000 		.4byte	0x130
+ 359 0100 07       		.uleb128 0x7
+ 360 0101 92000000 		.4byte	.LASF16
+ 361 0105 01       		.byte	0x1
+ 362 0106 36       		.byte	0x36
+ 363 0107 64000000 		.4byte	0x64
+ 364 010b 21000000 		.4byte	.LLST1
+ 365 010f 07       		.uleb128 0x7
+ 366 0110 3E000000 		.4byte	.LASF17
+ 367 0114 01       		.byte	0x1
+ 368 0115 36       		.byte	0x36
+ 369 0116 2C000000 		.4byte	0x2c
+ 370 011a 42000000 		.4byte	.LLST2
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 9
+
+
+ 371 011e 08       		.uleb128 0x8
+ 372 011f 0C000000 		.4byte	.LVL6
+ 373 0123 3D020000 		.4byte	0x23d
+ 374 0127 09       		.uleb128 0x9
+ 375 0128 01       		.uleb128 0x1
+ 376 0129 51       		.byte	0x51
+ 377 012a 03       		.uleb128 0x3
+ 378 012b F3       		.byte	0xf3
+ 379 012c 01       		.uleb128 0x1
+ 380 012d 50       		.byte	0x50
+ 381 012e 00       		.byte	0
+ 382 012f 00       		.byte	0
+ 383 0130 0A       		.uleb128 0xa
+ 384 0131 6E010000 		.4byte	.LASF19
+ 385 0135 01       		.byte	0x1
+ 386 0136 3E       		.byte	0x3e
+ 387 0137 00000000 		.4byte	.LFB2
+ 388 013b 3A000000 		.4byte	.LFE2-.LFB2
+ 389 013f 01       		.uleb128 0x1
+ 390 0140 9C       		.byte	0x9c
+ 391 0141 A6010000 		.4byte	0x1a6
+ 392 0145 07       		.uleb128 0x7
+ 393 0146 5B000000 		.4byte	.LASF20
+ 394 014a 01       		.byte	0x1
+ 395 014b 3E       		.byte	0x3e
+ 396 014c 64000000 		.4byte	0x64
+ 397 0150 63000000 		.4byte	.LLST3
+ 398 0154 07       		.uleb128 0x7
+ 399 0155 31020000 		.4byte	.LASF21
+ 400 0159 01       		.byte	0x1
+ 401 015a 3E       		.byte	0x3e
+ 402 015b AB000000 		.4byte	0xab
+ 403 015f 8C000000 		.4byte	.LLST4
+ 404 0163 07       		.uleb128 0x7
+ 405 0164 7B000000 		.4byte	.LASF22
+ 406 0168 01       		.byte	0x1
+ 407 0169 3E       		.byte	0x3e
+ 408 016a 64000000 		.4byte	0x64
+ 409 016e C2000000 		.4byte	.LLST5
+ 410 0172 0B       		.uleb128 0xb
+ 411 0173 72000000 		.4byte	.LASF25
+ 412 0177 01       		.byte	0x1
+ 413 0178 3F       		.byte	0x3f
+ 414 0179 2C000000 		.4byte	0x2c
+ 415 017d E0000000 		.4byte	.LLST6
+ 416 0181 0C       		.uleb128 0xc
+ 417 0182 2A000000 		.4byte	.LVL15
+ 418 0186 EB000000 		.4byte	0xeb
+ 419 018a 95010000 		.4byte	0x195
+ 420 018e 09       		.uleb128 0x9
+ 421 018f 01       		.uleb128 0x1
+ 422 0190 50       		.byte	0x50
+ 423 0191 02       		.uleb128 0x2
+ 424 0192 77       		.byte	0x77
+ 425 0193 7F       		.sleb128 -1
+ 426 0194 00       		.byte	0
+ 427 0195 08       		.uleb128 0x8
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 10
+
+
+ 428 0196 38000000 		.4byte	.LVL18
+ 429 019a EB000000 		.4byte	0xeb
+ 430 019e 09       		.uleb128 0x9
+ 431 019f 01       		.uleb128 0x1
+ 432 01a0 51       		.byte	0x51
+ 433 01a1 02       		.uleb128 0x2
+ 434 01a2 74       		.byte	0x74
+ 435 01a3 00       		.sleb128 0
+ 436 01a4 00       		.byte	0
+ 437 01a5 00       		.byte	0
+ 438 01a6 06       		.uleb128 0x6
+ 439 01a7 DF010000 		.4byte	.LASF24
+ 440 01ab 01       		.byte	0x1
+ 441 01ac 48       		.byte	0x48
+ 442 01ad 5D000000 		.4byte	0x5d
+ 443 01b1 00000000 		.4byte	.LFB3
+ 444 01b5 42000000 		.4byte	.LFE3-.LFB3
+ 445 01b9 01       		.uleb128 0x1
+ 446 01ba 9C       		.byte	0x9c
+ 447 01bb 28020000 		.4byte	0x228
+ 448 01bf 07       		.uleb128 0x7
+ 449 01c0 5B000000 		.4byte	.LASF20
+ 450 01c4 01       		.byte	0x1
+ 451 01c5 48       		.byte	0x48
+ 452 01c6 AB000000 		.4byte	0xab
+ 453 01ca 15010000 		.4byte	.LLST7
+ 454 01ce 07       		.uleb128 0x7
+ 455 01cf 31020000 		.4byte	.LASF21
+ 456 01d3 01       		.byte	0x1
+ 457 01d4 48       		.byte	0x48
+ 458 01d5 64000000 		.4byte	0x64
+ 459 01d9 4B010000 		.4byte	.LLST8
+ 460 01dd 07       		.uleb128 0x7
+ 461 01de 7B000000 		.4byte	.LASF22
+ 462 01e2 01       		.byte	0x1
+ 463 01e3 48       		.byte	0x48
+ 464 01e4 64000000 		.4byte	0x64
+ 465 01e8 7F010000 		.4byte	.LLST9
+ 466 01ec 0B       		.uleb128 0xb
+ 467 01ed 6D000000 		.4byte	.LASF26
+ 468 01f1 01       		.byte	0x1
+ 469 01f2 49       		.byte	0x49
+ 470 01f3 2C000000 		.4byte	0x2c
+ 471 01f7 9D010000 		.4byte	.LLST10
+ 472 01fb 0B       		.uleb128 0xb
+ 473 01fc 72000000 		.4byte	.LASF25
+ 474 0200 01       		.byte	0x1
+ 475 0201 49       		.byte	0x49
+ 476 0202 2C000000 		.4byte	0x2c
+ 477 0206 BC010000 		.4byte	.LLST11
+ 478 020a 0C       		.uleb128 0xc
+ 479 020b 12000000 		.4byte	.LVL24
+ 480 020f B1000000 		.4byte	0xb1
+ 481 0213 1E020000 		.4byte	0x21e
+ 482 0217 09       		.uleb128 0x9
+ 483 0218 01       		.uleb128 0x1
+ 484 0219 50       		.byte	0x50
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 11
+
+
+ 485 021a 02       		.uleb128 0x2
+ 486 021b 77       		.byte	0x77
+ 487 021c 7F       		.sleb128 -1
+ 488 021d 00       		.byte	0
+ 489 021e 0D       		.uleb128 0xd
+ 490 021f 38000000 		.4byte	.LVL31
+ 491 0223 B1000000 		.4byte	0xb1
+ 492 0227 00       		.byte	0
+ 493 0228 0E       		.uleb128 0xe
+ 494 0229 A4010000 		.4byte	.LASF30
+ 495 022d 03       		.byte	0x3
+ 496 022e 23       		.byte	0x23
+ 497 022f 6B000000 		.4byte	0x6b
+ 498 0233 3D020000 		.4byte	0x23d
+ 499 0237 0F       		.uleb128 0xf
+ 500 0238 77000000 		.4byte	0x77
+ 501 023c 00       		.byte	0
+ 502 023d 10       		.uleb128 0x10
+ 503 023e 06020000 		.4byte	.LASF31
+ 504 0242 03       		.byte	0x3
+ 505 0243 21       		.byte	0x21
+ 506 0244 98000000 		.4byte	0x98
+ 507 0248 0F       		.uleb128 0xf
+ 508 0249 6B000000 		.4byte	0x6b
+ 509 024d 0F       		.uleb128 0xf
+ 510 024e 77000000 		.4byte	0x77
+ 511 0252 00       		.byte	0
+ 512 0253 00       		.byte	0
+ 513              		.section	.debug_abbrev,"",%progbits
+ 514              	.Ldebug_abbrev0:
+ 515 0000 01       		.uleb128 0x1
+ 516 0001 11       		.uleb128 0x11
+ 517 0002 01       		.byte	0x1
+ 518 0003 25       		.uleb128 0x25
+ 519 0004 0E       		.uleb128 0xe
+ 520 0005 13       		.uleb128 0x13
+ 521 0006 0B       		.uleb128 0xb
+ 522 0007 03       		.uleb128 0x3
+ 523 0008 0E       		.uleb128 0xe
+ 524 0009 1B       		.uleb128 0x1b
+ 525 000a 0E       		.uleb128 0xe
+ 526 000b 55       		.uleb128 0x55
+ 527 000c 17       		.uleb128 0x17
+ 528 000d 11       		.uleb128 0x11
+ 529 000e 01       		.uleb128 0x1
+ 530 000f 10       		.uleb128 0x10
+ 531 0010 17       		.uleb128 0x17
+ 532 0011 00       		.byte	0
+ 533 0012 00       		.byte	0
+ 534 0013 02       		.uleb128 0x2
+ 535 0014 24       		.uleb128 0x24
+ 536 0015 00       		.byte	0
+ 537 0016 0B       		.uleb128 0xb
+ 538 0017 0B       		.uleb128 0xb
+ 539 0018 3E       		.uleb128 0x3e
+ 540 0019 0B       		.uleb128 0xb
+ 541 001a 03       		.uleb128 0x3
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 12
+
+
+ 542 001b 0E       		.uleb128 0xe
+ 543 001c 00       		.byte	0
+ 544 001d 00       		.byte	0
+ 545 001e 03       		.uleb128 0x3
+ 546 001f 24       		.uleb128 0x24
+ 547 0020 00       		.byte	0
+ 548 0021 0B       		.uleb128 0xb
+ 549 0022 0B       		.uleb128 0xb
+ 550 0023 3E       		.uleb128 0x3e
+ 551 0024 0B       		.uleb128 0xb
+ 552 0025 03       		.uleb128 0x3
+ 553 0026 08       		.uleb128 0x8
+ 554 0027 00       		.byte	0
+ 555 0028 00       		.byte	0
+ 556 0029 04       		.uleb128 0x4
+ 557 002a 16       		.uleb128 0x16
+ 558 002b 00       		.byte	0
+ 559 002c 03       		.uleb128 0x3
+ 560 002d 0E       		.uleb128 0xe
+ 561 002e 3A       		.uleb128 0x3a
+ 562 002f 0B       		.uleb128 0xb
+ 563 0030 3B       		.uleb128 0x3b
+ 564 0031 05       		.uleb128 0x5
+ 565 0032 49       		.uleb128 0x49
+ 566 0033 13       		.uleb128 0x13
+ 567 0034 00       		.byte	0
+ 568 0035 00       		.byte	0
+ 569 0036 05       		.uleb128 0x5
+ 570 0037 0F       		.uleb128 0xf
+ 571 0038 00       		.byte	0
+ 572 0039 0B       		.uleb128 0xb
+ 573 003a 0B       		.uleb128 0xb
+ 574 003b 49       		.uleb128 0x49
+ 575 003c 13       		.uleb128 0x13
+ 576 003d 00       		.byte	0
+ 577 003e 00       		.byte	0
+ 578 003f 06       		.uleb128 0x6
+ 579 0040 2E       		.uleb128 0x2e
+ 580 0041 01       		.byte	0x1
+ 581 0042 3F       		.uleb128 0x3f
+ 582 0043 19       		.uleb128 0x19
+ 583 0044 03       		.uleb128 0x3
+ 584 0045 0E       		.uleb128 0xe
+ 585 0046 3A       		.uleb128 0x3a
+ 586 0047 0B       		.uleb128 0xb
+ 587 0048 3B       		.uleb128 0x3b
+ 588 0049 0B       		.uleb128 0xb
+ 589 004a 27       		.uleb128 0x27
+ 590 004b 19       		.uleb128 0x19
+ 591 004c 49       		.uleb128 0x49
+ 592 004d 13       		.uleb128 0x13
+ 593 004e 11       		.uleb128 0x11
+ 594 004f 01       		.uleb128 0x1
+ 595 0050 12       		.uleb128 0x12
+ 596 0051 06       		.uleb128 0x6
+ 597 0052 40       		.uleb128 0x40
+ 598 0053 18       		.uleb128 0x18
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 13
+
+
+ 599 0054 9742     		.uleb128 0x2117
+ 600 0056 19       		.uleb128 0x19
+ 601 0057 01       		.uleb128 0x1
+ 602 0058 13       		.uleb128 0x13
+ 603 0059 00       		.byte	0
+ 604 005a 00       		.byte	0
+ 605 005b 07       		.uleb128 0x7
+ 606 005c 05       		.uleb128 0x5
+ 607 005d 00       		.byte	0
+ 608 005e 03       		.uleb128 0x3
+ 609 005f 0E       		.uleb128 0xe
+ 610 0060 3A       		.uleb128 0x3a
+ 611 0061 0B       		.uleb128 0xb
+ 612 0062 3B       		.uleb128 0x3b
+ 613 0063 0B       		.uleb128 0xb
+ 614 0064 49       		.uleb128 0x49
+ 615 0065 13       		.uleb128 0x13
+ 616 0066 02       		.uleb128 0x2
+ 617 0067 17       		.uleb128 0x17
+ 618 0068 00       		.byte	0
+ 619 0069 00       		.byte	0
+ 620 006a 08       		.uleb128 0x8
+ 621 006b 898201   		.uleb128 0x4109
+ 622 006e 01       		.byte	0x1
+ 623 006f 11       		.uleb128 0x11
+ 624 0070 01       		.uleb128 0x1
+ 625 0071 31       		.uleb128 0x31
+ 626 0072 13       		.uleb128 0x13
+ 627 0073 00       		.byte	0
+ 628 0074 00       		.byte	0
+ 629 0075 09       		.uleb128 0x9
+ 630 0076 8A8201   		.uleb128 0x410a
+ 631 0079 00       		.byte	0
+ 632 007a 02       		.uleb128 0x2
+ 633 007b 18       		.uleb128 0x18
+ 634 007c 9142     		.uleb128 0x2111
+ 635 007e 18       		.uleb128 0x18
+ 636 007f 00       		.byte	0
+ 637 0080 00       		.byte	0
+ 638 0081 0A       		.uleb128 0xa
+ 639 0082 2E       		.uleb128 0x2e
+ 640 0083 01       		.byte	0x1
+ 641 0084 3F       		.uleb128 0x3f
+ 642 0085 19       		.uleb128 0x19
+ 643 0086 03       		.uleb128 0x3
+ 644 0087 0E       		.uleb128 0xe
+ 645 0088 3A       		.uleb128 0x3a
+ 646 0089 0B       		.uleb128 0xb
+ 647 008a 3B       		.uleb128 0x3b
+ 648 008b 0B       		.uleb128 0xb
+ 649 008c 27       		.uleb128 0x27
+ 650 008d 19       		.uleb128 0x19
+ 651 008e 11       		.uleb128 0x11
+ 652 008f 01       		.uleb128 0x1
+ 653 0090 12       		.uleb128 0x12
+ 654 0091 06       		.uleb128 0x6
+ 655 0092 40       		.uleb128 0x40
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 14
+
+
+ 656 0093 18       		.uleb128 0x18
+ 657 0094 9742     		.uleb128 0x2117
+ 658 0096 19       		.uleb128 0x19
+ 659 0097 01       		.uleb128 0x1
+ 660 0098 13       		.uleb128 0x13
+ 661 0099 00       		.byte	0
+ 662 009a 00       		.byte	0
+ 663 009b 0B       		.uleb128 0xb
+ 664 009c 34       		.uleb128 0x34
+ 665 009d 00       		.byte	0
+ 666 009e 03       		.uleb128 0x3
+ 667 009f 0E       		.uleb128 0xe
+ 668 00a0 3A       		.uleb128 0x3a
+ 669 00a1 0B       		.uleb128 0xb
+ 670 00a2 3B       		.uleb128 0x3b
+ 671 00a3 0B       		.uleb128 0xb
+ 672 00a4 49       		.uleb128 0x49
+ 673 00a5 13       		.uleb128 0x13
+ 674 00a6 02       		.uleb128 0x2
+ 675 00a7 17       		.uleb128 0x17
+ 676 00a8 00       		.byte	0
+ 677 00a9 00       		.byte	0
+ 678 00aa 0C       		.uleb128 0xc
+ 679 00ab 898201   		.uleb128 0x4109
+ 680 00ae 01       		.byte	0x1
+ 681 00af 11       		.uleb128 0x11
+ 682 00b0 01       		.uleb128 0x1
+ 683 00b1 31       		.uleb128 0x31
+ 684 00b2 13       		.uleb128 0x13
+ 685 00b3 01       		.uleb128 0x1
+ 686 00b4 13       		.uleb128 0x13
+ 687 00b5 00       		.byte	0
+ 688 00b6 00       		.byte	0
+ 689 00b7 0D       		.uleb128 0xd
+ 690 00b8 898201   		.uleb128 0x4109
+ 691 00bb 00       		.byte	0
+ 692 00bc 11       		.uleb128 0x11
+ 693 00bd 01       		.uleb128 0x1
+ 694 00be 31       		.uleb128 0x31
+ 695 00bf 13       		.uleb128 0x13
+ 696 00c0 00       		.byte	0
+ 697 00c1 00       		.byte	0
+ 698 00c2 0E       		.uleb128 0xe
+ 699 00c3 2E       		.uleb128 0x2e
+ 700 00c4 01       		.byte	0x1
+ 701 00c5 3F       		.uleb128 0x3f
+ 702 00c6 19       		.uleb128 0x19
+ 703 00c7 03       		.uleb128 0x3
+ 704 00c8 0E       		.uleb128 0xe
+ 705 00c9 3A       		.uleb128 0x3a
+ 706 00ca 0B       		.uleb128 0xb
+ 707 00cb 3B       		.uleb128 0x3b
+ 708 00cc 0B       		.uleb128 0xb
+ 709 00cd 27       		.uleb128 0x27
+ 710 00ce 19       		.uleb128 0x19
+ 711 00cf 49       		.uleb128 0x49
+ 712 00d0 13       		.uleb128 0x13
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 15
+
+
+ 713 00d1 3C       		.uleb128 0x3c
+ 714 00d2 19       		.uleb128 0x19
+ 715 00d3 01       		.uleb128 0x1
+ 716 00d4 13       		.uleb128 0x13
+ 717 00d5 00       		.byte	0
+ 718 00d6 00       		.byte	0
+ 719 00d7 0F       		.uleb128 0xf
+ 720 00d8 05       		.uleb128 0x5
+ 721 00d9 00       		.byte	0
+ 722 00da 49       		.uleb128 0x49
+ 723 00db 13       		.uleb128 0x13
+ 724 00dc 00       		.byte	0
+ 725 00dd 00       		.byte	0
+ 726 00de 10       		.uleb128 0x10
+ 727 00df 2E       		.uleb128 0x2e
+ 728 00e0 01       		.byte	0x1
+ 729 00e1 3F       		.uleb128 0x3f
+ 730 00e2 19       		.uleb128 0x19
+ 731 00e3 03       		.uleb128 0x3
+ 732 00e4 0E       		.uleb128 0xe
+ 733 00e5 3A       		.uleb128 0x3a
+ 734 00e6 0B       		.uleb128 0xb
+ 735 00e7 3B       		.uleb128 0x3b
+ 736 00e8 0B       		.uleb128 0xb
+ 737 00e9 27       		.uleb128 0x27
+ 738 00ea 19       		.uleb128 0x19
+ 739 00eb 49       		.uleb128 0x49
+ 740 00ec 13       		.uleb128 0x13
+ 741 00ed 3C       		.uleb128 0x3c
+ 742 00ee 19       		.uleb128 0x19
+ 743 00ef 00       		.byte	0
+ 744 00f0 00       		.byte	0
+ 745 00f1 00       		.byte	0
+ 746              		.section	.debug_loc,"",%progbits
+ 747              	.Ldebug_loc0:
+ 748              	.LLST0:
+ 749 0000 00000000 		.4byte	.LVL0
+ 750 0004 04000000 		.4byte	.LVL1
+ 751 0008 0100     		.2byte	0x1
+ 752 000a 50       		.byte	0x50
+ 753 000b 04000000 		.4byte	.LVL1
+ 754 000f 0A000000 		.4byte	.LFE0
+ 755 0013 0400     		.2byte	0x4
+ 756 0015 F3       		.byte	0xf3
+ 757 0016 01       		.uleb128 0x1
+ 758 0017 50       		.byte	0x50
+ 759 0018 9F       		.byte	0x9f
+ 760 0019 00000000 		.4byte	0
+ 761 001d 00000000 		.4byte	0
+ 762              	.LLST1:
+ 763 0021 00000000 		.4byte	.LVL3
+ 764 0025 06000000 		.4byte	.LVL4
+ 765 0029 0100     		.2byte	0x1
+ 766 002b 50       		.byte	0x50
+ 767 002c 06000000 		.4byte	.LVL4
+ 768 0030 0E000000 		.4byte	.LFE1
+ 769 0034 0400     		.2byte	0x4
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 16
+
+
+ 770 0036 F3       		.byte	0xf3
+ 771 0037 01       		.uleb128 0x1
+ 772 0038 50       		.byte	0x50
+ 773 0039 9F       		.byte	0x9f
+ 774 003a 00000000 		.4byte	0
+ 775 003e 00000000 		.4byte	0
+ 776              	.LLST2:
+ 777 0042 00000000 		.4byte	.LVL3
+ 778 0046 08000000 		.4byte	.LVL5
+ 779 004a 0100     		.2byte	0x1
+ 780 004c 51       		.byte	0x51
+ 781 004d 08000000 		.4byte	.LVL5
+ 782 0051 0E000000 		.4byte	.LFE1
+ 783 0055 0400     		.2byte	0x4
+ 784 0057 F3       		.byte	0xf3
+ 785 0058 01       		.uleb128 0x1
+ 786 0059 51       		.byte	0x51
+ 787 005a 9F       		.byte	0x9f
+ 788 005b 00000000 		.4byte	0
+ 789 005f 00000000 		.4byte	0
+ 790              	.LLST3:
+ 791 0063 00000000 		.4byte	.LVL7
+ 792 0067 26000000 		.4byte	.LVL14
+ 793 006b 0100     		.2byte	0x1
+ 794 006d 50       		.byte	0x50
+ 795 006e 26000000 		.4byte	.LVL14
+ 796 0072 2E000000 		.4byte	.LVL17
+ 797 0076 0100     		.2byte	0x1
+ 798 0078 57       		.byte	0x57
+ 799 0079 2E000000 		.4byte	.LVL17
+ 800 007d 37000000 		.4byte	.LVL18-1
+ 801 0081 0100     		.2byte	0x1
+ 802 0083 50       		.byte	0x50
+ 803 0084 00000000 		.4byte	0
+ 804 0088 00000000 		.4byte	0
+ 805              	.LLST4:
+ 806 008c 00000000 		.4byte	.LVL7
+ 807 0090 0A000000 		.4byte	.LVL9
+ 808 0094 0100     		.2byte	0x1
+ 809 0096 51       		.byte	0x51
+ 810 0097 0A000000 		.4byte	.LVL9
+ 811 009b 1E000000 		.4byte	.LVL11
+ 812 009f 0100     		.2byte	0x1
+ 813 00a1 56       		.byte	0x56
+ 814 00a2 1E000000 		.4byte	.LVL11
+ 815 00a6 26000000 		.4byte	.LVL14
+ 816 00aa 0300     		.2byte	0x3
+ 817 00ac 76       		.byte	0x76
+ 818 00ad 7F       		.sleb128 -1
+ 819 00ae 9F       		.byte	0x9f
+ 820 00af 26000000 		.4byte	.LVL14
+ 821 00b3 3A000000 		.4byte	.LFE2
+ 822 00b7 0100     		.2byte	0x1
+ 823 00b9 56       		.byte	0x56
+ 824 00ba 00000000 		.4byte	0
+ 825 00be 00000000 		.4byte	0
+ 826              	.LLST5:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 17
+
+
+ 827 00c2 00000000 		.4byte	.LVL7
+ 828 00c6 0A000000 		.4byte	.LVL9
+ 829 00ca 0100     		.2byte	0x1
+ 830 00cc 52       		.byte	0x52
+ 831 00cd 0A000000 		.4byte	.LVL9
+ 832 00d1 3A000000 		.4byte	.LFE2
+ 833 00d5 0100     		.2byte	0x1
+ 834 00d7 55       		.byte	0x55
+ 835 00d8 00000000 		.4byte	0
+ 836 00dc 00000000 		.4byte	0
+ 837              	.LLST6:
+ 838 00e0 06000000 		.4byte	.LVL8
+ 839 00e4 0A000000 		.4byte	.LVL9
+ 840 00e8 0200     		.2byte	0x2
+ 841 00ea 30       		.byte	0x30
+ 842 00eb 9F       		.byte	0x9f
+ 843 00ec 0A000000 		.4byte	.LVL9
+ 844 00f0 1A000000 		.4byte	.LVL10
+ 845 00f4 0100     		.2byte	0x1
+ 846 00f6 54       		.byte	0x54
+ 847 00f7 1A000000 		.4byte	.LVL10
+ 848 00fb 20000000 		.4byte	.LVL12
+ 849 00ff 0100     		.2byte	0x1
+ 850 0101 53       		.byte	0x53
+ 851 0102 24000000 		.4byte	.LVL13
+ 852 0106 3A000000 		.4byte	.LFE2
+ 853 010a 0100     		.2byte	0x1
+ 854 010c 54       		.byte	0x54
+ 855 010d 00000000 		.4byte	0
+ 856 0111 00000000 		.4byte	0
+ 857              	.LLST7:
+ 858 0115 00000000 		.4byte	.LVL19
+ 859 0119 06000000 		.4byte	.LVL20
+ 860 011d 0100     		.2byte	0x1
+ 861 011f 50       		.byte	0x50
+ 862 0120 06000000 		.4byte	.LVL20
+ 863 0124 28000000 		.4byte	.LVL27
+ 864 0128 0100     		.2byte	0x1
+ 865 012a 56       		.byte	0x56
+ 866 012b 28000000 		.4byte	.LVL27
+ 867 012f 30000000 		.4byte	.LVL30
+ 868 0133 0300     		.2byte	0x3
+ 869 0135 76       		.byte	0x76
+ 870 0136 01       		.sleb128 1
+ 871 0137 9F       		.byte	0x9f
+ 872 0138 30000000 		.4byte	.LVL30
+ 873 013c 42000000 		.4byte	.LFE3
+ 874 0140 0100     		.2byte	0x1
+ 875 0142 56       		.byte	0x56
+ 876 0143 00000000 		.4byte	0
+ 877 0147 00000000 		.4byte	0
+ 878              	.LLST8:
+ 879 014b 00000000 		.4byte	.LVL19
+ 880 014f 0C000000 		.4byte	.LVL22
+ 881 0153 0100     		.2byte	0x1
+ 882 0155 51       		.byte	0x51
+ 883 0156 0C000000 		.4byte	.LVL22
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 18
+
+
+ 884 015a 0E000000 		.4byte	.LVL23
+ 885 015e 0100     		.2byte	0x1
+ 886 0160 50       		.byte	0x50
+ 887 0161 0E000000 		.4byte	.LVL23
+ 888 0165 30000000 		.4byte	.LVL30
+ 889 0169 0100     		.2byte	0x1
+ 890 016b 57       		.byte	0x57
+ 891 016c 30000000 		.4byte	.LVL30
+ 892 0170 37000000 		.4byte	.LVL31-1
+ 893 0174 0100     		.2byte	0x1
+ 894 0176 50       		.byte	0x50
+ 895 0177 00000000 		.4byte	0
+ 896 017b 00000000 		.4byte	0
+ 897              	.LLST9:
+ 898 017f 00000000 		.4byte	.LVL19
+ 899 0183 0C000000 		.4byte	.LVL22
+ 900 0187 0100     		.2byte	0x1
+ 901 0189 52       		.byte	0x52
+ 902 018a 0C000000 		.4byte	.LVL22
+ 903 018e 42000000 		.4byte	.LFE3
+ 904 0192 0100     		.2byte	0x1
+ 905 0194 55       		.byte	0x55
+ 906 0195 00000000 		.4byte	0
+ 907 0199 00000000 		.4byte	0
+ 908              	.LLST10:
+ 909 019d 12000000 		.4byte	.LVL24
+ 910 01a1 2E000000 		.4byte	.LVL29
+ 911 01a5 0100     		.2byte	0x1
+ 912 01a7 50       		.byte	0x50
+ 913 01a8 2E000000 		.4byte	.LVL29
+ 914 01ac 30000000 		.4byte	.LVL30
+ 915 01b0 0200     		.2byte	0x2
+ 916 01b2 76       		.byte	0x76
+ 917 01b3 00       		.sleb128 0
+ 918 01b4 00000000 		.4byte	0
+ 919 01b8 00000000 		.4byte	0
+ 920              	.LLST11:
+ 921 01bc 08000000 		.4byte	.LVL21
+ 922 01c0 0C000000 		.4byte	.LVL22
+ 923 01c4 0200     		.2byte	0x2
+ 924 01c6 30       		.byte	0x30
+ 925 01c7 9F       		.byte	0x9f
+ 926 01c8 0C000000 		.4byte	.LVL22
+ 927 01cc 22000000 		.4byte	.LVL25
+ 928 01d0 0100     		.2byte	0x1
+ 929 01d2 54       		.byte	0x54
+ 930 01d3 22000000 		.4byte	.LVL25
+ 931 01d7 24000000 		.4byte	.LVL26
+ 932 01db 0100     		.2byte	0x1
+ 933 01dd 53       		.byte	0x53
+ 934 01de 28000000 		.4byte	.LVL27
+ 935 01e2 42000000 		.4byte	.LFE3
+ 936 01e6 0100     		.2byte	0x1
+ 937 01e8 54       		.byte	0x54
+ 938 01e9 00000000 		.4byte	0
+ 939 01ed 00000000 		.4byte	0
+ 940              		.section	.debug_aranges,"",%progbits
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 19
+
+
+ 941 0000 34000000 		.4byte	0x34
+ 942 0004 0200     		.2byte	0x2
+ 943 0006 00000000 		.4byte	.Ldebug_info0
+ 944 000a 04       		.byte	0x4
+ 945 000b 00       		.byte	0
+ 946 000c 0000     		.2byte	0
+ 947 000e 0000     		.2byte	0
+ 948 0010 00000000 		.4byte	.LFB0
+ 949 0014 0A000000 		.4byte	.LFE0-.LFB0
+ 950 0018 00000000 		.4byte	.LFB1
+ 951 001c 0E000000 		.4byte	.LFE1-.LFB1
+ 952 0020 00000000 		.4byte	.LFB2
+ 953 0024 3A000000 		.4byte	.LFE2-.LFB2
+ 954 0028 00000000 		.4byte	.LFB3
+ 955 002c 42000000 		.4byte	.LFE3-.LFB3
+ 956 0030 00000000 		.4byte	0
+ 957 0034 00000000 		.4byte	0
+ 958              		.section	.debug_ranges,"",%progbits
+ 959              	.Ldebug_ranges0:
+ 960 0000 00000000 		.4byte	.LFB0
+ 961 0004 0A000000 		.4byte	.LFE0
+ 962 0008 00000000 		.4byte	.LFB1
+ 963 000c 0E000000 		.4byte	.LFE1
+ 964 0010 00000000 		.4byte	.LFB2
+ 965 0014 3A000000 		.4byte	.LFE2
+ 966 0018 00000000 		.4byte	.LFB3
+ 967 001c 42000000 		.4byte	.LFE3
+ 968 0020 00000000 		.4byte	0
+ 969 0024 00000000 		.4byte	0
+ 970              		.section	.debug_line,"",%progbits
+ 971              	.Ldebug_line0:
+ 972 0000 EB000000 		.section	.debug_str,"MS",%progbits,1
+ 972      02005400 
+ 972      00000201 
+ 972      FB0E0D00 
+ 972      01010101 
+ 973              	.LASF14:
+ 974 0000 63797374 		.ascii	"cystatus\000"
+ 974      61747573 
+ 974      00
+ 975              	.LASF29:
+ 976 0009 433A5C55 		.ascii	"C:\\Users\\Bart\\Dropbox\\PSoC\\PSoC_Grbl\\PSoC_Grb"
+ 976      73657273 
+ 976      5C426172 
+ 976      745C4472 
+ 976      6F70626F 
+ 977 0036 6C2E6379 		.ascii	"l.cydsn\000"
+ 977      64736E00 
+ 978              	.LASF17:
+ 979 003e 6E65775F 		.ascii	"new_value\000"
+ 979      76616C75 
+ 979      6500
+ 980              	.LASF3:
+ 981 0048 73686F72 		.ascii	"short unsigned int\000"
+ 981      7420756E 
+ 981      7369676E 
+ 981      65642069 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 20
+
+
+ 981      6E7400
+ 982              	.LASF20:
+ 983 005b 64657374 		.ascii	"destination\000"
+ 983      696E6174 
+ 983      696F6E00 
+ 984              	.LASF11:
+ 985 0067 666C6F61 		.ascii	"float\000"
+ 985      7400
+ 986              	.LASF26:
+ 987 006d 64617461 		.ascii	"data\000"
+ 987      00
+ 988              	.LASF25:
+ 989 0072 63686563 		.ascii	"checksum\000"
+ 989      6B73756D 
+ 989      00
+ 990              	.LASF22:
+ 991 007b 73697A65 		.ascii	"size\000"
+ 991      00
+ 992              	.LASF5:
+ 993 0080 6C6F6E67 		.ascii	"long unsigned int\000"
+ 993      20756E73 
+ 993      69676E65 
+ 993      6420696E 
+ 993      7400
+ 994              	.LASF16:
+ 995 0092 61646472 		.ascii	"addr\000"
+ 995      00
+ 996              	.LASF1:
+ 997 0097 756E7369 		.ascii	"unsigned char\000"
+ 997      676E6564 
+ 997      20636861 
+ 997      7200
+ 998              	.LASF23:
+ 999 00a5 65657072 		.ascii	"eeprom_get_char\000"
+ 999      6F6D5F67 
+ 999      65745F63 
+ 999      68617200 
+ 1000              	.LASF12:
+ 1001 00b5 646F7562 		.ascii	"double\000"
+ 1001      6C6500
+ 1002              	.LASF18:
+ 1003 00bc 65657072 		.ascii	"eeprom_put_char\000"
+ 1003      6F6D5F70 
+ 1003      75745F63 
+ 1003      68617200 
+ 1004              	.LASF10:
+ 1005 00cc 75696E74 		.ascii	"uint16\000"
+ 1005      313600
+ 1006              	.LASF27:
+ 1007 00d3 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1007      4320342E 
+ 1007      392E3320 
+ 1007      32303135 
+ 1007      30333033 
+ 1008 0106 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1008      20726576 
+ 1008      6973696F 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 21
+
+
+ 1008      6E203232 
+ 1008      31323230 
+ 1009 0139 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1009      66756E63 
+ 1009      74696F6E 
+ 1009      2D736563 
+ 1009      74696F6E 
+ 1010              	.LASF8:
+ 1011 0161 756E7369 		.ascii	"unsigned int\000"
+ 1011      676E6564 
+ 1011      20696E74 
+ 1011      00
+ 1012              	.LASF19:
+ 1013 016e 6D656D63 		.ascii	"memcpy_to_eeprom_with_checksum\000"
+ 1013      70795F74 
+ 1013      6F5F6565 
+ 1013      70726F6D 
+ 1013      5F776974 
+ 1014              	.LASF7:
+ 1015 018d 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1015      206C6F6E 
+ 1015      6720756E 
+ 1015      7369676E 
+ 1015      65642069 
+ 1016              	.LASF30:
+ 1017 01a4 45455052 		.ascii	"EEPROM_PSoC_ReadByte\000"
+ 1017      4F4D5F50 
+ 1017      536F435F 
+ 1017      52656164 
+ 1017      42797465 
+ 1018              	.LASF15:
+ 1019 01b9 73697A65 		.ascii	"sizetype\000"
+ 1019      74797065 
+ 1019      00
+ 1020              	.LASF6:
+ 1021 01c2 6C6F6E67 		.ascii	"long long int\000"
+ 1021      206C6F6E 
+ 1021      6720696E 
+ 1021      7400
+ 1022              	.LASF13:
+ 1023 01d0 63686172 		.ascii	"char\000"
+ 1023      00
+ 1024              	.LASF2:
+ 1025 01d5 73686F72 		.ascii	"short int\000"
+ 1025      7420696E 
+ 1025      7400
+ 1026              	.LASF24:
+ 1027 01df 6D656D63 		.ascii	"memcpy_from_eeprom_with_checksum\000"
+ 1027      70795F66 
+ 1027      726F6D5F 
+ 1027      65657072 
+ 1027      6F6D5F77 
+ 1028              	.LASF9:
+ 1029 0200 75696E74 		.ascii	"uint8\000"
+ 1029      3800
+ 1030              	.LASF31:
+ 1031 0206 45455052 		.ascii	"EEPROM_PSoC_WriteByte\000"
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc1kVqwy.s 			page 22
+
+
+ 1031      4F4D5F50 
+ 1031      536F435F 
+ 1031      57726974 
+ 1031      65427974 
+ 1032              	.LASF4:
+ 1033 021c 6C6F6E67 		.ascii	"long int\000"
+ 1033      20696E74 
+ 1033      00
+ 1034              	.LASF0:
+ 1035 0225 7369676E 		.ascii	"signed char\000"
+ 1035      65642063 
+ 1035      68617200 
+ 1036              	.LASF21:
+ 1037 0231 736F7572 		.ascii	"source\000"
+ 1037      636500
+ 1038              	.LASF28:
+ 1039 0238 65657072 		.ascii	"eeprom.c\000"
+ 1039      6F6D2E63 
+ 1039      00
+ 1040              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

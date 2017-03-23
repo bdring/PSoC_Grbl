@@ -1,0 +1,1793 @@
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"QuadDec.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.QuadDec_Init,"ax",%progbits
+  19              		.align	2
+  20              		.global	QuadDec_Init
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	QuadDec_Init, %function
+  24              	QuadDec_Init:
+  25              	.LFB0:
+  26              		.file 1 "Generated_Source\\PSoC5\\QuadDec.c"
+   1:Generated_Source\PSoC5/QuadDec.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/QuadDec.c **** * File Name: QuadDec.c  
+   3:Generated_Source\PSoC5/QuadDec.c **** * Version 3.0
+   4:Generated_Source\PSoC5/QuadDec.c **** *
+   5:Generated_Source\PSoC5/QuadDec.c **** * Description:
+   6:Generated_Source\PSoC5/QuadDec.c **** *  This file provides the source code to the API for the Quadrature Decoder
+   7:Generated_Source\PSoC5/QuadDec.c **** *  component.
+   8:Generated_Source\PSoC5/QuadDec.c **** *
+   9:Generated_Source\PSoC5/QuadDec.c **** * Note:
+  10:Generated_Source\PSoC5/QuadDec.c **** *  None.
+  11:Generated_Source\PSoC5/QuadDec.c **** *   
+  12:Generated_Source\PSoC5/QuadDec.c **** ********************************************************************************
+  13:Generated_Source\PSoC5/QuadDec.c **** * Copyright 2008-2014, Cypress Semiconductor Corporation.  All rights reserved.
+  14:Generated_Source\PSoC5/QuadDec.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  15:Generated_Source\PSoC5/QuadDec.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  16:Generated_Source\PSoC5/QuadDec.c **** * the software package with which this file was provided.
+  17:Generated_Source\PSoC5/QuadDec.c **** *******************************************************************************/
+  18:Generated_Source\PSoC5/QuadDec.c **** 
+  19:Generated_Source\PSoC5/QuadDec.c **** #include "QuadDec.h"
+  20:Generated_Source\PSoC5/QuadDec.c **** 
+  21:Generated_Source\PSoC5/QuadDec.c **** #if (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT)
+  22:Generated_Source\PSoC5/QuadDec.c ****     #include "QuadDec_PVT.h"
+  23:Generated_Source\PSoC5/QuadDec.c **** #endif /* QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT */
+  24:Generated_Source\PSoC5/QuadDec.c **** 
+  25:Generated_Source\PSoC5/QuadDec.c **** uint8 QuadDec_initVar = 0u;
+  26:Generated_Source\PSoC5/QuadDec.c **** 
+  27:Generated_Source\PSoC5/QuadDec.c **** 
+  28:Generated_Source\PSoC5/QuadDec.c **** /*******************************************************************************
+  29:Generated_Source\PSoC5/QuadDec.c **** * Function Name: QuadDec_Init
+  30:Generated_Source\PSoC5/QuadDec.c **** ********************************************************************************
+  31:Generated_Source\PSoC5/QuadDec.c **** *
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 2
+
+
+  32:Generated_Source\PSoC5/QuadDec.c **** * Summary:
+  33:Generated_Source\PSoC5/QuadDec.c **** *  Inits/Restores default QuadDec configuration provided with customizer.
+  34:Generated_Source\PSoC5/QuadDec.c **** *
+  35:Generated_Source\PSoC5/QuadDec.c **** * Parameters:
+  36:Generated_Source\PSoC5/QuadDec.c **** *  None.
+  37:Generated_Source\PSoC5/QuadDec.c **** *
+  38:Generated_Source\PSoC5/QuadDec.c **** * Return:
+  39:Generated_Source\PSoC5/QuadDec.c **** *  None.
+  40:Generated_Source\PSoC5/QuadDec.c **** *
+  41:Generated_Source\PSoC5/QuadDec.c **** *******************************************************************************/
+  42:Generated_Source\PSoC5/QuadDec.c **** void QuadDec_Init(void) 
+  43:Generated_Source\PSoC5/QuadDec.c **** {
+  27              		.loc 1 43 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32 0000 7047     		bx	lr
+  33              		.cfi_endproc
+  34              	.LFE0:
+  35              		.size	QuadDec_Init, .-QuadDec_Init
+  36 0002 00BF     		.section	.text.QuadDec_Stop,"ax",%progbits
+  37              		.align	2
+  38              		.global	QuadDec_Stop
+  39              		.thumb
+  40              		.thumb_func
+  41              		.type	QuadDec_Stop, %function
+  42              	QuadDec_Stop:
+  43              	.LFB3:
+  44:Generated_Source\PSoC5/QuadDec.c ****     #if (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT)
+  45:Generated_Source\PSoC5/QuadDec.c ****         /* Disable Interrupt. */
+  46:Generated_Source\PSoC5/QuadDec.c ****         CyIntDisable(QuadDec_ISR_NUMBER);
+  47:Generated_Source\PSoC5/QuadDec.c ****         /* Set the ISR to point to the QuadDec_isr Interrupt. */
+  48:Generated_Source\PSoC5/QuadDec.c ****         (void) CyIntSetVector(QuadDec_ISR_NUMBER, & QuadDec_ISR);
+  49:Generated_Source\PSoC5/QuadDec.c ****         /* Set the priority. */
+  50:Generated_Source\PSoC5/QuadDec.c ****         CyIntSetPriority(QuadDec_ISR_NUMBER, QuadDec_ISR_PRIORITY);
+  51:Generated_Source\PSoC5/QuadDec.c ****     #endif /* QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT */
+  52:Generated_Source\PSoC5/QuadDec.c **** }
+  53:Generated_Source\PSoC5/QuadDec.c **** 
+  54:Generated_Source\PSoC5/QuadDec.c **** 
+  55:Generated_Source\PSoC5/QuadDec.c **** /*******************************************************************************
+  56:Generated_Source\PSoC5/QuadDec.c **** * Function Name: QuadDec_Enable
+  57:Generated_Source\PSoC5/QuadDec.c **** ********************************************************************************
+  58:Generated_Source\PSoC5/QuadDec.c **** *
+  59:Generated_Source\PSoC5/QuadDec.c **** * Summary:
+  60:Generated_Source\PSoC5/QuadDec.c **** *  This function enable interrupts from Component and also enable Component's
+  61:Generated_Source\PSoC5/QuadDec.c **** *  ISR in case of 32-bit counter.
+  62:Generated_Source\PSoC5/QuadDec.c **** *
+  63:Generated_Source\PSoC5/QuadDec.c **** * Parameters:
+  64:Generated_Source\PSoC5/QuadDec.c **** *  None.
+  65:Generated_Source\PSoC5/QuadDec.c **** *
+  66:Generated_Source\PSoC5/QuadDec.c **** * Return:
+  67:Generated_Source\PSoC5/QuadDec.c **** *  None.
+  68:Generated_Source\PSoC5/QuadDec.c **** *
+  69:Generated_Source\PSoC5/QuadDec.c **** *******************************************************************************/
+  70:Generated_Source\PSoC5/QuadDec.c **** void QuadDec_Enable(void) 
+  71:Generated_Source\PSoC5/QuadDec.c **** {
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 3
+
+
+  72:Generated_Source\PSoC5/QuadDec.c ****     uint8 enableInterrupts;
+  73:Generated_Source\PSoC5/QuadDec.c **** 
+  74:Generated_Source\PSoC5/QuadDec.c ****     QuadDec_SetInterruptMask(QuadDec_INIT_INT_MASK);
+  75:Generated_Source\PSoC5/QuadDec.c **** 
+  76:Generated_Source\PSoC5/QuadDec.c ****     /* Clear pending interrupts. */
+  77:Generated_Source\PSoC5/QuadDec.c ****     (void) QuadDec_GetEvents();
+  78:Generated_Source\PSoC5/QuadDec.c ****     
+  79:Generated_Source\PSoC5/QuadDec.c ****     enableInterrupts = CyEnterCriticalSection();
+  80:Generated_Source\PSoC5/QuadDec.c **** 
+  81:Generated_Source\PSoC5/QuadDec.c ****     /* Enable interrupts from Statusi register */
+  82:Generated_Source\PSoC5/QuadDec.c ****     QuadDec_SR_AUX_CONTROL |= QuadDec_INTERRUPTS_ENABLE;
+  83:Generated_Source\PSoC5/QuadDec.c **** 
+  84:Generated_Source\PSoC5/QuadDec.c ****     CyExitCriticalSection(enableInterrupts);        
+  85:Generated_Source\PSoC5/QuadDec.c **** 
+  86:Generated_Source\PSoC5/QuadDec.c ****     #if (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT)
+  87:Generated_Source\PSoC5/QuadDec.c ****         /* Enable Component interrupts */
+  88:Generated_Source\PSoC5/QuadDec.c ****         CyIntEnable(QuadDec_ISR_NUMBER);
+  89:Generated_Source\PSoC5/QuadDec.c ****     #endif /* QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT */
+  90:Generated_Source\PSoC5/QuadDec.c **** }
+  91:Generated_Source\PSoC5/QuadDec.c **** 
+  92:Generated_Source\PSoC5/QuadDec.c **** 
+  93:Generated_Source\PSoC5/QuadDec.c **** /*******************************************************************************
+  94:Generated_Source\PSoC5/QuadDec.c **** * Function Name: QuadDec_Start
+  95:Generated_Source\PSoC5/QuadDec.c **** ********************************************************************************
+  96:Generated_Source\PSoC5/QuadDec.c **** *
+  97:Generated_Source\PSoC5/QuadDec.c **** * Summary:
+  98:Generated_Source\PSoC5/QuadDec.c **** *  Initializes UDBs and other relevant hardware.
+  99:Generated_Source\PSoC5/QuadDec.c **** *  Resets counter, enables or disables all relevant interrupts.
+ 100:Generated_Source\PSoC5/QuadDec.c **** *  Starts monitoring the inputs and counting.
+ 101:Generated_Source\PSoC5/QuadDec.c **** *
+ 102:Generated_Source\PSoC5/QuadDec.c **** * Parameters:
+ 103:Generated_Source\PSoC5/QuadDec.c **** *  None.
+ 104:Generated_Source\PSoC5/QuadDec.c **** *
+ 105:Generated_Source\PSoC5/QuadDec.c **** * Return:
+ 106:Generated_Source\PSoC5/QuadDec.c **** *  None.
+ 107:Generated_Source\PSoC5/QuadDec.c **** *
+ 108:Generated_Source\PSoC5/QuadDec.c **** * Global variables:
+ 109:Generated_Source\PSoC5/QuadDec.c **** *  QuadDec_initVar - used to check initial configuration, modified on
+ 110:Generated_Source\PSoC5/QuadDec.c **** *  first function call.
+ 111:Generated_Source\PSoC5/QuadDec.c **** *
+ 112:Generated_Source\PSoC5/QuadDec.c **** * Reentrant:
+ 113:Generated_Source\PSoC5/QuadDec.c **** *  No.
+ 114:Generated_Source\PSoC5/QuadDec.c **** *
+ 115:Generated_Source\PSoC5/QuadDec.c **** *******************************************************************************/
+ 116:Generated_Source\PSoC5/QuadDec.c **** void QuadDec_Start(void) 
+ 117:Generated_Source\PSoC5/QuadDec.c **** {
+ 118:Generated_Source\PSoC5/QuadDec.c ****     #if (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_8_BIT)
+ 119:Generated_Source\PSoC5/QuadDec.c ****         QuadDec_Cnt8_Start();
+ 120:Generated_Source\PSoC5/QuadDec.c ****         QuadDec_Cnt8_WriteCounter(QuadDec_COUNTER_INIT_VALUE);
+ 121:Generated_Source\PSoC5/QuadDec.c ****     #else
+ 122:Generated_Source\PSoC5/QuadDec.c ****         /* (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_16_BIT) || 
+ 123:Generated_Source\PSoC5/QuadDec.c ****         *  (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT) 
+ 124:Generated_Source\PSoC5/QuadDec.c ****         */
+ 125:Generated_Source\PSoC5/QuadDec.c ****         QuadDec_Cnt16_Start();
+ 126:Generated_Source\PSoC5/QuadDec.c ****         QuadDec_Cnt16_WriteCounter(QuadDec_COUNTER_INIT_VALUE);
+ 127:Generated_Source\PSoC5/QuadDec.c ****     #endif /* QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_8_BIT */
+ 128:Generated_Source\PSoC5/QuadDec.c ****     
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 4
+
+
+ 129:Generated_Source\PSoC5/QuadDec.c ****     #if (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT)        
+ 130:Generated_Source\PSoC5/QuadDec.c ****        QuadDec_count32SoftPart = 0;
+ 131:Generated_Source\PSoC5/QuadDec.c ****     #endif /* QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT */
+ 132:Generated_Source\PSoC5/QuadDec.c **** 
+ 133:Generated_Source\PSoC5/QuadDec.c ****     if (QuadDec_initVar == 0u)
+ 134:Generated_Source\PSoC5/QuadDec.c ****     {
+ 135:Generated_Source\PSoC5/QuadDec.c ****         QuadDec_Init();
+ 136:Generated_Source\PSoC5/QuadDec.c ****         QuadDec_initVar = 1u;
+ 137:Generated_Source\PSoC5/QuadDec.c ****     }
+ 138:Generated_Source\PSoC5/QuadDec.c **** 
+ 139:Generated_Source\PSoC5/QuadDec.c ****     QuadDec_Enable();
+ 140:Generated_Source\PSoC5/QuadDec.c **** }
+ 141:Generated_Source\PSoC5/QuadDec.c **** 
+ 142:Generated_Source\PSoC5/QuadDec.c **** 
+ 143:Generated_Source\PSoC5/QuadDec.c **** /*******************************************************************************
+ 144:Generated_Source\PSoC5/QuadDec.c **** * Function Name: QuadDec_Stop
+ 145:Generated_Source\PSoC5/QuadDec.c **** ********************************************************************************
+ 146:Generated_Source\PSoC5/QuadDec.c **** *
+ 147:Generated_Source\PSoC5/QuadDec.c **** * Summary:
+ 148:Generated_Source\PSoC5/QuadDec.c **** *  Turns off UDBs and other relevant hardware.
+ 149:Generated_Source\PSoC5/QuadDec.c **** *
+ 150:Generated_Source\PSoC5/QuadDec.c **** * Parameters:
+ 151:Generated_Source\PSoC5/QuadDec.c **** *  None.
+ 152:Generated_Source\PSoC5/QuadDec.c **** *
+ 153:Generated_Source\PSoC5/QuadDec.c **** * Return:
+ 154:Generated_Source\PSoC5/QuadDec.c **** *  None.
+ 155:Generated_Source\PSoC5/QuadDec.c **** *
+ 156:Generated_Source\PSoC5/QuadDec.c **** *******************************************************************************/
+ 157:Generated_Source\PSoC5/QuadDec.c **** void QuadDec_Stop(void) 
+ 158:Generated_Source\PSoC5/QuadDec.c **** {
+  44              		.loc 1 158 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		.loc 1 158 0
+  49 0000 08B5     		push	{r3, lr}
+  50              		.cfi_def_cfa_offset 8
+  51              		.cfi_offset 3, -8
+  52              		.cfi_offset 14, -4
+ 159:Generated_Source\PSoC5/QuadDec.c ****     uint8 enableInterrupts;
+ 160:Generated_Source\PSoC5/QuadDec.c **** 
+ 161:Generated_Source\PSoC5/QuadDec.c ****     #if (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_8_BIT)
+ 162:Generated_Source\PSoC5/QuadDec.c ****         QuadDec_Cnt8_Stop();
+ 163:Generated_Source\PSoC5/QuadDec.c ****     #else 
+ 164:Generated_Source\PSoC5/QuadDec.c ****         /* (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_16_BIT) ||
+ 165:Generated_Source\PSoC5/QuadDec.c ****         *  (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT)
+ 166:Generated_Source\PSoC5/QuadDec.c ****         */
+ 167:Generated_Source\PSoC5/QuadDec.c ****         QuadDec_Cnt16_Stop();    /* counter disable */
+  53              		.loc 1 167 0
+  54 0002 FFF7FEFF 		bl	QuadDec_Cnt16_Stop
+  55              	.LVL0:
+ 168:Generated_Source\PSoC5/QuadDec.c ****     #endif /* (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_8_BIT) */
+ 169:Generated_Source\PSoC5/QuadDec.c ****  
+ 170:Generated_Source\PSoC5/QuadDec.c ****     enableInterrupts = CyEnterCriticalSection();
+  56              		.loc 1 170 0
+  57 0006 FFF7FEFF 		bl	CyEnterCriticalSection
+  58              	.LVL1:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 5
+
+
+ 171:Generated_Source\PSoC5/QuadDec.c **** 
+ 172:Generated_Source\PSoC5/QuadDec.c ****     /* Disable interrupts interrupts from Statusi register */
+ 173:Generated_Source\PSoC5/QuadDec.c ****     QuadDec_SR_AUX_CONTROL &= (uint8) (~QuadDec_INTERRUPTS_ENABLE);
+  59              		.loc 1 173 0
+  60 000a 044A     		ldr	r2, .L4
+  61 000c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  62 000e 03F0EF03 		and	r3, r3, #239
+  63 0012 1370     		strb	r3, [r2]
+ 174:Generated_Source\PSoC5/QuadDec.c **** 
+ 175:Generated_Source\PSoC5/QuadDec.c ****     CyExitCriticalSection(enableInterrupts);
+  64              		.loc 1 175 0
+  65 0014 FFF7FEFF 		bl	CyExitCriticalSection
+  66              	.LVL2:
+  67 0018 08BD     		pop	{r3, pc}
+  68              	.L5:
+  69 001a 00BF     		.align	2
+  70              	.L4:
+  71 001c 99640040 		.word	1073767577
+  72              		.cfi_endproc
+  73              	.LFE3:
+  74              		.size	QuadDec_Stop, .-QuadDec_Stop
+  75              		.section	.text.QuadDec_GetCounter,"ax",%progbits
+  76              		.align	2
+  77              		.global	QuadDec_GetCounter
+  78              		.thumb
+  79              		.thumb_func
+  80              		.type	QuadDec_GetCounter, %function
+  81              	QuadDec_GetCounter:
+  82              	.LFB4:
+ 176:Generated_Source\PSoC5/QuadDec.c **** 
+ 177:Generated_Source\PSoC5/QuadDec.c ****     #if (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT)
+ 178:Generated_Source\PSoC5/QuadDec.c ****         CyIntDisable(QuadDec_ISR_NUMBER);    /* interrupt disable */
+ 179:Generated_Source\PSoC5/QuadDec.c ****     #endif /* QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT */
+ 180:Generated_Source\PSoC5/QuadDec.c **** }
+ 181:Generated_Source\PSoC5/QuadDec.c **** 
+ 182:Generated_Source\PSoC5/QuadDec.c **** 
+ 183:Generated_Source\PSoC5/QuadDec.c **** /*******************************************************************************
+ 184:Generated_Source\PSoC5/QuadDec.c **** * Function Name: QuadDec_GetCounter
+ 185:Generated_Source\PSoC5/QuadDec.c **** ********************************************************************************
+ 186:Generated_Source\PSoC5/QuadDec.c **** *
+ 187:Generated_Source\PSoC5/QuadDec.c **** * Summary:
+ 188:Generated_Source\PSoC5/QuadDec.c **** *  Reports the current value of the counter.
+ 189:Generated_Source\PSoC5/QuadDec.c **** *
+ 190:Generated_Source\PSoC5/QuadDec.c **** * Parameters:
+ 191:Generated_Source\PSoC5/QuadDec.c **** *  None.
+ 192:Generated_Source\PSoC5/QuadDec.c **** *
+ 193:Generated_Source\PSoC5/QuadDec.c **** * Return:
+ 194:Generated_Source\PSoC5/QuadDec.c **** *  The counter value. Return type is signed and per the counter size setting.
+ 195:Generated_Source\PSoC5/QuadDec.c **** *  A positive value indicates clockwise movement (B before A).
+ 196:Generated_Source\PSoC5/QuadDec.c **** *
+ 197:Generated_Source\PSoC5/QuadDec.c **** * Global variables:
+ 198:Generated_Source\PSoC5/QuadDec.c **** *  QuadDec_count32SoftPart - used to get hi 16 bit for current value
+ 199:Generated_Source\PSoC5/QuadDec.c **** *  of the 32-bit counter, when Counter size equal 32-bit.
+ 200:Generated_Source\PSoC5/QuadDec.c **** *
+ 201:Generated_Source\PSoC5/QuadDec.c **** *******************************************************************************/
+ 202:Generated_Source\PSoC5/QuadDec.c **** int16 QuadDec_GetCounter(void) 
+ 203:Generated_Source\PSoC5/QuadDec.c **** {
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 6
+
+
+  83              		.loc 1 203 0
+  84              		.cfi_startproc
+  85              		@ args = 0, pretend = 0, frame = 0
+  86              		@ frame_needed = 0, uses_anonymous_args = 0
+  87 0000 08B5     		push	{r3, lr}
+  88              		.cfi_def_cfa_offset 8
+  89              		.cfi_offset 3, -8
+  90              		.cfi_offset 14, -4
+ 204:Generated_Source\PSoC5/QuadDec.c ****     int16 count;
+ 205:Generated_Source\PSoC5/QuadDec.c ****     uint16 tmpCnt;
+ 206:Generated_Source\PSoC5/QuadDec.c **** 
+ 207:Generated_Source\PSoC5/QuadDec.c ****     #if (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT)
+ 208:Generated_Source\PSoC5/QuadDec.c ****         int16 hwCount;
+ 209:Generated_Source\PSoC5/QuadDec.c **** 
+ 210:Generated_Source\PSoC5/QuadDec.c ****         CyIntDisable(QuadDec_ISR_NUMBER);
+ 211:Generated_Source\PSoC5/QuadDec.c **** 
+ 212:Generated_Source\PSoC5/QuadDec.c ****         tmpCnt = QuadDec_Cnt16_ReadCounter();
+ 213:Generated_Source\PSoC5/QuadDec.c ****         hwCount = (int16) ((int32) tmpCnt - (int32) QuadDec_COUNTER_INIT_VALUE);
+ 214:Generated_Source\PSoC5/QuadDec.c ****         count = QuadDec_count32SoftPart + hwCount;
+ 215:Generated_Source\PSoC5/QuadDec.c **** 
+ 216:Generated_Source\PSoC5/QuadDec.c ****         CyIntEnable(QuadDec_ISR_NUMBER);
+ 217:Generated_Source\PSoC5/QuadDec.c ****     #else 
+ 218:Generated_Source\PSoC5/QuadDec.c ****         /* (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_8_BIT) || 
+ 219:Generated_Source\PSoC5/QuadDec.c ****         *  (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_16_BIT)
+ 220:Generated_Source\PSoC5/QuadDec.c ****         */
+ 221:Generated_Source\PSoC5/QuadDec.c ****         #if (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_8_BIT)
+ 222:Generated_Source\PSoC5/QuadDec.c ****             tmpCnt = QuadDec_Cnt8_ReadCounter();
+ 223:Generated_Source\PSoC5/QuadDec.c ****         #else /* (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_16_BIT) */
+ 224:Generated_Source\PSoC5/QuadDec.c ****             tmpCnt = QuadDec_Cnt16_ReadCounter();
+  91              		.loc 1 224 0
+  92 0002 FFF7FEFF 		bl	QuadDec_Cnt16_ReadCounter
+  93              	.LVL3:
+ 225:Generated_Source\PSoC5/QuadDec.c ****         #endif  /* QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_8_BIT */
+ 226:Generated_Source\PSoC5/QuadDec.c **** 
+ 227:Generated_Source\PSoC5/QuadDec.c ****         count = (int16) ((int32) tmpCnt -
+  94              		.loc 1 227 0
+  95 0006 A0F50040 		sub	r0, r0, #32768
+  96              	.LVL4:
+ 228:Generated_Source\PSoC5/QuadDec.c ****                 (int32) QuadDec_COUNTER_INIT_VALUE);
+ 229:Generated_Source\PSoC5/QuadDec.c **** 
+ 230:Generated_Source\PSoC5/QuadDec.c ****     #endif /* QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT */ 
+ 231:Generated_Source\PSoC5/QuadDec.c **** 
+ 232:Generated_Source\PSoC5/QuadDec.c ****     return (count);
+ 233:Generated_Source\PSoC5/QuadDec.c **** }
+  97              		.loc 1 233 0
+  98 000a 00B2     		sxth	r0, r0
+  99 000c 08BD     		pop	{r3, pc}
+ 100              		.cfi_endproc
+ 101              	.LFE4:
+ 102              		.size	QuadDec_GetCounter, .-QuadDec_GetCounter
+ 103 000e 00BF     		.section	.text.QuadDec_SetCounter,"ax",%progbits
+ 104              		.align	2
+ 105              		.global	QuadDec_SetCounter
+ 106              		.thumb
+ 107              		.thumb_func
+ 108              		.type	QuadDec_SetCounter, %function
+ 109              	QuadDec_SetCounter:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 7
+
+
+ 110              	.LFB5:
+ 234:Generated_Source\PSoC5/QuadDec.c **** 
+ 235:Generated_Source\PSoC5/QuadDec.c **** 
+ 236:Generated_Source\PSoC5/QuadDec.c **** /*******************************************************************************
+ 237:Generated_Source\PSoC5/QuadDec.c **** * Function Name: QuadDec_SetCounter
+ 238:Generated_Source\PSoC5/QuadDec.c **** ********************************************************************************
+ 239:Generated_Source\PSoC5/QuadDec.c **** *
+ 240:Generated_Source\PSoC5/QuadDec.c **** * Summary:
+ 241:Generated_Source\PSoC5/QuadDec.c **** *  Sets the current value of the counter.
+ 242:Generated_Source\PSoC5/QuadDec.c **** *
+ 243:Generated_Source\PSoC5/QuadDec.c **** * Parameters:
+ 244:Generated_Source\PSoC5/QuadDec.c **** *  value:  The new value. Parameter type is signed and per the counter size
+ 245:Generated_Source\PSoC5/QuadDec.c **** *  setting.
+ 246:Generated_Source\PSoC5/QuadDec.c **** *
+ 247:Generated_Source\PSoC5/QuadDec.c **** * Return:
+ 248:Generated_Source\PSoC5/QuadDec.c **** *  None.
+ 249:Generated_Source\PSoC5/QuadDec.c **** *
+ 250:Generated_Source\PSoC5/QuadDec.c **** * Global variables:
+ 251:Generated_Source\PSoC5/QuadDec.c **** *  QuadDec_count32SoftPart - modified to set hi 16 bit for current
+ 252:Generated_Source\PSoC5/QuadDec.c **** *  value of the 32-bit counter, when Counter size equal 32-bit.
+ 253:Generated_Source\PSoC5/QuadDec.c **** *
+ 254:Generated_Source\PSoC5/QuadDec.c **** * Reentrant:
+ 255:Generated_Source\PSoC5/QuadDec.c **** *  No.
+ 256:Generated_Source\PSoC5/QuadDec.c **** *
+ 257:Generated_Source\PSoC5/QuadDec.c **** *******************************************************************************/
+ 258:Generated_Source\PSoC5/QuadDec.c **** void QuadDec_SetCounter(int16 value) 
+ 259:Generated_Source\PSoC5/QuadDec.c **** {
+ 111              		.loc 1 259 0
+ 112              		.cfi_startproc
+ 113              		@ args = 0, pretend = 0, frame = 0
+ 114              		@ frame_needed = 0, uses_anonymous_args = 0
+ 115              	.LVL5:
+ 116 0000 08B5     		push	{r3, lr}
+ 117              		.cfi_def_cfa_offset 8
+ 118              		.cfi_offset 3, -8
+ 119              		.cfi_offset 14, -4
+ 260:Generated_Source\PSoC5/QuadDec.c ****     #if ((QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_8_BIT) || \
+ 261:Generated_Source\PSoC5/QuadDec.c ****          (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_16_BIT))
+ 262:Generated_Source\PSoC5/QuadDec.c ****         uint16 count;
+ 263:Generated_Source\PSoC5/QuadDec.c ****         
+ 264:Generated_Source\PSoC5/QuadDec.c ****         if (value >= 0)
+ 120              		.loc 1 264 0
+ 121 0002 0028     		cmp	r0, #0
+ 122              	.LVL6:
+ 123 0004 03DB     		blt	.L9
+ 265:Generated_Source\PSoC5/QuadDec.c ****         {
+ 266:Generated_Source\PSoC5/QuadDec.c ****             count = (uint16) value + QuadDec_COUNTER_INIT_VALUE;
+ 124              		.loc 1 266 0
+ 125 0006 80B2     		uxth	r0, r0
+ 126 0008 80F40040 		eor	r0, r0, #32768
+ 127              	.LVL7:
+ 128 000c 02E0     		b	.L10
+ 129              	.LVL8:
+ 130              	.L9:
+ 267:Generated_Source\PSoC5/QuadDec.c ****         }
+ 268:Generated_Source\PSoC5/QuadDec.c ****         else
+ 269:Generated_Source\PSoC5/QuadDec.c ****         {
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 8
+
+
+ 270:Generated_Source\PSoC5/QuadDec.c ****             count = QuadDec_COUNTER_INIT_VALUE - (uint16)(-value);
+ 131              		.loc 1 270 0
+ 132 000e A0F50040 		sub	r0, r0, #32768
+ 133 0012 80B2     		uxth	r0, r0
+ 134              	.LVL9:
+ 135              	.L10:
+ 271:Generated_Source\PSoC5/QuadDec.c ****         }
+ 272:Generated_Source\PSoC5/QuadDec.c ****         #if (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_8_BIT)
+ 273:Generated_Source\PSoC5/QuadDec.c ****             QuadDec_Cnt8_WriteCounter(count);
+ 274:Generated_Source\PSoC5/QuadDec.c ****         #else /* (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_16_BIT) */
+ 275:Generated_Source\PSoC5/QuadDec.c ****             QuadDec_Cnt16_WriteCounter(count);
+ 136              		.loc 1 275 0
+ 137 0014 FFF7FEFF 		bl	QuadDec_Cnt16_WriteCounter
+ 138              	.LVL10:
+ 139 0018 08BD     		pop	{r3, pc}
+ 140              		.cfi_endproc
+ 141              	.LFE5:
+ 142              		.size	QuadDec_SetCounter, .-QuadDec_SetCounter
+ 143 001a 00BF     		.section	.text.QuadDec_GetEvents,"ax",%progbits
+ 144              		.align	2
+ 145              		.global	QuadDec_GetEvents
+ 146              		.thumb
+ 147              		.thumb_func
+ 148              		.type	QuadDec_GetEvents, %function
+ 149              	QuadDec_GetEvents:
+ 150              	.LFB6:
+ 276:Generated_Source\PSoC5/QuadDec.c ****         #endif  /* QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_8_BIT */
+ 277:Generated_Source\PSoC5/QuadDec.c ****     #else /* (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT) */
+ 278:Generated_Source\PSoC5/QuadDec.c ****         CyIntDisable(QuadDec_ISR_NUMBER);
+ 279:Generated_Source\PSoC5/QuadDec.c **** 
+ 280:Generated_Source\PSoC5/QuadDec.c ****         QuadDec_Cnt16_WriteCounter(QuadDec_COUNTER_INIT_VALUE);
+ 281:Generated_Source\PSoC5/QuadDec.c ****         QuadDec_count32SoftPart = value;
+ 282:Generated_Source\PSoC5/QuadDec.c **** 
+ 283:Generated_Source\PSoC5/QuadDec.c ****         CyIntEnable(QuadDec_ISR_NUMBER);
+ 284:Generated_Source\PSoC5/QuadDec.c ****     #endif  /* (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_8_BIT) ||
+ 285:Generated_Source\PSoC5/QuadDec.c ****              * (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_16_BIT)
+ 286:Generated_Source\PSoC5/QuadDec.c ****              */
+ 287:Generated_Source\PSoC5/QuadDec.c **** }
+ 288:Generated_Source\PSoC5/QuadDec.c **** 
+ 289:Generated_Source\PSoC5/QuadDec.c **** 
+ 290:Generated_Source\PSoC5/QuadDec.c **** /*******************************************************************************
+ 291:Generated_Source\PSoC5/QuadDec.c **** * Function Name: QuadDec_GetEvents
+ 292:Generated_Source\PSoC5/QuadDec.c **** ********************************************************************************
+ 293:Generated_Source\PSoC5/QuadDec.c **** * 
+ 294:Generated_Source\PSoC5/QuadDec.c **** * Summary:
+ 295:Generated_Source\PSoC5/QuadDec.c **** *   Reports the current status of events. This function clears the bits of the 
+ 296:Generated_Source\PSoC5/QuadDec.c **** *   status register.
+ 297:Generated_Source\PSoC5/QuadDec.c **** *
+ 298:Generated_Source\PSoC5/QuadDec.c **** * Parameters:
+ 299:Generated_Source\PSoC5/QuadDec.c **** *  None.
+ 300:Generated_Source\PSoC5/QuadDec.c **** *
+ 301:Generated_Source\PSoC5/QuadDec.c **** * Return:
+ 302:Generated_Source\PSoC5/QuadDec.c **** *  The events, as bits in an unsigned 8-bit value:
+ 303:Generated_Source\PSoC5/QuadDec.c **** *    Bit      Description
+ 304:Generated_Source\PSoC5/QuadDec.c **** *     0        Counter overflow.
+ 305:Generated_Source\PSoC5/QuadDec.c **** *     1        Counter underflow.
+ 306:Generated_Source\PSoC5/QuadDec.c **** *     2        Counter reset due to index, if index input is used.
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 9
+
+
+ 307:Generated_Source\PSoC5/QuadDec.c **** *     3        Invalid A, B inputs state transition.
+ 308:Generated_Source\PSoC5/QuadDec.c **** *
+ 309:Generated_Source\PSoC5/QuadDec.c **** *******************************************************************************/
+ 310:Generated_Source\PSoC5/QuadDec.c **** uint8 QuadDec_GetEvents(void) 
+ 311:Generated_Source\PSoC5/QuadDec.c **** {
+ 151              		.loc 1 311 0
+ 152              		.cfi_startproc
+ 153              		@ args = 0, pretend = 0, frame = 0
+ 154              		@ frame_needed = 0, uses_anonymous_args = 0
+ 155              		@ link register save eliminated.
+ 312:Generated_Source\PSoC5/QuadDec.c ****     return (QuadDec_STATUS_REG & QuadDec_INIT_INT_MASK);
+ 156              		.loc 1 312 0
+ 157 0000 024B     		ldr	r3, .L13
+ 158 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 313:Generated_Source\PSoC5/QuadDec.c **** }
+ 159              		.loc 1 313 0
+ 160 0004 00F00F00 		and	r0, r0, #15
+ 161 0008 7047     		bx	lr
+ 162              	.L14:
+ 163 000a 00BF     		.align	2
+ 164              	.L13:
+ 165 000c 69640040 		.word	1073767529
+ 166              		.cfi_endproc
+ 167              	.LFE6:
+ 168              		.size	QuadDec_GetEvents, .-QuadDec_GetEvents
+ 169              		.section	.text.QuadDec_SetInterruptMask,"ax",%progbits
+ 170              		.align	2
+ 171              		.global	QuadDec_SetInterruptMask
+ 172              		.thumb
+ 173              		.thumb_func
+ 174              		.type	QuadDec_SetInterruptMask, %function
+ 175              	QuadDec_SetInterruptMask:
+ 176              	.LFB7:
+ 314:Generated_Source\PSoC5/QuadDec.c **** 
+ 315:Generated_Source\PSoC5/QuadDec.c **** 
+ 316:Generated_Source\PSoC5/QuadDec.c **** /*******************************************************************************
+ 317:Generated_Source\PSoC5/QuadDec.c **** * Function Name: QuadDec_SetInterruptMask
+ 318:Generated_Source\PSoC5/QuadDec.c **** ********************************************************************************
+ 319:Generated_Source\PSoC5/QuadDec.c **** *
+ 320:Generated_Source\PSoC5/QuadDec.c **** * Summary:
+ 321:Generated_Source\PSoC5/QuadDec.c **** *  Enables / disables interrupts due to the events.
+ 322:Generated_Source\PSoC5/QuadDec.c **** *  For the 32-bit counter, the overflow, underflow and reset interrupts cannot
+ 323:Generated_Source\PSoC5/QuadDec.c **** *  be disabled, these bits are ignored.
+ 324:Generated_Source\PSoC5/QuadDec.c **** *
+ 325:Generated_Source\PSoC5/QuadDec.c **** * Parameters:
+ 326:Generated_Source\PSoC5/QuadDec.c **** *  mask: Enable / disable bits in an 8-bit value, where 1 enables the interrupt.
+ 327:Generated_Source\PSoC5/QuadDec.c **** *
+ 328:Generated_Source\PSoC5/QuadDec.c **** * Return:
+ 329:Generated_Source\PSoC5/QuadDec.c **** *  None.
+ 330:Generated_Source\PSoC5/QuadDec.c **** *
+ 331:Generated_Source\PSoC5/QuadDec.c **** *******************************************************************************/
+ 332:Generated_Source\PSoC5/QuadDec.c **** void QuadDec_SetInterruptMask(uint8 mask) 
+ 333:Generated_Source\PSoC5/QuadDec.c **** {
+ 177              		.loc 1 333 0
+ 178              		.cfi_startproc
+ 179              		@ args = 0, pretend = 0, frame = 0
+ 180              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 10
+
+
+ 181              		@ link register save eliminated.
+ 182              	.LVL11:
+ 334:Generated_Source\PSoC5/QuadDec.c ****     #if (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT)
+ 335:Generated_Source\PSoC5/QuadDec.c ****         /* Underflow, Overflow and Reset interrupts for 32-bit Counter are always enable */
+ 336:Generated_Source\PSoC5/QuadDec.c ****         mask |= (QuadDec_COUNTER_OVERFLOW | QuadDec_COUNTER_UNDERFLOW |
+ 337:Generated_Source\PSoC5/QuadDec.c ****                  QuadDec_COUNTER_RESET);
+ 338:Generated_Source\PSoC5/QuadDec.c ****     #endif /* QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_32_BIT */
+ 339:Generated_Source\PSoC5/QuadDec.c **** 
+ 340:Generated_Source\PSoC5/QuadDec.c ****     QuadDec_STATUS_MASK = mask;
+ 183              		.loc 1 340 0
+ 184 0000 014B     		ldr	r3, .L16
+ 185 0002 1870     		strb	r0, [r3]
+ 186 0004 7047     		bx	lr
+ 187              	.L17:
+ 188 0006 00BF     		.align	2
+ 189              	.L16:
+ 190 0008 89640040 		.word	1073767561
+ 191              		.cfi_endproc
+ 192              	.LFE7:
+ 193              		.size	QuadDec_SetInterruptMask, .-QuadDec_SetInterruptMask
+ 194              		.section	.text.QuadDec_Enable,"ax",%progbits
+ 195              		.align	2
+ 196              		.global	QuadDec_Enable
+ 197              		.thumb
+ 198              		.thumb_func
+ 199              		.type	QuadDec_Enable, %function
+ 200              	QuadDec_Enable:
+ 201              	.LFB1:
+  71:Generated_Source\PSoC5/QuadDec.c ****     uint8 enableInterrupts;
+ 202              		.loc 1 71 0
+ 203              		.cfi_startproc
+ 204              		@ args = 0, pretend = 0, frame = 0
+ 205              		@ frame_needed = 0, uses_anonymous_args = 0
+ 206 0000 08B5     		push	{r3, lr}
+ 207              		.cfi_def_cfa_offset 8
+ 208              		.cfi_offset 3, -8
+ 209              		.cfi_offset 14, -4
+  74:Generated_Source\PSoC5/QuadDec.c **** 
+ 210              		.loc 1 74 0
+ 211 0002 0F20     		movs	r0, #15
+ 212 0004 FFF7FEFF 		bl	QuadDec_SetInterruptMask
+ 213              	.LVL12:
+  77:Generated_Source\PSoC5/QuadDec.c ****     
+ 214              		.loc 1 77 0
+ 215 0008 FFF7FEFF 		bl	QuadDec_GetEvents
+ 216              	.LVL13:
+  79:Generated_Source\PSoC5/QuadDec.c **** 
+ 217              		.loc 1 79 0
+ 218 000c FFF7FEFF 		bl	CyEnterCriticalSection
+ 219              	.LVL14:
+  82:Generated_Source\PSoC5/QuadDec.c **** 
+ 220              		.loc 1 82 0
+ 221 0010 034A     		ldr	r2, .L20
+ 222 0012 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 223 0014 43F01003 		orr	r3, r3, #16
+ 224 0018 1370     		strb	r3, [r2]
+  84:Generated_Source\PSoC5/QuadDec.c **** 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 11
+
+
+ 225              		.loc 1 84 0
+ 226 001a FFF7FEFF 		bl	CyExitCriticalSection
+ 227              	.LVL15:
+ 228 001e 08BD     		pop	{r3, pc}
+ 229              	.L21:
+ 230              		.align	2
+ 231              	.L20:
+ 232 0020 99640040 		.word	1073767577
+ 233              		.cfi_endproc
+ 234              	.LFE1:
+ 235              		.size	QuadDec_Enable, .-QuadDec_Enable
+ 236              		.section	.text.QuadDec_Start,"ax",%progbits
+ 237              		.align	2
+ 238              		.global	QuadDec_Start
+ 239              		.thumb
+ 240              		.thumb_func
+ 241              		.type	QuadDec_Start, %function
+ 242              	QuadDec_Start:
+ 243              	.LFB2:
+ 117:Generated_Source\PSoC5/QuadDec.c ****     #if (QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_8_BIT)
+ 244              		.loc 1 117 0
+ 245              		.cfi_startproc
+ 246              		@ args = 0, pretend = 0, frame = 0
+ 247              		@ frame_needed = 0, uses_anonymous_args = 0
+ 248 0000 08B5     		push	{r3, lr}
+ 249              		.cfi_def_cfa_offset 8
+ 250              		.cfi_offset 3, -8
+ 251              		.cfi_offset 14, -4
+ 125:Generated_Source\PSoC5/QuadDec.c ****         QuadDec_Cnt16_WriteCounter(QuadDec_COUNTER_INIT_VALUE);
+ 252              		.loc 1 125 0
+ 253 0002 FFF7FEFF 		bl	QuadDec_Cnt16_Start
+ 254              	.LVL16:
+ 126:Generated_Source\PSoC5/QuadDec.c ****     #endif /* QuadDec_COUNTER_SIZE == QuadDec_COUNTER_SIZE_8_BIT */
+ 255              		.loc 1 126 0
+ 256 0006 4FF40040 		mov	r0, #32768
+ 257 000a FFF7FEFF 		bl	QuadDec_Cnt16_WriteCounter
+ 258              	.LVL17:
+ 133:Generated_Source\PSoC5/QuadDec.c ****     {
+ 259              		.loc 1 133 0
+ 260 000e 044B     		ldr	r3, .L25
+ 261 0010 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 262 0012 13B9     		cbnz	r3, .L23
+ 136:Generated_Source\PSoC5/QuadDec.c ****     }
+ 263              		.loc 1 136 0
+ 264 0014 0122     		movs	r2, #1
+ 265 0016 024B     		ldr	r3, .L25
+ 266 0018 1A70     		strb	r2, [r3]
+ 267              	.L23:
+ 139:Generated_Source\PSoC5/QuadDec.c **** }
+ 268              		.loc 1 139 0
+ 269 001a FFF7FEFF 		bl	QuadDec_Enable
+ 270              	.LVL18:
+ 271 001e 08BD     		pop	{r3, pc}
+ 272              	.L26:
+ 273              		.align	2
+ 274              	.L25:
+ 275 0020 00000000 		.word	.LANCHOR0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 12
+
+
+ 276              		.cfi_endproc
+ 277              	.LFE2:
+ 278              		.size	QuadDec_Start, .-QuadDec_Start
+ 279              		.section	.text.QuadDec_GetInterruptMask,"ax",%progbits
+ 280              		.align	2
+ 281              		.global	QuadDec_GetInterruptMask
+ 282              		.thumb
+ 283              		.thumb_func
+ 284              		.type	QuadDec_GetInterruptMask, %function
+ 285              	QuadDec_GetInterruptMask:
+ 286              	.LFB8:
+ 341:Generated_Source\PSoC5/QuadDec.c **** }
+ 342:Generated_Source\PSoC5/QuadDec.c **** 
+ 343:Generated_Source\PSoC5/QuadDec.c **** 
+ 344:Generated_Source\PSoC5/QuadDec.c **** /*******************************************************************************
+ 345:Generated_Source\PSoC5/QuadDec.c **** * Function Name: QuadDec_GetInterruptMask
+ 346:Generated_Source\PSoC5/QuadDec.c **** ********************************************************************************
+ 347:Generated_Source\PSoC5/QuadDec.c **** *
+ 348:Generated_Source\PSoC5/QuadDec.c **** * Summary:
+ 349:Generated_Source\PSoC5/QuadDec.c **** *  Reports the current interrupt mask settings.
+ 350:Generated_Source\PSoC5/QuadDec.c **** *
+ 351:Generated_Source\PSoC5/QuadDec.c **** * Parameters:
+ 352:Generated_Source\PSoC5/QuadDec.c **** *  None.
+ 353:Generated_Source\PSoC5/QuadDec.c **** *
+ 354:Generated_Source\PSoC5/QuadDec.c **** * Return:
+ 355:Generated_Source\PSoC5/QuadDec.c **** *  Enable / disable bits in an 8-bit value, where 1 enables the interrupt.
+ 356:Generated_Source\PSoC5/QuadDec.c **** *  For the 32-bit counter, the overflow, underflow and reset enable bits are
+ 357:Generated_Source\PSoC5/QuadDec.c **** *  always set.
+ 358:Generated_Source\PSoC5/QuadDec.c **** *
+ 359:Generated_Source\PSoC5/QuadDec.c **** *******************************************************************************/
+ 360:Generated_Source\PSoC5/QuadDec.c **** uint8 QuadDec_GetInterruptMask(void) 
+ 361:Generated_Source\PSoC5/QuadDec.c **** {
+ 287              		.loc 1 361 0
+ 288              		.cfi_startproc
+ 289              		@ args = 0, pretend = 0, frame = 0
+ 290              		@ frame_needed = 0, uses_anonymous_args = 0
+ 291              		@ link register save eliminated.
+ 362:Generated_Source\PSoC5/QuadDec.c ****     return (QuadDec_STATUS_MASK & QuadDec_INIT_INT_MASK);
+ 292              		.loc 1 362 0
+ 293 0000 024B     		ldr	r3, .L28
+ 294 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 363:Generated_Source\PSoC5/QuadDec.c **** }
+ 295              		.loc 1 363 0
+ 296 0004 00F00F00 		and	r0, r0, #15
+ 297 0008 7047     		bx	lr
+ 298              	.L29:
+ 299 000a 00BF     		.align	2
+ 300              	.L28:
+ 301 000c 89640040 		.word	1073767561
+ 302              		.cfi_endproc
+ 303              	.LFE8:
+ 304              		.size	QuadDec_GetInterruptMask, .-QuadDec_GetInterruptMask
+ 305              		.global	QuadDec_initVar
+ 306              		.bss
+ 307              		.set	.LANCHOR0,. + 0
+ 308              		.type	QuadDec_initVar, %object
+ 309              		.size	QuadDec_initVar, 1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 13
+
+
+ 310              	QuadDec_initVar:
+ 311 0000 00       		.space	1
+ 312              		.text
+ 313              	.Letext0:
+ 314              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 315              		.file 3 "Generated_Source\\PSoC5\\CyLib.h"
+ 316              		.file 4 "Generated_Source\\PSoC5\\QuadDec_Cnt16.h"
+ 317              		.section	.debug_info,"",%progbits
+ 318              	.Ldebug_info0:
+ 319 0000 CD020000 		.4byte	0x2cd
+ 320 0004 0400     		.2byte	0x4
+ 321 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 322 000a 04       		.byte	0x4
+ 323 000b 01       		.uleb128 0x1
+ 324 000c 92010000 		.4byte	.LASF36
+ 325 0010 01       		.byte	0x1
+ 326 0011 50010000 		.4byte	.LASF37
+ 327 0015 00000000 		.4byte	.LASF38
+ 328 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 329 001d 00000000 		.4byte	0
+ 330 0021 00000000 		.4byte	.Ldebug_line0
+ 331 0025 02       		.uleb128 0x2
+ 332 0026 04       		.byte	0x4
+ 333 0027 05       		.byte	0x5
+ 334 0028 696E7400 		.ascii	"int\000"
+ 335 002c 03       		.uleb128 0x3
+ 336 002d 04       		.byte	0x4
+ 337 002e 07       		.byte	0x7
+ 338 002f 37020000 		.4byte	.LASF0
+ 339 0033 03       		.uleb128 0x3
+ 340 0034 01       		.byte	0x1
+ 341 0035 06       		.byte	0x6
+ 342 0036 D2020000 		.4byte	.LASF1
+ 343 003a 03       		.uleb128 0x3
+ 344 003b 01       		.byte	0x1
+ 345 003c 08       		.byte	0x8
+ 346 003d C5000000 		.4byte	.LASF2
+ 347 0041 03       		.uleb128 0x3
+ 348 0042 02       		.byte	0x2
+ 349 0043 05       		.byte	0x5
+ 350 0044 A1020000 		.4byte	.LASF3
+ 351 0048 03       		.uleb128 0x3
+ 352 0049 02       		.byte	0x2
+ 353 004a 07       		.byte	0x7
+ 354 004b 41000000 		.4byte	.LASF4
+ 355 004f 03       		.uleb128 0x3
+ 356 0050 04       		.byte	0x4
+ 357 0051 05       		.byte	0x5
+ 358 0052 C4020000 		.4byte	.LASF5
+ 359 0056 03       		.uleb128 0x3
+ 360 0057 04       		.byte	0x4
+ 361 0058 07       		.byte	0x7
+ 362 0059 0E010000 		.4byte	.LASF6
+ 363 005d 03       		.uleb128 0x3
+ 364 005e 08       		.byte	0x8
+ 365 005f 05       		.byte	0x5
+ 366 0060 68020000 		.4byte	.LASF7
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 14
+
+
+ 367 0064 03       		.uleb128 0x3
+ 368 0065 08       		.byte	0x8
+ 369 0066 07       		.byte	0x7
+ 370 0067 AE000000 		.4byte	.LASF8
+ 371 006b 03       		.uleb128 0x3
+ 372 006c 04       		.byte	0x4
+ 373 006d 07       		.byte	0x7
+ 374 006e 5F020000 		.4byte	.LASF9
+ 375 0072 03       		.uleb128 0x3
+ 376 0073 01       		.byte	0x1
+ 377 0074 08       		.byte	0x8
+ 378 0075 CD020000 		.4byte	.LASF10
+ 379 0079 04       		.uleb128 0x4
+ 380 007a AB020000 		.4byte	.LASF11
+ 381 007e 02       		.byte	0x2
+ 382 007f 9201     		.2byte	0x192
+ 383 0081 3A000000 		.4byte	0x3a
+ 384 0085 04       		.uleb128 0x4
+ 385 0086 8B010000 		.4byte	.LASF12
+ 386 008a 02       		.byte	0x2
+ 387 008b 9301     		.2byte	0x193
+ 388 008d 48000000 		.4byte	0x48
+ 389 0091 04       		.uleb128 0x4
+ 390 0092 08010000 		.4byte	.LASF13
+ 391 0096 02       		.byte	0x2
+ 392 0097 9601     		.2byte	0x196
+ 393 0099 41000000 		.4byte	0x41
+ 394 009d 04       		.uleb128 0x4
+ 395 009e 20010000 		.4byte	.LASF14
+ 396 00a2 02       		.byte	0x2
+ 397 00a3 9701     		.2byte	0x197
+ 398 00a5 4F000000 		.4byte	0x4f
+ 399 00a9 03       		.uleb128 0x3
+ 400 00aa 04       		.byte	0x4
+ 401 00ab 04       		.byte	0x4
+ 402 00ac A8000000 		.4byte	.LASF15
+ 403 00b0 03       		.uleb128 0x3
+ 404 00b1 08       		.byte	0x8
+ 405 00b2 04       		.byte	0x4
+ 406 00b3 71010000 		.4byte	.LASF16
+ 407 00b7 04       		.uleb128 0x4
+ 408 00b8 5A020000 		.4byte	.LASF17
+ 409 00bc 02       		.byte	0x2
+ 410 00bd 3C02     		.2byte	0x23c
+ 411 00bf C3000000 		.4byte	0xc3
+ 412 00c3 05       		.uleb128 0x5
+ 413 00c4 79000000 		.4byte	0x79
+ 414 00c8 06       		.uleb128 0x6
+ 415 00c9 94020000 		.4byte	.LASF39
+ 416 00cd 01       		.byte	0x1
+ 417 00ce 2A       		.byte	0x2a
+ 418 00cf 00000000 		.4byte	.LFB0
+ 419 00d3 02000000 		.4byte	.LFE0-.LFB0
+ 420 00d7 01       		.uleb128 0x1
+ 421 00d8 9C       		.byte	0x9c
+ 422 00d9 07       		.uleb128 0x7
+ 423 00da DE020000 		.4byte	.LASF21
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 15
+
+
+ 424 00de 01       		.byte	0x1
+ 425 00df 9D       		.byte	0x9d
+ 426 00e0 00000000 		.4byte	.LFB3
+ 427 00e4 20000000 		.4byte	.LFE3-.LFB3
+ 428 00e8 01       		.uleb128 0x1
+ 429 00e9 9C       		.byte	0x9c
+ 430 00ea 19010000 		.4byte	0x119
+ 431 00ee 08       		.uleb128 0x8
+ 432 00ef 38010000 		.4byte	.LASF18
+ 433 00f3 01       		.byte	0x1
+ 434 00f4 9F       		.byte	0x9f
+ 435 00f5 79000000 		.4byte	0x79
+ 436 00f9 00000000 		.4byte	.LLST0
+ 437 00fd 09       		.uleb128 0x9
+ 438 00fe 06000000 		.4byte	.LVL0
+ 439 0102 8A020000 		.4byte	0x28a
+ 440 0106 09       		.uleb128 0x9
+ 441 0107 0A000000 		.4byte	.LVL1
+ 442 010b 91020000 		.4byte	0x291
+ 443 010f 09       		.uleb128 0x9
+ 444 0110 18000000 		.4byte	.LVL2
+ 445 0114 9C020000 		.4byte	0x29c
+ 446 0118 00       		.byte	0
+ 447 0119 0A       		.uleb128 0xa
+ 448 011a 78010000 		.4byte	.LASF40
+ 449 011e 01       		.byte	0x1
+ 450 011f CA       		.byte	0xca
+ 451 0120 91000000 		.4byte	0x91
+ 452 0124 00000000 		.4byte	.LFB4
+ 453 0128 0E000000 		.4byte	.LFE4-.LFB4
+ 454 012c 01       		.uleb128 0x1
+ 455 012d 9C       		.byte	0x9c
+ 456 012e 58010000 		.4byte	0x158
+ 457 0132 0B       		.uleb128 0xb
+ 458 0133 3B000000 		.4byte	.LASF19
+ 459 0137 01       		.byte	0x1
+ 460 0138 CC       		.byte	0xcc
+ 461 0139 91000000 		.4byte	0x91
+ 462 013d 01       		.uleb128 0x1
+ 463 013e 50       		.byte	0x50
+ 464 013f 08       		.uleb128 0x8
+ 465 0140 49010000 		.4byte	.LASF20
+ 466 0144 01       		.byte	0x1
+ 467 0145 CD       		.byte	0xcd
+ 468 0146 85000000 		.4byte	0x85
+ 469 014a 13000000 		.4byte	.LLST1
+ 470 014e 09       		.uleb128 0x9
+ 471 014f 06000000 		.4byte	.LVL3
+ 472 0153 AD020000 		.4byte	0x2ad
+ 473 0157 00       		.byte	0
+ 474 0158 0C       		.uleb128 0xc
+ 475 0159 B1020000 		.4byte	.LASF22
+ 476 015d 01       		.byte	0x1
+ 477 015e 0201     		.2byte	0x102
+ 478 0160 00000000 		.4byte	.LFB5
+ 479 0164 1A000000 		.4byte	.LFE5-.LFB5
+ 480 0168 01       		.uleb128 0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 16
+
+
+ 481 0169 9C       		.byte	0x9c
+ 482 016a 98010000 		.4byte	0x198
+ 483 016e 0D       		.uleb128 0xd
+ 484 016f 35000000 		.4byte	.LASF24
+ 485 0173 01       		.byte	0x1
+ 486 0174 0201     		.2byte	0x102
+ 487 0176 91000000 		.4byte	0x91
+ 488 017a 26000000 		.4byte	.LLST2
+ 489 017e 0E       		.uleb128 0xe
+ 490 017f 3B000000 		.4byte	.LASF19
+ 491 0183 01       		.byte	0x1
+ 492 0184 0601     		.2byte	0x106
+ 493 0186 85000000 		.4byte	0x85
+ 494 018a 47000000 		.4byte	.LLST3
+ 495 018e 09       		.uleb128 0x9
+ 496 018f 18000000 		.4byte	.LVL10
+ 497 0193 B8020000 		.4byte	0x2b8
+ 498 0197 00       		.byte	0
+ 499 0198 0F       		.uleb128 0xf
+ 500 0199 26010000 		.4byte	.LASF28
+ 501 019d 01       		.byte	0x1
+ 502 019e 3601     		.2byte	0x136
+ 503 01a0 79000000 		.4byte	0x79
+ 504 01a4 00000000 		.4byte	.LFB6
+ 505 01a8 10000000 		.4byte	.LFE6-.LFB6
+ 506 01ac 01       		.uleb128 0x1
+ 507 01ad 9C       		.byte	0x9c
+ 508 01ae 0C       		.uleb128 0xc
+ 509 01af 76020000 		.4byte	.LASF23
+ 510 01b3 01       		.byte	0x1
+ 511 01b4 4C01     		.2byte	0x14c
+ 512 01b6 00000000 		.4byte	.LFB7
+ 513 01ba 0C000000 		.4byte	.LFE7-.LFB7
+ 514 01be 01       		.uleb128 0x1
+ 515 01bf 9C       		.byte	0x9c
+ 516 01c0 D3010000 		.4byte	0x1d3
+ 517 01c4 10       		.uleb128 0x10
+ 518 01c5 8F020000 		.4byte	.LASF25
+ 519 01c9 01       		.byte	0x1
+ 520 01ca 4C01     		.2byte	0x14c
+ 521 01cc 79000000 		.4byte	0x79
+ 522 01d0 01       		.uleb128 0x1
+ 523 01d1 50       		.byte	0x50
+ 524 01d2 00       		.byte	0
+ 525 01d3 07       		.uleb128 0x7
+ 526 01d4 99000000 		.4byte	.LASF26
+ 527 01d8 01       		.byte	0x1
+ 528 01d9 46       		.byte	0x46
+ 529 01da 00000000 		.4byte	.LFB1
+ 530 01de 24000000 		.4byte	.LFE1-.LFB1
+ 531 01e2 01       		.uleb128 0x1
+ 532 01e3 9C       		.byte	0x9c
+ 533 01e4 26020000 		.4byte	0x226
+ 534 01e8 08       		.uleb128 0x8
+ 535 01e9 38010000 		.4byte	.LASF18
+ 536 01ed 01       		.byte	0x1
+ 537 01ee 48       		.byte	0x48
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 17
+
+
+ 538 01ef 79000000 		.4byte	0x79
+ 539 01f3 65000000 		.4byte	.LLST4
+ 540 01f7 11       		.uleb128 0x11
+ 541 01f8 08000000 		.4byte	.LVL12
+ 542 01fc AE010000 		.4byte	0x1ae
+ 543 0200 0A020000 		.4byte	0x20a
+ 544 0204 12       		.uleb128 0x12
+ 545 0205 01       		.uleb128 0x1
+ 546 0206 50       		.byte	0x50
+ 547 0207 01       		.uleb128 0x1
+ 548 0208 3F       		.byte	0x3f
+ 549 0209 00       		.byte	0
+ 550 020a 09       		.uleb128 0x9
+ 551 020b 0C000000 		.4byte	.LVL13
+ 552 020f 98010000 		.4byte	0x198
+ 553 0213 09       		.uleb128 0x9
+ 554 0214 10000000 		.4byte	.LVL14
+ 555 0218 91020000 		.4byte	0x291
+ 556 021c 09       		.uleb128 0x9
+ 557 021d 1E000000 		.4byte	.LVL15
+ 558 0221 9C020000 		.4byte	0x29c
+ 559 0225 00       		.byte	0
+ 560 0226 07       		.uleb128 0x7
+ 561 0227 64000000 		.4byte	.LASF27
+ 562 022b 01       		.byte	0x1
+ 563 022c 74       		.byte	0x74
+ 564 022d 00000000 		.4byte	.LFB2
+ 565 0231 24000000 		.4byte	.LFE2-.LFB2
+ 566 0235 01       		.uleb128 0x1
+ 567 0236 9C       		.byte	0x9c
+ 568 0237 63020000 		.4byte	0x263
+ 569 023b 09       		.uleb128 0x9
+ 570 023c 06000000 		.4byte	.LVL16
+ 571 0240 C9020000 		.4byte	0x2c9
+ 572 0244 11       		.uleb128 0x11
+ 573 0245 0E000000 		.4byte	.LVL17
+ 574 0249 B8020000 		.4byte	0x2b8
+ 575 024d 59020000 		.4byte	0x259
+ 576 0251 12       		.uleb128 0x12
+ 577 0252 01       		.uleb128 0x1
+ 578 0253 50       		.byte	0x50
+ 579 0254 03       		.uleb128 0x3
+ 580 0255 0B       		.byte	0xb
+ 581 0256 0080     		.2byte	0x8000
+ 582 0258 00       		.byte	0
+ 583 0259 09       		.uleb128 0x9
+ 584 025a 1E000000 		.4byte	.LVL18
+ 585 025e D3010000 		.4byte	0x1d3
+ 586 0262 00       		.byte	0
+ 587 0263 0F       		.uleb128 0xf
+ 588 0264 EB020000 		.4byte	.LASF29
+ 589 0268 01       		.byte	0x1
+ 590 0269 6801     		.2byte	0x168
+ 591 026b 79000000 		.4byte	0x79
+ 592 026f 00000000 		.4byte	.LFB8
+ 593 0273 10000000 		.4byte	.LFE8-.LFB8
+ 594 0277 01       		.uleb128 0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 18
+
+
+ 595 0278 9C       		.byte	0x9c
+ 596 0279 13       		.uleb128 0x13
+ 597 027a 54000000 		.4byte	.LASF41
+ 598 027e 01       		.byte	0x1
+ 599 027f 19       		.byte	0x19
+ 600 0280 79000000 		.4byte	0x79
+ 601 0284 05       		.uleb128 0x5
+ 602 0285 03       		.byte	0x3
+ 603 0286 00000000 		.4byte	QuadDec_initVar
+ 604 028a 14       		.uleb128 0x14
+ 605 028b 86000000 		.4byte	.LASF34
+ 606 028f 04       		.byte	0x4
+ 607 0290 50       		.byte	0x50
+ 608 0291 15       		.uleb128 0x15
+ 609 0292 20020000 		.4byte	.LASF30
+ 610 0296 03       		.byte	0x3
+ 611 0297 7D       		.byte	0x7d
+ 612 0298 79000000 		.4byte	0x79
+ 613 029c 16       		.uleb128 0x16
+ 614 029d 44020000 		.4byte	.LASF32
+ 615 02a1 03       		.byte	0x3
+ 616 02a2 7E       		.byte	0x7e
+ 617 02a3 AD020000 		.4byte	0x2ad
+ 618 02a7 17       		.uleb128 0x17
+ 619 02a8 79000000 		.4byte	0x79
+ 620 02ac 00       		.byte	0
+ 621 02ad 15       		.uleb128 0x15
+ 622 02ae EE000000 		.4byte	.LASF31
+ 623 02b2 04       		.byte	0x4
+ 624 02b3 5D       		.byte	0x5d
+ 625 02b4 85000000 		.4byte	0x85
+ 626 02b8 16       		.uleb128 0x16
+ 627 02b9 D3000000 		.4byte	.LASF33
+ 628 02bd 04       		.byte	0x4
+ 629 02be 5A       		.byte	0x5a
+ 630 02bf C9020000 		.4byte	0x2c9
+ 631 02c3 17       		.uleb128 0x17
+ 632 02c4 85000000 		.4byte	0x85
+ 633 02c8 00       		.byte	0
+ 634 02c9 14       		.uleb128 0x14
+ 635 02ca 72000000 		.4byte	.LASF35
+ 636 02ce 04       		.byte	0x4
+ 637 02cf 4F       		.byte	0x4f
+ 638 02d0 00       		.byte	0
+ 639              		.section	.debug_abbrev,"",%progbits
+ 640              	.Ldebug_abbrev0:
+ 641 0000 01       		.uleb128 0x1
+ 642 0001 11       		.uleb128 0x11
+ 643 0002 01       		.byte	0x1
+ 644 0003 25       		.uleb128 0x25
+ 645 0004 0E       		.uleb128 0xe
+ 646 0005 13       		.uleb128 0x13
+ 647 0006 0B       		.uleb128 0xb
+ 648 0007 03       		.uleb128 0x3
+ 649 0008 0E       		.uleb128 0xe
+ 650 0009 1B       		.uleb128 0x1b
+ 651 000a 0E       		.uleb128 0xe
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 19
+
+
+ 652 000b 55       		.uleb128 0x55
+ 653 000c 17       		.uleb128 0x17
+ 654 000d 11       		.uleb128 0x11
+ 655 000e 01       		.uleb128 0x1
+ 656 000f 10       		.uleb128 0x10
+ 657 0010 17       		.uleb128 0x17
+ 658 0011 00       		.byte	0
+ 659 0012 00       		.byte	0
+ 660 0013 02       		.uleb128 0x2
+ 661 0014 24       		.uleb128 0x24
+ 662 0015 00       		.byte	0
+ 663 0016 0B       		.uleb128 0xb
+ 664 0017 0B       		.uleb128 0xb
+ 665 0018 3E       		.uleb128 0x3e
+ 666 0019 0B       		.uleb128 0xb
+ 667 001a 03       		.uleb128 0x3
+ 668 001b 08       		.uleb128 0x8
+ 669 001c 00       		.byte	0
+ 670 001d 00       		.byte	0
+ 671 001e 03       		.uleb128 0x3
+ 672 001f 24       		.uleb128 0x24
+ 673 0020 00       		.byte	0
+ 674 0021 0B       		.uleb128 0xb
+ 675 0022 0B       		.uleb128 0xb
+ 676 0023 3E       		.uleb128 0x3e
+ 677 0024 0B       		.uleb128 0xb
+ 678 0025 03       		.uleb128 0x3
+ 679 0026 0E       		.uleb128 0xe
+ 680 0027 00       		.byte	0
+ 681 0028 00       		.byte	0
+ 682 0029 04       		.uleb128 0x4
+ 683 002a 16       		.uleb128 0x16
+ 684 002b 00       		.byte	0
+ 685 002c 03       		.uleb128 0x3
+ 686 002d 0E       		.uleb128 0xe
+ 687 002e 3A       		.uleb128 0x3a
+ 688 002f 0B       		.uleb128 0xb
+ 689 0030 3B       		.uleb128 0x3b
+ 690 0031 05       		.uleb128 0x5
+ 691 0032 49       		.uleb128 0x49
+ 692 0033 13       		.uleb128 0x13
+ 693 0034 00       		.byte	0
+ 694 0035 00       		.byte	0
+ 695 0036 05       		.uleb128 0x5
+ 696 0037 35       		.uleb128 0x35
+ 697 0038 00       		.byte	0
+ 698 0039 49       		.uleb128 0x49
+ 699 003a 13       		.uleb128 0x13
+ 700 003b 00       		.byte	0
+ 701 003c 00       		.byte	0
+ 702 003d 06       		.uleb128 0x6
+ 703 003e 2E       		.uleb128 0x2e
+ 704 003f 00       		.byte	0
+ 705 0040 3F       		.uleb128 0x3f
+ 706 0041 19       		.uleb128 0x19
+ 707 0042 03       		.uleb128 0x3
+ 708 0043 0E       		.uleb128 0xe
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 20
+
+
+ 709 0044 3A       		.uleb128 0x3a
+ 710 0045 0B       		.uleb128 0xb
+ 711 0046 3B       		.uleb128 0x3b
+ 712 0047 0B       		.uleb128 0xb
+ 713 0048 27       		.uleb128 0x27
+ 714 0049 19       		.uleb128 0x19
+ 715 004a 11       		.uleb128 0x11
+ 716 004b 01       		.uleb128 0x1
+ 717 004c 12       		.uleb128 0x12
+ 718 004d 06       		.uleb128 0x6
+ 719 004e 40       		.uleb128 0x40
+ 720 004f 18       		.uleb128 0x18
+ 721 0050 9742     		.uleb128 0x2117
+ 722 0052 19       		.uleb128 0x19
+ 723 0053 00       		.byte	0
+ 724 0054 00       		.byte	0
+ 725 0055 07       		.uleb128 0x7
+ 726 0056 2E       		.uleb128 0x2e
+ 727 0057 01       		.byte	0x1
+ 728 0058 3F       		.uleb128 0x3f
+ 729 0059 19       		.uleb128 0x19
+ 730 005a 03       		.uleb128 0x3
+ 731 005b 0E       		.uleb128 0xe
+ 732 005c 3A       		.uleb128 0x3a
+ 733 005d 0B       		.uleb128 0xb
+ 734 005e 3B       		.uleb128 0x3b
+ 735 005f 0B       		.uleb128 0xb
+ 736 0060 27       		.uleb128 0x27
+ 737 0061 19       		.uleb128 0x19
+ 738 0062 11       		.uleb128 0x11
+ 739 0063 01       		.uleb128 0x1
+ 740 0064 12       		.uleb128 0x12
+ 741 0065 06       		.uleb128 0x6
+ 742 0066 40       		.uleb128 0x40
+ 743 0067 18       		.uleb128 0x18
+ 744 0068 9742     		.uleb128 0x2117
+ 745 006a 19       		.uleb128 0x19
+ 746 006b 01       		.uleb128 0x1
+ 747 006c 13       		.uleb128 0x13
+ 748 006d 00       		.byte	0
+ 749 006e 00       		.byte	0
+ 750 006f 08       		.uleb128 0x8
+ 751 0070 34       		.uleb128 0x34
+ 752 0071 00       		.byte	0
+ 753 0072 03       		.uleb128 0x3
+ 754 0073 0E       		.uleb128 0xe
+ 755 0074 3A       		.uleb128 0x3a
+ 756 0075 0B       		.uleb128 0xb
+ 757 0076 3B       		.uleb128 0x3b
+ 758 0077 0B       		.uleb128 0xb
+ 759 0078 49       		.uleb128 0x49
+ 760 0079 13       		.uleb128 0x13
+ 761 007a 02       		.uleb128 0x2
+ 762 007b 17       		.uleb128 0x17
+ 763 007c 00       		.byte	0
+ 764 007d 00       		.byte	0
+ 765 007e 09       		.uleb128 0x9
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 21
+
+
+ 766 007f 898201   		.uleb128 0x4109
+ 767 0082 00       		.byte	0
+ 768 0083 11       		.uleb128 0x11
+ 769 0084 01       		.uleb128 0x1
+ 770 0085 31       		.uleb128 0x31
+ 771 0086 13       		.uleb128 0x13
+ 772 0087 00       		.byte	0
+ 773 0088 00       		.byte	0
+ 774 0089 0A       		.uleb128 0xa
+ 775 008a 2E       		.uleb128 0x2e
+ 776 008b 01       		.byte	0x1
+ 777 008c 3F       		.uleb128 0x3f
+ 778 008d 19       		.uleb128 0x19
+ 779 008e 03       		.uleb128 0x3
+ 780 008f 0E       		.uleb128 0xe
+ 781 0090 3A       		.uleb128 0x3a
+ 782 0091 0B       		.uleb128 0xb
+ 783 0092 3B       		.uleb128 0x3b
+ 784 0093 0B       		.uleb128 0xb
+ 785 0094 27       		.uleb128 0x27
+ 786 0095 19       		.uleb128 0x19
+ 787 0096 49       		.uleb128 0x49
+ 788 0097 13       		.uleb128 0x13
+ 789 0098 11       		.uleb128 0x11
+ 790 0099 01       		.uleb128 0x1
+ 791 009a 12       		.uleb128 0x12
+ 792 009b 06       		.uleb128 0x6
+ 793 009c 40       		.uleb128 0x40
+ 794 009d 18       		.uleb128 0x18
+ 795 009e 9742     		.uleb128 0x2117
+ 796 00a0 19       		.uleb128 0x19
+ 797 00a1 01       		.uleb128 0x1
+ 798 00a2 13       		.uleb128 0x13
+ 799 00a3 00       		.byte	0
+ 800 00a4 00       		.byte	0
+ 801 00a5 0B       		.uleb128 0xb
+ 802 00a6 34       		.uleb128 0x34
+ 803 00a7 00       		.byte	0
+ 804 00a8 03       		.uleb128 0x3
+ 805 00a9 0E       		.uleb128 0xe
+ 806 00aa 3A       		.uleb128 0x3a
+ 807 00ab 0B       		.uleb128 0xb
+ 808 00ac 3B       		.uleb128 0x3b
+ 809 00ad 0B       		.uleb128 0xb
+ 810 00ae 49       		.uleb128 0x49
+ 811 00af 13       		.uleb128 0x13
+ 812 00b0 02       		.uleb128 0x2
+ 813 00b1 18       		.uleb128 0x18
+ 814 00b2 00       		.byte	0
+ 815 00b3 00       		.byte	0
+ 816 00b4 0C       		.uleb128 0xc
+ 817 00b5 2E       		.uleb128 0x2e
+ 818 00b6 01       		.byte	0x1
+ 819 00b7 3F       		.uleb128 0x3f
+ 820 00b8 19       		.uleb128 0x19
+ 821 00b9 03       		.uleb128 0x3
+ 822 00ba 0E       		.uleb128 0xe
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 22
+
+
+ 823 00bb 3A       		.uleb128 0x3a
+ 824 00bc 0B       		.uleb128 0xb
+ 825 00bd 3B       		.uleb128 0x3b
+ 826 00be 05       		.uleb128 0x5
+ 827 00bf 27       		.uleb128 0x27
+ 828 00c0 19       		.uleb128 0x19
+ 829 00c1 11       		.uleb128 0x11
+ 830 00c2 01       		.uleb128 0x1
+ 831 00c3 12       		.uleb128 0x12
+ 832 00c4 06       		.uleb128 0x6
+ 833 00c5 40       		.uleb128 0x40
+ 834 00c6 18       		.uleb128 0x18
+ 835 00c7 9742     		.uleb128 0x2117
+ 836 00c9 19       		.uleb128 0x19
+ 837 00ca 01       		.uleb128 0x1
+ 838 00cb 13       		.uleb128 0x13
+ 839 00cc 00       		.byte	0
+ 840 00cd 00       		.byte	0
+ 841 00ce 0D       		.uleb128 0xd
+ 842 00cf 05       		.uleb128 0x5
+ 843 00d0 00       		.byte	0
+ 844 00d1 03       		.uleb128 0x3
+ 845 00d2 0E       		.uleb128 0xe
+ 846 00d3 3A       		.uleb128 0x3a
+ 847 00d4 0B       		.uleb128 0xb
+ 848 00d5 3B       		.uleb128 0x3b
+ 849 00d6 05       		.uleb128 0x5
+ 850 00d7 49       		.uleb128 0x49
+ 851 00d8 13       		.uleb128 0x13
+ 852 00d9 02       		.uleb128 0x2
+ 853 00da 17       		.uleb128 0x17
+ 854 00db 00       		.byte	0
+ 855 00dc 00       		.byte	0
+ 856 00dd 0E       		.uleb128 0xe
+ 857 00de 34       		.uleb128 0x34
+ 858 00df 00       		.byte	0
+ 859 00e0 03       		.uleb128 0x3
+ 860 00e1 0E       		.uleb128 0xe
+ 861 00e2 3A       		.uleb128 0x3a
+ 862 00e3 0B       		.uleb128 0xb
+ 863 00e4 3B       		.uleb128 0x3b
+ 864 00e5 05       		.uleb128 0x5
+ 865 00e6 49       		.uleb128 0x49
+ 866 00e7 13       		.uleb128 0x13
+ 867 00e8 02       		.uleb128 0x2
+ 868 00e9 17       		.uleb128 0x17
+ 869 00ea 00       		.byte	0
+ 870 00eb 00       		.byte	0
+ 871 00ec 0F       		.uleb128 0xf
+ 872 00ed 2E       		.uleb128 0x2e
+ 873 00ee 00       		.byte	0
+ 874 00ef 3F       		.uleb128 0x3f
+ 875 00f0 19       		.uleb128 0x19
+ 876 00f1 03       		.uleb128 0x3
+ 877 00f2 0E       		.uleb128 0xe
+ 878 00f3 3A       		.uleb128 0x3a
+ 879 00f4 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 23
+
+
+ 880 00f5 3B       		.uleb128 0x3b
+ 881 00f6 05       		.uleb128 0x5
+ 882 00f7 27       		.uleb128 0x27
+ 883 00f8 19       		.uleb128 0x19
+ 884 00f9 49       		.uleb128 0x49
+ 885 00fa 13       		.uleb128 0x13
+ 886 00fb 11       		.uleb128 0x11
+ 887 00fc 01       		.uleb128 0x1
+ 888 00fd 12       		.uleb128 0x12
+ 889 00fe 06       		.uleb128 0x6
+ 890 00ff 40       		.uleb128 0x40
+ 891 0100 18       		.uleb128 0x18
+ 892 0101 9742     		.uleb128 0x2117
+ 893 0103 19       		.uleb128 0x19
+ 894 0104 00       		.byte	0
+ 895 0105 00       		.byte	0
+ 896 0106 10       		.uleb128 0x10
+ 897 0107 05       		.uleb128 0x5
+ 898 0108 00       		.byte	0
+ 899 0109 03       		.uleb128 0x3
+ 900 010a 0E       		.uleb128 0xe
+ 901 010b 3A       		.uleb128 0x3a
+ 902 010c 0B       		.uleb128 0xb
+ 903 010d 3B       		.uleb128 0x3b
+ 904 010e 05       		.uleb128 0x5
+ 905 010f 49       		.uleb128 0x49
+ 906 0110 13       		.uleb128 0x13
+ 907 0111 02       		.uleb128 0x2
+ 908 0112 18       		.uleb128 0x18
+ 909 0113 00       		.byte	0
+ 910 0114 00       		.byte	0
+ 911 0115 11       		.uleb128 0x11
+ 912 0116 898201   		.uleb128 0x4109
+ 913 0119 01       		.byte	0x1
+ 914 011a 11       		.uleb128 0x11
+ 915 011b 01       		.uleb128 0x1
+ 916 011c 31       		.uleb128 0x31
+ 917 011d 13       		.uleb128 0x13
+ 918 011e 01       		.uleb128 0x1
+ 919 011f 13       		.uleb128 0x13
+ 920 0120 00       		.byte	0
+ 921 0121 00       		.byte	0
+ 922 0122 12       		.uleb128 0x12
+ 923 0123 8A8201   		.uleb128 0x410a
+ 924 0126 00       		.byte	0
+ 925 0127 02       		.uleb128 0x2
+ 926 0128 18       		.uleb128 0x18
+ 927 0129 9142     		.uleb128 0x2111
+ 928 012b 18       		.uleb128 0x18
+ 929 012c 00       		.byte	0
+ 930 012d 00       		.byte	0
+ 931 012e 13       		.uleb128 0x13
+ 932 012f 34       		.uleb128 0x34
+ 933 0130 00       		.byte	0
+ 934 0131 03       		.uleb128 0x3
+ 935 0132 0E       		.uleb128 0xe
+ 936 0133 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 24
+
+
+ 937 0134 0B       		.uleb128 0xb
+ 938 0135 3B       		.uleb128 0x3b
+ 939 0136 0B       		.uleb128 0xb
+ 940 0137 49       		.uleb128 0x49
+ 941 0138 13       		.uleb128 0x13
+ 942 0139 3F       		.uleb128 0x3f
+ 943 013a 19       		.uleb128 0x19
+ 944 013b 02       		.uleb128 0x2
+ 945 013c 18       		.uleb128 0x18
+ 946 013d 00       		.byte	0
+ 947 013e 00       		.byte	0
+ 948 013f 14       		.uleb128 0x14
+ 949 0140 2E       		.uleb128 0x2e
+ 950 0141 00       		.byte	0
+ 951 0142 3F       		.uleb128 0x3f
+ 952 0143 19       		.uleb128 0x19
+ 953 0144 03       		.uleb128 0x3
+ 954 0145 0E       		.uleb128 0xe
+ 955 0146 3A       		.uleb128 0x3a
+ 956 0147 0B       		.uleb128 0xb
+ 957 0148 3B       		.uleb128 0x3b
+ 958 0149 0B       		.uleb128 0xb
+ 959 014a 27       		.uleb128 0x27
+ 960 014b 19       		.uleb128 0x19
+ 961 014c 3C       		.uleb128 0x3c
+ 962 014d 19       		.uleb128 0x19
+ 963 014e 00       		.byte	0
+ 964 014f 00       		.byte	0
+ 965 0150 15       		.uleb128 0x15
+ 966 0151 2E       		.uleb128 0x2e
+ 967 0152 00       		.byte	0
+ 968 0153 3F       		.uleb128 0x3f
+ 969 0154 19       		.uleb128 0x19
+ 970 0155 03       		.uleb128 0x3
+ 971 0156 0E       		.uleb128 0xe
+ 972 0157 3A       		.uleb128 0x3a
+ 973 0158 0B       		.uleb128 0xb
+ 974 0159 3B       		.uleb128 0x3b
+ 975 015a 0B       		.uleb128 0xb
+ 976 015b 27       		.uleb128 0x27
+ 977 015c 19       		.uleb128 0x19
+ 978 015d 49       		.uleb128 0x49
+ 979 015e 13       		.uleb128 0x13
+ 980 015f 3C       		.uleb128 0x3c
+ 981 0160 19       		.uleb128 0x19
+ 982 0161 00       		.byte	0
+ 983 0162 00       		.byte	0
+ 984 0163 16       		.uleb128 0x16
+ 985 0164 2E       		.uleb128 0x2e
+ 986 0165 01       		.byte	0x1
+ 987 0166 3F       		.uleb128 0x3f
+ 988 0167 19       		.uleb128 0x19
+ 989 0168 03       		.uleb128 0x3
+ 990 0169 0E       		.uleb128 0xe
+ 991 016a 3A       		.uleb128 0x3a
+ 992 016b 0B       		.uleb128 0xb
+ 993 016c 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 25
+
+
+ 994 016d 0B       		.uleb128 0xb
+ 995 016e 27       		.uleb128 0x27
+ 996 016f 19       		.uleb128 0x19
+ 997 0170 3C       		.uleb128 0x3c
+ 998 0171 19       		.uleb128 0x19
+ 999 0172 01       		.uleb128 0x1
+ 1000 0173 13       		.uleb128 0x13
+ 1001 0174 00       		.byte	0
+ 1002 0175 00       		.byte	0
+ 1003 0176 17       		.uleb128 0x17
+ 1004 0177 05       		.uleb128 0x5
+ 1005 0178 00       		.byte	0
+ 1006 0179 49       		.uleb128 0x49
+ 1007 017a 13       		.uleb128 0x13
+ 1008 017b 00       		.byte	0
+ 1009 017c 00       		.byte	0
+ 1010 017d 00       		.byte	0
+ 1011              		.section	.debug_loc,"",%progbits
+ 1012              	.Ldebug_loc0:
+ 1013              	.LLST0:
+ 1014 0000 0A000000 		.4byte	.LVL1
+ 1015 0004 17000000 		.4byte	.LVL2-1
+ 1016 0008 0100     		.2byte	0x1
+ 1017 000a 50       		.byte	0x50
+ 1018 000b 00000000 		.4byte	0
+ 1019 000f 00000000 		.4byte	0
+ 1020              	.LLST1:
+ 1021 0013 06000000 		.4byte	.LVL3
+ 1022 0017 0A000000 		.4byte	.LVL4
+ 1023 001b 0100     		.2byte	0x1
+ 1024 001d 50       		.byte	0x50
+ 1025 001e 00000000 		.4byte	0
+ 1026 0022 00000000 		.4byte	0
+ 1027              	.LLST2:
+ 1028 0026 00000000 		.4byte	.LVL5
+ 1029 002a 04000000 		.4byte	.LVL6
+ 1030 002e 0100     		.2byte	0x1
+ 1031 0030 50       		.byte	0x50
+ 1032 0031 04000000 		.4byte	.LVL6
+ 1033 0035 1A000000 		.4byte	.LFE5
+ 1034 0039 0400     		.2byte	0x4
+ 1035 003b F3       		.byte	0xf3
+ 1036 003c 01       		.uleb128 0x1
+ 1037 003d 50       		.byte	0x50
+ 1038 003e 9F       		.byte	0x9f
+ 1039 003f 00000000 		.4byte	0
+ 1040 0043 00000000 		.4byte	0
+ 1041              	.LLST3:
+ 1042 0047 0C000000 		.4byte	.LVL7
+ 1043 004b 0E000000 		.4byte	.LVL8
+ 1044 004f 0100     		.2byte	0x1
+ 1045 0051 50       		.byte	0x50
+ 1046 0052 14000000 		.4byte	.LVL9
+ 1047 0056 17000000 		.4byte	.LVL10-1
+ 1048 005a 0100     		.2byte	0x1
+ 1049 005c 50       		.byte	0x50
+ 1050 005d 00000000 		.4byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 26
+
+
+ 1051 0061 00000000 		.4byte	0
+ 1052              	.LLST4:
+ 1053 0065 10000000 		.4byte	.LVL14
+ 1054 0069 1D000000 		.4byte	.LVL15-1
+ 1055 006d 0100     		.2byte	0x1
+ 1056 006f 50       		.byte	0x50
+ 1057 0070 00000000 		.4byte	0
+ 1058 0074 00000000 		.4byte	0
+ 1059              		.section	.debug_aranges,"",%progbits
+ 1060 0000 5C000000 		.4byte	0x5c
+ 1061 0004 0200     		.2byte	0x2
+ 1062 0006 00000000 		.4byte	.Ldebug_info0
+ 1063 000a 04       		.byte	0x4
+ 1064 000b 00       		.byte	0
+ 1065 000c 0000     		.2byte	0
+ 1066 000e 0000     		.2byte	0
+ 1067 0010 00000000 		.4byte	.LFB0
+ 1068 0014 02000000 		.4byte	.LFE0-.LFB0
+ 1069 0018 00000000 		.4byte	.LFB3
+ 1070 001c 20000000 		.4byte	.LFE3-.LFB3
+ 1071 0020 00000000 		.4byte	.LFB4
+ 1072 0024 0E000000 		.4byte	.LFE4-.LFB4
+ 1073 0028 00000000 		.4byte	.LFB5
+ 1074 002c 1A000000 		.4byte	.LFE5-.LFB5
+ 1075 0030 00000000 		.4byte	.LFB6
+ 1076 0034 10000000 		.4byte	.LFE6-.LFB6
+ 1077 0038 00000000 		.4byte	.LFB7
+ 1078 003c 0C000000 		.4byte	.LFE7-.LFB7
+ 1079 0040 00000000 		.4byte	.LFB1
+ 1080 0044 24000000 		.4byte	.LFE1-.LFB1
+ 1081 0048 00000000 		.4byte	.LFB2
+ 1082 004c 24000000 		.4byte	.LFE2-.LFB2
+ 1083 0050 00000000 		.4byte	.LFB8
+ 1084 0054 10000000 		.4byte	.LFE8-.LFB8
+ 1085 0058 00000000 		.4byte	0
+ 1086 005c 00000000 		.4byte	0
+ 1087              		.section	.debug_ranges,"",%progbits
+ 1088              	.Ldebug_ranges0:
+ 1089 0000 00000000 		.4byte	.LFB0
+ 1090 0004 02000000 		.4byte	.LFE0
+ 1091 0008 00000000 		.4byte	.LFB3
+ 1092 000c 20000000 		.4byte	.LFE3
+ 1093 0010 00000000 		.4byte	.LFB4
+ 1094 0014 0E000000 		.4byte	.LFE4
+ 1095 0018 00000000 		.4byte	.LFB5
+ 1096 001c 1A000000 		.4byte	.LFE5
+ 1097 0020 00000000 		.4byte	.LFB6
+ 1098 0024 10000000 		.4byte	.LFE6
+ 1099 0028 00000000 		.4byte	.LFB7
+ 1100 002c 0C000000 		.4byte	.LFE7
+ 1101 0030 00000000 		.4byte	.LFB1
+ 1102 0034 24000000 		.4byte	.LFE1
+ 1103 0038 00000000 		.4byte	.LFB2
+ 1104 003c 24000000 		.4byte	.LFE2
+ 1105 0040 00000000 		.4byte	.LFB8
+ 1106 0044 10000000 		.4byte	.LFE8
+ 1107 0048 00000000 		.4byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 27
+
+
+ 1108 004c 00000000 		.4byte	0
+ 1109              		.section	.debug_line,"",%progbits
+ 1110              	.Ldebug_line0:
+ 1111 0000 16010000 		.section	.debug_str,"MS",%progbits,1
+ 1111      02006200 
+ 1111      00000201 
+ 1111      FB0E0D00 
+ 1111      01010101 
+ 1112              	.LASF38:
+ 1113 0000 433A5C55 		.ascii	"C:\\Users\\Bart\\Dropbox\\PSoC\\PSoC_Grbl\\PSoC_Grb"
+ 1113      73657273 
+ 1113      5C426172 
+ 1113      745C4472 
+ 1113      6F70626F 
+ 1114 002d 6C2E6379 		.ascii	"l.cydsn\000"
+ 1114      64736E00 
+ 1115              	.LASF24:
+ 1116 0035 76616C75 		.ascii	"value\000"
+ 1116      6500
+ 1117              	.LASF19:
+ 1118 003b 636F756E 		.ascii	"count\000"
+ 1118      7400
+ 1119              	.LASF4:
+ 1120 0041 73686F72 		.ascii	"short unsigned int\000"
+ 1120      7420756E 
+ 1120      7369676E 
+ 1120      65642069 
+ 1120      6E7400
+ 1121              	.LASF41:
+ 1122 0054 51756164 		.ascii	"QuadDec_initVar\000"
+ 1122      4465635F 
+ 1122      696E6974 
+ 1122      56617200 
+ 1123              	.LASF27:
+ 1124 0064 51756164 		.ascii	"QuadDec_Start\000"
+ 1124      4465635F 
+ 1124      53746172 
+ 1124      7400
+ 1125              	.LASF35:
+ 1126 0072 51756164 		.ascii	"QuadDec_Cnt16_Start\000"
+ 1126      4465635F 
+ 1126      436E7431 
+ 1126      365F5374 
+ 1126      61727400 
+ 1127              	.LASF34:
+ 1128 0086 51756164 		.ascii	"QuadDec_Cnt16_Stop\000"
+ 1128      4465635F 
+ 1128      436E7431 
+ 1128      365F5374 
+ 1128      6F7000
+ 1129              	.LASF26:
+ 1130 0099 51756164 		.ascii	"QuadDec_Enable\000"
+ 1130      4465635F 
+ 1130      456E6162 
+ 1130      6C6500
+ 1131              	.LASF15:
+ 1132 00a8 666C6F61 		.ascii	"float\000"
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 28
+
+
+ 1132      7400
+ 1133              	.LASF8:
+ 1134 00ae 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1134      206C6F6E 
+ 1134      6720756E 
+ 1134      7369676E 
+ 1134      65642069 
+ 1135              	.LASF2:
+ 1136 00c5 756E7369 		.ascii	"unsigned char\000"
+ 1136      676E6564 
+ 1136      20636861 
+ 1136      7200
+ 1137              	.LASF33:
+ 1138 00d3 51756164 		.ascii	"QuadDec_Cnt16_WriteCounter\000"
+ 1138      4465635F 
+ 1138      436E7431 
+ 1138      365F5772 
+ 1138      69746543 
+ 1139              	.LASF31:
+ 1140 00ee 51756164 		.ascii	"QuadDec_Cnt16_ReadCounter\000"
+ 1140      4465635F 
+ 1140      436E7431 
+ 1140      365F5265 
+ 1140      6164436F 
+ 1141              	.LASF13:
+ 1142 0108 696E7431 		.ascii	"int16\000"
+ 1142      3600
+ 1143              	.LASF6:
+ 1144 010e 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1144      20756E73 
+ 1144      69676E65 
+ 1144      6420696E 
+ 1144      7400
+ 1145              	.LASF14:
+ 1146 0120 696E7433 		.ascii	"int32\000"
+ 1146      3200
+ 1147              	.LASF28:
+ 1148 0126 51756164 		.ascii	"QuadDec_GetEvents\000"
+ 1148      4465635F 
+ 1148      47657445 
+ 1148      76656E74 
+ 1148      7300
+ 1149              	.LASF18:
+ 1150 0138 656E6162 		.ascii	"enableInterrupts\000"
+ 1150      6C65496E 
+ 1150      74657272 
+ 1150      75707473 
+ 1150      00
+ 1151              	.LASF20:
+ 1152 0149 746D7043 		.ascii	"tmpCnt\000"
+ 1152      6E7400
+ 1153              	.LASF37:
+ 1154 0150 47656E65 		.ascii	"Generated_Source\\PSoC5\\QuadDec.c\000"
+ 1154      72617465 
+ 1154      645F536F 
+ 1154      75726365 
+ 1154      5C50536F 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 29
+
+
+ 1155              	.LASF16:
+ 1156 0171 646F7562 		.ascii	"double\000"
+ 1156      6C6500
+ 1157              	.LASF40:
+ 1158 0178 51756164 		.ascii	"QuadDec_GetCounter\000"
+ 1158      4465635F 
+ 1158      47657443 
+ 1158      6F756E74 
+ 1158      657200
+ 1159              	.LASF12:
+ 1160 018b 75696E74 		.ascii	"uint16\000"
+ 1160      313600
+ 1161              	.LASF36:
+ 1162 0192 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1162      4320342E 
+ 1162      392E3320 
+ 1162      32303135 
+ 1162      30333033 
+ 1163 01c5 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1163      20726576 
+ 1163      6973696F 
+ 1163      6E203232 
+ 1163      31323230 
+ 1164 01f8 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1164      66756E63 
+ 1164      74696F6E 
+ 1164      2D736563 
+ 1164      74696F6E 
+ 1165              	.LASF30:
+ 1166 0220 4379456E 		.ascii	"CyEnterCriticalSection\000"
+ 1166      74657243 
+ 1166      72697469 
+ 1166      63616C53 
+ 1166      65637469 
+ 1167              	.LASF0:
+ 1168 0237 756E7369 		.ascii	"unsigned int\000"
+ 1168      676E6564 
+ 1168      20696E74 
+ 1168      00
+ 1169              	.LASF32:
+ 1170 0244 43794578 		.ascii	"CyExitCriticalSection\000"
+ 1170      69744372 
+ 1170      69746963 
+ 1170      616C5365 
+ 1170      6374696F 
+ 1171              	.LASF17:
+ 1172 025a 72656738 		.ascii	"reg8\000"
+ 1172      00
+ 1173              	.LASF9:
+ 1174 025f 73697A65 		.ascii	"sizetype\000"
+ 1174      74797065 
+ 1174      00
+ 1175              	.LASF7:
+ 1176 0268 6C6F6E67 		.ascii	"long long int\000"
+ 1176      206C6F6E 
+ 1176      6720696E 
+ 1176      7400
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cc159kjl.s 			page 30
+
+
+ 1177              	.LASF23:
+ 1178 0276 51756164 		.ascii	"QuadDec_SetInterruptMask\000"
+ 1178      4465635F 
+ 1178      53657449 
+ 1178      6E746572 
+ 1178      72757074 
+ 1179              	.LASF25:
+ 1180 028f 6D61736B 		.ascii	"mask\000"
+ 1180      00
+ 1181              	.LASF39:
+ 1182 0294 51756164 		.ascii	"QuadDec_Init\000"
+ 1182      4465635F 
+ 1182      496E6974 
+ 1182      00
+ 1183              	.LASF3:
+ 1184 02a1 73686F72 		.ascii	"short int\000"
+ 1184      7420696E 
+ 1184      7400
+ 1185              	.LASF11:
+ 1186 02ab 75696E74 		.ascii	"uint8\000"
+ 1186      3800
+ 1187              	.LASF22:
+ 1188 02b1 51756164 		.ascii	"QuadDec_SetCounter\000"
+ 1188      4465635F 
+ 1188      53657443 
+ 1188      6F756E74 
+ 1188      657200
+ 1189              	.LASF5:
+ 1190 02c4 6C6F6E67 		.ascii	"long int\000"
+ 1190      20696E74 
+ 1190      00
+ 1191              	.LASF10:
+ 1192 02cd 63686172 		.ascii	"char\000"
+ 1192      00
+ 1193              	.LASF1:
+ 1194 02d2 7369676E 		.ascii	"signed char\000"
+ 1194      65642063 
+ 1194      68617200 
+ 1195              	.LASF21:
+ 1196 02de 51756164 		.ascii	"QuadDec_Stop\000"
+ 1196      4465635F 
+ 1196      53746F70 
+ 1196      00
+ 1197              	.LASF29:
+ 1198 02eb 51756164 		.ascii	"QuadDec_GetInterruptMask\000"
+ 1198      4465635F 
+ 1198      47657449 
+ 1198      6E746572 
+ 1198      72757074 
+ 1199              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

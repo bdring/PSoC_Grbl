@@ -1,0 +1,1887 @@
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"isr_Step.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.isr_Step_Interrupt,"ax",%progbits
+  19              		.align	2
+  20              		.global	isr_Step_Interrupt
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	isr_Step_Interrupt, %function
+  24              	isr_Step_Interrupt:
+  25              	.LFB3:
+  26              		.file 1 "Generated_Source\\PSoC5\\isr_Step.c"
+   1:Generated_Source\PSoC5/isr_Step.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/isr_Step.c **** * File Name: isr_Step.c  
+   3:Generated_Source\PSoC5/isr_Step.c **** * Version 1.70
+   4:Generated_Source\PSoC5/isr_Step.c **** *
+   5:Generated_Source\PSoC5/isr_Step.c **** *  Description:
+   6:Generated_Source\PSoC5/isr_Step.c **** *   API for controlling the state of an interrupt.
+   7:Generated_Source\PSoC5/isr_Step.c **** *
+   8:Generated_Source\PSoC5/isr_Step.c **** *
+   9:Generated_Source\PSoC5/isr_Step.c **** *  Note:
+  10:Generated_Source\PSoC5/isr_Step.c **** *
+  11:Generated_Source\PSoC5/isr_Step.c **** ********************************************************************************
+  12:Generated_Source\PSoC5/isr_Step.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC5/isr_Step.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  14:Generated_Source\PSoC5/isr_Step.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  15:Generated_Source\PSoC5/isr_Step.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC5/isr_Step.c **** *******************************************************************************/
+  17:Generated_Source\PSoC5/isr_Step.c **** 
+  18:Generated_Source\PSoC5/isr_Step.c **** 
+  19:Generated_Source\PSoC5/isr_Step.c **** #include <cydevice_trm.h>
+  20:Generated_Source\PSoC5/isr_Step.c **** #include <CyLib.h>
+  21:Generated_Source\PSoC5/isr_Step.c **** #include <isr_Step.h>
+  22:Generated_Source\PSoC5/isr_Step.c **** #include "cyapicallbacks.h"
+  23:Generated_Source\PSoC5/isr_Step.c **** 
+  24:Generated_Source\PSoC5/isr_Step.c **** #if !defined(isr_Step__REMOVED) /* Check for removal by optimization */
+  25:Generated_Source\PSoC5/isr_Step.c **** 
+  26:Generated_Source\PSoC5/isr_Step.c **** /*******************************************************************************
+  27:Generated_Source\PSoC5/isr_Step.c **** *  Place your includes, defines and code here 
+  28:Generated_Source\PSoC5/isr_Step.c **** ********************************************************************************/
+  29:Generated_Source\PSoC5/isr_Step.c **** /* `#START isr_Step_intc` */
+  30:Generated_Source\PSoC5/isr_Step.c **** 
+  31:Generated_Source\PSoC5/isr_Step.c **** /* `#END` */
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 2
+
+
+  32:Generated_Source\PSoC5/isr_Step.c **** 
+  33:Generated_Source\PSoC5/isr_Step.c **** #ifndef CYINT_IRQ_BASE
+  34:Generated_Source\PSoC5/isr_Step.c **** #define CYINT_IRQ_BASE      16
+  35:Generated_Source\PSoC5/isr_Step.c **** #endif /* CYINT_IRQ_BASE */
+  36:Generated_Source\PSoC5/isr_Step.c **** #ifndef CYINT_VECT_TABLE
+  37:Generated_Source\PSoC5/isr_Step.c **** #define CYINT_VECT_TABLE    ((cyisraddress **) CYREG_NVIC_VECT_OFFSET)
+  38:Generated_Source\PSoC5/isr_Step.c **** #endif /* CYINT_VECT_TABLE */
+  39:Generated_Source\PSoC5/isr_Step.c **** 
+  40:Generated_Source\PSoC5/isr_Step.c **** /* Declared in startup, used to set unused interrupts to. */
+  41:Generated_Source\PSoC5/isr_Step.c **** CY_ISR_PROTO(IntDefaultHandler);
+  42:Generated_Source\PSoC5/isr_Step.c **** 
+  43:Generated_Source\PSoC5/isr_Step.c **** 
+  44:Generated_Source\PSoC5/isr_Step.c **** /*******************************************************************************
+  45:Generated_Source\PSoC5/isr_Step.c **** * Function Name: isr_Step_Start
+  46:Generated_Source\PSoC5/isr_Step.c **** ********************************************************************************
+  47:Generated_Source\PSoC5/isr_Step.c **** *
+  48:Generated_Source\PSoC5/isr_Step.c **** * Summary:
+  49:Generated_Source\PSoC5/isr_Step.c **** *  Set up the interrupt and enable it. This function disables the interrupt, 
+  50:Generated_Source\PSoC5/isr_Step.c **** *  sets the default interrupt vector, sets the priority from the value in the
+  51:Generated_Source\PSoC5/isr_Step.c **** *  Design Wide Resources Interrupt Editor, then enables the interrupt to the 
+  52:Generated_Source\PSoC5/isr_Step.c **** *  interrupt controller.
+  53:Generated_Source\PSoC5/isr_Step.c **** *
+  54:Generated_Source\PSoC5/isr_Step.c **** * Parameters:  
+  55:Generated_Source\PSoC5/isr_Step.c **** *   None
+  56:Generated_Source\PSoC5/isr_Step.c **** *
+  57:Generated_Source\PSoC5/isr_Step.c **** * Return:
+  58:Generated_Source\PSoC5/isr_Step.c **** *   None
+  59:Generated_Source\PSoC5/isr_Step.c **** *
+  60:Generated_Source\PSoC5/isr_Step.c **** *******************************************************************************/
+  61:Generated_Source\PSoC5/isr_Step.c **** void isr_Step_Start(void)
+  62:Generated_Source\PSoC5/isr_Step.c **** {
+  63:Generated_Source\PSoC5/isr_Step.c ****     /* For all we know the interrupt is active. */
+  64:Generated_Source\PSoC5/isr_Step.c ****     isr_Step_Disable();
+  65:Generated_Source\PSoC5/isr_Step.c **** 
+  66:Generated_Source\PSoC5/isr_Step.c ****     /* Set the ISR to point to the isr_Step Interrupt. */
+  67:Generated_Source\PSoC5/isr_Step.c ****     isr_Step_SetVector(&isr_Step_Interrupt);
+  68:Generated_Source\PSoC5/isr_Step.c **** 
+  69:Generated_Source\PSoC5/isr_Step.c ****     /* Set the priority. */
+  70:Generated_Source\PSoC5/isr_Step.c ****     isr_Step_SetPriority((uint8)isr_Step_INTC_PRIOR_NUMBER);
+  71:Generated_Source\PSoC5/isr_Step.c **** 
+  72:Generated_Source\PSoC5/isr_Step.c ****     /* Enable it. */
+  73:Generated_Source\PSoC5/isr_Step.c ****     isr_Step_Enable();
+  74:Generated_Source\PSoC5/isr_Step.c **** }
+  75:Generated_Source\PSoC5/isr_Step.c **** 
+  76:Generated_Source\PSoC5/isr_Step.c **** 
+  77:Generated_Source\PSoC5/isr_Step.c **** /*******************************************************************************
+  78:Generated_Source\PSoC5/isr_Step.c **** * Function Name: isr_Step_StartEx
+  79:Generated_Source\PSoC5/isr_Step.c **** ********************************************************************************
+  80:Generated_Source\PSoC5/isr_Step.c **** *
+  81:Generated_Source\PSoC5/isr_Step.c **** * Summary:
+  82:Generated_Source\PSoC5/isr_Step.c **** *  Sets up the interrupt and enables it. This function disables the interrupt,
+  83:Generated_Source\PSoC5/isr_Step.c **** *  sets the interrupt vector based on the address passed in, sets the priority 
+  84:Generated_Source\PSoC5/isr_Step.c **** *  from the value in the Design Wide Resources Interrupt Editor, then enables 
+  85:Generated_Source\PSoC5/isr_Step.c **** *  the interrupt to the interrupt controller.
+  86:Generated_Source\PSoC5/isr_Step.c **** *  
+  87:Generated_Source\PSoC5/isr_Step.c **** *  When defining ISR functions, the CY_ISR and CY_ISR_PROTO macros should be 
+  88:Generated_Source\PSoC5/isr_Step.c **** *  used to provide consistent definition across compilers:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 3
+
+
+  89:Generated_Source\PSoC5/isr_Step.c **** *  
+  90:Generated_Source\PSoC5/isr_Step.c **** *  Function definition example:
+  91:Generated_Source\PSoC5/isr_Step.c **** *   CY_ISR(MyISR)
+  92:Generated_Source\PSoC5/isr_Step.c **** *   {
+  93:Generated_Source\PSoC5/isr_Step.c **** *   }
+  94:Generated_Source\PSoC5/isr_Step.c **** *   Function prototype example:
+  95:Generated_Source\PSoC5/isr_Step.c **** *   CY_ISR_PROTO(MyISR);
+  96:Generated_Source\PSoC5/isr_Step.c **** *
+  97:Generated_Source\PSoC5/isr_Step.c **** * Parameters:  
+  98:Generated_Source\PSoC5/isr_Step.c **** *   address: Address of the ISR to set in the interrupt vector table.
+  99:Generated_Source\PSoC5/isr_Step.c **** *
+ 100:Generated_Source\PSoC5/isr_Step.c **** * Return:
+ 101:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 102:Generated_Source\PSoC5/isr_Step.c **** *
+ 103:Generated_Source\PSoC5/isr_Step.c **** *******************************************************************************/
+ 104:Generated_Source\PSoC5/isr_Step.c **** void isr_Step_StartEx(cyisraddress address)
+ 105:Generated_Source\PSoC5/isr_Step.c **** {
+ 106:Generated_Source\PSoC5/isr_Step.c ****     /* For all we know the interrupt is active. */
+ 107:Generated_Source\PSoC5/isr_Step.c ****     isr_Step_Disable();
+ 108:Generated_Source\PSoC5/isr_Step.c **** 
+ 109:Generated_Source\PSoC5/isr_Step.c ****     /* Set the ISR to point to the isr_Step Interrupt. */
+ 110:Generated_Source\PSoC5/isr_Step.c ****     isr_Step_SetVector(address);
+ 111:Generated_Source\PSoC5/isr_Step.c **** 
+ 112:Generated_Source\PSoC5/isr_Step.c ****     /* Set the priority. */
+ 113:Generated_Source\PSoC5/isr_Step.c ****     isr_Step_SetPriority((uint8)isr_Step_INTC_PRIOR_NUMBER);
+ 114:Generated_Source\PSoC5/isr_Step.c **** 
+ 115:Generated_Source\PSoC5/isr_Step.c ****     /* Enable it. */
+ 116:Generated_Source\PSoC5/isr_Step.c ****     isr_Step_Enable();
+ 117:Generated_Source\PSoC5/isr_Step.c **** }
+ 118:Generated_Source\PSoC5/isr_Step.c **** 
+ 119:Generated_Source\PSoC5/isr_Step.c **** 
+ 120:Generated_Source\PSoC5/isr_Step.c **** /*******************************************************************************
+ 121:Generated_Source\PSoC5/isr_Step.c **** * Function Name: isr_Step_Stop
+ 122:Generated_Source\PSoC5/isr_Step.c **** ********************************************************************************
+ 123:Generated_Source\PSoC5/isr_Step.c **** *
+ 124:Generated_Source\PSoC5/isr_Step.c **** * Summary:
+ 125:Generated_Source\PSoC5/isr_Step.c **** *   Disables and removes the interrupt.
+ 126:Generated_Source\PSoC5/isr_Step.c **** *
+ 127:Generated_Source\PSoC5/isr_Step.c **** * Parameters:  
+ 128:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 129:Generated_Source\PSoC5/isr_Step.c **** *
+ 130:Generated_Source\PSoC5/isr_Step.c **** * Return:
+ 131:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 132:Generated_Source\PSoC5/isr_Step.c **** *
+ 133:Generated_Source\PSoC5/isr_Step.c **** *******************************************************************************/
+ 134:Generated_Source\PSoC5/isr_Step.c **** void isr_Step_Stop(void)
+ 135:Generated_Source\PSoC5/isr_Step.c **** {
+ 136:Generated_Source\PSoC5/isr_Step.c ****     /* Disable this interrupt. */
+ 137:Generated_Source\PSoC5/isr_Step.c ****     isr_Step_Disable();
+ 138:Generated_Source\PSoC5/isr_Step.c **** 
+ 139:Generated_Source\PSoC5/isr_Step.c ****     /* Set the ISR to point to the passive one. */
+ 140:Generated_Source\PSoC5/isr_Step.c ****     isr_Step_SetVector(&IntDefaultHandler);
+ 141:Generated_Source\PSoC5/isr_Step.c **** }
+ 142:Generated_Source\PSoC5/isr_Step.c **** 
+ 143:Generated_Source\PSoC5/isr_Step.c **** 
+ 144:Generated_Source\PSoC5/isr_Step.c **** /*******************************************************************************
+ 145:Generated_Source\PSoC5/isr_Step.c **** * Function Name: isr_Step_Interrupt
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 4
+
+
+ 146:Generated_Source\PSoC5/isr_Step.c **** ********************************************************************************
+ 147:Generated_Source\PSoC5/isr_Step.c **** *
+ 148:Generated_Source\PSoC5/isr_Step.c **** * Summary:
+ 149:Generated_Source\PSoC5/isr_Step.c **** *   The default Interrupt Service Routine for isr_Step.
+ 150:Generated_Source\PSoC5/isr_Step.c **** *
+ 151:Generated_Source\PSoC5/isr_Step.c **** *   Add custom code between the coments to keep the next version of this file
+ 152:Generated_Source\PSoC5/isr_Step.c **** *   from over writting your code.
+ 153:Generated_Source\PSoC5/isr_Step.c **** *
+ 154:Generated_Source\PSoC5/isr_Step.c **** * Parameters:  
+ 155:Generated_Source\PSoC5/isr_Step.c **** *
+ 156:Generated_Source\PSoC5/isr_Step.c **** * Return:
+ 157:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 158:Generated_Source\PSoC5/isr_Step.c **** *
+ 159:Generated_Source\PSoC5/isr_Step.c **** *******************************************************************************/
+ 160:Generated_Source\PSoC5/isr_Step.c **** CY_ISR(isr_Step_Interrupt)
+ 161:Generated_Source\PSoC5/isr_Step.c **** {
+  27              		.loc 1 161 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32 0000 7047     		bx	lr
+  33              		.cfi_endproc
+  34              	.LFE3:
+  35              		.size	isr_Step_Interrupt, .-isr_Step_Interrupt
+  36 0002 00BF     		.section	.text.isr_Step_SetVector,"ax",%progbits
+  37              		.align	2
+  38              		.global	isr_Step_SetVector
+  39              		.thumb
+  40              		.thumb_func
+  41              		.type	isr_Step_SetVector, %function
+  42              	isr_Step_SetVector:
+  43              	.LFB4:
+ 162:Generated_Source\PSoC5/isr_Step.c ****     #ifdef isr_Step_INTERRUPT_INTERRUPT_CALLBACK
+ 163:Generated_Source\PSoC5/isr_Step.c ****         isr_Step_Interrupt_InterruptCallback();
+ 164:Generated_Source\PSoC5/isr_Step.c ****     #endif /* isr_Step_INTERRUPT_INTERRUPT_CALLBACK */ 
+ 165:Generated_Source\PSoC5/isr_Step.c **** 
+ 166:Generated_Source\PSoC5/isr_Step.c ****     /*  Place your Interrupt code here. */
+ 167:Generated_Source\PSoC5/isr_Step.c ****     /* `#START isr_Step_Interrupt` */
+ 168:Generated_Source\PSoC5/isr_Step.c **** 
+ 169:Generated_Source\PSoC5/isr_Step.c ****     /* `#END` */
+ 170:Generated_Source\PSoC5/isr_Step.c **** }
+ 171:Generated_Source\PSoC5/isr_Step.c **** 
+ 172:Generated_Source\PSoC5/isr_Step.c **** 
+ 173:Generated_Source\PSoC5/isr_Step.c **** /*******************************************************************************
+ 174:Generated_Source\PSoC5/isr_Step.c **** * Function Name: isr_Step_SetVector
+ 175:Generated_Source\PSoC5/isr_Step.c **** ********************************************************************************
+ 176:Generated_Source\PSoC5/isr_Step.c **** *
+ 177:Generated_Source\PSoC5/isr_Step.c **** * Summary:
+ 178:Generated_Source\PSoC5/isr_Step.c **** *   Change the ISR vector for the Interrupt. Note calling isr_Step_Start
+ 179:Generated_Source\PSoC5/isr_Step.c **** *   will override any effect this method would have had. To set the vector 
+ 180:Generated_Source\PSoC5/isr_Step.c **** *   before the component has been started use isr_Step_StartEx instead.
+ 181:Generated_Source\PSoC5/isr_Step.c **** * 
+ 182:Generated_Source\PSoC5/isr_Step.c **** *   When defining ISR functions, the CY_ISR and CY_ISR_PROTO macros should be 
+ 183:Generated_Source\PSoC5/isr_Step.c **** *   used to provide consistent definition across compilers:
+ 184:Generated_Source\PSoC5/isr_Step.c **** *
+ 185:Generated_Source\PSoC5/isr_Step.c **** *   Function definition example:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 5
+
+
+ 186:Generated_Source\PSoC5/isr_Step.c **** *   CY_ISR(MyISR)
+ 187:Generated_Source\PSoC5/isr_Step.c **** *   {
+ 188:Generated_Source\PSoC5/isr_Step.c **** *   }
+ 189:Generated_Source\PSoC5/isr_Step.c **** *
+ 190:Generated_Source\PSoC5/isr_Step.c **** *   Function prototype example:
+ 191:Generated_Source\PSoC5/isr_Step.c **** *     CY_ISR_PROTO(MyISR);
+ 192:Generated_Source\PSoC5/isr_Step.c **** *
+ 193:Generated_Source\PSoC5/isr_Step.c **** * Parameters:
+ 194:Generated_Source\PSoC5/isr_Step.c **** *   address: Address of the ISR to set in the interrupt vector table.
+ 195:Generated_Source\PSoC5/isr_Step.c **** *
+ 196:Generated_Source\PSoC5/isr_Step.c **** * Return:
+ 197:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 198:Generated_Source\PSoC5/isr_Step.c **** *
+ 199:Generated_Source\PSoC5/isr_Step.c **** *******************************************************************************/
+ 200:Generated_Source\PSoC5/isr_Step.c **** void isr_Step_SetVector(cyisraddress address)
+ 201:Generated_Source\PSoC5/isr_Step.c **** {
+  44              		.loc 1 201 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49              	.LVL0:
+ 202:Generated_Source\PSoC5/isr_Step.c ****     cyisraddress * ramVectorTable;
+ 203:Generated_Source\PSoC5/isr_Step.c **** 
+ 204:Generated_Source\PSoC5/isr_Step.c ****     ramVectorTable = (cyisraddress *) *CYINT_VECT_TABLE;
+  50              		.loc 1 204 0
+  51 0000 024B     		ldr	r3, .L3
+  52 0002 1B68     		ldr	r3, [r3]
+  53              	.LVL1:
+ 205:Generated_Source\PSoC5/isr_Step.c **** 
+ 206:Generated_Source\PSoC5/isr_Step.c ****     ramVectorTable[CYINT_IRQ_BASE + (uint32)isr_Step__INTC_NUMBER] = address;
+  54              		.loc 1 206 0
+  55 0004 C3F88800 		str	r0, [r3, #136]
+  56 0008 7047     		bx	lr
+  57              	.L4:
+  58 000a 00BF     		.align	2
+  59              	.L3:
+  60 000c 08ED00E0 		.word	-536810232
+  61              		.cfi_endproc
+  62              	.LFE4:
+  63              		.size	isr_Step_SetVector, .-isr_Step_SetVector
+  64              		.section	.text.isr_Step_GetVector,"ax",%progbits
+  65              		.align	2
+  66              		.global	isr_Step_GetVector
+  67              		.thumb
+  68              		.thumb_func
+  69              		.type	isr_Step_GetVector, %function
+  70              	isr_Step_GetVector:
+  71              	.LFB5:
+ 207:Generated_Source\PSoC5/isr_Step.c **** }
+ 208:Generated_Source\PSoC5/isr_Step.c **** 
+ 209:Generated_Source\PSoC5/isr_Step.c **** 
+ 210:Generated_Source\PSoC5/isr_Step.c **** /*******************************************************************************
+ 211:Generated_Source\PSoC5/isr_Step.c **** * Function Name: isr_Step_GetVector
+ 212:Generated_Source\PSoC5/isr_Step.c **** ********************************************************************************
+ 213:Generated_Source\PSoC5/isr_Step.c **** *
+ 214:Generated_Source\PSoC5/isr_Step.c **** * Summary:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 6
+
+
+ 215:Generated_Source\PSoC5/isr_Step.c **** *   Gets the "address" of the current ISR vector for the Interrupt.
+ 216:Generated_Source\PSoC5/isr_Step.c **** *
+ 217:Generated_Source\PSoC5/isr_Step.c **** * Parameters:
+ 218:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 219:Generated_Source\PSoC5/isr_Step.c **** *
+ 220:Generated_Source\PSoC5/isr_Step.c **** * Return:
+ 221:Generated_Source\PSoC5/isr_Step.c **** *   Address of the ISR in the interrupt vector table.
+ 222:Generated_Source\PSoC5/isr_Step.c **** *
+ 223:Generated_Source\PSoC5/isr_Step.c **** *******************************************************************************/
+ 224:Generated_Source\PSoC5/isr_Step.c **** cyisraddress isr_Step_GetVector(void)
+ 225:Generated_Source\PSoC5/isr_Step.c **** {
+  72              		.loc 1 225 0
+  73              		.cfi_startproc
+  74              		@ args = 0, pretend = 0, frame = 0
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+  76              		@ link register save eliminated.
+ 226:Generated_Source\PSoC5/isr_Step.c ****     cyisraddress * ramVectorTable;
+ 227:Generated_Source\PSoC5/isr_Step.c **** 
+ 228:Generated_Source\PSoC5/isr_Step.c ****     ramVectorTable = (cyisraddress *) *CYINT_VECT_TABLE;
+  77              		.loc 1 228 0
+  78 0000 024B     		ldr	r3, .L6
+  79 0002 1B68     		ldr	r3, [r3]
+  80              	.LVL2:
+ 229:Generated_Source\PSoC5/isr_Step.c **** 
+ 230:Generated_Source\PSoC5/isr_Step.c ****     return ramVectorTable[CYINT_IRQ_BASE + (uint32)isr_Step__INTC_NUMBER];
+ 231:Generated_Source\PSoC5/isr_Step.c **** }
+  81              		.loc 1 231 0
+  82 0004 D3F88800 		ldr	r0, [r3, #136]
+  83 0008 7047     		bx	lr
+  84              	.L7:
+  85 000a 00BF     		.align	2
+  86              	.L6:
+  87 000c 08ED00E0 		.word	-536810232
+  88              		.cfi_endproc
+  89              	.LFE5:
+  90              		.size	isr_Step_GetVector, .-isr_Step_GetVector
+  91              		.section	.text.isr_Step_SetPriority,"ax",%progbits
+  92              		.align	2
+  93              		.global	isr_Step_SetPriority
+  94              		.thumb
+  95              		.thumb_func
+  96              		.type	isr_Step_SetPriority, %function
+  97              	isr_Step_SetPriority:
+  98              	.LFB6:
+ 232:Generated_Source\PSoC5/isr_Step.c **** 
+ 233:Generated_Source\PSoC5/isr_Step.c **** 
+ 234:Generated_Source\PSoC5/isr_Step.c **** /*******************************************************************************
+ 235:Generated_Source\PSoC5/isr_Step.c **** * Function Name: isr_Step_SetPriority
+ 236:Generated_Source\PSoC5/isr_Step.c **** ********************************************************************************
+ 237:Generated_Source\PSoC5/isr_Step.c **** *
+ 238:Generated_Source\PSoC5/isr_Step.c **** * Summary:
+ 239:Generated_Source\PSoC5/isr_Step.c **** *   Sets the Priority of the Interrupt. 
+ 240:Generated_Source\PSoC5/isr_Step.c **** *
+ 241:Generated_Source\PSoC5/isr_Step.c **** *   Note calling isr_Step_Start or isr_Step_StartEx will 
+ 242:Generated_Source\PSoC5/isr_Step.c **** *   override any effect this API would have had. This API should only be called
+ 243:Generated_Source\PSoC5/isr_Step.c **** *   after isr_Step_Start or isr_Step_StartEx has been called. 
+ 244:Generated_Source\PSoC5/isr_Step.c **** *   To set the initial priority for the component, use the Design-Wide Resources
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 7
+
+
+ 245:Generated_Source\PSoC5/isr_Step.c **** *   Interrupt Editor.
+ 246:Generated_Source\PSoC5/isr_Step.c **** *
+ 247:Generated_Source\PSoC5/isr_Step.c **** *   Note This API has no effect on Non-maskable interrupt NMI).
+ 248:Generated_Source\PSoC5/isr_Step.c **** *
+ 249:Generated_Source\PSoC5/isr_Step.c **** * Parameters:
+ 250:Generated_Source\PSoC5/isr_Step.c **** *   priority: Priority of the interrupt, 0 being the highest priority
+ 251:Generated_Source\PSoC5/isr_Step.c **** *             PSoC 3 and PSoC 5LP: Priority is from 0 to 7.
+ 252:Generated_Source\PSoC5/isr_Step.c **** *             PSoC 4: Priority is from 0 to 3.
+ 253:Generated_Source\PSoC5/isr_Step.c **** *
+ 254:Generated_Source\PSoC5/isr_Step.c **** * Return:
+ 255:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 256:Generated_Source\PSoC5/isr_Step.c **** *
+ 257:Generated_Source\PSoC5/isr_Step.c **** *******************************************************************************/
+ 258:Generated_Source\PSoC5/isr_Step.c **** void isr_Step_SetPriority(uint8 priority)
+ 259:Generated_Source\PSoC5/isr_Step.c **** {
+  99              		.loc 1 259 0
+ 100              		.cfi_startproc
+ 101              		@ args = 0, pretend = 0, frame = 0
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103              		@ link register save eliminated.
+ 104              	.LVL3:
+ 260:Generated_Source\PSoC5/isr_Step.c ****     *isr_Step_INTC_PRIOR = priority << 5;
+ 105              		.loc 1 260 0
+ 106 0000 4001     		lsls	r0, r0, #5
+ 107              	.LVL4:
+ 108 0002 C0B2     		uxtb	r0, r0
+ 109 0004 014B     		ldr	r3, .L9
+ 110 0006 1870     		strb	r0, [r3]
+ 111 0008 7047     		bx	lr
+ 112              	.L10:
+ 113 000a 00BF     		.align	2
+ 114              	.L9:
+ 115 000c 12E400E0 		.word	-536812526
+ 116              		.cfi_endproc
+ 117              	.LFE6:
+ 118              		.size	isr_Step_SetPriority, .-isr_Step_SetPriority
+ 119              		.section	.text.isr_Step_GetPriority,"ax",%progbits
+ 120              		.align	2
+ 121              		.global	isr_Step_GetPriority
+ 122              		.thumb
+ 123              		.thumb_func
+ 124              		.type	isr_Step_GetPriority, %function
+ 125              	isr_Step_GetPriority:
+ 126              	.LFB7:
+ 261:Generated_Source\PSoC5/isr_Step.c **** }
+ 262:Generated_Source\PSoC5/isr_Step.c **** 
+ 263:Generated_Source\PSoC5/isr_Step.c **** 
+ 264:Generated_Source\PSoC5/isr_Step.c **** /*******************************************************************************
+ 265:Generated_Source\PSoC5/isr_Step.c **** * Function Name: isr_Step_GetPriority
+ 266:Generated_Source\PSoC5/isr_Step.c **** ********************************************************************************
+ 267:Generated_Source\PSoC5/isr_Step.c **** *
+ 268:Generated_Source\PSoC5/isr_Step.c **** * Summary:
+ 269:Generated_Source\PSoC5/isr_Step.c **** *   Gets the Priority of the Interrupt.
+ 270:Generated_Source\PSoC5/isr_Step.c **** *
+ 271:Generated_Source\PSoC5/isr_Step.c **** * Parameters:
+ 272:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 273:Generated_Source\PSoC5/isr_Step.c **** *
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 8
+
+
+ 274:Generated_Source\PSoC5/isr_Step.c **** * Return:
+ 275:Generated_Source\PSoC5/isr_Step.c **** *   Priority of the interrupt, 0 being the highest priority
+ 276:Generated_Source\PSoC5/isr_Step.c **** *    PSoC 3 and PSoC 5LP: Priority is from 0 to 7.
+ 277:Generated_Source\PSoC5/isr_Step.c **** *    PSoC 4: Priority is from 0 to 3.
+ 278:Generated_Source\PSoC5/isr_Step.c **** *
+ 279:Generated_Source\PSoC5/isr_Step.c **** *******************************************************************************/
+ 280:Generated_Source\PSoC5/isr_Step.c **** uint8 isr_Step_GetPriority(void)
+ 281:Generated_Source\PSoC5/isr_Step.c **** {
+ 127              		.loc 1 281 0
+ 128              		.cfi_startproc
+ 129              		@ args = 0, pretend = 0, frame = 0
+ 130              		@ frame_needed = 0, uses_anonymous_args = 0
+ 131              		@ link register save eliminated.
+ 282:Generated_Source\PSoC5/isr_Step.c ****     uint8 priority;
+ 283:Generated_Source\PSoC5/isr_Step.c **** 
+ 284:Generated_Source\PSoC5/isr_Step.c **** 
+ 285:Generated_Source\PSoC5/isr_Step.c ****     priority = *isr_Step_INTC_PRIOR >> 5;
+ 132              		.loc 1 285 0
+ 133 0000 014B     		ldr	r3, .L12
+ 134 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 135              	.LVL5:
+ 286:Generated_Source\PSoC5/isr_Step.c **** 
+ 287:Generated_Source\PSoC5/isr_Step.c ****     return priority;
+ 288:Generated_Source\PSoC5/isr_Step.c **** }
+ 136              		.loc 1 288 0
+ 137 0004 4009     		lsrs	r0, r0, #5
+ 138              	.LVL6:
+ 139 0006 7047     		bx	lr
+ 140              	.L13:
+ 141              		.align	2
+ 142              	.L12:
+ 143 0008 12E400E0 		.word	-536812526
+ 144              		.cfi_endproc
+ 145              	.LFE7:
+ 146              		.size	isr_Step_GetPriority, .-isr_Step_GetPriority
+ 147              		.section	.text.isr_Step_Enable,"ax",%progbits
+ 148              		.align	2
+ 149              		.global	isr_Step_Enable
+ 150              		.thumb
+ 151              		.thumb_func
+ 152              		.type	isr_Step_Enable, %function
+ 153              	isr_Step_Enable:
+ 154              	.LFB8:
+ 289:Generated_Source\PSoC5/isr_Step.c **** 
+ 290:Generated_Source\PSoC5/isr_Step.c **** 
+ 291:Generated_Source\PSoC5/isr_Step.c **** /*******************************************************************************
+ 292:Generated_Source\PSoC5/isr_Step.c **** * Function Name: isr_Step_Enable
+ 293:Generated_Source\PSoC5/isr_Step.c **** ********************************************************************************
+ 294:Generated_Source\PSoC5/isr_Step.c **** *
+ 295:Generated_Source\PSoC5/isr_Step.c **** * Summary:
+ 296:Generated_Source\PSoC5/isr_Step.c **** *   Enables the interrupt to the interrupt controller. Do not call this function
+ 297:Generated_Source\PSoC5/isr_Step.c **** *   unless ISR_Start() has been called or the functionality of the ISR_Start() 
+ 298:Generated_Source\PSoC5/isr_Step.c **** *   function, which sets the vector and the priority, has been called.
+ 299:Generated_Source\PSoC5/isr_Step.c **** *
+ 300:Generated_Source\PSoC5/isr_Step.c **** * Parameters:
+ 301:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 302:Generated_Source\PSoC5/isr_Step.c **** *
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 9
+
+
+ 303:Generated_Source\PSoC5/isr_Step.c **** * Return:
+ 304:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 305:Generated_Source\PSoC5/isr_Step.c **** *
+ 306:Generated_Source\PSoC5/isr_Step.c **** *******************************************************************************/
+ 307:Generated_Source\PSoC5/isr_Step.c **** void isr_Step_Enable(void)
+ 308:Generated_Source\PSoC5/isr_Step.c **** {
+ 155              		.loc 1 308 0
+ 156              		.cfi_startproc
+ 157              		@ args = 0, pretend = 0, frame = 0
+ 158              		@ frame_needed = 0, uses_anonymous_args = 0
+ 159              		@ link register save eliminated.
+ 309:Generated_Source\PSoC5/isr_Step.c ****     /* Enable the general interrupt. */
+ 310:Generated_Source\PSoC5/isr_Step.c ****     *isr_Step_INTC_SET_EN = isr_Step__INTC_MASK;
+ 160              		.loc 1 310 0
+ 161 0000 4FF48022 		mov	r2, #262144
+ 162 0004 014B     		ldr	r3, .L15
+ 163 0006 1A60     		str	r2, [r3]
+ 164 0008 7047     		bx	lr
+ 165              	.L16:
+ 166 000a 00BF     		.align	2
+ 167              	.L15:
+ 168 000c 00E100E0 		.word	-536813312
+ 169              		.cfi_endproc
+ 170              	.LFE8:
+ 171              		.size	isr_Step_Enable, .-isr_Step_Enable
+ 172              		.section	.text.isr_Step_GetState,"ax",%progbits
+ 173              		.align	2
+ 174              		.global	isr_Step_GetState
+ 175              		.thumb
+ 176              		.thumb_func
+ 177              		.type	isr_Step_GetState, %function
+ 178              	isr_Step_GetState:
+ 179              	.LFB9:
+ 311:Generated_Source\PSoC5/isr_Step.c **** }
+ 312:Generated_Source\PSoC5/isr_Step.c **** 
+ 313:Generated_Source\PSoC5/isr_Step.c **** 
+ 314:Generated_Source\PSoC5/isr_Step.c **** /*******************************************************************************
+ 315:Generated_Source\PSoC5/isr_Step.c **** * Function Name: isr_Step_GetState
+ 316:Generated_Source\PSoC5/isr_Step.c **** ********************************************************************************
+ 317:Generated_Source\PSoC5/isr_Step.c **** *
+ 318:Generated_Source\PSoC5/isr_Step.c **** * Summary:
+ 319:Generated_Source\PSoC5/isr_Step.c **** *   Gets the state (enabled, disabled) of the Interrupt.
+ 320:Generated_Source\PSoC5/isr_Step.c **** *
+ 321:Generated_Source\PSoC5/isr_Step.c **** * Parameters:
+ 322:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 323:Generated_Source\PSoC5/isr_Step.c **** *
+ 324:Generated_Source\PSoC5/isr_Step.c **** * Return:
+ 325:Generated_Source\PSoC5/isr_Step.c **** *   1 if enabled, 0 if disabled.
+ 326:Generated_Source\PSoC5/isr_Step.c **** *
+ 327:Generated_Source\PSoC5/isr_Step.c **** *******************************************************************************/
+ 328:Generated_Source\PSoC5/isr_Step.c **** uint8 isr_Step_GetState(void)
+ 329:Generated_Source\PSoC5/isr_Step.c **** {
+ 180              		.loc 1 329 0
+ 181              		.cfi_startproc
+ 182              		@ args = 0, pretend = 0, frame = 0
+ 183              		@ frame_needed = 0, uses_anonymous_args = 0
+ 184              		@ link register save eliminated.
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 10
+
+
+ 330:Generated_Source\PSoC5/isr_Step.c ****     /* Get the state of the general interrupt. */
+ 331:Generated_Source\PSoC5/isr_Step.c ****     return ((*isr_Step_INTC_SET_EN & (uint32)isr_Step__INTC_MASK) != 0u) ? 1u:0u;
+ 185              		.loc 1 331 0
+ 186 0000 044B     		ldr	r3, .L20
+ 187 0002 1B68     		ldr	r3, [r3]
+ 188 0004 13F4802F 		tst	r3, #262144
+ 189 0008 01D0     		beq	.L19
+ 190 000a 0120     		movs	r0, #1
+ 191 000c 7047     		bx	lr
+ 192              	.L19:
+ 193 000e 0020     		movs	r0, #0
+ 332:Generated_Source\PSoC5/isr_Step.c **** }
+ 194              		.loc 1 332 0
+ 195 0010 7047     		bx	lr
+ 196              	.L21:
+ 197 0012 00BF     		.align	2
+ 198              	.L20:
+ 199 0014 00E100E0 		.word	-536813312
+ 200              		.cfi_endproc
+ 201              	.LFE9:
+ 202              		.size	isr_Step_GetState, .-isr_Step_GetState
+ 203              		.section	.text.isr_Step_Disable,"ax",%progbits
+ 204              		.align	2
+ 205              		.global	isr_Step_Disable
+ 206              		.thumb
+ 207              		.thumb_func
+ 208              		.type	isr_Step_Disable, %function
+ 209              	isr_Step_Disable:
+ 210              	.LFB10:
+ 333:Generated_Source\PSoC5/isr_Step.c **** 
+ 334:Generated_Source\PSoC5/isr_Step.c **** 
+ 335:Generated_Source\PSoC5/isr_Step.c **** /*******************************************************************************
+ 336:Generated_Source\PSoC5/isr_Step.c **** * Function Name: isr_Step_Disable
+ 337:Generated_Source\PSoC5/isr_Step.c **** ********************************************************************************
+ 338:Generated_Source\PSoC5/isr_Step.c **** *
+ 339:Generated_Source\PSoC5/isr_Step.c **** * Summary:
+ 340:Generated_Source\PSoC5/isr_Step.c **** *   Disables the Interrupt in the interrupt controller.
+ 341:Generated_Source\PSoC5/isr_Step.c **** *
+ 342:Generated_Source\PSoC5/isr_Step.c **** * Parameters:
+ 343:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 344:Generated_Source\PSoC5/isr_Step.c **** *
+ 345:Generated_Source\PSoC5/isr_Step.c **** * Return:
+ 346:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 347:Generated_Source\PSoC5/isr_Step.c **** *
+ 348:Generated_Source\PSoC5/isr_Step.c **** *******************************************************************************/
+ 349:Generated_Source\PSoC5/isr_Step.c **** void isr_Step_Disable(void)
+ 350:Generated_Source\PSoC5/isr_Step.c **** {
+ 211              		.loc 1 350 0
+ 212              		.cfi_startproc
+ 213              		@ args = 0, pretend = 0, frame = 0
+ 214              		@ frame_needed = 0, uses_anonymous_args = 0
+ 215              		@ link register save eliminated.
+ 351:Generated_Source\PSoC5/isr_Step.c ****     /* Disable the general interrupt. */
+ 352:Generated_Source\PSoC5/isr_Step.c ****     *isr_Step_INTC_CLR_EN = isr_Step__INTC_MASK;
+ 216              		.loc 1 352 0
+ 217 0000 4FF48022 		mov	r2, #262144
+ 218 0004 014B     		ldr	r3, .L23
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 11
+
+
+ 219 0006 1A60     		str	r2, [r3]
+ 220 0008 7047     		bx	lr
+ 221              	.L24:
+ 222 000a 00BF     		.align	2
+ 223              	.L23:
+ 224 000c 80E100E0 		.word	-536813184
+ 225              		.cfi_endproc
+ 226              	.LFE10:
+ 227              		.size	isr_Step_Disable, .-isr_Step_Disable
+ 228              		.section	.text.isr_Step_Start,"ax",%progbits
+ 229              		.align	2
+ 230              		.global	isr_Step_Start
+ 231              		.thumb
+ 232              		.thumb_func
+ 233              		.type	isr_Step_Start, %function
+ 234              	isr_Step_Start:
+ 235              	.LFB0:
+  62:Generated_Source\PSoC5/isr_Step.c ****     /* For all we know the interrupt is active. */
+ 236              		.loc 1 62 0
+ 237              		.cfi_startproc
+ 238              		@ args = 0, pretend = 0, frame = 0
+ 239              		@ frame_needed = 0, uses_anonymous_args = 0
+ 240 0000 08B5     		push	{r3, lr}
+ 241              		.cfi_def_cfa_offset 8
+ 242              		.cfi_offset 3, -8
+ 243              		.cfi_offset 14, -4
+  64:Generated_Source\PSoC5/isr_Step.c **** 
+ 244              		.loc 1 64 0
+ 245 0002 FFF7FEFF 		bl	isr_Step_Disable
+ 246              	.LVL7:
+  67:Generated_Source\PSoC5/isr_Step.c **** 
+ 247              		.loc 1 67 0
+ 248 0006 0448     		ldr	r0, .L27
+ 249 0008 FFF7FEFF 		bl	isr_Step_SetVector
+ 250              	.LVL8:
+  70:Generated_Source\PSoC5/isr_Step.c **** 
+ 251              		.loc 1 70 0
+ 252 000c 0720     		movs	r0, #7
+ 253 000e FFF7FEFF 		bl	isr_Step_SetPriority
+ 254              	.LVL9:
+  73:Generated_Source\PSoC5/isr_Step.c **** }
+ 255              		.loc 1 73 0
+ 256 0012 FFF7FEFF 		bl	isr_Step_Enable
+ 257              	.LVL10:
+ 258 0016 08BD     		pop	{r3, pc}
+ 259              	.L28:
+ 260              		.align	2
+ 261              	.L27:
+ 262 0018 00000000 		.word	isr_Step_Interrupt
+ 263              		.cfi_endproc
+ 264              	.LFE0:
+ 265              		.size	isr_Step_Start, .-isr_Step_Start
+ 266              		.section	.text.isr_Step_StartEx,"ax",%progbits
+ 267              		.align	2
+ 268              		.global	isr_Step_StartEx
+ 269              		.thumb
+ 270              		.thumb_func
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 12
+
+
+ 271              		.type	isr_Step_StartEx, %function
+ 272              	isr_Step_StartEx:
+ 273              	.LFB1:
+ 105:Generated_Source\PSoC5/isr_Step.c ****     /* For all we know the interrupt is active. */
+ 274              		.loc 1 105 0
+ 275              		.cfi_startproc
+ 276              		@ args = 0, pretend = 0, frame = 0
+ 277              		@ frame_needed = 0, uses_anonymous_args = 0
+ 278              	.LVL11:
+ 279 0000 10B5     		push	{r4, lr}
+ 280              		.cfi_def_cfa_offset 8
+ 281              		.cfi_offset 4, -8
+ 282              		.cfi_offset 14, -4
+ 283 0002 0446     		mov	r4, r0
+ 107:Generated_Source\PSoC5/isr_Step.c **** 
+ 284              		.loc 1 107 0
+ 285 0004 FFF7FEFF 		bl	isr_Step_Disable
+ 286              	.LVL12:
+ 110:Generated_Source\PSoC5/isr_Step.c **** 
+ 287              		.loc 1 110 0
+ 288 0008 2046     		mov	r0, r4
+ 289 000a FFF7FEFF 		bl	isr_Step_SetVector
+ 290              	.LVL13:
+ 113:Generated_Source\PSoC5/isr_Step.c **** 
+ 291              		.loc 1 113 0
+ 292 000e 0720     		movs	r0, #7
+ 293 0010 FFF7FEFF 		bl	isr_Step_SetPriority
+ 294              	.LVL14:
+ 116:Generated_Source\PSoC5/isr_Step.c **** }
+ 295              		.loc 1 116 0
+ 296 0014 FFF7FEFF 		bl	isr_Step_Enable
+ 297              	.LVL15:
+ 298 0018 10BD     		pop	{r4, pc}
+ 299              		.cfi_endproc
+ 300              	.LFE1:
+ 301              		.size	isr_Step_StartEx, .-isr_Step_StartEx
+ 302 001a 00BF     		.section	.text.isr_Step_Stop,"ax",%progbits
+ 303              		.align	2
+ 304              		.global	isr_Step_Stop
+ 305              		.thumb
+ 306              		.thumb_func
+ 307              		.type	isr_Step_Stop, %function
+ 308              	isr_Step_Stop:
+ 309              	.LFB2:
+ 135:Generated_Source\PSoC5/isr_Step.c ****     /* Disable this interrupt. */
+ 310              		.loc 1 135 0
+ 311              		.cfi_startproc
+ 312              		@ args = 0, pretend = 0, frame = 0
+ 313              		@ frame_needed = 0, uses_anonymous_args = 0
+ 314 0000 08B5     		push	{r3, lr}
+ 315              		.cfi_def_cfa_offset 8
+ 316              		.cfi_offset 3, -8
+ 317              		.cfi_offset 14, -4
+ 137:Generated_Source\PSoC5/isr_Step.c **** 
+ 318              		.loc 1 137 0
+ 319 0002 FFF7FEFF 		bl	isr_Step_Disable
+ 320              	.LVL16:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 13
+
+
+ 140:Generated_Source\PSoC5/isr_Step.c **** }
+ 321              		.loc 1 140 0
+ 322 0006 0248     		ldr	r0, .L33
+ 323 0008 FFF7FEFF 		bl	isr_Step_SetVector
+ 324              	.LVL17:
+ 325 000c 08BD     		pop	{r3, pc}
+ 326              	.L34:
+ 327 000e 00BF     		.align	2
+ 328              	.L33:
+ 329 0010 00000000 		.word	IntDefaultHandler
+ 330              		.cfi_endproc
+ 331              	.LFE2:
+ 332              		.size	isr_Step_Stop, .-isr_Step_Stop
+ 333              		.section	.text.isr_Step_SetPending,"ax",%progbits
+ 334              		.align	2
+ 335              		.global	isr_Step_SetPending
+ 336              		.thumb
+ 337              		.thumb_func
+ 338              		.type	isr_Step_SetPending, %function
+ 339              	isr_Step_SetPending:
+ 340              	.LFB11:
+ 353:Generated_Source\PSoC5/isr_Step.c **** }
+ 354:Generated_Source\PSoC5/isr_Step.c **** 
+ 355:Generated_Source\PSoC5/isr_Step.c **** 
+ 356:Generated_Source\PSoC5/isr_Step.c **** /*******************************************************************************
+ 357:Generated_Source\PSoC5/isr_Step.c **** * Function Name: isr_Step_SetPending
+ 358:Generated_Source\PSoC5/isr_Step.c **** ********************************************************************************
+ 359:Generated_Source\PSoC5/isr_Step.c **** *
+ 360:Generated_Source\PSoC5/isr_Step.c **** * Summary:
+ 361:Generated_Source\PSoC5/isr_Step.c **** *   Causes the Interrupt to enter the pending state, a software method of
+ 362:Generated_Source\PSoC5/isr_Step.c **** *   generating the interrupt.
+ 363:Generated_Source\PSoC5/isr_Step.c **** *
+ 364:Generated_Source\PSoC5/isr_Step.c **** * Parameters:
+ 365:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 366:Generated_Source\PSoC5/isr_Step.c **** *
+ 367:Generated_Source\PSoC5/isr_Step.c **** * Return:
+ 368:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 369:Generated_Source\PSoC5/isr_Step.c **** *
+ 370:Generated_Source\PSoC5/isr_Step.c **** * Side Effects:
+ 371:Generated_Source\PSoC5/isr_Step.c **** *   If interrupts are enabled and the interrupt is set up properly, the ISR is
+ 372:Generated_Source\PSoC5/isr_Step.c **** *   entered (depending on the priority of this interrupt and other pending 
+ 373:Generated_Source\PSoC5/isr_Step.c **** *   interrupts).
+ 374:Generated_Source\PSoC5/isr_Step.c **** *
+ 375:Generated_Source\PSoC5/isr_Step.c **** *******************************************************************************/
+ 376:Generated_Source\PSoC5/isr_Step.c **** void isr_Step_SetPending(void)
+ 377:Generated_Source\PSoC5/isr_Step.c **** {
+ 341              		.loc 1 377 0
+ 342              		.cfi_startproc
+ 343              		@ args = 0, pretend = 0, frame = 0
+ 344              		@ frame_needed = 0, uses_anonymous_args = 0
+ 345              		@ link register save eliminated.
+ 378:Generated_Source\PSoC5/isr_Step.c ****     *isr_Step_INTC_SET_PD = isr_Step__INTC_MASK;
+ 346              		.loc 1 378 0
+ 347 0000 4FF48022 		mov	r2, #262144
+ 348 0004 014B     		ldr	r3, .L36
+ 349 0006 1A60     		str	r2, [r3]
+ 350 0008 7047     		bx	lr
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 14
+
+
+ 351              	.L37:
+ 352 000a 00BF     		.align	2
+ 353              	.L36:
+ 354 000c 00E200E0 		.word	-536813056
+ 355              		.cfi_endproc
+ 356              	.LFE11:
+ 357              		.size	isr_Step_SetPending, .-isr_Step_SetPending
+ 358              		.section	.text.isr_Step_ClearPending,"ax",%progbits
+ 359              		.align	2
+ 360              		.global	isr_Step_ClearPending
+ 361              		.thumb
+ 362              		.thumb_func
+ 363              		.type	isr_Step_ClearPending, %function
+ 364              	isr_Step_ClearPending:
+ 365              	.LFB12:
+ 379:Generated_Source\PSoC5/isr_Step.c **** }
+ 380:Generated_Source\PSoC5/isr_Step.c **** 
+ 381:Generated_Source\PSoC5/isr_Step.c **** 
+ 382:Generated_Source\PSoC5/isr_Step.c **** /*******************************************************************************
+ 383:Generated_Source\PSoC5/isr_Step.c **** * Function Name: isr_Step_ClearPending
+ 384:Generated_Source\PSoC5/isr_Step.c **** ********************************************************************************
+ 385:Generated_Source\PSoC5/isr_Step.c **** *
+ 386:Generated_Source\PSoC5/isr_Step.c **** * Summary:
+ 387:Generated_Source\PSoC5/isr_Step.c **** *   Clears a pending interrupt in the interrupt controller.
+ 388:Generated_Source\PSoC5/isr_Step.c **** *
+ 389:Generated_Source\PSoC5/isr_Step.c **** *   Note Some interrupt sources are clear-on-read and require the block 
+ 390:Generated_Source\PSoC5/isr_Step.c **** *   interrupt/status register to be read/cleared with the appropriate block API 
+ 391:Generated_Source\PSoC5/isr_Step.c **** *   (GPIO, UART, and so on). Otherwise the ISR will continue to remain in 
+ 392:Generated_Source\PSoC5/isr_Step.c **** *   pending state even though the interrupt itself is cleared using this API.
+ 393:Generated_Source\PSoC5/isr_Step.c **** *
+ 394:Generated_Source\PSoC5/isr_Step.c **** * Parameters:
+ 395:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 396:Generated_Source\PSoC5/isr_Step.c **** *
+ 397:Generated_Source\PSoC5/isr_Step.c **** * Return:
+ 398:Generated_Source\PSoC5/isr_Step.c **** *   None
+ 399:Generated_Source\PSoC5/isr_Step.c **** *
+ 400:Generated_Source\PSoC5/isr_Step.c **** *******************************************************************************/
+ 401:Generated_Source\PSoC5/isr_Step.c **** void isr_Step_ClearPending(void)
+ 402:Generated_Source\PSoC5/isr_Step.c **** {
+ 366              		.loc 1 402 0
+ 367              		.cfi_startproc
+ 368              		@ args = 0, pretend = 0, frame = 0
+ 369              		@ frame_needed = 0, uses_anonymous_args = 0
+ 370              		@ link register save eliminated.
+ 403:Generated_Source\PSoC5/isr_Step.c ****     *isr_Step_INTC_CLR_PD = isr_Step__INTC_MASK;
+ 371              		.loc 1 403 0
+ 372 0000 4FF48022 		mov	r2, #262144
+ 373 0004 014B     		ldr	r3, .L39
+ 374 0006 1A60     		str	r2, [r3]
+ 375 0008 7047     		bx	lr
+ 376              	.L40:
+ 377 000a 00BF     		.align	2
+ 378              	.L39:
+ 379 000c 80E200E0 		.word	-536812928
+ 380              		.cfi_endproc
+ 381              	.LFE12:
+ 382              		.size	isr_Step_ClearPending, .-isr_Step_ClearPending
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 15
+
+
+ 383              		.text
+ 384              	.Letext0:
+ 385              		.file 2 "Generated_Source\\PSoC5/cytypes.h"
+ 386              		.section	.debug_info,"",%progbits
+ 387              	.Ldebug_info0:
+ 388 0000 C7020000 		.4byte	0x2c7
+ 389 0004 0400     		.2byte	0x4
+ 390 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 391 000a 04       		.byte	0x4
+ 392 000b 01       		.uleb128 0x1
+ 393 000c 1A010000 		.4byte	.LASF33
+ 394 0010 01       		.byte	0x1
+ 395 0011 FA010000 		.4byte	.LASF34
+ 396 0015 06000000 		.4byte	.LASF35
+ 397 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 398 001d 00000000 		.4byte	0
+ 399 0021 00000000 		.4byte	.Ldebug_line0
+ 400 0025 02       		.uleb128 0x2
+ 401 0026 04       		.byte	0x4
+ 402 0027 05       		.byte	0x5
+ 403 0028 696E7400 		.ascii	"int\000"
+ 404 002c 03       		.uleb128 0x3
+ 405 002d 04       		.byte	0x4
+ 406 002e 07       		.byte	0x7
+ 407 002f A8010000 		.4byte	.LASF0
+ 408 0033 03       		.uleb128 0x3
+ 409 0034 01       		.byte	0x1
+ 410 0035 06       		.byte	0x6
+ 411 0036 6F020000 		.4byte	.LASF1
+ 412 003a 03       		.uleb128 0x3
+ 413 003b 01       		.byte	0x1
+ 414 003c 08       		.byte	0x8
+ 415 003d 63000000 		.4byte	.LASF2
+ 416 0041 03       		.uleb128 0x3
+ 417 0042 02       		.byte	0x2
+ 418 0043 05       		.byte	0x5
+ 419 0044 5C020000 		.4byte	.LASF3
+ 420 0048 03       		.uleb128 0x3
+ 421 0049 02       		.byte	0x2
+ 422 004a 07       		.byte	0x7
+ 423 004b 3B000000 		.4byte	.LASF4
+ 424 004f 03       		.uleb128 0x3
+ 425 0050 04       		.byte	0x4
+ 426 0051 05       		.byte	0x5
+ 427 0052 66020000 		.4byte	.LASF5
+ 428 0056 03       		.uleb128 0x3
+ 429 0057 04       		.byte	0x4
+ 430 0058 07       		.byte	0x7
+ 431 0059 7E000000 		.4byte	.LASF6
+ 432 005d 03       		.uleb128 0x3
+ 433 005e 08       		.byte	0x8
+ 434 005f 05       		.byte	0x5
+ 435 0060 25020000 		.4byte	.LASF7
+ 436 0064 03       		.uleb128 0x3
+ 437 0065 08       		.byte	0x8
+ 438 0066 07       		.byte	0x7
+ 439 0067 C5010000 		.4byte	.LASF8
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 16
+
+
+ 440 006b 03       		.uleb128 0x3
+ 441 006c 04       		.byte	0x4
+ 442 006d 07       		.byte	0x7
+ 443 006e 1C020000 		.4byte	.LASF9
+ 444 0072 04       		.uleb128 0x4
+ 445 0073 04       		.byte	0x4
+ 446 0074 78000000 		.4byte	0x78
+ 447 0078 05       		.uleb128 0x5
+ 448 0079 03       		.uleb128 0x3
+ 449 007a 01       		.byte	0x1
+ 450 007b 08       		.byte	0x8
+ 451 007c 33020000 		.4byte	.LASF10
+ 452 0080 06       		.uleb128 0x6
+ 453 0081 90000000 		.4byte	.LASF11
+ 454 0085 02       		.byte	0x2
+ 455 0086 9201     		.2byte	0x192
+ 456 0088 3A000000 		.4byte	0x3a
+ 457 008c 06       		.uleb128 0x6
+ 458 008d 13010000 		.4byte	.LASF12
+ 459 0091 02       		.byte	0x2
+ 460 0092 9401     		.2byte	0x194
+ 461 0094 56000000 		.4byte	0x56
+ 462 0098 03       		.uleb128 0x3
+ 463 0099 04       		.byte	0x4
+ 464 009a 04       		.byte	0x4
+ 465 009b 4E000000 		.4byte	.LASF13
+ 466 009f 03       		.uleb128 0x3
+ 467 00a0 08       		.byte	0x8
+ 468 00a1 04       		.byte	0x4
+ 469 00a2 D8000000 		.4byte	.LASF14
+ 470 00a6 06       		.uleb128 0x6
+ 471 00a7 71000000 		.4byte	.LASF15
+ 472 00ab 02       		.byte	0x2
+ 473 00ac 3C02     		.2byte	0x23c
+ 474 00ae B2000000 		.4byte	0xb2
+ 475 00b2 07       		.uleb128 0x7
+ 476 00b3 80000000 		.4byte	0x80
+ 477 00b7 06       		.uleb128 0x6
+ 478 00b8 00000000 		.4byte	.LASF16
+ 479 00bc 02       		.byte	0x2
+ 480 00bd 3E02     		.2byte	0x23e
+ 481 00bf C3000000 		.4byte	0xc3
+ 482 00c3 07       		.uleb128 0x7
+ 483 00c4 8C000000 		.4byte	0x8c
+ 484 00c8 06       		.uleb128 0x6
+ 485 00c9 DC010000 		.4byte	.LASF17
+ 486 00cd 02       		.byte	0x2
+ 487 00ce 4E02     		.2byte	0x24e
+ 488 00d0 72000000 		.4byte	0x72
+ 489 00d4 08       		.uleb128 0x8
+ 490 00d5 A4020000 		.4byte	.LASF25
+ 491 00d9 01       		.byte	0x1
+ 492 00da A0       		.byte	0xa0
+ 493 00db 00000000 		.4byte	.LFB3
+ 494 00df 02000000 		.4byte	.LFE3-.LFB3
+ 495 00e3 01       		.uleb128 0x1
+ 496 00e4 9C       		.byte	0x9c
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 17
+
+
+ 497 00e5 09       		.uleb128 0x9
+ 498 00e6 C5000000 		.4byte	.LASF19
+ 499 00ea 01       		.byte	0x1
+ 500 00eb C8       		.byte	0xc8
+ 501 00ec 00000000 		.4byte	.LFB4
+ 502 00f0 10000000 		.4byte	.LFE4-.LFB4
+ 503 00f4 01       		.uleb128 0x1
+ 504 00f5 9C       		.byte	0x9c
+ 505 00f6 15010000 		.4byte	0x115
+ 506 00fa 0A       		.uleb128 0xa
+ 507 00fb 76000000 		.4byte	.LASF21
+ 508 00ff 01       		.byte	0x1
+ 509 0100 C8       		.byte	0xc8
+ 510 0101 C8000000 		.4byte	0xc8
+ 511 0105 01       		.uleb128 0x1
+ 512 0106 50       		.byte	0x50
+ 513 0107 0B       		.uleb128 0xb
+ 514 0108 38020000 		.4byte	.LASF18
+ 515 010c 01       		.byte	0x1
+ 516 010d CA       		.byte	0xca
+ 517 010e 15010000 		.4byte	0x115
+ 518 0112 01       		.uleb128 0x1
+ 519 0113 53       		.byte	0x53
+ 520 0114 00       		.byte	0
+ 521 0115 04       		.uleb128 0x4
+ 522 0116 04       		.byte	0x4
+ 523 0117 C8000000 		.4byte	0xc8
+ 524 011b 0C       		.uleb128 0xc
+ 525 011c 91020000 		.4byte	.LASF23
+ 526 0120 01       		.byte	0x1
+ 527 0121 E0       		.byte	0xe0
+ 528 0122 C8000000 		.4byte	0xc8
+ 529 0126 00000000 		.4byte	.LFB5
+ 530 012a 10000000 		.4byte	.LFE5-.LFB5
+ 531 012e 01       		.uleb128 0x1
+ 532 012f 9C       		.byte	0x9c
+ 533 0130 42010000 		.4byte	0x142
+ 534 0134 0B       		.uleb128 0xb
+ 535 0135 38020000 		.4byte	.LASF18
+ 536 0139 01       		.byte	0x1
+ 537 013a E2       		.byte	0xe2
+ 538 013b 15010000 		.4byte	0x115
+ 539 013f 01       		.uleb128 0x1
+ 540 0140 53       		.byte	0x53
+ 541 0141 00       		.byte	0
+ 542 0142 0D       		.uleb128 0xd
+ 543 0143 47020000 		.4byte	.LASF20
+ 544 0147 01       		.byte	0x1
+ 545 0148 0201     		.2byte	0x102
+ 546 014a 00000000 		.4byte	.LFB6
+ 547 014e 10000000 		.4byte	.LFE6-.LFB6
+ 548 0152 01       		.uleb128 0x1
+ 549 0153 9C       		.byte	0x9c
+ 550 0154 69010000 		.4byte	0x169
+ 551 0158 0E       		.uleb128 0xe
+ 552 0159 AA000000 		.4byte	.LASF22
+ 553 015d 01       		.byte	0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 18
+
+
+ 554 015e 0201     		.2byte	0x102
+ 555 0160 80000000 		.4byte	0x80
+ 556 0164 00000000 		.4byte	.LLST0
+ 557 0168 00       		.byte	0
+ 558 0169 0F       		.uleb128 0xf
+ 559 016a ED000000 		.4byte	.LASF24
+ 560 016e 01       		.byte	0x1
+ 561 016f 1801     		.2byte	0x118
+ 562 0171 80000000 		.4byte	0x80
+ 563 0175 00000000 		.4byte	.LFB7
+ 564 0179 0C000000 		.4byte	.LFE7-.LFB7
+ 565 017d 01       		.uleb128 0x1
+ 566 017e 9C       		.byte	0x9c
+ 567 017f 94010000 		.4byte	0x194
+ 568 0183 10       		.uleb128 0x10
+ 569 0184 AA000000 		.4byte	.LASF22
+ 570 0188 01       		.byte	0x1
+ 571 0189 1A01     		.2byte	0x11a
+ 572 018b 80000000 		.4byte	0x80
+ 573 018f 21000000 		.4byte	.LLST1
+ 574 0193 00       		.byte	0
+ 575 0194 11       		.uleb128 0x11
+ 576 0195 B5010000 		.4byte	.LASF26
+ 577 0199 01       		.byte	0x1
+ 578 019a 3301     		.2byte	0x133
+ 579 019c 00000000 		.4byte	.LFB8
+ 580 01a0 10000000 		.4byte	.LFE8-.LFB8
+ 581 01a4 01       		.uleb128 0x1
+ 582 01a5 9C       		.byte	0x9c
+ 583 01a6 12       		.uleb128 0x12
+ 584 01a7 B3000000 		.4byte	.LASF36
+ 585 01ab 01       		.byte	0x1
+ 586 01ac 4801     		.2byte	0x148
+ 587 01ae 80000000 		.4byte	0x80
+ 588 01b2 00000000 		.4byte	.LFB9
+ 589 01b6 18000000 		.4byte	.LFE9-.LFB9
+ 590 01ba 01       		.uleb128 0x1
+ 591 01bb 9C       		.byte	0x9c
+ 592 01bc 11       		.uleb128 0x11
+ 593 01bd E9010000 		.4byte	.LASF27
+ 594 01c1 01       		.byte	0x1
+ 595 01c2 5D01     		.2byte	0x15d
+ 596 01c4 00000000 		.4byte	.LFB10
+ 597 01c8 10000000 		.4byte	.LFE10-.LFB10
+ 598 01cc 01       		.uleb128 0x1
+ 599 01cd 9C       		.byte	0x9c
+ 600 01ce 09       		.uleb128 0x9
+ 601 01cf 54000000 		.4byte	.LASF28
+ 602 01d3 01       		.byte	0x1
+ 603 01d4 3D       		.byte	0x3d
+ 604 01d5 00000000 		.4byte	.LFB0
+ 605 01d9 1C000000 		.4byte	.LFE0-.LFB0
+ 606 01dd 01       		.uleb128 0x1
+ 607 01de 9C       		.byte	0x9c
+ 608 01df 20020000 		.4byte	0x220
+ 609 01e3 13       		.uleb128 0x13
+ 610 01e4 06000000 		.4byte	.LVL7
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 19
+
+
+ 611 01e8 BC010000 		.4byte	0x1bc
+ 612 01ec 14       		.uleb128 0x14
+ 613 01ed 0C000000 		.4byte	.LVL8
+ 614 01f1 E5000000 		.4byte	0xe5
+ 615 01f5 03020000 		.4byte	0x203
+ 616 01f9 15       		.uleb128 0x15
+ 617 01fa 01       		.uleb128 0x1
+ 618 01fb 50       		.byte	0x50
+ 619 01fc 05       		.uleb128 0x5
+ 620 01fd 03       		.byte	0x3
+ 621 01fe 00000000 		.4byte	isr_Step_Interrupt
+ 622 0202 00       		.byte	0
+ 623 0203 14       		.uleb128 0x14
+ 624 0204 12000000 		.4byte	.LVL9
+ 625 0208 42010000 		.4byte	0x142
+ 626 020c 16020000 		.4byte	0x216
+ 627 0210 15       		.uleb128 0x15
+ 628 0211 01       		.uleb128 0x1
+ 629 0212 50       		.byte	0x50
+ 630 0213 01       		.uleb128 0x1
+ 631 0214 37       		.byte	0x37
+ 632 0215 00       		.byte	0
+ 633 0216 13       		.uleb128 0x13
+ 634 0217 16000000 		.4byte	.LVL10
+ 635 021b 94010000 		.4byte	0x194
+ 636 021f 00       		.byte	0
+ 637 0220 09       		.uleb128 0x9
+ 638 0221 02010000 		.4byte	.LASF29
+ 639 0225 01       		.byte	0x1
+ 640 0226 68       		.byte	0x68
+ 641 0227 00000000 		.4byte	.LFB1
+ 642 022b 1A000000 		.4byte	.LFE1-.LFB1
+ 643 022f 01       		.uleb128 0x1
+ 644 0230 9C       		.byte	0x9c
+ 645 0231 7E020000 		.4byte	0x27e
+ 646 0235 16       		.uleb128 0x16
+ 647 0236 76000000 		.4byte	.LASF21
+ 648 023a 01       		.byte	0x1
+ 649 023b 68       		.byte	0x68
+ 650 023c C8000000 		.4byte	0xc8
+ 651 0240 38000000 		.4byte	.LLST2
+ 652 0244 13       		.uleb128 0x13
+ 653 0245 08000000 		.4byte	.LVL12
+ 654 0249 BC010000 		.4byte	0x1bc
+ 655 024d 14       		.uleb128 0x14
+ 656 024e 0E000000 		.4byte	.LVL13
+ 657 0252 E5000000 		.4byte	0xe5
+ 658 0256 61020000 		.4byte	0x261
+ 659 025a 15       		.uleb128 0x15
+ 660 025b 01       		.uleb128 0x1
+ 661 025c 50       		.byte	0x50
+ 662 025d 02       		.uleb128 0x2
+ 663 025e 74       		.byte	0x74
+ 664 025f 00       		.sleb128 0
+ 665 0260 00       		.byte	0
+ 666 0261 14       		.uleb128 0x14
+ 667 0262 14000000 		.4byte	.LVL14
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 20
+
+
+ 668 0266 42010000 		.4byte	0x142
+ 669 026a 74020000 		.4byte	0x274
+ 670 026e 15       		.uleb128 0x15
+ 671 026f 01       		.uleb128 0x1
+ 672 0270 50       		.byte	0x50
+ 673 0271 01       		.uleb128 0x1
+ 674 0272 37       		.byte	0x37
+ 675 0273 00       		.byte	0
+ 676 0274 13       		.uleb128 0x13
+ 677 0275 18000000 		.4byte	.LVL15
+ 678 0279 94010000 		.4byte	0x194
+ 679 027d 00       		.byte	0
+ 680 027e 09       		.uleb128 0x9
+ 681 027f DF000000 		.4byte	.LASF30
+ 682 0283 01       		.byte	0x1
+ 683 0284 86       		.byte	0x86
+ 684 0285 00000000 		.4byte	.LFB2
+ 685 0289 14000000 		.4byte	.LFE2-.LFB2
+ 686 028d 01       		.uleb128 0x1
+ 687 028e 9C       		.byte	0x9c
+ 688 028f A6020000 		.4byte	0x2a6
+ 689 0293 13       		.uleb128 0x13
+ 690 0294 06000000 		.4byte	.LVL16
+ 691 0298 BC010000 		.4byte	0x1bc
+ 692 029c 13       		.uleb128 0x13
+ 693 029d 0C000000 		.4byte	.LVL17
+ 694 02a1 E5000000 		.4byte	0xe5
+ 695 02a5 00       		.byte	0
+ 696 02a6 11       		.uleb128 0x11
+ 697 02a7 96000000 		.4byte	.LASF31
+ 698 02ab 01       		.byte	0x1
+ 699 02ac 7801     		.2byte	0x178
+ 700 02ae 00000000 		.4byte	.LFB11
+ 701 02b2 10000000 		.4byte	.LFE11-.LFB11
+ 702 02b6 01       		.uleb128 0x1
+ 703 02b7 9C       		.byte	0x9c
+ 704 02b8 11       		.uleb128 0x11
+ 705 02b9 7B020000 		.4byte	.LASF32
+ 706 02bd 01       		.byte	0x1
+ 707 02be 9101     		.2byte	0x191
+ 708 02c0 00000000 		.4byte	.LFB12
+ 709 02c4 10000000 		.4byte	.LFE12-.LFB12
+ 710 02c8 01       		.uleb128 0x1
+ 711 02c9 9C       		.byte	0x9c
+ 712 02ca 00       		.byte	0
+ 713              		.section	.debug_abbrev,"",%progbits
+ 714              	.Ldebug_abbrev0:
+ 715 0000 01       		.uleb128 0x1
+ 716 0001 11       		.uleb128 0x11
+ 717 0002 01       		.byte	0x1
+ 718 0003 25       		.uleb128 0x25
+ 719 0004 0E       		.uleb128 0xe
+ 720 0005 13       		.uleb128 0x13
+ 721 0006 0B       		.uleb128 0xb
+ 722 0007 03       		.uleb128 0x3
+ 723 0008 0E       		.uleb128 0xe
+ 724 0009 1B       		.uleb128 0x1b
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 21
+
+
+ 725 000a 0E       		.uleb128 0xe
+ 726 000b 55       		.uleb128 0x55
+ 727 000c 17       		.uleb128 0x17
+ 728 000d 11       		.uleb128 0x11
+ 729 000e 01       		.uleb128 0x1
+ 730 000f 10       		.uleb128 0x10
+ 731 0010 17       		.uleb128 0x17
+ 732 0011 00       		.byte	0
+ 733 0012 00       		.byte	0
+ 734 0013 02       		.uleb128 0x2
+ 735 0014 24       		.uleb128 0x24
+ 736 0015 00       		.byte	0
+ 737 0016 0B       		.uleb128 0xb
+ 738 0017 0B       		.uleb128 0xb
+ 739 0018 3E       		.uleb128 0x3e
+ 740 0019 0B       		.uleb128 0xb
+ 741 001a 03       		.uleb128 0x3
+ 742 001b 08       		.uleb128 0x8
+ 743 001c 00       		.byte	0
+ 744 001d 00       		.byte	0
+ 745 001e 03       		.uleb128 0x3
+ 746 001f 24       		.uleb128 0x24
+ 747 0020 00       		.byte	0
+ 748 0021 0B       		.uleb128 0xb
+ 749 0022 0B       		.uleb128 0xb
+ 750 0023 3E       		.uleb128 0x3e
+ 751 0024 0B       		.uleb128 0xb
+ 752 0025 03       		.uleb128 0x3
+ 753 0026 0E       		.uleb128 0xe
+ 754 0027 00       		.byte	0
+ 755 0028 00       		.byte	0
+ 756 0029 04       		.uleb128 0x4
+ 757 002a 0F       		.uleb128 0xf
+ 758 002b 00       		.byte	0
+ 759 002c 0B       		.uleb128 0xb
+ 760 002d 0B       		.uleb128 0xb
+ 761 002e 49       		.uleb128 0x49
+ 762 002f 13       		.uleb128 0x13
+ 763 0030 00       		.byte	0
+ 764 0031 00       		.byte	0
+ 765 0032 05       		.uleb128 0x5
+ 766 0033 15       		.uleb128 0x15
+ 767 0034 00       		.byte	0
+ 768 0035 27       		.uleb128 0x27
+ 769 0036 19       		.uleb128 0x19
+ 770 0037 00       		.byte	0
+ 771 0038 00       		.byte	0
+ 772 0039 06       		.uleb128 0x6
+ 773 003a 16       		.uleb128 0x16
+ 774 003b 00       		.byte	0
+ 775 003c 03       		.uleb128 0x3
+ 776 003d 0E       		.uleb128 0xe
+ 777 003e 3A       		.uleb128 0x3a
+ 778 003f 0B       		.uleb128 0xb
+ 779 0040 3B       		.uleb128 0x3b
+ 780 0041 05       		.uleb128 0x5
+ 781 0042 49       		.uleb128 0x49
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 22
+
+
+ 782 0043 13       		.uleb128 0x13
+ 783 0044 00       		.byte	0
+ 784 0045 00       		.byte	0
+ 785 0046 07       		.uleb128 0x7
+ 786 0047 35       		.uleb128 0x35
+ 787 0048 00       		.byte	0
+ 788 0049 49       		.uleb128 0x49
+ 789 004a 13       		.uleb128 0x13
+ 790 004b 00       		.byte	0
+ 791 004c 00       		.byte	0
+ 792 004d 08       		.uleb128 0x8
+ 793 004e 2E       		.uleb128 0x2e
+ 794 004f 00       		.byte	0
+ 795 0050 3F       		.uleb128 0x3f
+ 796 0051 19       		.uleb128 0x19
+ 797 0052 03       		.uleb128 0x3
+ 798 0053 0E       		.uleb128 0xe
+ 799 0054 3A       		.uleb128 0x3a
+ 800 0055 0B       		.uleb128 0xb
+ 801 0056 3B       		.uleb128 0x3b
+ 802 0057 0B       		.uleb128 0xb
+ 803 0058 27       		.uleb128 0x27
+ 804 0059 19       		.uleb128 0x19
+ 805 005a 11       		.uleb128 0x11
+ 806 005b 01       		.uleb128 0x1
+ 807 005c 12       		.uleb128 0x12
+ 808 005d 06       		.uleb128 0x6
+ 809 005e 40       		.uleb128 0x40
+ 810 005f 18       		.uleb128 0x18
+ 811 0060 9742     		.uleb128 0x2117
+ 812 0062 19       		.uleb128 0x19
+ 813 0063 00       		.byte	0
+ 814 0064 00       		.byte	0
+ 815 0065 09       		.uleb128 0x9
+ 816 0066 2E       		.uleb128 0x2e
+ 817 0067 01       		.byte	0x1
+ 818 0068 3F       		.uleb128 0x3f
+ 819 0069 19       		.uleb128 0x19
+ 820 006a 03       		.uleb128 0x3
+ 821 006b 0E       		.uleb128 0xe
+ 822 006c 3A       		.uleb128 0x3a
+ 823 006d 0B       		.uleb128 0xb
+ 824 006e 3B       		.uleb128 0x3b
+ 825 006f 0B       		.uleb128 0xb
+ 826 0070 27       		.uleb128 0x27
+ 827 0071 19       		.uleb128 0x19
+ 828 0072 11       		.uleb128 0x11
+ 829 0073 01       		.uleb128 0x1
+ 830 0074 12       		.uleb128 0x12
+ 831 0075 06       		.uleb128 0x6
+ 832 0076 40       		.uleb128 0x40
+ 833 0077 18       		.uleb128 0x18
+ 834 0078 9742     		.uleb128 0x2117
+ 835 007a 19       		.uleb128 0x19
+ 836 007b 01       		.uleb128 0x1
+ 837 007c 13       		.uleb128 0x13
+ 838 007d 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 23
+
+
+ 839 007e 00       		.byte	0
+ 840 007f 0A       		.uleb128 0xa
+ 841 0080 05       		.uleb128 0x5
+ 842 0081 00       		.byte	0
+ 843 0082 03       		.uleb128 0x3
+ 844 0083 0E       		.uleb128 0xe
+ 845 0084 3A       		.uleb128 0x3a
+ 846 0085 0B       		.uleb128 0xb
+ 847 0086 3B       		.uleb128 0x3b
+ 848 0087 0B       		.uleb128 0xb
+ 849 0088 49       		.uleb128 0x49
+ 850 0089 13       		.uleb128 0x13
+ 851 008a 02       		.uleb128 0x2
+ 852 008b 18       		.uleb128 0x18
+ 853 008c 00       		.byte	0
+ 854 008d 00       		.byte	0
+ 855 008e 0B       		.uleb128 0xb
+ 856 008f 34       		.uleb128 0x34
+ 857 0090 00       		.byte	0
+ 858 0091 03       		.uleb128 0x3
+ 859 0092 0E       		.uleb128 0xe
+ 860 0093 3A       		.uleb128 0x3a
+ 861 0094 0B       		.uleb128 0xb
+ 862 0095 3B       		.uleb128 0x3b
+ 863 0096 0B       		.uleb128 0xb
+ 864 0097 49       		.uleb128 0x49
+ 865 0098 13       		.uleb128 0x13
+ 866 0099 02       		.uleb128 0x2
+ 867 009a 18       		.uleb128 0x18
+ 868 009b 00       		.byte	0
+ 869 009c 00       		.byte	0
+ 870 009d 0C       		.uleb128 0xc
+ 871 009e 2E       		.uleb128 0x2e
+ 872 009f 01       		.byte	0x1
+ 873 00a0 3F       		.uleb128 0x3f
+ 874 00a1 19       		.uleb128 0x19
+ 875 00a2 03       		.uleb128 0x3
+ 876 00a3 0E       		.uleb128 0xe
+ 877 00a4 3A       		.uleb128 0x3a
+ 878 00a5 0B       		.uleb128 0xb
+ 879 00a6 3B       		.uleb128 0x3b
+ 880 00a7 0B       		.uleb128 0xb
+ 881 00a8 27       		.uleb128 0x27
+ 882 00a9 19       		.uleb128 0x19
+ 883 00aa 49       		.uleb128 0x49
+ 884 00ab 13       		.uleb128 0x13
+ 885 00ac 11       		.uleb128 0x11
+ 886 00ad 01       		.uleb128 0x1
+ 887 00ae 12       		.uleb128 0x12
+ 888 00af 06       		.uleb128 0x6
+ 889 00b0 40       		.uleb128 0x40
+ 890 00b1 18       		.uleb128 0x18
+ 891 00b2 9742     		.uleb128 0x2117
+ 892 00b4 19       		.uleb128 0x19
+ 893 00b5 01       		.uleb128 0x1
+ 894 00b6 13       		.uleb128 0x13
+ 895 00b7 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 24
+
+
+ 896 00b8 00       		.byte	0
+ 897 00b9 0D       		.uleb128 0xd
+ 898 00ba 2E       		.uleb128 0x2e
+ 899 00bb 01       		.byte	0x1
+ 900 00bc 3F       		.uleb128 0x3f
+ 901 00bd 19       		.uleb128 0x19
+ 902 00be 03       		.uleb128 0x3
+ 903 00bf 0E       		.uleb128 0xe
+ 904 00c0 3A       		.uleb128 0x3a
+ 905 00c1 0B       		.uleb128 0xb
+ 906 00c2 3B       		.uleb128 0x3b
+ 907 00c3 05       		.uleb128 0x5
+ 908 00c4 27       		.uleb128 0x27
+ 909 00c5 19       		.uleb128 0x19
+ 910 00c6 11       		.uleb128 0x11
+ 911 00c7 01       		.uleb128 0x1
+ 912 00c8 12       		.uleb128 0x12
+ 913 00c9 06       		.uleb128 0x6
+ 914 00ca 40       		.uleb128 0x40
+ 915 00cb 18       		.uleb128 0x18
+ 916 00cc 9742     		.uleb128 0x2117
+ 917 00ce 19       		.uleb128 0x19
+ 918 00cf 01       		.uleb128 0x1
+ 919 00d0 13       		.uleb128 0x13
+ 920 00d1 00       		.byte	0
+ 921 00d2 00       		.byte	0
+ 922 00d3 0E       		.uleb128 0xe
+ 923 00d4 05       		.uleb128 0x5
+ 924 00d5 00       		.byte	0
+ 925 00d6 03       		.uleb128 0x3
+ 926 00d7 0E       		.uleb128 0xe
+ 927 00d8 3A       		.uleb128 0x3a
+ 928 00d9 0B       		.uleb128 0xb
+ 929 00da 3B       		.uleb128 0x3b
+ 930 00db 05       		.uleb128 0x5
+ 931 00dc 49       		.uleb128 0x49
+ 932 00dd 13       		.uleb128 0x13
+ 933 00de 02       		.uleb128 0x2
+ 934 00df 17       		.uleb128 0x17
+ 935 00e0 00       		.byte	0
+ 936 00e1 00       		.byte	0
+ 937 00e2 0F       		.uleb128 0xf
+ 938 00e3 2E       		.uleb128 0x2e
+ 939 00e4 01       		.byte	0x1
+ 940 00e5 3F       		.uleb128 0x3f
+ 941 00e6 19       		.uleb128 0x19
+ 942 00e7 03       		.uleb128 0x3
+ 943 00e8 0E       		.uleb128 0xe
+ 944 00e9 3A       		.uleb128 0x3a
+ 945 00ea 0B       		.uleb128 0xb
+ 946 00eb 3B       		.uleb128 0x3b
+ 947 00ec 05       		.uleb128 0x5
+ 948 00ed 27       		.uleb128 0x27
+ 949 00ee 19       		.uleb128 0x19
+ 950 00ef 49       		.uleb128 0x49
+ 951 00f0 13       		.uleb128 0x13
+ 952 00f1 11       		.uleb128 0x11
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 25
+
+
+ 953 00f2 01       		.uleb128 0x1
+ 954 00f3 12       		.uleb128 0x12
+ 955 00f4 06       		.uleb128 0x6
+ 956 00f5 40       		.uleb128 0x40
+ 957 00f6 18       		.uleb128 0x18
+ 958 00f7 9742     		.uleb128 0x2117
+ 959 00f9 19       		.uleb128 0x19
+ 960 00fa 01       		.uleb128 0x1
+ 961 00fb 13       		.uleb128 0x13
+ 962 00fc 00       		.byte	0
+ 963 00fd 00       		.byte	0
+ 964 00fe 10       		.uleb128 0x10
+ 965 00ff 34       		.uleb128 0x34
+ 966 0100 00       		.byte	0
+ 967 0101 03       		.uleb128 0x3
+ 968 0102 0E       		.uleb128 0xe
+ 969 0103 3A       		.uleb128 0x3a
+ 970 0104 0B       		.uleb128 0xb
+ 971 0105 3B       		.uleb128 0x3b
+ 972 0106 05       		.uleb128 0x5
+ 973 0107 49       		.uleb128 0x49
+ 974 0108 13       		.uleb128 0x13
+ 975 0109 02       		.uleb128 0x2
+ 976 010a 17       		.uleb128 0x17
+ 977 010b 00       		.byte	0
+ 978 010c 00       		.byte	0
+ 979 010d 11       		.uleb128 0x11
+ 980 010e 2E       		.uleb128 0x2e
+ 981 010f 00       		.byte	0
+ 982 0110 3F       		.uleb128 0x3f
+ 983 0111 19       		.uleb128 0x19
+ 984 0112 03       		.uleb128 0x3
+ 985 0113 0E       		.uleb128 0xe
+ 986 0114 3A       		.uleb128 0x3a
+ 987 0115 0B       		.uleb128 0xb
+ 988 0116 3B       		.uleb128 0x3b
+ 989 0117 05       		.uleb128 0x5
+ 990 0118 27       		.uleb128 0x27
+ 991 0119 19       		.uleb128 0x19
+ 992 011a 11       		.uleb128 0x11
+ 993 011b 01       		.uleb128 0x1
+ 994 011c 12       		.uleb128 0x12
+ 995 011d 06       		.uleb128 0x6
+ 996 011e 40       		.uleb128 0x40
+ 997 011f 18       		.uleb128 0x18
+ 998 0120 9742     		.uleb128 0x2117
+ 999 0122 19       		.uleb128 0x19
+ 1000 0123 00       		.byte	0
+ 1001 0124 00       		.byte	0
+ 1002 0125 12       		.uleb128 0x12
+ 1003 0126 2E       		.uleb128 0x2e
+ 1004 0127 00       		.byte	0
+ 1005 0128 3F       		.uleb128 0x3f
+ 1006 0129 19       		.uleb128 0x19
+ 1007 012a 03       		.uleb128 0x3
+ 1008 012b 0E       		.uleb128 0xe
+ 1009 012c 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 26
+
+
+ 1010 012d 0B       		.uleb128 0xb
+ 1011 012e 3B       		.uleb128 0x3b
+ 1012 012f 05       		.uleb128 0x5
+ 1013 0130 27       		.uleb128 0x27
+ 1014 0131 19       		.uleb128 0x19
+ 1015 0132 49       		.uleb128 0x49
+ 1016 0133 13       		.uleb128 0x13
+ 1017 0134 11       		.uleb128 0x11
+ 1018 0135 01       		.uleb128 0x1
+ 1019 0136 12       		.uleb128 0x12
+ 1020 0137 06       		.uleb128 0x6
+ 1021 0138 40       		.uleb128 0x40
+ 1022 0139 18       		.uleb128 0x18
+ 1023 013a 9742     		.uleb128 0x2117
+ 1024 013c 19       		.uleb128 0x19
+ 1025 013d 00       		.byte	0
+ 1026 013e 00       		.byte	0
+ 1027 013f 13       		.uleb128 0x13
+ 1028 0140 898201   		.uleb128 0x4109
+ 1029 0143 00       		.byte	0
+ 1030 0144 11       		.uleb128 0x11
+ 1031 0145 01       		.uleb128 0x1
+ 1032 0146 31       		.uleb128 0x31
+ 1033 0147 13       		.uleb128 0x13
+ 1034 0148 00       		.byte	0
+ 1035 0149 00       		.byte	0
+ 1036 014a 14       		.uleb128 0x14
+ 1037 014b 898201   		.uleb128 0x4109
+ 1038 014e 01       		.byte	0x1
+ 1039 014f 11       		.uleb128 0x11
+ 1040 0150 01       		.uleb128 0x1
+ 1041 0151 31       		.uleb128 0x31
+ 1042 0152 13       		.uleb128 0x13
+ 1043 0153 01       		.uleb128 0x1
+ 1044 0154 13       		.uleb128 0x13
+ 1045 0155 00       		.byte	0
+ 1046 0156 00       		.byte	0
+ 1047 0157 15       		.uleb128 0x15
+ 1048 0158 8A8201   		.uleb128 0x410a
+ 1049 015b 00       		.byte	0
+ 1050 015c 02       		.uleb128 0x2
+ 1051 015d 18       		.uleb128 0x18
+ 1052 015e 9142     		.uleb128 0x2111
+ 1053 0160 18       		.uleb128 0x18
+ 1054 0161 00       		.byte	0
+ 1055 0162 00       		.byte	0
+ 1056 0163 16       		.uleb128 0x16
+ 1057 0164 05       		.uleb128 0x5
+ 1058 0165 00       		.byte	0
+ 1059 0166 03       		.uleb128 0x3
+ 1060 0167 0E       		.uleb128 0xe
+ 1061 0168 3A       		.uleb128 0x3a
+ 1062 0169 0B       		.uleb128 0xb
+ 1063 016a 3B       		.uleb128 0x3b
+ 1064 016b 0B       		.uleb128 0xb
+ 1065 016c 49       		.uleb128 0x49
+ 1066 016d 13       		.uleb128 0x13
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 27
+
+
+ 1067 016e 02       		.uleb128 0x2
+ 1068 016f 17       		.uleb128 0x17
+ 1069 0170 00       		.byte	0
+ 1070 0171 00       		.byte	0
+ 1071 0172 00       		.byte	0
+ 1072              		.section	.debug_loc,"",%progbits
+ 1073              	.Ldebug_loc0:
+ 1074              	.LLST0:
+ 1075 0000 00000000 		.4byte	.LVL3
+ 1076 0004 02000000 		.4byte	.LVL4
+ 1077 0008 0100     		.2byte	0x1
+ 1078 000a 50       		.byte	0x50
+ 1079 000b 02000000 		.4byte	.LVL4
+ 1080 000f 10000000 		.4byte	.LFE6
+ 1081 0013 0400     		.2byte	0x4
+ 1082 0015 F3       		.byte	0xf3
+ 1083 0016 01       		.uleb128 0x1
+ 1084 0017 50       		.byte	0x50
+ 1085 0018 9F       		.byte	0x9f
+ 1086 0019 00000000 		.4byte	0
+ 1087 001d 00000000 		.4byte	0
+ 1088              	.LLST1:
+ 1089 0021 04000000 		.4byte	.LVL5
+ 1090 0025 06000000 		.4byte	.LVL6
+ 1091 0029 0500     		.2byte	0x5
+ 1092 002b 70       		.byte	0x70
+ 1093 002c 00       		.sleb128 0
+ 1094 002d 35       		.byte	0x35
+ 1095 002e 25       		.byte	0x25
+ 1096 002f 9F       		.byte	0x9f
+ 1097 0030 00000000 		.4byte	0
+ 1098 0034 00000000 		.4byte	0
+ 1099              	.LLST2:
+ 1100 0038 00000000 		.4byte	.LVL11
+ 1101 003c 07000000 		.4byte	.LVL12-1
+ 1102 0040 0100     		.2byte	0x1
+ 1103 0042 50       		.byte	0x50
+ 1104 0043 07000000 		.4byte	.LVL12-1
+ 1105 0047 1A000000 		.4byte	.LFE1
+ 1106 004b 0100     		.2byte	0x1
+ 1107 004d 54       		.byte	0x54
+ 1108 004e 00000000 		.4byte	0
+ 1109 0052 00000000 		.4byte	0
+ 1110              		.section	.debug_aranges,"",%progbits
+ 1111 0000 7C000000 		.4byte	0x7c
+ 1112 0004 0200     		.2byte	0x2
+ 1113 0006 00000000 		.4byte	.Ldebug_info0
+ 1114 000a 04       		.byte	0x4
+ 1115 000b 00       		.byte	0
+ 1116 000c 0000     		.2byte	0
+ 1117 000e 0000     		.2byte	0
+ 1118 0010 00000000 		.4byte	.LFB3
+ 1119 0014 02000000 		.4byte	.LFE3-.LFB3
+ 1120 0018 00000000 		.4byte	.LFB4
+ 1121 001c 10000000 		.4byte	.LFE4-.LFB4
+ 1122 0020 00000000 		.4byte	.LFB5
+ 1123 0024 10000000 		.4byte	.LFE5-.LFB5
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 28
+
+
+ 1124 0028 00000000 		.4byte	.LFB6
+ 1125 002c 10000000 		.4byte	.LFE6-.LFB6
+ 1126 0030 00000000 		.4byte	.LFB7
+ 1127 0034 0C000000 		.4byte	.LFE7-.LFB7
+ 1128 0038 00000000 		.4byte	.LFB8
+ 1129 003c 10000000 		.4byte	.LFE8-.LFB8
+ 1130 0040 00000000 		.4byte	.LFB9
+ 1131 0044 18000000 		.4byte	.LFE9-.LFB9
+ 1132 0048 00000000 		.4byte	.LFB10
+ 1133 004c 10000000 		.4byte	.LFE10-.LFB10
+ 1134 0050 00000000 		.4byte	.LFB0
+ 1135 0054 1C000000 		.4byte	.LFE0-.LFB0
+ 1136 0058 00000000 		.4byte	.LFB1
+ 1137 005c 1A000000 		.4byte	.LFE1-.LFB1
+ 1138 0060 00000000 		.4byte	.LFB2
+ 1139 0064 14000000 		.4byte	.LFE2-.LFB2
+ 1140 0068 00000000 		.4byte	.LFB11
+ 1141 006c 10000000 		.4byte	.LFE11-.LFB11
+ 1142 0070 00000000 		.4byte	.LFB12
+ 1143 0074 10000000 		.4byte	.LFE12-.LFB12
+ 1144 0078 00000000 		.4byte	0
+ 1145 007c 00000000 		.4byte	0
+ 1146              		.section	.debug_ranges,"",%progbits
+ 1147              	.Ldebug_ranges0:
+ 1148 0000 00000000 		.4byte	.LFB3
+ 1149 0004 02000000 		.4byte	.LFE3
+ 1150 0008 00000000 		.4byte	.LFB4
+ 1151 000c 10000000 		.4byte	.LFE4
+ 1152 0010 00000000 		.4byte	.LFB5
+ 1153 0014 10000000 		.4byte	.LFE5
+ 1154 0018 00000000 		.4byte	.LFB6
+ 1155 001c 10000000 		.4byte	.LFE6
+ 1156 0020 00000000 		.4byte	.LFB7
+ 1157 0024 0C000000 		.4byte	.LFE7
+ 1158 0028 00000000 		.4byte	.LFB8
+ 1159 002c 10000000 		.4byte	.LFE8
+ 1160 0030 00000000 		.4byte	.LFB9
+ 1161 0034 18000000 		.4byte	.LFE9
+ 1162 0038 00000000 		.4byte	.LFB10
+ 1163 003c 10000000 		.4byte	.LFE10
+ 1164 0040 00000000 		.4byte	.LFB0
+ 1165 0044 1C000000 		.4byte	.LFE0
+ 1166 0048 00000000 		.4byte	.LFB1
+ 1167 004c 1A000000 		.4byte	.LFE1
+ 1168 0050 00000000 		.4byte	.LFB2
+ 1169 0054 14000000 		.4byte	.LFE2
+ 1170 0058 00000000 		.4byte	.LFB11
+ 1171 005c 10000000 		.4byte	.LFE11
+ 1172 0060 00000000 		.4byte	.LFB12
+ 1173 0064 10000000 		.4byte	.LFE12
+ 1174 0068 00000000 		.4byte	0
+ 1175 006c 00000000 		.4byte	0
+ 1176              		.section	.debug_line,"",%progbits
+ 1177              	.Ldebug_line0:
+ 1178 0000 31010000 		.section	.debug_str,"MS",%progbits,1
+ 1178      02004500 
+ 1178      00000201 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 29
+
+
+ 1178      FB0E0D00 
+ 1178      01010101 
+ 1179              	.LASF16:
+ 1180 0000 72656733 		.ascii	"reg32\000"
+ 1180      3200
+ 1181              	.LASF35:
+ 1182 0006 433A5C55 		.ascii	"C:\\Users\\Bart\\Dropbox\\PSoC\\PSoC_Grbl\\PSoC_Grb"
+ 1182      73657273 
+ 1182      5C426172 
+ 1182      745C4472 
+ 1182      6F70626F 
+ 1183 0033 6C2E6379 		.ascii	"l.cydsn\000"
+ 1183      64736E00 
+ 1184              	.LASF4:
+ 1185 003b 73686F72 		.ascii	"short unsigned int\000"
+ 1185      7420756E 
+ 1185      7369676E 
+ 1185      65642069 
+ 1185      6E7400
+ 1186              	.LASF13:
+ 1187 004e 666C6F61 		.ascii	"float\000"
+ 1187      7400
+ 1188              	.LASF28:
+ 1189 0054 6973725F 		.ascii	"isr_Step_Start\000"
+ 1189      53746570 
+ 1189      5F537461 
+ 1189      727400
+ 1190              	.LASF2:
+ 1191 0063 756E7369 		.ascii	"unsigned char\000"
+ 1191      676E6564 
+ 1191      20636861 
+ 1191      7200
+ 1192              	.LASF15:
+ 1193 0071 72656738 		.ascii	"reg8\000"
+ 1193      00
+ 1194              	.LASF21:
+ 1195 0076 61646472 		.ascii	"address\000"
+ 1195      65737300 
+ 1196              	.LASF6:
+ 1197 007e 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1197      20756E73 
+ 1197      69676E65 
+ 1197      6420696E 
+ 1197      7400
+ 1198              	.LASF11:
+ 1199 0090 75696E74 		.ascii	"uint8\000"
+ 1199      3800
+ 1200              	.LASF31:
+ 1201 0096 6973725F 		.ascii	"isr_Step_SetPending\000"
+ 1201      53746570 
+ 1201      5F536574 
+ 1201      50656E64 
+ 1201      696E6700 
+ 1202              	.LASF22:
+ 1203 00aa 7072696F 		.ascii	"priority\000"
+ 1203      72697479 
+ 1203      00
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 30
+
+
+ 1204              	.LASF36:
+ 1205 00b3 6973725F 		.ascii	"isr_Step_GetState\000"
+ 1205      53746570 
+ 1205      5F476574 
+ 1205      53746174 
+ 1205      6500
+ 1206              	.LASF19:
+ 1207 00c5 6973725F 		.ascii	"isr_Step_SetVector\000"
+ 1207      53746570 
+ 1207      5F536574 
+ 1207      56656374 
+ 1207      6F7200
+ 1208              	.LASF14:
+ 1209 00d8 646F7562 		.ascii	"double\000"
+ 1209      6C6500
+ 1210              	.LASF30:
+ 1211 00df 6973725F 		.ascii	"isr_Step_Stop\000"
+ 1211      53746570 
+ 1211      5F53746F 
+ 1211      7000
+ 1212              	.LASF24:
+ 1213 00ed 6973725F 		.ascii	"isr_Step_GetPriority\000"
+ 1213      53746570 
+ 1213      5F476574 
+ 1213      5072696F 
+ 1213      72697479 
+ 1214              	.LASF29:
+ 1215 0102 6973725F 		.ascii	"isr_Step_StartEx\000"
+ 1215      53746570 
+ 1215      5F537461 
+ 1215      72744578 
+ 1215      00
+ 1216              	.LASF12:
+ 1217 0113 75696E74 		.ascii	"uint32\000"
+ 1217      333200
+ 1218              	.LASF33:
+ 1219 011a 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1219      4320342E 
+ 1219      392E3320 
+ 1219      32303135 
+ 1219      30333033 
+ 1220 014d 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1220      20726576 
+ 1220      6973696F 
+ 1220      6E203232 
+ 1220      31323230 
+ 1221 0180 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1221      66756E63 
+ 1221      74696F6E 
+ 1221      2D736563 
+ 1221      74696F6E 
+ 1222              	.LASF0:
+ 1223 01a8 756E7369 		.ascii	"unsigned int\000"
+ 1223      676E6564 
+ 1223      20696E74 
+ 1223      00
+ 1224              	.LASF26:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 31
+
+
+ 1225 01b5 6973725F 		.ascii	"isr_Step_Enable\000"
+ 1225      53746570 
+ 1225      5F456E61 
+ 1225      626C6500 
+ 1226              	.LASF8:
+ 1227 01c5 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1227      206C6F6E 
+ 1227      6720756E 
+ 1227      7369676E 
+ 1227      65642069 
+ 1228              	.LASF17:
+ 1229 01dc 63796973 		.ascii	"cyisraddress\000"
+ 1229      72616464 
+ 1229      72657373 
+ 1229      00
+ 1230              	.LASF27:
+ 1231 01e9 6973725F 		.ascii	"isr_Step_Disable\000"
+ 1231      53746570 
+ 1231      5F446973 
+ 1231      61626C65 
+ 1231      00
+ 1232              	.LASF34:
+ 1233 01fa 47656E65 		.ascii	"Generated_Source\\PSoC5\\isr_Step.c\000"
+ 1233      72617465 
+ 1233      645F536F 
+ 1233      75726365 
+ 1233      5C50536F 
+ 1234              	.LASF9:
+ 1235 021c 73697A65 		.ascii	"sizetype\000"
+ 1235      74797065 
+ 1235      00
+ 1236              	.LASF7:
+ 1237 0225 6C6F6E67 		.ascii	"long long int\000"
+ 1237      206C6F6E 
+ 1237      6720696E 
+ 1237      7400
+ 1238              	.LASF10:
+ 1239 0233 63686172 		.ascii	"char\000"
+ 1239      00
+ 1240              	.LASF18:
+ 1241 0238 72616D56 		.ascii	"ramVectorTable\000"
+ 1241      6563746F 
+ 1241      72546162 
+ 1241      6C6500
+ 1242              	.LASF20:
+ 1243 0247 6973725F 		.ascii	"isr_Step_SetPriority\000"
+ 1243      53746570 
+ 1243      5F536574 
+ 1243      5072696F 
+ 1243      72697479 
+ 1244              	.LASF3:
+ 1245 025c 73686F72 		.ascii	"short int\000"
+ 1245      7420696E 
+ 1245      7400
+ 1246              	.LASF5:
+ 1247 0266 6C6F6E67 		.ascii	"long int\000"
+ 1247      20696E74 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccsQMRp5.s 			page 32
+
+
+ 1247      00
+ 1248              	.LASF1:
+ 1249 026f 7369676E 		.ascii	"signed char\000"
+ 1249      65642063 
+ 1249      68617200 
+ 1250              	.LASF32:
+ 1251 027b 6973725F 		.ascii	"isr_Step_ClearPending\000"
+ 1251      53746570 
+ 1251      5F436C65 
+ 1251      61725065 
+ 1251      6E64696E 
+ 1252              	.LASF23:
+ 1253 0291 6973725F 		.ascii	"isr_Step_GetVector\000"
+ 1253      53746570 
+ 1253      5F476574 
+ 1253      56656374 
+ 1253      6F7200
+ 1254              	.LASF25:
+ 1255 02a4 6973725F 		.ascii	"isr_Step_Interrupt\000"
+ 1255      53746570 
+ 1255      5F496E74 
+ 1255      65727275 
+ 1255      707400
+ 1256              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

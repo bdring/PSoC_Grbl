@@ -1,0 +1,1903 @@
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"serial.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.rx_isr_handler,"ax",%progbits
+  19              		.align	2
+  20              		.global	rx_isr_handler
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	rx_isr_handler, %function
+  24              	rx_isr_handler:
+  25              	.LFB68:
+  26              		.file 1 "serial.c"
+   1:serial.c      **** /*
+   2:serial.c      ****   serial.c - Low level functions for sending and recieving bytes via the serial port
+   3:serial.c      ****   Part of Grbl
+   4:serial.c      **** 
+   5:serial.c      ****   Copyright (c) 2011-2015 Sungeun K. Jeon
+   6:serial.c      ****   Copyright (c) 2009-2011 Simen Svale Skogsrud
+   7:serial.c      ****    Updated For PSOC BJD 2017
+   8:serial.c      **** 
+   9:serial.c      ****   Grbl is free software: you can redistribute it and/or modify
+  10:serial.c      ****   it under the terms of the GNU General Public License as published by
+  11:serial.c      ****   the Free Software Foundation, either version 3 of the License, or
+  12:serial.c      ****   (at your option) any later version.
+  13:serial.c      **** 
+  14:serial.c      ****   Grbl is distributed in the hope that it will be useful,
+  15:serial.c      ****   but WITHOUT ANY WARRANTY; without even the implied warranty of
+  16:serial.c      ****   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  17:serial.c      ****   GNU General Public License for more details.
+  18:serial.c      **** 
+  19:serial.c      ****   You should have received a copy of the GNU General Public License
+  20:serial.c      ****   along with Grbl.  If not, see <http://www.gnu.org/licenses/>.
+  21:serial.c      **** */
+  22:serial.c      **** 
+  23:serial.c      **** #include <project.h>
+  24:serial.c      **** //#include "serial.h"
+  25:serial.c      **** #include "grbl.h"
+  26:serial.c      **** 
+  27:serial.c      **** #define RX_RING_BUFFER (RX_BUFFER_SIZE+1)
+  28:serial.c      **** #define TX_RING_BUFFER (TX_BUFFER_SIZE+1)
+  29:serial.c      **** 
+  30:serial.c      **** uint8_t serial_rx_buffer[RX_BUFFER_SIZE];
+  31:serial.c      **** uint8_t serial_rx_buffer_head = 0;
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 2
+
+
+  32:serial.c      **** volatile uint8_t serial_rx_buffer_tail = 0;
+  33:serial.c      **** 
+  34:serial.c      **** // no grbl +TX buffer required for PSoc verison
+  35:serial.c      **** 
+  36:serial.c      **** // Returns the number of bytes available in the RX serial buffer.
+  37:serial.c      **** uint8_t serial_get_rx_buffer_available()
+  38:serial.c      **** {
+  39:serial.c      ****   uint8_t rtail = serial_rx_buffer_tail; // Copy to limit multiple calls to volatile
+  40:serial.c      ****   if (serial_rx_buffer_head >= rtail) { return(RX_BUFFER_SIZE - (serial_rx_buffer_head-rtail)); }
+  41:serial.c      ****   return((rtail-serial_rx_buffer_head-1));
+  42:serial.c      **** }
+  43:serial.c      **** 
+  44:serial.c      **** // Returns the number of bytes used in the RX serial buffer.
+  45:serial.c      **** uint8_t serial_get_rx_buffer_count()
+  46:serial.c      **** {
+  47:serial.c      ****   uint8_t rtail = serial_rx_buffer_tail; // Copy to limit multiple calls to volatile
+  48:serial.c      ****   if (serial_rx_buffer_head >= rtail) { return(serial_rx_buffer_head-rtail); }
+  49:serial.c      ****   return (RX_BUFFER_SIZE - (rtail-serial_rx_buffer_head));
+  50:serial.c      **** }
+  51:serial.c      **** 
+  52:serial.c      **** // uint8_t serial_get_tx_buffer_count() // not req for PSoc
+  53:serial.c      **** 
+  54:serial.c      **** 
+  55:serial.c      **** void serial_init()
+  56:serial.c      **** {
+  57:serial.c      ****   // Start the component
+  58:serial.c      ****   UART_Start();
+  59:serial.c      ****   isr_UART_Rx_StartEx(rx_isr_handler);  // this starts the interrupt and uses the handler specified
+  60:serial.c      ****  
+  61:serial.c      **** }
+  62:serial.c      **** 
+  63:serial.c      **** // Writes one byte to the TX serial buffer. Called by main program.
+  64:serial.c      **** void serial_write(uint8_t data) {
+  65:serial.c      ****   // totally rewritten for PSoc
+  66:serial.c      ****   UART_PutChar(data);
+  67:serial.c      **** }
+  68:serial.c      **** 
+  69:serial.c      **** 
+  70:serial.c      **** 
+  71:serial.c      **** // Fetches the first byte in the serial read buffer. Called by main program.
+  72:serial.c      **** uint8_t serial_read()
+  73:serial.c      **** {
+  74:serial.c      ****   uint8_t tail = serial_rx_buffer_tail; // Temporary serial_rx_buffer_tail (to optimize for volatil
+  75:serial.c      ****   if (serial_rx_buffer_head == tail) {
+  76:serial.c      ****     return SERIAL_NO_DATA;
+  77:serial.c      ****   } else {
+  78:serial.c      ****     uint8_t data = serial_rx_buffer[tail];
+  79:serial.c      **** 
+  80:serial.c      ****     tail++;
+  81:serial.c      ****     if (tail == RX_RING_BUFFER) { tail = 0; }
+  82:serial.c      ****     serial_rx_buffer_tail = tail;
+  83:serial.c      **** 
+  84:serial.c      ****     return data;
+  85:serial.c      ****   }
+  86:serial.c      **** }
+  87:serial.c      **** 
+  88:serial.c      **** 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 3
+
+
+  89:serial.c      **** 
+  90:serial.c      **** //was ISR(SERIAL_RX)
+  91:serial.c      **** void rx_isr_handler()
+  92:serial.c      **** {
+  27              		.loc 1 92 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 08B5     		push	{r3, lr}
+  32              		.cfi_def_cfa_offset 8
+  33              		.cfi_offset 3, -8
+  34              		.cfi_offset 14, -4
+  93:serial.c      ****   uint8_t data = UART_GetChar();  //UDR0;
+  35              		.loc 1 93 0
+  36 0002 FFF7FEFF 		bl	UART_GetChar
+  37              	.LVL0:
+  94:serial.c      ****   uint8_t next_head;
+  95:serial.c      ****   
+  96:serial.c      ****   // Pick off realtime command characters directly from the serial stream. These characters are
+  97:serial.c      ****   // not passed into the buffer, but these set system state flag bits for realtime execution.
+  98:serial.c      ****   switch (data) {
+  38              		.loc 1 98 0
+  39 0006 3F28     		cmp	r0, #63
+  40 0008 0AD0     		beq	.L3
+  41 000a 04D8     		bhi	.L4
+  42 000c 1828     		cmp	r0, #24
+  43 000e 17D0     		beq	.L5
+  44 0010 2128     		cmp	r0, #33
+  45 0012 0DD0     		beq	.L6
+  46 0014 17E0     		b	.L2
+  47              	.L4:
+  48 0016 7E28     		cmp	r0, #126
+  49 0018 06D0     		beq	.L7
+  50 001a 8428     		cmp	r0, #132
+  51 001c 0CD0     		beq	.L8
+  52 001e 12E0     		b	.L2
+  53              	.L3:
+  99:serial.c      ****     case CMD_STATUS_REPORT: system_set_exec_state_flag(EXEC_STATUS_REPORT); break; // Set as true
+  54              		.loc 1 99 0
+  55 0020 0120     		movs	r0, #1
+  56              	.LVL1:
+  57 0022 FFF7FEFF 		bl	system_set_exec_state_flag
+  58              	.LVL2:
+  59 0026 08BD     		pop	{r3, pc}
+  60              	.LVL3:
+  61              	.L7:
+ 100:serial.c      ****     case CMD_CYCLE_START:   system_set_exec_state_flag(EXEC_CYCLE_START); break; // Set as true
+  62              		.loc 1 100 0
+  63 0028 0220     		movs	r0, #2
+  64              	.LVL4:
+  65 002a FFF7FEFF 		bl	system_set_exec_state_flag
+  66              	.LVL5:
+  67 002e 08BD     		pop	{r3, pc}
+  68              	.LVL6:
+  69              	.L6:
+ 101:serial.c      ****     case CMD_FEED_HOLD:     system_set_exec_state_flag(EXEC_FEED_HOLD); break; // Set as true
+  70              		.loc 1 101 0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 4
+
+
+  71 0030 0820     		movs	r0, #8
+  72              	.LVL7:
+  73 0032 FFF7FEFF 		bl	system_set_exec_state_flag
+  74              	.LVL8:
+  75 0036 08BD     		pop	{r3, pc}
+  76              	.LVL9:
+  77              	.L8:
+ 102:serial.c      ****     case CMD_SAFETY_DOOR:   system_set_exec_state_flag(EXEC_SAFETY_DOOR); break; // Set as true
+  78              		.loc 1 102 0
+  79 0038 2020     		movs	r0, #32
+  80              	.LVL10:
+  81 003a FFF7FEFF 		bl	system_set_exec_state_flag
+  82              	.LVL11:
+  83 003e 08BD     		pop	{r3, pc}
+  84              	.LVL12:
+  85              	.L5:
+ 103:serial.c      ****     case CMD_RESET:         mc_reset(); break; // Call motion control reset routine.
+  86              		.loc 1 103 0
+  87 0040 FFF7FEFF 		bl	mc_reset
+  88              	.LVL13:
+  89 0044 08BD     		pop	{r3, pc}
+  90              	.LVL14:
+  91              	.L2:
+ 104:serial.c      ****     default: // Write character to buffer    
+ 105:serial.c      ****       next_head = serial_rx_buffer_head + 1;
+  92              		.loc 1 105 0
+  93 0046 084B     		ldr	r3, .L13
+  94 0048 1978     		ldrb	r1, [r3]	@ zero_extendqisi2
+  95 004a 4B1C     		adds	r3, r1, #1
+  96 004c DBB2     		uxtb	r3, r3
+  97              	.LVL15:
+ 106:serial.c      ****       if (next_head == RX_BUFFER_SIZE) { next_head = 0; }
+  98              		.loc 1 106 0
+  99 004e 802B     		cmp	r3, #128
+ 100 0050 00D1     		bne	.L10
+ 101 0052 0023     		movs	r3, #0
+ 102              	.LVL16:
+ 103              	.L10:
+ 107:serial.c      ****     
+ 108:serial.c      ****       // Write data to buffer unless it is full.
+ 109:serial.c      ****       if (next_head != serial_rx_buffer_tail) {
+ 104              		.loc 1 109 0
+ 105 0054 044A     		ldr	r2, .L13
+ 106 0056 5278     		ldrb	r2, [r2, #1]	@ zero_extendqisi2
+ 107 0058 D2B2     		uxtb	r2, r2
+ 108 005a 9342     		cmp	r3, r2
+ 109 005c 03D0     		beq	.L1
+ 110:serial.c      ****         serial_rx_buffer[serial_rx_buffer_head] = data;
+ 110              		.loc 1 110 0
+ 111 005e 034A     		ldr	r2, .L13+4
+ 112 0060 5054     		strb	r0, [r2, r1]
+ 111:serial.c      ****         serial_rx_buffer_head = next_head;
+ 113              		.loc 1 111 0
+ 114 0062 014A     		ldr	r2, .L13
+ 115 0064 1370     		strb	r3, [r2]
+ 116              	.L1:
+ 117 0066 08BD     		pop	{r3, pc}
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 5
+
+
+ 118              	.LVL17:
+ 119              	.L14:
+ 120              		.align	2
+ 121              	.L13:
+ 122 0068 00000000 		.word	.LANCHOR0
+ 123 006c 00000000 		.word	serial_rx_buffer
+ 124              		.cfi_endproc
+ 125              	.LFE68:
+ 126              		.size	rx_isr_handler, .-rx_isr_handler
+ 127              		.section	.text.serial_get_rx_buffer_available,"ax",%progbits
+ 128              		.align	2
+ 129              		.global	serial_get_rx_buffer_available
+ 130              		.thumb
+ 131              		.thumb_func
+ 132              		.type	serial_get_rx_buffer_available, %function
+ 133              	serial_get_rx_buffer_available:
+ 134              	.LFB63:
+  38:serial.c      ****   uint8_t rtail = serial_rx_buffer_tail; // Copy to limit multiple calls to volatile
+ 135              		.loc 1 38 0
+ 136              		.cfi_startproc
+ 137              		@ args = 0, pretend = 0, frame = 0
+ 138              		@ frame_needed = 0, uses_anonymous_args = 0
+ 139              		@ link register save eliminated.
+  39:serial.c      ****   if (serial_rx_buffer_head >= rtail) { return(RX_BUFFER_SIZE - (serial_rx_buffer_head-rtail)); }
+ 140              		.loc 1 39 0
+ 141 0000 064A     		ldr	r2, .L18
+ 142 0002 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 143 0004 DBB2     		uxtb	r3, r3
+ 144              	.LVL18:
+  40:serial.c      ****   return((rtail-serial_rx_buffer_head-1));
+ 145              		.loc 1 40 0
+ 146 0006 1078     		ldrb	r0, [r2]	@ zero_extendqisi2
+ 147 0008 9842     		cmp	r0, r3
+ 148 000a 03D3     		bcc	.L16
+  40:serial.c      ****   return((rtail-serial_rx_buffer_head-1));
+ 149              		.loc 1 40 0 is_stmt 0 discriminator 1
+ 150 000c 181A     		subs	r0, r3, r0
+ 151 000e 8038     		subs	r0, r0, #128
+ 152 0010 C0B2     		uxtb	r0, r0
+ 153 0012 7047     		bx	lr
+ 154              	.L16:
+  41:serial.c      **** }
+ 155              		.loc 1 41 0 is_stmt 1
+ 156 0014 181A     		subs	r0, r3, r0
+ 157 0016 0138     		subs	r0, r0, #1
+ 158 0018 C0B2     		uxtb	r0, r0
+  42:serial.c      **** 
+ 159              		.loc 1 42 0
+ 160 001a 7047     		bx	lr
+ 161              	.L19:
+ 162              		.align	2
+ 163              	.L18:
+ 164 001c 00000000 		.word	.LANCHOR0
+ 165              		.cfi_endproc
+ 166              	.LFE63:
+ 167              		.size	serial_get_rx_buffer_available, .-serial_get_rx_buffer_available
+ 168              		.section	.text.serial_get_rx_buffer_count,"ax",%progbits
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 6
+
+
+ 169              		.align	2
+ 170              		.global	serial_get_rx_buffer_count
+ 171              		.thumb
+ 172              		.thumb_func
+ 173              		.type	serial_get_rx_buffer_count, %function
+ 174              	serial_get_rx_buffer_count:
+ 175              	.LFB64:
+  46:serial.c      ****   uint8_t rtail = serial_rx_buffer_tail; // Copy to limit multiple calls to volatile
+ 176              		.loc 1 46 0
+ 177              		.cfi_startproc
+ 178              		@ args = 0, pretend = 0, frame = 0
+ 179              		@ frame_needed = 0, uses_anonymous_args = 0
+ 180              		@ link register save eliminated.
+  47:serial.c      ****   if (serial_rx_buffer_head >= rtail) { return(serial_rx_buffer_head-rtail); }
+ 181              		.loc 1 47 0
+ 182 0000 064B     		ldr	r3, .L23
+ 183 0002 5878     		ldrb	r0, [r3, #1]	@ zero_extendqisi2
+ 184 0004 C0B2     		uxtb	r0, r0
+ 185              	.LVL19:
+  48:serial.c      ****   return (RX_BUFFER_SIZE - (rtail-serial_rx_buffer_head));
+ 186              		.loc 1 48 0
+ 187 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 188 0008 8342     		cmp	r3, r0
+ 189 000a 02D3     		bcc	.L21
+  48:serial.c      ****   return (RX_BUFFER_SIZE - (rtail-serial_rx_buffer_head));
+ 190              		.loc 1 48 0 is_stmt 0 discriminator 1
+ 191 000c 181A     		subs	r0, r3, r0
+ 192              	.LVL20:
+ 193 000e C0B2     		uxtb	r0, r0
+ 194 0010 7047     		bx	lr
+ 195              	.LVL21:
+ 196              	.L21:
+  49:serial.c      **** }
+ 197              		.loc 1 49 0 is_stmt 1
+ 198 0012 181A     		subs	r0, r3, r0
+ 199              	.LVL22:
+ 200 0014 8038     		subs	r0, r0, #128
+ 201 0016 C0B2     		uxtb	r0, r0
+  50:serial.c      **** 
+ 202              		.loc 1 50 0
+ 203 0018 7047     		bx	lr
+ 204              	.L24:
+ 205 001a 00BF     		.align	2
+ 206              	.L23:
+ 207 001c 00000000 		.word	.LANCHOR0
+ 208              		.cfi_endproc
+ 209              	.LFE64:
+ 210              		.size	serial_get_rx_buffer_count, .-serial_get_rx_buffer_count
+ 211              		.section	.text.serial_init,"ax",%progbits
+ 212              		.align	2
+ 213              		.global	serial_init
+ 214              		.thumb
+ 215              		.thumb_func
+ 216              		.type	serial_init, %function
+ 217              	serial_init:
+ 218              	.LFB65:
+  56:serial.c      ****   // Start the component
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 7
+
+
+ 219              		.loc 1 56 0
+ 220              		.cfi_startproc
+ 221              		@ args = 0, pretend = 0, frame = 0
+ 222              		@ frame_needed = 0, uses_anonymous_args = 0
+ 223 0000 08B5     		push	{r3, lr}
+ 224              		.cfi_def_cfa_offset 8
+ 225              		.cfi_offset 3, -8
+ 226              		.cfi_offset 14, -4
+  58:serial.c      ****   isr_UART_Rx_StartEx(rx_isr_handler);  // this starts the interrupt and uses the handler specified
+ 227              		.loc 1 58 0
+ 228 0002 FFF7FEFF 		bl	UART_Start
+ 229              	.LVL23:
+  59:serial.c      ****  
+ 230              		.loc 1 59 0
+ 231 0006 0248     		ldr	r0, .L27
+ 232 0008 FFF7FEFF 		bl	isr_UART_Rx_StartEx
+ 233              	.LVL24:
+ 234 000c 08BD     		pop	{r3, pc}
+ 235              	.L28:
+ 236 000e 00BF     		.align	2
+ 237              	.L27:
+ 238 0010 00000000 		.word	rx_isr_handler
+ 239              		.cfi_endproc
+ 240              	.LFE65:
+ 241              		.size	serial_init, .-serial_init
+ 242              		.section	.text.serial_write,"ax",%progbits
+ 243              		.align	2
+ 244              		.global	serial_write
+ 245              		.thumb
+ 246              		.thumb_func
+ 247              		.type	serial_write, %function
+ 248              	serial_write:
+ 249              	.LFB66:
+  64:serial.c      ****   // totally rewritten for PSoc
+ 250              		.loc 1 64 0
+ 251              		.cfi_startproc
+ 252              		@ args = 0, pretend = 0, frame = 0
+ 253              		@ frame_needed = 0, uses_anonymous_args = 0
+ 254              	.LVL25:
+ 255 0000 08B5     		push	{r3, lr}
+ 256              		.cfi_def_cfa_offset 8
+ 257              		.cfi_offset 3, -8
+ 258              		.cfi_offset 14, -4
+  66:serial.c      **** }
+ 259              		.loc 1 66 0
+ 260 0002 FFF7FEFF 		bl	UART_PutChar
+ 261              	.LVL26:
+ 262 0006 08BD     		pop	{r3, pc}
+ 263              		.cfi_endproc
+ 264              	.LFE66:
+ 265              		.size	serial_write, .-serial_write
+ 266              		.section	.text.serial_read,"ax",%progbits
+ 267              		.align	2
+ 268              		.global	serial_read
+ 269              		.thumb
+ 270              		.thumb_func
+ 271              		.type	serial_read, %function
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 8
+
+
+ 272              	serial_read:
+ 273              	.LFB67:
+  73:serial.c      ****   uint8_t tail = serial_rx_buffer_tail; // Temporary serial_rx_buffer_tail (to optimize for volatil
+ 274              		.loc 1 73 0
+ 275              		.cfi_startproc
+ 276              		@ args = 0, pretend = 0, frame = 0
+ 277              		@ frame_needed = 0, uses_anonymous_args = 0
+ 278              		@ link register save eliminated.
+  74:serial.c      ****   if (serial_rx_buffer_head == tail) {
+ 279              		.loc 1 74 0
+ 280 0000 084A     		ldr	r2, .L36
+ 281 0002 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ 282 0004 DBB2     		uxtb	r3, r3
+ 283              	.LVL27:
+  75:serial.c      ****     return SERIAL_NO_DATA;
+ 284              		.loc 1 75 0
+ 285 0006 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 286 0008 9A42     		cmp	r2, r3
+ 287 000a 09D0     		beq	.L34
+ 288              	.LBB2:
+  78:serial.c      **** 
+ 289              		.loc 1 78 0
+ 290 000c 064A     		ldr	r2, .L36+4
+ 291 000e D05C     		ldrb	r0, [r2, r3]	@ zero_extendqisi2
+ 292              	.LVL28:
+  80:serial.c      ****     if (tail == RX_RING_BUFFER) { tail = 0; }
+ 293              		.loc 1 80 0
+ 294 0010 0133     		adds	r3, r3, #1
+ 295              	.LVL29:
+ 296 0012 DBB2     		uxtb	r3, r3
+ 297              	.LVL30:
+  81:serial.c      ****     serial_rx_buffer_tail = tail;
+ 298              		.loc 1 81 0
+ 299 0014 812B     		cmp	r3, #129
+ 300 0016 00D1     		bne	.L33
+ 301 0018 0023     		movs	r3, #0
+ 302              	.LVL31:
+ 303              	.L33:
+  82:serial.c      **** 
+ 304              		.loc 1 82 0
+ 305 001a 024A     		ldr	r2, .L36
+ 306 001c 5370     		strb	r3, [r2, #1]
+  84:serial.c      ****   }
+ 307              		.loc 1 84 0
+ 308 001e 7047     		bx	lr
+ 309              	.LVL32:
+ 310              	.L34:
+ 311              	.LBE2:
+  76:serial.c      ****   } else {
+ 312              		.loc 1 76 0
+ 313 0020 FF20     		movs	r0, #255
+  86:serial.c      **** 
+ 314              		.loc 1 86 0
+ 315 0022 7047     		bx	lr
+ 316              	.L37:
+ 317              		.align	2
+ 318              	.L36:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 9
+
+
+ 319 0024 00000000 		.word	.LANCHOR0
+ 320 0028 00000000 		.word	serial_rx_buffer
+ 321              		.cfi_endproc
+ 322              	.LFE67:
+ 323              		.size	serial_read, .-serial_read
+ 324              		.section	.text.serial_reset_read_buffer,"ax",%progbits
+ 325              		.align	2
+ 326              		.global	serial_reset_read_buffer
+ 327              		.thumb
+ 328              		.thumb_func
+ 329              		.type	serial_reset_read_buffer, %function
+ 330              	serial_reset_read_buffer:
+ 331              	.LFB69:
+ 112:serial.c      ****       }
+ 113:serial.c      ****       //TODO: else alarm on overflow?
+ 114:serial.c      ****   }
+ 115:serial.c      **** }
+ 116:serial.c      **** 
+ 117:serial.c      **** void serial_reset_read_buffer()
+ 118:serial.c      **** {
+ 332              		.loc 1 118 0
+ 333              		.cfi_startproc
+ 334              		@ args = 0, pretend = 0, frame = 0
+ 335              		@ frame_needed = 0, uses_anonymous_args = 0
+ 336              		@ link register save eliminated.
+ 119:serial.c      ****   serial_rx_buffer_tail = serial_rx_buffer_head;
+ 337              		.loc 1 119 0
+ 338 0000 014B     		ldr	r3, .L39
+ 339 0002 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 340 0004 5A70     		strb	r2, [r3, #1]
+ 341 0006 7047     		bx	lr
+ 342              	.L40:
+ 343              		.align	2
+ 344              	.L39:
+ 345 0008 00000000 		.word	.LANCHOR0
+ 346              		.cfi_endproc
+ 347              	.LFE69:
+ 348              		.size	serial_reset_read_buffer, .-serial_reset_read_buffer
+ 349              		.global	serial_rx_buffer_tail
+ 350              		.global	serial_rx_buffer_head
+ 351              		.comm	serial_rx_buffer,128,4
+ 352              		.comm	exec_lcd_status,1,1
+ 353              		.comm	sys_rt_exec_debug,1,1
+ 354              		.comm	sys_rt_exec_accessory_override,1,1
+ 355              		.comm	sys_rt_exec_motion_override,1,1
+ 356              		.comm	sys_rt_exec_alarm,1,1
+ 357              		.comm	sys_rt_exec_state,1,1
+ 358              		.comm	sys_probe_state,1,1
+ 359              		.comm	sys_probe_position,12,4
+ 360              		.comm	sys_position,12,4
+ 361              		.bss
+ 362              		.set	.LANCHOR0,. + 0
+ 363              		.type	serial_rx_buffer_head, %object
+ 364              		.size	serial_rx_buffer_head, 1
+ 365              	serial_rx_buffer_head:
+ 366 0000 00       		.space	1
+ 367              		.type	serial_rx_buffer_tail, %object
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 10
+
+
+ 368              		.size	serial_rx_buffer_tail, 1
+ 369              	serial_rx_buffer_tail:
+ 370 0001 00       		.space	1
+ 371              		.text
+ 372              	.Letext0:
+ 373              		.file 2 "d:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 374              		.file 3 "d:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 375              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 376              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 377              		.file 6 "system.h"
+ 378              		.file 7 "lcd_report.h"
+ 379              		.file 8 "Generated_Source\\PSoC5/isr_UART_Rx.h"
+ 380              		.file 9 "motion_control.h"
+ 381              		.file 10 "Generated_Source\\PSoC5/UART.h"
+ 382              		.section	.debug_info,"",%progbits
+ 383              	.Ldebug_info0:
+ 384 0000 BC030000 		.4byte	0x3bc
+ 385 0004 0400     		.2byte	0x4
+ 386 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 387 000a 04       		.byte	0x4
+ 388 000b 01       		.uleb128 0x1
+ 389 000c AA010000 		.4byte	.LASF47
+ 390 0010 01       		.byte	0x1
+ 391 0011 56010000 		.4byte	.LASF48
+ 392 0015 2B030000 		.4byte	.LASF49
+ 393 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 394 001d 00000000 		.4byte	0
+ 395 0021 00000000 		.4byte	.Ldebug_line0
+ 396 0025 02       		.uleb128 0x2
+ 397 0026 01       		.byte	0x1
+ 398 0027 06       		.byte	0x6
+ 399 0028 BB000000 		.4byte	.LASF0
+ 400 002c 03       		.uleb128 0x3
+ 401 002d 00000000 		.4byte	.LASF4
+ 402 0031 02       		.byte	0x2
+ 403 0032 1D       		.byte	0x1d
+ 404 0033 37000000 		.4byte	0x37
+ 405 0037 02       		.uleb128 0x2
+ 406 0038 01       		.byte	0x1
+ 407 0039 08       		.byte	0x8
+ 408 003a C7000000 		.4byte	.LASF1
+ 409 003e 02       		.uleb128 0x2
+ 410 003f 02       		.byte	0x2
+ 411 0040 05       		.byte	0x5
+ 412 0041 EA020000 		.4byte	.LASF2
+ 413 0045 02       		.uleb128 0x2
+ 414 0046 02       		.byte	0x2
+ 415 0047 07       		.byte	0x7
+ 416 0048 10010000 		.4byte	.LASF3
+ 417 004c 03       		.uleb128 0x3
+ 418 004d 2C000000 		.4byte	.LASF5
+ 419 0051 02       		.byte	0x2
+ 420 0052 3F       		.byte	0x3f
+ 421 0053 57000000 		.4byte	0x57
+ 422 0057 02       		.uleb128 0x2
+ 423 0058 04       		.byte	0x4
+ 424 0059 05       		.byte	0x5
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 11
+
+
+ 425 005a 11030000 		.4byte	.LASF6
+ 426 005e 02       		.uleb128 0x2
+ 427 005f 04       		.byte	0x4
+ 428 0060 07       		.byte	0x7
+ 429 0061 FE000000 		.4byte	.LASF7
+ 430 0065 02       		.uleb128 0x2
+ 431 0066 08       		.byte	0x8
+ 432 0067 05       		.byte	0x5
+ 433 0068 9B020000 		.4byte	.LASF8
+ 434 006c 02       		.uleb128 0x2
+ 435 006d 08       		.byte	0x8
+ 436 006e 07       		.byte	0x7
+ 437 006f 45020000 		.4byte	.LASF9
+ 438 0073 04       		.uleb128 0x4
+ 439 0074 04       		.byte	0x4
+ 440 0075 05       		.byte	0x5
+ 441 0076 696E7400 		.ascii	"int\000"
+ 442 007a 02       		.uleb128 0x2
+ 443 007b 04       		.byte	0x4
+ 444 007c 07       		.byte	0x7
+ 445 007d 38020000 		.4byte	.LASF10
+ 446 0081 03       		.uleb128 0x3
+ 447 0082 5C020000 		.4byte	.LASF11
+ 448 0086 03       		.byte	0x3
+ 449 0087 15       		.byte	0x15
+ 450 0088 2C000000 		.4byte	0x2c
+ 451 008c 03       		.uleb128 0x3
+ 452 008d 7D020000 		.4byte	.LASF12
+ 453 0091 03       		.byte	0x3
+ 454 0092 2C       		.byte	0x2c
+ 455 0093 4C000000 		.4byte	0x4c
+ 456 0097 05       		.uleb128 0x5
+ 457 0098 F4020000 		.4byte	.LASF13
+ 458 009c 04       		.byte	0x4
+ 459 009d 9201     		.2byte	0x192
+ 460 009f 37000000 		.4byte	0x37
+ 461 00a3 02       		.uleb128 0x2
+ 462 00a4 04       		.byte	0x4
+ 463 00a5 04       		.byte	0x4
+ 464 00a6 A5000000 		.4byte	.LASF14
+ 465 00aa 02       		.uleb128 0x2
+ 466 00ab 08       		.byte	0x8
+ 467 00ac 04       		.byte	0x4
+ 468 00ad 60030000 		.4byte	.LASF15
+ 469 00b1 02       		.uleb128 0x2
+ 470 00b2 01       		.byte	0x1
+ 471 00b3 08       		.byte	0x8
+ 472 00b4 1A030000 		.4byte	.LASF16
+ 473 00b8 05       		.uleb128 0x5
+ 474 00b9 64020000 		.4byte	.LASF17
+ 475 00bd 04       		.byte	0x4
+ 476 00be 4E02     		.2byte	0x24e
+ 477 00c0 C4000000 		.4byte	0xc4
+ 478 00c4 06       		.uleb128 0x6
+ 479 00c5 04       		.byte	0x4
+ 480 00c6 CA000000 		.4byte	0xca
+ 481 00ca 07       		.uleb128 0x7
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 12
+
+
+ 482 00cb 02       		.uleb128 0x2
+ 483 00cc 04       		.byte	0x4
+ 484 00cd 07       		.byte	0x7
+ 485 00ce 92020000 		.4byte	.LASF18
+ 486 00d2 08       		.uleb128 0x8
+ 487 00d3 81000000 		.4byte	0x81
+ 488 00d7 02       		.uleb128 0x2
+ 489 00d8 08       		.byte	0x8
+ 490 00d9 04       		.byte	0x4
+ 491 00da 1F030000 		.4byte	.LASF19
+ 492 00de 09       		.uleb128 0x9
+ 493 00df 86030000 		.4byte	.LASF25
+ 494 00e3 01       		.byte	0x1
+ 495 00e4 5B       		.byte	0x5b
+ 496 00e5 00000000 		.4byte	.LFB68
+ 497 00e9 70000000 		.4byte	.LFE68-.LFB68
+ 498 00ed 01       		.uleb128 0x1
+ 499 00ee 9C       		.byte	0x9c
+ 500 00ef 71010000 		.4byte	0x171
+ 501 00f3 0A       		.uleb128 0xa
+ 502 00f4 71000000 		.4byte	.LASF20
+ 503 00f8 01       		.byte	0x1
+ 504 00f9 5D       		.byte	0x5d
+ 505 00fa 81000000 		.4byte	0x81
+ 506 00fe 00000000 		.4byte	.LLST0
+ 507 0102 0A       		.uleb128 0xa
+ 508 0103 F4000000 		.4byte	.LASF21
+ 509 0107 01       		.byte	0x1
+ 510 0108 5E       		.byte	0x5e
+ 511 0109 81000000 		.4byte	0x81
+ 512 010d 4A000000 		.4byte	.LLST1
+ 513 0111 0B       		.uleb128 0xb
+ 514 0112 06000000 		.4byte	.LVL0
+ 515 0116 71030000 		.4byte	0x371
+ 516 011a 0C       		.uleb128 0xc
+ 517 011b 26000000 		.4byte	.LVL2
+ 518 011f 7C030000 		.4byte	0x37c
+ 519 0123 2D010000 		.4byte	0x12d
+ 520 0127 0D       		.uleb128 0xd
+ 521 0128 01       		.uleb128 0x1
+ 522 0129 50       		.byte	0x50
+ 523 012a 01       		.uleb128 0x1
+ 524 012b 31       		.byte	0x31
+ 525 012c 00       		.byte	0
+ 526 012d 0C       		.uleb128 0xc
+ 527 012e 2E000000 		.4byte	.LVL5
+ 528 0132 7C030000 		.4byte	0x37c
+ 529 0136 40010000 		.4byte	0x140
+ 530 013a 0D       		.uleb128 0xd
+ 531 013b 01       		.uleb128 0x1
+ 532 013c 50       		.byte	0x50
+ 533 013d 01       		.uleb128 0x1
+ 534 013e 32       		.byte	0x32
+ 535 013f 00       		.byte	0
+ 536 0140 0C       		.uleb128 0xc
+ 537 0141 36000000 		.4byte	.LVL8
+ 538 0145 7C030000 		.4byte	0x37c
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 13
+
+
+ 539 0149 53010000 		.4byte	0x153
+ 540 014d 0D       		.uleb128 0xd
+ 541 014e 01       		.uleb128 0x1
+ 542 014f 50       		.byte	0x50
+ 543 0150 01       		.uleb128 0x1
+ 544 0151 38       		.byte	0x38
+ 545 0152 00       		.byte	0
+ 546 0153 0C       		.uleb128 0xc
+ 547 0154 3E000000 		.4byte	.LVL11
+ 548 0158 7C030000 		.4byte	0x37c
+ 549 015c 67010000 		.4byte	0x167
+ 550 0160 0D       		.uleb128 0xd
+ 551 0161 01       		.uleb128 0x1
+ 552 0162 50       		.byte	0x50
+ 553 0163 02       		.uleb128 0x2
+ 554 0164 08       		.byte	0x8
+ 555 0165 20       		.byte	0x20
+ 556 0166 00       		.byte	0
+ 557 0167 0B       		.uleb128 0xb
+ 558 0168 44000000 		.4byte	.LVL13
+ 559 016c 8D030000 		.4byte	0x38d
+ 560 0170 00       		.byte	0
+ 561 0171 0E       		.uleb128 0xe
+ 562 0172 D5000000 		.4byte	.LASF23
+ 563 0176 01       		.byte	0x1
+ 564 0177 25       		.byte	0x25
+ 565 0178 81000000 		.4byte	0x81
+ 566 017c 00000000 		.4byte	.LFB63
+ 567 0180 20000000 		.4byte	.LFE63-.LFB63
+ 568 0184 01       		.uleb128 0x1
+ 569 0185 9C       		.byte	0x9c
+ 570 0186 98010000 		.4byte	0x198
+ 571 018a 0F       		.uleb128 0xf
+ 572 018b 0A000000 		.4byte	.LASF22
+ 573 018f 01       		.byte	0x1
+ 574 0190 27       		.byte	0x27
+ 575 0191 81000000 		.4byte	0x81
+ 576 0195 01       		.uleb128 0x1
+ 577 0196 53       		.byte	0x53
+ 578 0197 00       		.byte	0
+ 579 0198 0E       		.uleb128 0xe
+ 580 0199 42000000 		.4byte	.LASF24
+ 581 019d 01       		.byte	0x1
+ 582 019e 2D       		.byte	0x2d
+ 583 019f 81000000 		.4byte	0x81
+ 584 01a3 00000000 		.4byte	.LFB64
+ 585 01a7 20000000 		.4byte	.LFE64-.LFB64
+ 586 01ab 01       		.uleb128 0x1
+ 587 01ac 9C       		.byte	0x9c
+ 588 01ad C1010000 		.4byte	0x1c1
+ 589 01b1 0A       		.uleb128 0xa
+ 590 01b2 0A000000 		.4byte	.LASF22
+ 591 01b6 01       		.byte	0x1
+ 592 01b7 2F       		.byte	0x2f
+ 593 01b8 81000000 		.4byte	0x81
+ 594 01bc 5D000000 		.4byte	.LLST2
+ 595 01c0 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 14
+
+
+ 596 01c1 09       		.uleb128 0x9
+ 597 01c2 71020000 		.4byte	.LASF26
+ 598 01c6 01       		.byte	0x1
+ 599 01c7 37       		.byte	0x37
+ 600 01c8 00000000 		.4byte	.LFB65
+ 601 01cc 14000000 		.4byte	.LFE65-.LFB65
+ 602 01d0 01       		.uleb128 0x1
+ 603 01d1 9C       		.byte	0x9c
+ 604 01d2 F3010000 		.4byte	0x1f3
+ 605 01d6 0B       		.uleb128 0xb
+ 606 01d7 06000000 		.4byte	.LVL23
+ 607 01db 9A030000 		.4byte	0x39a
+ 608 01df 10       		.uleb128 0x10
+ 609 01e0 0C000000 		.4byte	.LVL24
+ 610 01e4 A1030000 		.4byte	0x3a1
+ 611 01e8 0D       		.uleb128 0xd
+ 612 01e9 01       		.uleb128 0x1
+ 613 01ea 50       		.byte	0x50
+ 614 01eb 05       		.uleb128 0x5
+ 615 01ec 03       		.byte	0x3
+ 616 01ed 00000000 		.4byte	rx_isr_handler
+ 617 01f1 00       		.byte	0
+ 618 01f2 00       		.byte	0
+ 619 01f3 11       		.uleb128 0x11
+ 620 01f4 CC020000 		.4byte	.LASF27
+ 621 01f8 01       		.byte	0x1
+ 622 01f9 40       		.byte	0x40
+ 623 01fa 00000000 		.4byte	.LFB66
+ 624 01fe 08000000 		.4byte	.LFE66-.LFB66
+ 625 0202 01       		.uleb128 0x1
+ 626 0203 9C       		.byte	0x9c
+ 627 0204 21020000 		.4byte	0x221
+ 628 0208 12       		.uleb128 0x12
+ 629 0209 71000000 		.4byte	.LASF20
+ 630 020d 01       		.byte	0x1
+ 631 020e 40       		.byte	0x40
+ 632 020f 81000000 		.4byte	0x81
+ 633 0213 7B000000 		.4byte	.LLST3
+ 634 0217 0B       		.uleb128 0xb
+ 635 0218 06000000 		.4byte	.LVL26
+ 636 021c B2030000 		.4byte	0x3b2
+ 637 0220 00       		.byte	0
+ 638 0221 0E       		.uleb128 0xe
+ 639 0222 36000000 		.4byte	.LASF28
+ 640 0226 01       		.byte	0x1
+ 641 0227 48       		.byte	0x48
+ 642 0228 81000000 		.4byte	0x81
+ 643 022c 00000000 		.4byte	.LFB67
+ 644 0230 2C000000 		.4byte	.LFE67-.LFB67
+ 645 0234 01       		.uleb128 0x1
+ 646 0235 9C       		.byte	0x9c
+ 647 0236 63020000 		.4byte	0x263
+ 648 023a 0A       		.uleb128 0xa
+ 649 023b FA020000 		.4byte	.LASF29
+ 650 023f 01       		.byte	0x1
+ 651 0240 4A       		.byte	0x4a
+ 652 0241 81000000 		.4byte	0x81
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 15
+
+
+ 653 0245 9C000000 		.4byte	.LLST4
+ 654 0249 13       		.uleb128 0x13
+ 655 024a 0C000000 		.4byte	.LBB2
+ 656 024e 14000000 		.4byte	.LBE2-.LBB2
+ 657 0252 0A       		.uleb128 0xa
+ 658 0253 71000000 		.4byte	.LASF20
+ 659 0257 01       		.byte	0x1
+ 660 0258 4E       		.byte	0x4e
+ 661 0259 81000000 		.4byte	0x81
+ 662 025d C7000000 		.4byte	.LLST5
+ 663 0261 00       		.byte	0
+ 664 0262 00       		.byte	0
+ 665 0263 14       		.uleb128 0x14
+ 666 0264 91010000 		.4byte	.LASF50
+ 667 0268 01       		.byte	0x1
+ 668 0269 75       		.byte	0x75
+ 669 026a 00000000 		.4byte	.LFB69
+ 670 026e 0C000000 		.4byte	.LFE69-.LFB69
+ 671 0272 01       		.uleb128 0x1
+ 672 0273 9C       		.byte	0x9c
+ 673 0274 15       		.uleb128 0x15
+ 674 0275 2E010000 		.4byte	.LASF30
+ 675 0279 05       		.byte	0x5
+ 676 027a 9606     		.2byte	0x696
+ 677 027c 80020000 		.4byte	0x280
+ 678 0280 08       		.uleb128 0x8
+ 679 0281 8C000000 		.4byte	0x8c
+ 680 0285 16       		.uleb128 0x16
+ 681 0286 8C000000 		.4byte	0x8c
+ 682 028a 95020000 		.4byte	0x295
+ 683 028e 17       		.uleb128 0x17
+ 684 028f CB000000 		.4byte	0xcb
+ 685 0293 02       		.byte	0x2
+ 686 0294 00       		.byte	0
+ 687 0295 18       		.uleb128 0x18
+ 688 0296 A9020000 		.4byte	.LASF31
+ 689 029a 06       		.byte	0x6
+ 690 029b 95       		.byte	0x95
+ 691 029c 85020000 		.4byte	0x285
+ 692 02a0 05       		.uleb128 0x5
+ 693 02a1 03       		.byte	0x3
+ 694 02a2 00000000 		.4byte	sys_position
+ 695 02a6 18       		.uleb128 0x18
+ 696 02a7 7E010000 		.4byte	.LASF32
+ 697 02ab 06       		.byte	0x6
+ 698 02ac 96       		.byte	0x96
+ 699 02ad 85020000 		.4byte	0x285
+ 700 02b1 05       		.uleb128 0x5
+ 701 02b2 03       		.byte	0x3
+ 702 02b3 00000000 		.4byte	sys_probe_position
+ 703 02b7 18       		.uleb128 0x18
+ 704 02b8 AB000000 		.4byte	.LASF33
+ 705 02bc 06       		.byte	0x6
+ 706 02bd 98       		.byte	0x98
+ 707 02be D2000000 		.4byte	0xd2
+ 708 02c2 05       		.uleb128 0x5
+ 709 02c3 03       		.byte	0x3
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 16
+
+
+ 710 02c4 00000000 		.4byte	sys_probe_state
+ 711 02c8 18       		.uleb128 0x18
+ 712 02c9 74030000 		.4byte	.LASF34
+ 713 02cd 06       		.byte	0x6
+ 714 02ce 99       		.byte	0x99
+ 715 02cf D2000000 		.4byte	0xd2
+ 716 02d3 05       		.uleb128 0x5
+ 717 02d4 03       		.byte	0x3
+ 718 02d5 00000000 		.4byte	sys_rt_exec_state
+ 719 02d9 18       		.uleb128 0x18
+ 720 02da FF020000 		.4byte	.LASF35
+ 721 02de 06       		.byte	0x6
+ 722 02df 9A       		.byte	0x9a
+ 723 02e0 D2000000 		.4byte	0xd2
+ 724 02e4 05       		.uleb128 0x5
+ 725 02e5 03       		.byte	0x3
+ 726 02e6 00000000 		.4byte	sys_rt_exec_alarm
+ 727 02ea 18       		.uleb128 0x18
+ 728 02eb 10000000 		.4byte	.LASF36
+ 729 02ef 06       		.byte	0x6
+ 730 02f0 9B       		.byte	0x9b
+ 731 02f1 D2000000 		.4byte	0xd2
+ 732 02f5 05       		.uleb128 0x5
+ 733 02f6 03       		.byte	0x3
+ 734 02f7 00000000 		.4byte	sys_rt_exec_motion_override
+ 735 02fb 18       		.uleb128 0x18
+ 736 02fc 5F010000 		.4byte	.LASF37
+ 737 0300 06       		.byte	0x6
+ 738 0301 9C       		.byte	0x9c
+ 739 0302 D2000000 		.4byte	0xd2
+ 740 0306 05       		.uleb128 0x5
+ 741 0307 03       		.byte	0x3
+ 742 0308 00000000 		.4byte	sys_rt_exec_accessory_override
+ 743 030c 18       		.uleb128 0x18
+ 744 030d 95030000 		.4byte	.LASF38
+ 745 0311 06       		.byte	0x6
+ 746 0312 A0       		.byte	0xa0
+ 747 0313 D2000000 		.4byte	0xd2
+ 748 0317 05       		.uleb128 0x5
+ 749 0318 03       		.byte	0x3
+ 750 0319 00000000 		.4byte	sys_rt_exec_debug
+ 751 031d 18       		.uleb128 0x18
+ 752 031e 95000000 		.4byte	.LASF39
+ 753 0322 07       		.byte	0x7
+ 754 0323 11       		.byte	0x11
+ 755 0324 81000000 		.4byte	0x81
+ 756 0328 05       		.uleb128 0x5
+ 757 0329 03       		.byte	0x3
+ 758 032a 00000000 		.4byte	exec_lcd_status
+ 759 032e 16       		.uleb128 0x16
+ 760 032f 81000000 		.4byte	0x81
+ 761 0333 3E030000 		.4byte	0x33e
+ 762 0337 17       		.uleb128 0x17
+ 763 0338 CB000000 		.4byte	0xcb
+ 764 033c 7F       		.byte	0x7f
+ 765 033d 00       		.byte	0
+ 766 033e 18       		.uleb128 0x18
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 17
+
+
+ 767 033f D9020000 		.4byte	.LASF40
+ 768 0343 01       		.byte	0x1
+ 769 0344 1E       		.byte	0x1e
+ 770 0345 2E030000 		.4byte	0x32e
+ 771 0349 05       		.uleb128 0x5
+ 772 034a 03       		.byte	0x3
+ 773 034b 00000000 		.4byte	serial_rx_buffer
+ 774 034f 18       		.uleb128 0x18
+ 775 0350 B6020000 		.4byte	.LASF41
+ 776 0354 01       		.byte	0x1
+ 777 0355 1F       		.byte	0x1f
+ 778 0356 81000000 		.4byte	0x81
+ 779 035a 05       		.uleb128 0x5
+ 780 035b 03       		.byte	0x3
+ 781 035c 00000000 		.4byte	serial_rx_buffer_head
+ 782 0360 18       		.uleb128 0x18
+ 783 0361 7F000000 		.4byte	.LASF42
+ 784 0365 01       		.byte	0x1
+ 785 0366 20       		.byte	0x20
+ 786 0367 D2000000 		.4byte	0xd2
+ 787 036b 05       		.uleb128 0x5
+ 788 036c 03       		.byte	0x3
+ 789 036d 00000000 		.4byte	serial_rx_buffer_tail
+ 790 0371 19       		.uleb128 0x19
+ 791 0372 67030000 		.4byte	.LASF51
+ 792 0376 0A       		.byte	0xa
+ 793 0377 71       		.byte	0x71
+ 794 0378 97000000 		.4byte	0x97
+ 795 037c 1A       		.uleb128 0x1a
+ 796 037d 3B010000 		.4byte	.LASF43
+ 797 0381 06       		.byte	0x6
+ 798 0382 C5       		.byte	0xc5
+ 799 0383 8D030000 		.4byte	0x38d
+ 800 0387 1B       		.uleb128 0x1b
+ 801 0388 81000000 		.4byte	0x81
+ 802 038c 00       		.byte	0
+ 803 038d 1C       		.uleb128 0x1c
+ 804 038e 76000000 		.4byte	.LASF45
+ 805 0392 09       		.byte	0x9
+ 806 0393 42       		.byte	0x42
+ 807 0394 9A030000 		.4byte	0x39a
+ 808 0398 1D       		.uleb128 0x1d
+ 809 0399 00       		.byte	0
+ 810 039a 1E       		.uleb128 0x1e
+ 811 039b 23010000 		.4byte	.LASF52
+ 812 039f 0A       		.byte	0xa
+ 813 03a0 54       		.byte	0x54
+ 814 03a1 1A       		.uleb128 0x1a
+ 815 03a2 5D000000 		.4byte	.LASF44
+ 816 03a6 08       		.byte	0x8
+ 817 03a7 18       		.byte	0x18
+ 818 03a8 B2030000 		.4byte	0x3b2
+ 819 03ac 1B       		.uleb128 0x1b
+ 820 03ad B8000000 		.4byte	0xb8
+ 821 03b1 00       		.byte	0
+ 822 03b2 1F       		.uleb128 0x1f
+ 823 03b3 85020000 		.4byte	.LASF46
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 18
+
+
+ 824 03b7 0A       		.byte	0xa
+ 825 03b8 8A       		.byte	0x8a
+ 826 03b9 1B       		.uleb128 0x1b
+ 827 03ba 97000000 		.4byte	0x97
+ 828 03be 00       		.byte	0
+ 829 03bf 00       		.byte	0
+ 830              		.section	.debug_abbrev,"",%progbits
+ 831              	.Ldebug_abbrev0:
+ 832 0000 01       		.uleb128 0x1
+ 833 0001 11       		.uleb128 0x11
+ 834 0002 01       		.byte	0x1
+ 835 0003 25       		.uleb128 0x25
+ 836 0004 0E       		.uleb128 0xe
+ 837 0005 13       		.uleb128 0x13
+ 838 0006 0B       		.uleb128 0xb
+ 839 0007 03       		.uleb128 0x3
+ 840 0008 0E       		.uleb128 0xe
+ 841 0009 1B       		.uleb128 0x1b
+ 842 000a 0E       		.uleb128 0xe
+ 843 000b 55       		.uleb128 0x55
+ 844 000c 17       		.uleb128 0x17
+ 845 000d 11       		.uleb128 0x11
+ 846 000e 01       		.uleb128 0x1
+ 847 000f 10       		.uleb128 0x10
+ 848 0010 17       		.uleb128 0x17
+ 849 0011 00       		.byte	0
+ 850 0012 00       		.byte	0
+ 851 0013 02       		.uleb128 0x2
+ 852 0014 24       		.uleb128 0x24
+ 853 0015 00       		.byte	0
+ 854 0016 0B       		.uleb128 0xb
+ 855 0017 0B       		.uleb128 0xb
+ 856 0018 3E       		.uleb128 0x3e
+ 857 0019 0B       		.uleb128 0xb
+ 858 001a 03       		.uleb128 0x3
+ 859 001b 0E       		.uleb128 0xe
+ 860 001c 00       		.byte	0
+ 861 001d 00       		.byte	0
+ 862 001e 03       		.uleb128 0x3
+ 863 001f 16       		.uleb128 0x16
+ 864 0020 00       		.byte	0
+ 865 0021 03       		.uleb128 0x3
+ 866 0022 0E       		.uleb128 0xe
+ 867 0023 3A       		.uleb128 0x3a
+ 868 0024 0B       		.uleb128 0xb
+ 869 0025 3B       		.uleb128 0x3b
+ 870 0026 0B       		.uleb128 0xb
+ 871 0027 49       		.uleb128 0x49
+ 872 0028 13       		.uleb128 0x13
+ 873 0029 00       		.byte	0
+ 874 002a 00       		.byte	0
+ 875 002b 04       		.uleb128 0x4
+ 876 002c 24       		.uleb128 0x24
+ 877 002d 00       		.byte	0
+ 878 002e 0B       		.uleb128 0xb
+ 879 002f 0B       		.uleb128 0xb
+ 880 0030 3E       		.uleb128 0x3e
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 19
+
+
+ 881 0031 0B       		.uleb128 0xb
+ 882 0032 03       		.uleb128 0x3
+ 883 0033 08       		.uleb128 0x8
+ 884 0034 00       		.byte	0
+ 885 0035 00       		.byte	0
+ 886 0036 05       		.uleb128 0x5
+ 887 0037 16       		.uleb128 0x16
+ 888 0038 00       		.byte	0
+ 889 0039 03       		.uleb128 0x3
+ 890 003a 0E       		.uleb128 0xe
+ 891 003b 3A       		.uleb128 0x3a
+ 892 003c 0B       		.uleb128 0xb
+ 893 003d 3B       		.uleb128 0x3b
+ 894 003e 05       		.uleb128 0x5
+ 895 003f 49       		.uleb128 0x49
+ 896 0040 13       		.uleb128 0x13
+ 897 0041 00       		.byte	0
+ 898 0042 00       		.byte	0
+ 899 0043 06       		.uleb128 0x6
+ 900 0044 0F       		.uleb128 0xf
+ 901 0045 00       		.byte	0
+ 902 0046 0B       		.uleb128 0xb
+ 903 0047 0B       		.uleb128 0xb
+ 904 0048 49       		.uleb128 0x49
+ 905 0049 13       		.uleb128 0x13
+ 906 004a 00       		.byte	0
+ 907 004b 00       		.byte	0
+ 908 004c 07       		.uleb128 0x7
+ 909 004d 15       		.uleb128 0x15
+ 910 004e 00       		.byte	0
+ 911 004f 27       		.uleb128 0x27
+ 912 0050 19       		.uleb128 0x19
+ 913 0051 00       		.byte	0
+ 914 0052 00       		.byte	0
+ 915 0053 08       		.uleb128 0x8
+ 916 0054 35       		.uleb128 0x35
+ 917 0055 00       		.byte	0
+ 918 0056 49       		.uleb128 0x49
+ 919 0057 13       		.uleb128 0x13
+ 920 0058 00       		.byte	0
+ 921 0059 00       		.byte	0
+ 922 005a 09       		.uleb128 0x9
+ 923 005b 2E       		.uleb128 0x2e
+ 924 005c 01       		.byte	0x1
+ 925 005d 3F       		.uleb128 0x3f
+ 926 005e 19       		.uleb128 0x19
+ 927 005f 03       		.uleb128 0x3
+ 928 0060 0E       		.uleb128 0xe
+ 929 0061 3A       		.uleb128 0x3a
+ 930 0062 0B       		.uleb128 0xb
+ 931 0063 3B       		.uleb128 0x3b
+ 932 0064 0B       		.uleb128 0xb
+ 933 0065 11       		.uleb128 0x11
+ 934 0066 01       		.uleb128 0x1
+ 935 0067 12       		.uleb128 0x12
+ 936 0068 06       		.uleb128 0x6
+ 937 0069 40       		.uleb128 0x40
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 20
+
+
+ 938 006a 18       		.uleb128 0x18
+ 939 006b 9742     		.uleb128 0x2117
+ 940 006d 19       		.uleb128 0x19
+ 941 006e 01       		.uleb128 0x1
+ 942 006f 13       		.uleb128 0x13
+ 943 0070 00       		.byte	0
+ 944 0071 00       		.byte	0
+ 945 0072 0A       		.uleb128 0xa
+ 946 0073 34       		.uleb128 0x34
+ 947 0074 00       		.byte	0
+ 948 0075 03       		.uleb128 0x3
+ 949 0076 0E       		.uleb128 0xe
+ 950 0077 3A       		.uleb128 0x3a
+ 951 0078 0B       		.uleb128 0xb
+ 952 0079 3B       		.uleb128 0x3b
+ 953 007a 0B       		.uleb128 0xb
+ 954 007b 49       		.uleb128 0x49
+ 955 007c 13       		.uleb128 0x13
+ 956 007d 02       		.uleb128 0x2
+ 957 007e 17       		.uleb128 0x17
+ 958 007f 00       		.byte	0
+ 959 0080 00       		.byte	0
+ 960 0081 0B       		.uleb128 0xb
+ 961 0082 898201   		.uleb128 0x4109
+ 962 0085 00       		.byte	0
+ 963 0086 11       		.uleb128 0x11
+ 964 0087 01       		.uleb128 0x1
+ 965 0088 31       		.uleb128 0x31
+ 966 0089 13       		.uleb128 0x13
+ 967 008a 00       		.byte	0
+ 968 008b 00       		.byte	0
+ 969 008c 0C       		.uleb128 0xc
+ 970 008d 898201   		.uleb128 0x4109
+ 971 0090 01       		.byte	0x1
+ 972 0091 11       		.uleb128 0x11
+ 973 0092 01       		.uleb128 0x1
+ 974 0093 31       		.uleb128 0x31
+ 975 0094 13       		.uleb128 0x13
+ 976 0095 01       		.uleb128 0x1
+ 977 0096 13       		.uleb128 0x13
+ 978 0097 00       		.byte	0
+ 979 0098 00       		.byte	0
+ 980 0099 0D       		.uleb128 0xd
+ 981 009a 8A8201   		.uleb128 0x410a
+ 982 009d 00       		.byte	0
+ 983 009e 02       		.uleb128 0x2
+ 984 009f 18       		.uleb128 0x18
+ 985 00a0 9142     		.uleb128 0x2111
+ 986 00a2 18       		.uleb128 0x18
+ 987 00a3 00       		.byte	0
+ 988 00a4 00       		.byte	0
+ 989 00a5 0E       		.uleb128 0xe
+ 990 00a6 2E       		.uleb128 0x2e
+ 991 00a7 01       		.byte	0x1
+ 992 00a8 3F       		.uleb128 0x3f
+ 993 00a9 19       		.uleb128 0x19
+ 994 00aa 03       		.uleb128 0x3
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 21
+
+
+ 995 00ab 0E       		.uleb128 0xe
+ 996 00ac 3A       		.uleb128 0x3a
+ 997 00ad 0B       		.uleb128 0xb
+ 998 00ae 3B       		.uleb128 0x3b
+ 999 00af 0B       		.uleb128 0xb
+ 1000 00b0 49       		.uleb128 0x49
+ 1001 00b1 13       		.uleb128 0x13
+ 1002 00b2 11       		.uleb128 0x11
+ 1003 00b3 01       		.uleb128 0x1
+ 1004 00b4 12       		.uleb128 0x12
+ 1005 00b5 06       		.uleb128 0x6
+ 1006 00b6 40       		.uleb128 0x40
+ 1007 00b7 18       		.uleb128 0x18
+ 1008 00b8 9742     		.uleb128 0x2117
+ 1009 00ba 19       		.uleb128 0x19
+ 1010 00bb 01       		.uleb128 0x1
+ 1011 00bc 13       		.uleb128 0x13
+ 1012 00bd 00       		.byte	0
+ 1013 00be 00       		.byte	0
+ 1014 00bf 0F       		.uleb128 0xf
+ 1015 00c0 34       		.uleb128 0x34
+ 1016 00c1 00       		.byte	0
+ 1017 00c2 03       		.uleb128 0x3
+ 1018 00c3 0E       		.uleb128 0xe
+ 1019 00c4 3A       		.uleb128 0x3a
+ 1020 00c5 0B       		.uleb128 0xb
+ 1021 00c6 3B       		.uleb128 0x3b
+ 1022 00c7 0B       		.uleb128 0xb
+ 1023 00c8 49       		.uleb128 0x49
+ 1024 00c9 13       		.uleb128 0x13
+ 1025 00ca 02       		.uleb128 0x2
+ 1026 00cb 18       		.uleb128 0x18
+ 1027 00cc 00       		.byte	0
+ 1028 00cd 00       		.byte	0
+ 1029 00ce 10       		.uleb128 0x10
+ 1030 00cf 898201   		.uleb128 0x4109
+ 1031 00d2 01       		.byte	0x1
+ 1032 00d3 11       		.uleb128 0x11
+ 1033 00d4 01       		.uleb128 0x1
+ 1034 00d5 31       		.uleb128 0x31
+ 1035 00d6 13       		.uleb128 0x13
+ 1036 00d7 00       		.byte	0
+ 1037 00d8 00       		.byte	0
+ 1038 00d9 11       		.uleb128 0x11
+ 1039 00da 2E       		.uleb128 0x2e
+ 1040 00db 01       		.byte	0x1
+ 1041 00dc 3F       		.uleb128 0x3f
+ 1042 00dd 19       		.uleb128 0x19
+ 1043 00de 03       		.uleb128 0x3
+ 1044 00df 0E       		.uleb128 0xe
+ 1045 00e0 3A       		.uleb128 0x3a
+ 1046 00e1 0B       		.uleb128 0xb
+ 1047 00e2 3B       		.uleb128 0x3b
+ 1048 00e3 0B       		.uleb128 0xb
+ 1049 00e4 27       		.uleb128 0x27
+ 1050 00e5 19       		.uleb128 0x19
+ 1051 00e6 11       		.uleb128 0x11
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 22
+
+
+ 1052 00e7 01       		.uleb128 0x1
+ 1053 00e8 12       		.uleb128 0x12
+ 1054 00e9 06       		.uleb128 0x6
+ 1055 00ea 40       		.uleb128 0x40
+ 1056 00eb 18       		.uleb128 0x18
+ 1057 00ec 9742     		.uleb128 0x2117
+ 1058 00ee 19       		.uleb128 0x19
+ 1059 00ef 01       		.uleb128 0x1
+ 1060 00f0 13       		.uleb128 0x13
+ 1061 00f1 00       		.byte	0
+ 1062 00f2 00       		.byte	0
+ 1063 00f3 12       		.uleb128 0x12
+ 1064 00f4 05       		.uleb128 0x5
+ 1065 00f5 00       		.byte	0
+ 1066 00f6 03       		.uleb128 0x3
+ 1067 00f7 0E       		.uleb128 0xe
+ 1068 00f8 3A       		.uleb128 0x3a
+ 1069 00f9 0B       		.uleb128 0xb
+ 1070 00fa 3B       		.uleb128 0x3b
+ 1071 00fb 0B       		.uleb128 0xb
+ 1072 00fc 49       		.uleb128 0x49
+ 1073 00fd 13       		.uleb128 0x13
+ 1074 00fe 02       		.uleb128 0x2
+ 1075 00ff 17       		.uleb128 0x17
+ 1076 0100 00       		.byte	0
+ 1077 0101 00       		.byte	0
+ 1078 0102 13       		.uleb128 0x13
+ 1079 0103 0B       		.uleb128 0xb
+ 1080 0104 01       		.byte	0x1
+ 1081 0105 11       		.uleb128 0x11
+ 1082 0106 01       		.uleb128 0x1
+ 1083 0107 12       		.uleb128 0x12
+ 1084 0108 06       		.uleb128 0x6
+ 1085 0109 00       		.byte	0
+ 1086 010a 00       		.byte	0
+ 1087 010b 14       		.uleb128 0x14
+ 1088 010c 2E       		.uleb128 0x2e
+ 1089 010d 00       		.byte	0
+ 1090 010e 3F       		.uleb128 0x3f
+ 1091 010f 19       		.uleb128 0x19
+ 1092 0110 03       		.uleb128 0x3
+ 1093 0111 0E       		.uleb128 0xe
+ 1094 0112 3A       		.uleb128 0x3a
+ 1095 0113 0B       		.uleb128 0xb
+ 1096 0114 3B       		.uleb128 0x3b
+ 1097 0115 0B       		.uleb128 0xb
+ 1098 0116 11       		.uleb128 0x11
+ 1099 0117 01       		.uleb128 0x1
+ 1100 0118 12       		.uleb128 0x12
+ 1101 0119 06       		.uleb128 0x6
+ 1102 011a 40       		.uleb128 0x40
+ 1103 011b 18       		.uleb128 0x18
+ 1104 011c 9742     		.uleb128 0x2117
+ 1105 011e 19       		.uleb128 0x19
+ 1106 011f 00       		.byte	0
+ 1107 0120 00       		.byte	0
+ 1108 0121 15       		.uleb128 0x15
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 23
+
+
+ 1109 0122 34       		.uleb128 0x34
+ 1110 0123 00       		.byte	0
+ 1111 0124 03       		.uleb128 0x3
+ 1112 0125 0E       		.uleb128 0xe
+ 1113 0126 3A       		.uleb128 0x3a
+ 1114 0127 0B       		.uleb128 0xb
+ 1115 0128 3B       		.uleb128 0x3b
+ 1116 0129 05       		.uleb128 0x5
+ 1117 012a 49       		.uleb128 0x49
+ 1118 012b 13       		.uleb128 0x13
+ 1119 012c 3F       		.uleb128 0x3f
+ 1120 012d 19       		.uleb128 0x19
+ 1121 012e 3C       		.uleb128 0x3c
+ 1122 012f 19       		.uleb128 0x19
+ 1123 0130 00       		.byte	0
+ 1124 0131 00       		.byte	0
+ 1125 0132 16       		.uleb128 0x16
+ 1126 0133 01       		.uleb128 0x1
+ 1127 0134 01       		.byte	0x1
+ 1128 0135 49       		.uleb128 0x49
+ 1129 0136 13       		.uleb128 0x13
+ 1130 0137 01       		.uleb128 0x1
+ 1131 0138 13       		.uleb128 0x13
+ 1132 0139 00       		.byte	0
+ 1133 013a 00       		.byte	0
+ 1134 013b 17       		.uleb128 0x17
+ 1135 013c 21       		.uleb128 0x21
+ 1136 013d 00       		.byte	0
+ 1137 013e 49       		.uleb128 0x49
+ 1138 013f 13       		.uleb128 0x13
+ 1139 0140 2F       		.uleb128 0x2f
+ 1140 0141 0B       		.uleb128 0xb
+ 1141 0142 00       		.byte	0
+ 1142 0143 00       		.byte	0
+ 1143 0144 18       		.uleb128 0x18
+ 1144 0145 34       		.uleb128 0x34
+ 1145 0146 00       		.byte	0
+ 1146 0147 03       		.uleb128 0x3
+ 1147 0148 0E       		.uleb128 0xe
+ 1148 0149 3A       		.uleb128 0x3a
+ 1149 014a 0B       		.uleb128 0xb
+ 1150 014b 3B       		.uleb128 0x3b
+ 1151 014c 0B       		.uleb128 0xb
+ 1152 014d 49       		.uleb128 0x49
+ 1153 014e 13       		.uleb128 0x13
+ 1154 014f 3F       		.uleb128 0x3f
+ 1155 0150 19       		.uleb128 0x19
+ 1156 0151 02       		.uleb128 0x2
+ 1157 0152 18       		.uleb128 0x18
+ 1158 0153 00       		.byte	0
+ 1159 0154 00       		.byte	0
+ 1160 0155 19       		.uleb128 0x19
+ 1161 0156 2E       		.uleb128 0x2e
+ 1162 0157 00       		.byte	0
+ 1163 0158 3F       		.uleb128 0x3f
+ 1164 0159 19       		.uleb128 0x19
+ 1165 015a 03       		.uleb128 0x3
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 24
+
+
+ 1166 015b 0E       		.uleb128 0xe
+ 1167 015c 3A       		.uleb128 0x3a
+ 1168 015d 0B       		.uleb128 0xb
+ 1169 015e 3B       		.uleb128 0x3b
+ 1170 015f 0B       		.uleb128 0xb
+ 1171 0160 27       		.uleb128 0x27
+ 1172 0161 19       		.uleb128 0x19
+ 1173 0162 49       		.uleb128 0x49
+ 1174 0163 13       		.uleb128 0x13
+ 1175 0164 3C       		.uleb128 0x3c
+ 1176 0165 19       		.uleb128 0x19
+ 1177 0166 00       		.byte	0
+ 1178 0167 00       		.byte	0
+ 1179 0168 1A       		.uleb128 0x1a
+ 1180 0169 2E       		.uleb128 0x2e
+ 1181 016a 01       		.byte	0x1
+ 1182 016b 3F       		.uleb128 0x3f
+ 1183 016c 19       		.uleb128 0x19
+ 1184 016d 03       		.uleb128 0x3
+ 1185 016e 0E       		.uleb128 0xe
+ 1186 016f 3A       		.uleb128 0x3a
+ 1187 0170 0B       		.uleb128 0xb
+ 1188 0171 3B       		.uleb128 0x3b
+ 1189 0172 0B       		.uleb128 0xb
+ 1190 0173 27       		.uleb128 0x27
+ 1191 0174 19       		.uleb128 0x19
+ 1192 0175 3C       		.uleb128 0x3c
+ 1193 0176 19       		.uleb128 0x19
+ 1194 0177 01       		.uleb128 0x1
+ 1195 0178 13       		.uleb128 0x13
+ 1196 0179 00       		.byte	0
+ 1197 017a 00       		.byte	0
+ 1198 017b 1B       		.uleb128 0x1b
+ 1199 017c 05       		.uleb128 0x5
+ 1200 017d 00       		.byte	0
+ 1201 017e 49       		.uleb128 0x49
+ 1202 017f 13       		.uleb128 0x13
+ 1203 0180 00       		.byte	0
+ 1204 0181 00       		.byte	0
+ 1205 0182 1C       		.uleb128 0x1c
+ 1206 0183 2E       		.uleb128 0x2e
+ 1207 0184 01       		.byte	0x1
+ 1208 0185 3F       		.uleb128 0x3f
+ 1209 0186 19       		.uleb128 0x19
+ 1210 0187 03       		.uleb128 0x3
+ 1211 0188 0E       		.uleb128 0xe
+ 1212 0189 3A       		.uleb128 0x3a
+ 1213 018a 0B       		.uleb128 0xb
+ 1214 018b 3B       		.uleb128 0x3b
+ 1215 018c 0B       		.uleb128 0xb
+ 1216 018d 3C       		.uleb128 0x3c
+ 1217 018e 19       		.uleb128 0x19
+ 1218 018f 01       		.uleb128 0x1
+ 1219 0190 13       		.uleb128 0x13
+ 1220 0191 00       		.byte	0
+ 1221 0192 00       		.byte	0
+ 1222 0193 1D       		.uleb128 0x1d
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 25
+
+
+ 1223 0194 18       		.uleb128 0x18
+ 1224 0195 00       		.byte	0
+ 1225 0196 00       		.byte	0
+ 1226 0197 00       		.byte	0
+ 1227 0198 1E       		.uleb128 0x1e
+ 1228 0199 2E       		.uleb128 0x2e
+ 1229 019a 00       		.byte	0
+ 1230 019b 3F       		.uleb128 0x3f
+ 1231 019c 19       		.uleb128 0x19
+ 1232 019d 03       		.uleb128 0x3
+ 1233 019e 0E       		.uleb128 0xe
+ 1234 019f 3A       		.uleb128 0x3a
+ 1235 01a0 0B       		.uleb128 0xb
+ 1236 01a1 3B       		.uleb128 0x3b
+ 1237 01a2 0B       		.uleb128 0xb
+ 1238 01a3 27       		.uleb128 0x27
+ 1239 01a4 19       		.uleb128 0x19
+ 1240 01a5 3C       		.uleb128 0x3c
+ 1241 01a6 19       		.uleb128 0x19
+ 1242 01a7 00       		.byte	0
+ 1243 01a8 00       		.byte	0
+ 1244 01a9 1F       		.uleb128 0x1f
+ 1245 01aa 2E       		.uleb128 0x2e
+ 1246 01ab 01       		.byte	0x1
+ 1247 01ac 3F       		.uleb128 0x3f
+ 1248 01ad 19       		.uleb128 0x19
+ 1249 01ae 03       		.uleb128 0x3
+ 1250 01af 0E       		.uleb128 0xe
+ 1251 01b0 3A       		.uleb128 0x3a
+ 1252 01b1 0B       		.uleb128 0xb
+ 1253 01b2 3B       		.uleb128 0x3b
+ 1254 01b3 0B       		.uleb128 0xb
+ 1255 01b4 27       		.uleb128 0x27
+ 1256 01b5 19       		.uleb128 0x19
+ 1257 01b6 3C       		.uleb128 0x3c
+ 1258 01b7 19       		.uleb128 0x19
+ 1259 01b8 00       		.byte	0
+ 1260 01b9 00       		.byte	0
+ 1261 01ba 00       		.byte	0
+ 1262              		.section	.debug_loc,"",%progbits
+ 1263              	.Ldebug_loc0:
+ 1264              	.LLST0:
+ 1265 0000 06000000 		.4byte	.LVL0
+ 1266 0004 22000000 		.4byte	.LVL1
+ 1267 0008 0100     		.2byte	0x1
+ 1268 000a 50       		.byte	0x50
+ 1269 000b 28000000 		.4byte	.LVL3
+ 1270 000f 2A000000 		.4byte	.LVL4
+ 1271 0013 0100     		.2byte	0x1
+ 1272 0015 50       		.byte	0x50
+ 1273 0016 30000000 		.4byte	.LVL6
+ 1274 001a 32000000 		.4byte	.LVL7
+ 1275 001e 0100     		.2byte	0x1
+ 1276 0020 50       		.byte	0x50
+ 1277 0021 38000000 		.4byte	.LVL9
+ 1278 0025 3A000000 		.4byte	.LVL10
+ 1279 0029 0100     		.2byte	0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 26
+
+
+ 1280 002b 50       		.byte	0x50
+ 1281 002c 40000000 		.4byte	.LVL12
+ 1282 0030 43000000 		.4byte	.LVL13-1
+ 1283 0034 0100     		.2byte	0x1
+ 1284 0036 50       		.byte	0x50
+ 1285 0037 46000000 		.4byte	.LVL14
+ 1286 003b 70000000 		.4byte	.LFE68
+ 1287 003f 0100     		.2byte	0x1
+ 1288 0041 50       		.byte	0x50
+ 1289 0042 00000000 		.4byte	0
+ 1290 0046 00000000 		.4byte	0
+ 1291              	.LLST1:
+ 1292 004a 4E000000 		.4byte	.LVL15
+ 1293 004e 68000000 		.4byte	.LVL17
+ 1294 0052 0100     		.2byte	0x1
+ 1295 0054 53       		.byte	0x53
+ 1296 0055 00000000 		.4byte	0
+ 1297 0059 00000000 		.4byte	0
+ 1298              	.LLST2:
+ 1299 005d 06000000 		.4byte	.LVL19
+ 1300 0061 0E000000 		.4byte	.LVL20
+ 1301 0065 0100     		.2byte	0x1
+ 1302 0067 50       		.byte	0x50
+ 1303 0068 12000000 		.4byte	.LVL21
+ 1304 006c 14000000 		.4byte	.LVL22
+ 1305 0070 0100     		.2byte	0x1
+ 1306 0072 50       		.byte	0x50
+ 1307 0073 00000000 		.4byte	0
+ 1308 0077 00000000 		.4byte	0
+ 1309              	.LLST3:
+ 1310 007b 00000000 		.4byte	.LVL25
+ 1311 007f 05000000 		.4byte	.LVL26-1
+ 1312 0083 0100     		.2byte	0x1
+ 1313 0085 50       		.byte	0x50
+ 1314 0086 05000000 		.4byte	.LVL26-1
+ 1315 008a 08000000 		.4byte	.LFE66
+ 1316 008e 0400     		.2byte	0x4
+ 1317 0090 F3       		.byte	0xf3
+ 1318 0091 01       		.uleb128 0x1
+ 1319 0092 50       		.byte	0x50
+ 1320 0093 9F       		.byte	0x9f
+ 1321 0094 00000000 		.4byte	0
+ 1322 0098 00000000 		.4byte	0
+ 1323              	.LLST4:
+ 1324 009c 06000000 		.4byte	.LVL27
+ 1325 00a0 12000000 		.4byte	.LVL29
+ 1326 00a4 0100     		.2byte	0x1
+ 1327 00a6 53       		.byte	0x53
+ 1328 00a7 12000000 		.4byte	.LVL29
+ 1329 00ab 14000000 		.4byte	.LVL30
+ 1330 00af 0300     		.2byte	0x3
+ 1331 00b1 73       		.byte	0x73
+ 1332 00b2 7F       		.sleb128 -1
+ 1333 00b3 9F       		.byte	0x9f
+ 1334 00b4 14000000 		.4byte	.LVL30
+ 1335 00b8 2C000000 		.4byte	.LFE67
+ 1336 00bc 0100     		.2byte	0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 27
+
+
+ 1337 00be 53       		.byte	0x53
+ 1338 00bf 00000000 		.4byte	0
+ 1339 00c3 00000000 		.4byte	0
+ 1340              	.LLST5:
+ 1341 00c7 10000000 		.4byte	.LVL28
+ 1342 00cb 20000000 		.4byte	.LVL32
+ 1343 00cf 0100     		.2byte	0x1
+ 1344 00d1 50       		.byte	0x50
+ 1345 00d2 00000000 		.4byte	0
+ 1346 00d6 00000000 		.4byte	0
+ 1347              		.section	.debug_aranges,"",%progbits
+ 1348 0000 4C000000 		.4byte	0x4c
+ 1349 0004 0200     		.2byte	0x2
+ 1350 0006 00000000 		.4byte	.Ldebug_info0
+ 1351 000a 04       		.byte	0x4
+ 1352 000b 00       		.byte	0
+ 1353 000c 0000     		.2byte	0
+ 1354 000e 0000     		.2byte	0
+ 1355 0010 00000000 		.4byte	.LFB68
+ 1356 0014 70000000 		.4byte	.LFE68-.LFB68
+ 1357 0018 00000000 		.4byte	.LFB63
+ 1358 001c 20000000 		.4byte	.LFE63-.LFB63
+ 1359 0020 00000000 		.4byte	.LFB64
+ 1360 0024 20000000 		.4byte	.LFE64-.LFB64
+ 1361 0028 00000000 		.4byte	.LFB65
+ 1362 002c 14000000 		.4byte	.LFE65-.LFB65
+ 1363 0030 00000000 		.4byte	.LFB66
+ 1364 0034 08000000 		.4byte	.LFE66-.LFB66
+ 1365 0038 00000000 		.4byte	.LFB67
+ 1366 003c 2C000000 		.4byte	.LFE67-.LFB67
+ 1367 0040 00000000 		.4byte	.LFB69
+ 1368 0044 0C000000 		.4byte	.LFE69-.LFB69
+ 1369 0048 00000000 		.4byte	0
+ 1370 004c 00000000 		.4byte	0
+ 1371              		.section	.debug_ranges,"",%progbits
+ 1372              	.Ldebug_ranges0:
+ 1373 0000 00000000 		.4byte	.LFB68
+ 1374 0004 70000000 		.4byte	.LFE68
+ 1375 0008 00000000 		.4byte	.LFB63
+ 1376 000c 20000000 		.4byte	.LFE63
+ 1377 0010 00000000 		.4byte	.LFB64
+ 1378 0014 20000000 		.4byte	.LFE64
+ 1379 0018 00000000 		.4byte	.LFB65
+ 1380 001c 14000000 		.4byte	.LFE65
+ 1381 0020 00000000 		.4byte	.LFB66
+ 1382 0024 08000000 		.4byte	.LFE66
+ 1383 0028 00000000 		.4byte	.LFB67
+ 1384 002c 2C000000 		.4byte	.LFE67
+ 1385 0030 00000000 		.4byte	.LFB69
+ 1386 0034 0C000000 		.4byte	.LFE69
+ 1387 0038 00000000 		.4byte	0
+ 1388 003c 00000000 		.4byte	0
+ 1389              		.section	.debug_line,"",%progbits
+ 1390              	.Ldebug_line0:
+ 1391 0000 39020000 		.section	.debug_str,"MS",%progbits,1
+ 1391      02009401 
+ 1391      00000201 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 28
+
+
+ 1391      FB0E0D00 
+ 1391      01010101 
+ 1392              	.LASF4:
+ 1393 0000 5F5F7569 		.ascii	"__uint8_t\000"
+ 1393      6E74385F 
+ 1393      7400
+ 1394              	.LASF22:
+ 1395 000a 72746169 		.ascii	"rtail\000"
+ 1395      6C00
+ 1396              	.LASF36:
+ 1397 0010 7379735F 		.ascii	"sys_rt_exec_motion_override\000"
+ 1397      72745F65 
+ 1397      7865635F 
+ 1397      6D6F7469 
+ 1397      6F6E5F6F 
+ 1398              	.LASF5:
+ 1399 002c 5F5F696E 		.ascii	"__int32_t\000"
+ 1399      7433325F 
+ 1399      7400
+ 1400              	.LASF28:
+ 1401 0036 73657269 		.ascii	"serial_read\000"
+ 1401      616C5F72 
+ 1401      65616400 
+ 1402              	.LASF24:
+ 1403 0042 73657269 		.ascii	"serial_get_rx_buffer_count\000"
+ 1403      616C5F67 
+ 1403      65745F72 
+ 1403      785F6275 
+ 1403      66666572 
+ 1404              	.LASF44:
+ 1405 005d 6973725F 		.ascii	"isr_UART_Rx_StartEx\000"
+ 1405      55415254 
+ 1405      5F52785F 
+ 1405      53746172 
+ 1405      74457800 
+ 1406              	.LASF20:
+ 1407 0071 64617461 		.ascii	"data\000"
+ 1407      00
+ 1408              	.LASF45:
+ 1409 0076 6D635F72 		.ascii	"mc_reset\000"
+ 1409      65736574 
+ 1409      00
+ 1410              	.LASF42:
+ 1411 007f 73657269 		.ascii	"serial_rx_buffer_tail\000"
+ 1411      616C5F72 
+ 1411      785F6275 
+ 1411      66666572 
+ 1411      5F746169 
+ 1412              	.LASF39:
+ 1413 0095 65786563 		.ascii	"exec_lcd_status\000"
+ 1413      5F6C6364 
+ 1413      5F737461 
+ 1413      74757300 
+ 1414              	.LASF14:
+ 1415 00a5 666C6F61 		.ascii	"float\000"
+ 1415      7400
+ 1416              	.LASF33:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 29
+
+
+ 1417 00ab 7379735F 		.ascii	"sys_probe_state\000"
+ 1417      70726F62 
+ 1417      655F7374 
+ 1417      61746500 
+ 1418              	.LASF0:
+ 1419 00bb 7369676E 		.ascii	"signed char\000"
+ 1419      65642063 
+ 1419      68617200 
+ 1420              	.LASF1:
+ 1421 00c7 756E7369 		.ascii	"unsigned char\000"
+ 1421      676E6564 
+ 1421      20636861 
+ 1421      7200
+ 1422              	.LASF23:
+ 1423 00d5 73657269 		.ascii	"serial_get_rx_buffer_available\000"
+ 1423      616C5F67 
+ 1423      65745F72 
+ 1423      785F6275 
+ 1423      66666572 
+ 1424              	.LASF21:
+ 1425 00f4 6E657874 		.ascii	"next_head\000"
+ 1425      5F686561 
+ 1425      6400
+ 1426              	.LASF7:
+ 1427 00fe 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1427      20756E73 
+ 1427      69676E65 
+ 1427      6420696E 
+ 1427      7400
+ 1428              	.LASF3:
+ 1429 0110 73686F72 		.ascii	"short unsigned int\000"
+ 1429      7420756E 
+ 1429      7369676E 
+ 1429      65642069 
+ 1429      6E7400
+ 1430              	.LASF52:
+ 1431 0123 55415254 		.ascii	"UART_Start\000"
+ 1431      5F537461 
+ 1431      727400
+ 1432              	.LASF30:
+ 1433 012e 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1433      52784275 
+ 1433      66666572 
+ 1433      00
+ 1434              	.LASF43:
+ 1435 013b 73797374 		.ascii	"system_set_exec_state_flag\000"
+ 1435      656D5F73 
+ 1435      65745F65 
+ 1435      7865635F 
+ 1435      73746174 
+ 1436              	.LASF48:
+ 1437 0156 73657269 		.ascii	"serial.c\000"
+ 1437      616C2E63 
+ 1437      00
+ 1438              	.LASF37:
+ 1439 015f 7379735F 		.ascii	"sys_rt_exec_accessory_override\000"
+ 1439      72745F65 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 30
+
+
+ 1439      7865635F 
+ 1439      61636365 
+ 1439      73736F72 
+ 1440              	.LASF32:
+ 1441 017e 7379735F 		.ascii	"sys_probe_position\000"
+ 1441      70726F62 
+ 1441      655F706F 
+ 1441      73697469 
+ 1441      6F6E00
+ 1442              	.LASF50:
+ 1443 0191 73657269 		.ascii	"serial_reset_read_buffer\000"
+ 1443      616C5F72 
+ 1443      65736574 
+ 1443      5F726561 
+ 1443      645F6275 
+ 1444              	.LASF47:
+ 1445 01aa 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1445      4320342E 
+ 1445      392E3320 
+ 1445      32303135 
+ 1445      30333033 
+ 1446 01dd 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1446      20726576 
+ 1446      6973696F 
+ 1446      6E203232 
+ 1446      31323230 
+ 1447 0210 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1447      66756E63 
+ 1447      74696F6E 
+ 1447      2D736563 
+ 1447      74696F6E 
+ 1448              	.LASF10:
+ 1449 0238 756E7369 		.ascii	"unsigned int\000"
+ 1449      676E6564 
+ 1449      20696E74 
+ 1449      00
+ 1450              	.LASF9:
+ 1451 0245 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1451      206C6F6E 
+ 1451      6720756E 
+ 1451      7369676E 
+ 1451      65642069 
+ 1452              	.LASF11:
+ 1453 025c 75696E74 		.ascii	"uint8_t\000"
+ 1453      385F7400 
+ 1454              	.LASF17:
+ 1455 0264 63796973 		.ascii	"cyisraddress\000"
+ 1455      72616464 
+ 1455      72657373 
+ 1455      00
+ 1456              	.LASF26:
+ 1457 0271 73657269 		.ascii	"serial_init\000"
+ 1457      616C5F69 
+ 1457      6E697400 
+ 1458              	.LASF12:
+ 1459 027d 696E7433 		.ascii	"int32_t\000"
+ 1459      325F7400 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 31
+
+
+ 1460              	.LASF46:
+ 1461 0285 55415254 		.ascii	"UART_PutChar\000"
+ 1461      5F507574 
+ 1461      43686172 
+ 1461      00
+ 1462              	.LASF18:
+ 1463 0292 73697A65 		.ascii	"sizetype\000"
+ 1463      74797065 
+ 1463      00
+ 1464              	.LASF8:
+ 1465 029b 6C6F6E67 		.ascii	"long long int\000"
+ 1465      206C6F6E 
+ 1465      6720696E 
+ 1465      7400
+ 1466              	.LASF31:
+ 1467 02a9 7379735F 		.ascii	"sys_position\000"
+ 1467      706F7369 
+ 1467      74696F6E 
+ 1467      00
+ 1468              	.LASF41:
+ 1469 02b6 73657269 		.ascii	"serial_rx_buffer_head\000"
+ 1469      616C5F72 
+ 1469      785F6275 
+ 1469      66666572 
+ 1469      5F686561 
+ 1470              	.LASF27:
+ 1471 02cc 73657269 		.ascii	"serial_write\000"
+ 1471      616C5F77 
+ 1471      72697465 
+ 1471      00
+ 1472              	.LASF40:
+ 1473 02d9 73657269 		.ascii	"serial_rx_buffer\000"
+ 1473      616C5F72 
+ 1473      785F6275 
+ 1473      66666572 
+ 1473      00
+ 1474              	.LASF2:
+ 1475 02ea 73686F72 		.ascii	"short int\000"
+ 1475      7420696E 
+ 1475      7400
+ 1476              	.LASF13:
+ 1477 02f4 75696E74 		.ascii	"uint8\000"
+ 1477      3800
+ 1478              	.LASF29:
+ 1479 02fa 7461696C 		.ascii	"tail\000"
+ 1479      00
+ 1480              	.LASF35:
+ 1481 02ff 7379735F 		.ascii	"sys_rt_exec_alarm\000"
+ 1481      72745F65 
+ 1481      7865635F 
+ 1481      616C6172 
+ 1481      6D00
+ 1482              	.LASF6:
+ 1483 0311 6C6F6E67 		.ascii	"long int\000"
+ 1483      20696E74 
+ 1483      00
+ 1484              	.LASF16:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccYfe8Fd.s 			page 32
+
+
+ 1485 031a 63686172 		.ascii	"char\000"
+ 1485      00
+ 1486              	.LASF19:
+ 1487 031f 6C6F6E67 		.ascii	"long double\000"
+ 1487      20646F75 
+ 1487      626C6500 
+ 1488              	.LASF49:
+ 1489 032b 433A5C55 		.ascii	"C:\\Users\\Bart\\Dropbox\\PSoC\\PSoC_Grbl\\PSoC_Grb"
+ 1489      73657273 
+ 1489      5C426172 
+ 1489      745C4472 
+ 1489      6F70626F 
+ 1490 0358 6C2E6379 		.ascii	"l.cydsn\000"
+ 1490      64736E00 
+ 1491              	.LASF15:
+ 1492 0360 646F7562 		.ascii	"double\000"
+ 1492      6C6500
+ 1493              	.LASF51:
+ 1494 0367 55415254 		.ascii	"UART_GetChar\000"
+ 1494      5F476574 
+ 1494      43686172 
+ 1494      00
+ 1495              	.LASF34:
+ 1496 0374 7379735F 		.ascii	"sys_rt_exec_state\000"
+ 1496      72745F65 
+ 1496      7865635F 
+ 1496      73746174 
+ 1496      6500
+ 1497              	.LASF25:
+ 1498 0386 72785F69 		.ascii	"rx_isr_handler\000"
+ 1498      73725F68 
+ 1498      616E646C 
+ 1498      657200
+ 1499              	.LASF38:
+ 1500 0395 7379735F 		.ascii	"sys_rt_exec_debug\000"
+ 1500      72745F65 
+ 1500      7865635F 
+ 1500      64656275 
+ 1500      6700
+ 1501              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

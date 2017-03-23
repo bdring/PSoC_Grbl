@@ -1,0 +1,880 @@
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cceFLaB3.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"Stepper_Timer_PM.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.Stepper_Timer_SaveConfig,"ax",%progbits
+  19              		.align	2
+  20              		.global	Stepper_Timer_SaveConfig
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	Stepper_Timer_SaveConfig, %function
+  24              	Stepper_Timer_SaveConfig:
+  25              	.LFB0:
+  26              		.file 1 "Generated_Source\\PSoC5\\Stepper_Timer_PM.c"
+   1:Generated_Source\PSoC5/Stepper_Timer_PM.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * File Name: Stepper_Timer_PM.c
+   3:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Version 2.70
+   4:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+   5:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  Description:
+   6:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *     This file provides the power management source code to API for the
+   7:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *     Timer.
+   8:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+   9:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *   Note:
+  10:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *     None
+  11:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+  12:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *******************************************************************************
+  13:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Copyright 2008-2014, Cypress Semiconductor Corporation.  All rights reserved.
+  14:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  15:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  16:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * the software package with which this file was provided.
+  17:Generated_Source\PSoC5/Stepper_Timer_PM.c **** ********************************************************************************/
+  18:Generated_Source\PSoC5/Stepper_Timer_PM.c **** 
+  19:Generated_Source\PSoC5/Stepper_Timer_PM.c **** #include "Stepper_Timer.h"
+  20:Generated_Source\PSoC5/Stepper_Timer_PM.c **** 
+  21:Generated_Source\PSoC5/Stepper_Timer_PM.c **** static Stepper_Timer_backupStruct Stepper_Timer_backup;
+  22:Generated_Source\PSoC5/Stepper_Timer_PM.c **** 
+  23:Generated_Source\PSoC5/Stepper_Timer_PM.c **** 
+  24:Generated_Source\PSoC5/Stepper_Timer_PM.c **** /*******************************************************************************
+  25:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Function Name: Stepper_Timer_SaveConfig
+  26:Generated_Source\PSoC5/Stepper_Timer_PM.c **** ********************************************************************************
+  27:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+  28:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Summary:
+  29:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *     Save the current user configuration
+  30:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+  31:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Parameters:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cceFLaB3.s 			page 2
+
+
+  32:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  void
+  33:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+  34:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Return:
+  35:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  void
+  36:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+  37:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Global variables:
+  38:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  Stepper_Timer_backup:  Variables of this global structure are modified to
+  39:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  store the values of non retention configuration registers when Sleep() API is
+  40:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  called.
+  41:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+  42:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *******************************************************************************/
+  43:Generated_Source\PSoC5/Stepper_Timer_PM.c **** void Stepper_Timer_SaveConfig(void) 
+  44:Generated_Source\PSoC5/Stepper_Timer_PM.c **** {
+  27              		.loc 1 44 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32 0000 7047     		bx	lr
+  33              		.cfi_endproc
+  34              	.LFE0:
+  35              		.size	Stepper_Timer_SaveConfig, .-Stepper_Timer_SaveConfig
+  36 0002 00BF     		.section	.text.Stepper_Timer_RestoreConfig,"ax",%progbits
+  37              		.align	2
+  38              		.global	Stepper_Timer_RestoreConfig
+  39              		.thumb
+  40              		.thumb_func
+  41              		.type	Stepper_Timer_RestoreConfig, %function
+  42              	Stepper_Timer_RestoreConfig:
+  43              	.LFB1:
+  45:Generated_Source\PSoC5/Stepper_Timer_PM.c ****     #if (!Stepper_Timer_UsingFixedFunction)
+  46:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         Stepper_Timer_backup.TimerUdb = Stepper_Timer_ReadCounter();
+  47:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         Stepper_Timer_backup.InterruptMaskValue = Stepper_Timer_STATUS_MASK;
+  48:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         #if (Stepper_Timer_UsingHWCaptureCounter)
+  49:Generated_Source\PSoC5/Stepper_Timer_PM.c ****             Stepper_Timer_backup.TimerCaptureCounter = Stepper_Timer_ReadCaptureCount();
+  50:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         #endif /* Back Up capture counter register  */
+  51:Generated_Source\PSoC5/Stepper_Timer_PM.c **** 
+  52:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         #if(!Stepper_Timer_UDB_CONTROL_REG_REMOVED)
+  53:Generated_Source\PSoC5/Stepper_Timer_PM.c ****             Stepper_Timer_backup.TimerControlRegister = Stepper_Timer_ReadControlRegister();
+  54:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         #endif /* Backup the enable state of the Timer component */
+  55:Generated_Source\PSoC5/Stepper_Timer_PM.c ****     #endif /* Backup non retention registers in UDB implementation. All fixed function registers ar
+  56:Generated_Source\PSoC5/Stepper_Timer_PM.c **** }
+  57:Generated_Source\PSoC5/Stepper_Timer_PM.c **** 
+  58:Generated_Source\PSoC5/Stepper_Timer_PM.c **** 
+  59:Generated_Source\PSoC5/Stepper_Timer_PM.c **** /*******************************************************************************
+  60:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Function Name: Stepper_Timer_RestoreConfig
+  61:Generated_Source\PSoC5/Stepper_Timer_PM.c **** ********************************************************************************
+  62:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+  63:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Summary:
+  64:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  Restores the current user configuration.
+  65:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+  66:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Parameters:
+  67:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  void
+  68:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+  69:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Return:
+  70:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  void
+  71:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cceFLaB3.s 			page 3
+
+
+  72:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Global variables:
+  73:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  Stepper_Timer_backup:  Variables of this global structure are used to
+  74:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  restore the values of non retention registers on wakeup from sleep mode.
+  75:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+  76:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *******************************************************************************/
+  77:Generated_Source\PSoC5/Stepper_Timer_PM.c **** void Stepper_Timer_RestoreConfig(void) 
+  78:Generated_Source\PSoC5/Stepper_Timer_PM.c **** {   
+  44              		.loc 1 78 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49 0000 7047     		bx	lr
+  50              		.cfi_endproc
+  51              	.LFE1:
+  52              		.size	Stepper_Timer_RestoreConfig, .-Stepper_Timer_RestoreConfig
+  53 0002 00BF     		.section	.text.Stepper_Timer_Sleep,"ax",%progbits
+  54              		.align	2
+  55              		.global	Stepper_Timer_Sleep
+  56              		.thumb
+  57              		.thumb_func
+  58              		.type	Stepper_Timer_Sleep, %function
+  59              	Stepper_Timer_Sleep:
+  60              	.LFB2:
+  79:Generated_Source\PSoC5/Stepper_Timer_PM.c ****     #if (!Stepper_Timer_UsingFixedFunction)
+  80:Generated_Source\PSoC5/Stepper_Timer_PM.c **** 
+  81:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         Stepper_Timer_WriteCounter(Stepper_Timer_backup.TimerUdb);
+  82:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         Stepper_Timer_STATUS_MASK =Stepper_Timer_backup.InterruptMaskValue;
+  83:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         #if (Stepper_Timer_UsingHWCaptureCounter)
+  84:Generated_Source\PSoC5/Stepper_Timer_PM.c ****             Stepper_Timer_SetCaptureCount(Stepper_Timer_backup.TimerCaptureCounter);
+  85:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         #endif /* Restore Capture counter register*/
+  86:Generated_Source\PSoC5/Stepper_Timer_PM.c **** 
+  87:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         #if(!Stepper_Timer_UDB_CONTROL_REG_REMOVED)
+  88:Generated_Source\PSoC5/Stepper_Timer_PM.c ****             Stepper_Timer_WriteControlRegister(Stepper_Timer_backup.TimerControlRegister);
+  89:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         #endif /* Restore the enable state of the Timer component */
+  90:Generated_Source\PSoC5/Stepper_Timer_PM.c ****     #endif /* Restore non retention registers in the UDB implementation only */
+  91:Generated_Source\PSoC5/Stepper_Timer_PM.c **** }
+  92:Generated_Source\PSoC5/Stepper_Timer_PM.c **** 
+  93:Generated_Source\PSoC5/Stepper_Timer_PM.c **** 
+  94:Generated_Source\PSoC5/Stepper_Timer_PM.c **** /*******************************************************************************
+  95:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Function Name: Stepper_Timer_Sleep
+  96:Generated_Source\PSoC5/Stepper_Timer_PM.c **** ********************************************************************************
+  97:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+  98:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Summary:
+  99:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *     Stop and Save the user configuration
+ 100:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+ 101:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Parameters:
+ 102:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  void
+ 103:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+ 104:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Return:
+ 105:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  void
+ 106:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+ 107:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Global variables:
+ 108:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  Stepper_Timer_backup.TimerEnableState:  Is modified depending on the
+ 109:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  enable state of the block before entering sleep mode.
+ 110:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+ 111:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *******************************************************************************/
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cceFLaB3.s 			page 4
+
+
+ 112:Generated_Source\PSoC5/Stepper_Timer_PM.c **** void Stepper_Timer_Sleep(void) 
+ 113:Generated_Source\PSoC5/Stepper_Timer_PM.c **** {
+  61              		.loc 1 113 0
+  62              		.cfi_startproc
+  63              		@ args = 0, pretend = 0, frame = 0
+  64              		@ frame_needed = 0, uses_anonymous_args = 0
+  65              		.loc 1 113 0
+  66 0000 08B5     		push	{r3, lr}
+  67              		.cfi_def_cfa_offset 8
+  68              		.cfi_offset 3, -8
+  69              		.cfi_offset 14, -4
+ 114:Generated_Source\PSoC5/Stepper_Timer_PM.c ****     #if(!Stepper_Timer_UDB_CONTROL_REG_REMOVED)
+ 115:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         /* Save Counter's enable state */
+ 116:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         if(Stepper_Timer_CTRL_ENABLE == (Stepper_Timer_CONTROL & Stepper_Timer_CTRL_ENABLE))
+  70              		.loc 1 116 0
+  71 0002 074B     		ldr	r3, .L7
+  72 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  73 0006 13F0010F 		tst	r3, #1
+  74 000a 03D0     		beq	.L4
+ 117:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         {
+ 118:Generated_Source\PSoC5/Stepper_Timer_PM.c ****             /* Timer is enabled */
+ 119:Generated_Source\PSoC5/Stepper_Timer_PM.c ****             Stepper_Timer_backup.TimerEnableState = 1u;
+  75              		.loc 1 119 0
+  76 000c 0122     		movs	r2, #1
+  77 000e 054B     		ldr	r3, .L7+4
+  78 0010 1A70     		strb	r2, [r3]
+  79 0012 02E0     		b	.L5
+  80              	.L4:
+ 120:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         }
+ 121:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         else
+ 122:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         {
+ 123:Generated_Source\PSoC5/Stepper_Timer_PM.c ****             /* Timer is disabled */
+ 124:Generated_Source\PSoC5/Stepper_Timer_PM.c ****             Stepper_Timer_backup.TimerEnableState = 0u;
+  81              		.loc 1 124 0
+  82 0014 0022     		movs	r2, #0
+  83 0016 034B     		ldr	r3, .L7+4
+  84 0018 1A70     		strb	r2, [r3]
+  85              	.L5:
+ 125:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         }
+ 126:Generated_Source\PSoC5/Stepper_Timer_PM.c ****     #endif /* Back up enable state from the Timer control register */
+ 127:Generated_Source\PSoC5/Stepper_Timer_PM.c ****     Stepper_Timer_Stop();
+  86              		.loc 1 127 0
+  87 001a FFF7FEFF 		bl	Stepper_Timer_Stop
+  88              	.LVL0:
+  89 001e 08BD     		pop	{r3, pc}
+  90              	.L8:
+  91              		.align	2
+  92              	.L7:
+  93 0020 0C4F0040 		.word	1073762060
+  94 0024 00000000 		.word	.LANCHOR0
+  95              		.cfi_endproc
+  96              	.LFE2:
+  97              		.size	Stepper_Timer_Sleep, .-Stepper_Timer_Sleep
+  98              		.section	.text.Stepper_Timer_Wakeup,"ax",%progbits
+  99              		.align	2
+ 100              		.global	Stepper_Timer_Wakeup
+ 101              		.thumb
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cceFLaB3.s 			page 5
+
+
+ 102              		.thumb_func
+ 103              		.type	Stepper_Timer_Wakeup, %function
+ 104              	Stepper_Timer_Wakeup:
+ 105              	.LFB3:
+ 128:Generated_Source\PSoC5/Stepper_Timer_PM.c ****     Stepper_Timer_SaveConfig();
+ 129:Generated_Source\PSoC5/Stepper_Timer_PM.c **** }
+ 130:Generated_Source\PSoC5/Stepper_Timer_PM.c **** 
+ 131:Generated_Source\PSoC5/Stepper_Timer_PM.c **** 
+ 132:Generated_Source\PSoC5/Stepper_Timer_PM.c **** /*******************************************************************************
+ 133:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Function Name: Stepper_Timer_Wakeup
+ 134:Generated_Source\PSoC5/Stepper_Timer_PM.c **** ********************************************************************************
+ 135:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+ 136:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Summary:
+ 137:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  Restores and enables the user configuration
+ 138:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+ 139:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Parameters:
+ 140:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  void
+ 141:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+ 142:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Return:
+ 143:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  void
+ 144:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+ 145:Generated_Source\PSoC5/Stepper_Timer_PM.c **** * Global variables:
+ 146:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  Stepper_Timer_backup.enableState:  Is used to restore the enable state of
+ 147:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *  block on wakeup from sleep mode.
+ 148:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *
+ 149:Generated_Source\PSoC5/Stepper_Timer_PM.c **** *******************************************************************************/
+ 150:Generated_Source\PSoC5/Stepper_Timer_PM.c **** void Stepper_Timer_Wakeup(void) 
+ 151:Generated_Source\PSoC5/Stepper_Timer_PM.c **** {
+ 106              		.loc 1 151 0
+ 107              		.cfi_startproc
+ 108              		@ args = 0, pretend = 0, frame = 0
+ 109              		@ frame_needed = 0, uses_anonymous_args = 0
+ 110 0000 08B5     		push	{r3, lr}
+ 111              		.cfi_def_cfa_offset 8
+ 112              		.cfi_offset 3, -8
+ 113              		.cfi_offset 14, -4
+ 152:Generated_Source\PSoC5/Stepper_Timer_PM.c ****     Stepper_Timer_RestoreConfig();
+ 153:Generated_Source\PSoC5/Stepper_Timer_PM.c ****     #if(!Stepper_Timer_UDB_CONTROL_REG_REMOVED)
+ 154:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         if(Stepper_Timer_backup.TimerEnableState == 1u)
+ 114              		.loc 1 154 0
+ 115 0002 034B     		ldr	r3, .L12
+ 116 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 117 0006 012B     		cmp	r3, #1
+ 118 0008 01D1     		bne	.L9
+ 155:Generated_Source\PSoC5/Stepper_Timer_PM.c ****         {     /* Enable Timer's operation */
+ 156:Generated_Source\PSoC5/Stepper_Timer_PM.c ****                 Stepper_Timer_Enable();
+ 119              		.loc 1 156 0
+ 120 000a FFF7FEFF 		bl	Stepper_Timer_Enable
+ 121              	.LVL1:
+ 122              	.L9:
+ 123 000e 08BD     		pop	{r3, pc}
+ 124              	.L13:
+ 125              		.align	2
+ 126              	.L12:
+ 127 0010 00000000 		.word	.LANCHOR0
+ 128              		.cfi_endproc
+ 129              	.LFE3:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cceFLaB3.s 			page 6
+
+
+ 130              		.size	Stepper_Timer_Wakeup, .-Stepper_Timer_Wakeup
+ 131              		.bss
+ 132              		.align	2
+ 133              		.set	.LANCHOR0,. + 0
+ 134              		.type	Stepper_Timer_backup, %object
+ 135              		.size	Stepper_Timer_backup, 1
+ 136              	Stepper_Timer_backup:
+ 137 0000 00       		.space	1
+ 138 0001 000000   		.text
+ 139              	.Letext0:
+ 140              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 141              		.file 3 "Generated_Source\\PSoC5\\Stepper_Timer.h"
+ 142              		.section	.debug_info,"",%progbits
+ 143              	.Ldebug_info0:
+ 144 0000 40010000 		.4byte	0x140
+ 145 0004 0400     		.2byte	0x4
+ 146 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 147 000a 04       		.byte	0x4
+ 148 000b 01       		.uleb128 0x1
+ 149 000c 8E010000 		.4byte	.LASF22
+ 150 0010 01       		.byte	0x1
+ 151 0011 1C020000 		.4byte	.LASF23
+ 152 0015 0E000000 		.4byte	.LASF24
+ 153 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 154 001d 00000000 		.4byte	0
+ 155 0021 00000000 		.4byte	.Ldebug_line0
+ 156 0025 02       		.uleb128 0x2
+ 157 0026 01       		.byte	0x1
+ 158 0027 06       		.byte	0x6
+ 159 0028 6D010000 		.4byte	.LASF0
+ 160 002c 02       		.uleb128 0x2
+ 161 002d 01       		.byte	0x1
+ 162 002e 08       		.byte	0x8
+ 163 002f F2000000 		.4byte	.LASF1
+ 164 0033 02       		.uleb128 0x2
+ 165 0034 02       		.byte	0x2
+ 166 0035 05       		.byte	0x5
+ 167 0036 46020000 		.4byte	.LASF2
+ 168 003a 02       		.uleb128 0x2
+ 169 003b 02       		.byte	0x2
+ 170 003c 07       		.byte	0x7
+ 171 003d 5A010000 		.4byte	.LASF3
+ 172 0041 02       		.uleb128 0x2
+ 173 0042 04       		.byte	0x4
+ 174 0043 05       		.byte	0x5
+ 175 0044 19010000 		.4byte	.LASF4
+ 176 0048 02       		.uleb128 0x2
+ 177 0049 04       		.byte	0x4
+ 178 004a 07       		.byte	0x7
+ 179 004b 71000000 		.4byte	.LASF5
+ 180 004f 02       		.uleb128 0x2
+ 181 0050 08       		.byte	0x8
+ 182 0051 05       		.byte	0x5
+ 183 0052 00000000 		.4byte	.LASF6
+ 184 0056 02       		.uleb128 0x2
+ 185 0057 08       		.byte	0x8
+ 186 0058 07       		.byte	0x7
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cceFLaB3.s 			page 7
+
+
+ 187 0059 9C000000 		.4byte	.LASF7
+ 188 005d 03       		.uleb128 0x3
+ 189 005e 04       		.byte	0x4
+ 190 005f 05       		.byte	0x5
+ 191 0060 696E7400 		.ascii	"int\000"
+ 192 0064 02       		.uleb128 0x2
+ 193 0065 04       		.byte	0x4
+ 194 0066 07       		.byte	0x7
+ 195 0067 43000000 		.4byte	.LASF8
+ 196 006b 04       		.uleb128 0x4
+ 197 006c 6B000000 		.4byte	.LASF12
+ 198 0070 02       		.byte	0x2
+ 199 0071 9201     		.2byte	0x192
+ 200 0073 2C000000 		.4byte	0x2c
+ 201 0077 02       		.uleb128 0x2
+ 202 0078 04       		.byte	0x4
+ 203 0079 04       		.byte	0x4
+ 204 007a B3000000 		.4byte	.LASF9
+ 205 007e 02       		.uleb128 0x2
+ 206 007f 08       		.byte	0x8
+ 207 0080 04       		.byte	0x4
+ 208 0081 37010000 		.4byte	.LASF10
+ 209 0085 02       		.uleb128 0x2
+ 210 0086 01       		.byte	0x1
+ 211 0087 08       		.byte	0x8
+ 212 0088 00010000 		.4byte	.LASF11
+ 213 008c 04       		.uleb128 0x4
+ 214 008d 50020000 		.4byte	.LASF13
+ 215 0091 02       		.byte	0x2
+ 216 0092 3C02     		.2byte	0x23c
+ 217 0094 98000000 		.4byte	0x98
+ 218 0098 05       		.uleb128 0x5
+ 219 0099 6B000000 		.4byte	0x6b
+ 220 009d 02       		.uleb128 0x2
+ 221 009e 04       		.byte	0x4
+ 222 009f 07       		.byte	0x7
+ 223 00a0 55020000 		.4byte	.LASF14
+ 224 00a4 06       		.uleb128 0x6
+ 225 00a5 01       		.byte	0x1
+ 226 00a6 03       		.byte	0x3
+ 227 00a7 43       		.byte	0x43
+ 228 00a8 B9000000 		.4byte	0xb9
+ 229 00ac 07       		.uleb128 0x7
+ 230 00ad CE000000 		.4byte	.LASF25
+ 231 00b1 03       		.byte	0x3
+ 232 00b2 45       		.byte	0x45
+ 233 00b3 6B000000 		.4byte	0x6b
+ 234 00b7 00       		.byte	0
+ 235 00b8 00       		.byte	0
+ 236 00b9 08       		.uleb128 0x8
+ 237 00ba 50000000 		.4byte	.LASF15
+ 238 00be 03       		.byte	0x3
+ 239 00bf 53       		.byte	0x53
+ 240 00c0 A4000000 		.4byte	0xa4
+ 241 00c4 09       		.uleb128 0x9
+ 242 00c5 83000000 		.4byte	.LASF16
+ 243 00c9 01       		.byte	0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cceFLaB3.s 			page 8
+
+
+ 244 00ca 2B       		.byte	0x2b
+ 245 00cb 00000000 		.4byte	.LFB0
+ 246 00cf 02000000 		.4byte	.LFE0-.LFB0
+ 247 00d3 01       		.uleb128 0x1
+ 248 00d4 9C       		.byte	0x9c
+ 249 00d5 09       		.uleb128 0x9
+ 250 00d6 3E010000 		.4byte	.LASF17
+ 251 00da 01       		.byte	0x1
+ 252 00db 4D       		.byte	0x4d
+ 253 00dc 00000000 		.4byte	.LFB1
+ 254 00e0 02000000 		.4byte	.LFE1-.LFB1
+ 255 00e4 01       		.uleb128 0x1
+ 256 00e5 9C       		.byte	0x9c
+ 257 00e6 0A       		.uleb128 0xa
+ 258 00e7 05010000 		.4byte	.LASF18
+ 259 00eb 01       		.byte	0x1
+ 260 00ec 70       		.byte	0x70
+ 261 00ed 00000000 		.4byte	.LFB2
+ 262 00f1 28000000 		.4byte	.LFE2-.LFB2
+ 263 00f5 01       		.uleb128 0x1
+ 264 00f6 9C       		.byte	0x9c
+ 265 00f7 05010000 		.4byte	0x105
+ 266 00fb 0B       		.uleb128 0xb
+ 267 00fc 1E000000 		.4byte	.LVL0
+ 268 0100 35010000 		.4byte	0x135
+ 269 0104 00       		.byte	0
+ 270 0105 0A       		.uleb128 0xa
+ 271 0106 B9000000 		.4byte	.LASF19
+ 272 010a 01       		.byte	0x1
+ 273 010b 96       		.byte	0x96
+ 274 010c 00000000 		.4byte	.LFB3
+ 275 0110 14000000 		.4byte	.LFE3-.LFB3
+ 276 0114 01       		.uleb128 0x1
+ 277 0115 9C       		.byte	0x9c
+ 278 0116 24010000 		.4byte	0x124
+ 279 011a 0B       		.uleb128 0xb
+ 280 011b 0E000000 		.4byte	.LVL1
+ 281 011f 3C010000 		.4byte	0x13c
+ 282 0123 00       		.byte	0
+ 283 0124 0C       		.uleb128 0xc
+ 284 0125 79010000 		.4byte	.LASF26
+ 285 0129 01       		.byte	0x1
+ 286 012a 15       		.byte	0x15
+ 287 012b B9000000 		.4byte	0xb9
+ 288 012f 05       		.uleb128 0x5
+ 289 0130 03       		.byte	0x3
+ 290 0131 00000000 		.4byte	Stepper_Timer_backup
+ 291 0135 0D       		.uleb128 0xd
+ 292 0136 DF000000 		.4byte	.LASF20
+ 293 013a 03       		.byte	0x3
+ 294 013b 5B       		.byte	0x5b
+ 295 013c 0D       		.uleb128 0xd
+ 296 013d 22010000 		.4byte	.LASF21
+ 297 0141 03       		.byte	0x3
+ 298 0142 8B       		.byte	0x8b
+ 299 0143 00       		.byte	0
+ 300              		.section	.debug_abbrev,"",%progbits
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cceFLaB3.s 			page 9
+
+
+ 301              	.Ldebug_abbrev0:
+ 302 0000 01       		.uleb128 0x1
+ 303 0001 11       		.uleb128 0x11
+ 304 0002 01       		.byte	0x1
+ 305 0003 25       		.uleb128 0x25
+ 306 0004 0E       		.uleb128 0xe
+ 307 0005 13       		.uleb128 0x13
+ 308 0006 0B       		.uleb128 0xb
+ 309 0007 03       		.uleb128 0x3
+ 310 0008 0E       		.uleb128 0xe
+ 311 0009 1B       		.uleb128 0x1b
+ 312 000a 0E       		.uleb128 0xe
+ 313 000b 55       		.uleb128 0x55
+ 314 000c 17       		.uleb128 0x17
+ 315 000d 11       		.uleb128 0x11
+ 316 000e 01       		.uleb128 0x1
+ 317 000f 10       		.uleb128 0x10
+ 318 0010 17       		.uleb128 0x17
+ 319 0011 00       		.byte	0
+ 320 0012 00       		.byte	0
+ 321 0013 02       		.uleb128 0x2
+ 322 0014 24       		.uleb128 0x24
+ 323 0015 00       		.byte	0
+ 324 0016 0B       		.uleb128 0xb
+ 325 0017 0B       		.uleb128 0xb
+ 326 0018 3E       		.uleb128 0x3e
+ 327 0019 0B       		.uleb128 0xb
+ 328 001a 03       		.uleb128 0x3
+ 329 001b 0E       		.uleb128 0xe
+ 330 001c 00       		.byte	0
+ 331 001d 00       		.byte	0
+ 332 001e 03       		.uleb128 0x3
+ 333 001f 24       		.uleb128 0x24
+ 334 0020 00       		.byte	0
+ 335 0021 0B       		.uleb128 0xb
+ 336 0022 0B       		.uleb128 0xb
+ 337 0023 3E       		.uleb128 0x3e
+ 338 0024 0B       		.uleb128 0xb
+ 339 0025 03       		.uleb128 0x3
+ 340 0026 08       		.uleb128 0x8
+ 341 0027 00       		.byte	0
+ 342 0028 00       		.byte	0
+ 343 0029 04       		.uleb128 0x4
+ 344 002a 16       		.uleb128 0x16
+ 345 002b 00       		.byte	0
+ 346 002c 03       		.uleb128 0x3
+ 347 002d 0E       		.uleb128 0xe
+ 348 002e 3A       		.uleb128 0x3a
+ 349 002f 0B       		.uleb128 0xb
+ 350 0030 3B       		.uleb128 0x3b
+ 351 0031 05       		.uleb128 0x5
+ 352 0032 49       		.uleb128 0x49
+ 353 0033 13       		.uleb128 0x13
+ 354 0034 00       		.byte	0
+ 355 0035 00       		.byte	0
+ 356 0036 05       		.uleb128 0x5
+ 357 0037 35       		.uleb128 0x35
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cceFLaB3.s 			page 10
+
+
+ 358 0038 00       		.byte	0
+ 359 0039 49       		.uleb128 0x49
+ 360 003a 13       		.uleb128 0x13
+ 361 003b 00       		.byte	0
+ 362 003c 00       		.byte	0
+ 363 003d 06       		.uleb128 0x6
+ 364 003e 13       		.uleb128 0x13
+ 365 003f 01       		.byte	0x1
+ 366 0040 0B       		.uleb128 0xb
+ 367 0041 0B       		.uleb128 0xb
+ 368 0042 3A       		.uleb128 0x3a
+ 369 0043 0B       		.uleb128 0xb
+ 370 0044 3B       		.uleb128 0x3b
+ 371 0045 0B       		.uleb128 0xb
+ 372 0046 01       		.uleb128 0x1
+ 373 0047 13       		.uleb128 0x13
+ 374 0048 00       		.byte	0
+ 375 0049 00       		.byte	0
+ 376 004a 07       		.uleb128 0x7
+ 377 004b 0D       		.uleb128 0xd
+ 378 004c 00       		.byte	0
+ 379 004d 03       		.uleb128 0x3
+ 380 004e 0E       		.uleb128 0xe
+ 381 004f 3A       		.uleb128 0x3a
+ 382 0050 0B       		.uleb128 0xb
+ 383 0051 3B       		.uleb128 0x3b
+ 384 0052 0B       		.uleb128 0xb
+ 385 0053 49       		.uleb128 0x49
+ 386 0054 13       		.uleb128 0x13
+ 387 0055 38       		.uleb128 0x38
+ 388 0056 0B       		.uleb128 0xb
+ 389 0057 00       		.byte	0
+ 390 0058 00       		.byte	0
+ 391 0059 08       		.uleb128 0x8
+ 392 005a 16       		.uleb128 0x16
+ 393 005b 00       		.byte	0
+ 394 005c 03       		.uleb128 0x3
+ 395 005d 0E       		.uleb128 0xe
+ 396 005e 3A       		.uleb128 0x3a
+ 397 005f 0B       		.uleb128 0xb
+ 398 0060 3B       		.uleb128 0x3b
+ 399 0061 0B       		.uleb128 0xb
+ 400 0062 49       		.uleb128 0x49
+ 401 0063 13       		.uleb128 0x13
+ 402 0064 00       		.byte	0
+ 403 0065 00       		.byte	0
+ 404 0066 09       		.uleb128 0x9
+ 405 0067 2E       		.uleb128 0x2e
+ 406 0068 00       		.byte	0
+ 407 0069 3F       		.uleb128 0x3f
+ 408 006a 19       		.uleb128 0x19
+ 409 006b 03       		.uleb128 0x3
+ 410 006c 0E       		.uleb128 0xe
+ 411 006d 3A       		.uleb128 0x3a
+ 412 006e 0B       		.uleb128 0xb
+ 413 006f 3B       		.uleb128 0x3b
+ 414 0070 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cceFLaB3.s 			page 11
+
+
+ 415 0071 27       		.uleb128 0x27
+ 416 0072 19       		.uleb128 0x19
+ 417 0073 11       		.uleb128 0x11
+ 418 0074 01       		.uleb128 0x1
+ 419 0075 12       		.uleb128 0x12
+ 420 0076 06       		.uleb128 0x6
+ 421 0077 40       		.uleb128 0x40
+ 422 0078 18       		.uleb128 0x18
+ 423 0079 9742     		.uleb128 0x2117
+ 424 007b 19       		.uleb128 0x19
+ 425 007c 00       		.byte	0
+ 426 007d 00       		.byte	0
+ 427 007e 0A       		.uleb128 0xa
+ 428 007f 2E       		.uleb128 0x2e
+ 429 0080 01       		.byte	0x1
+ 430 0081 3F       		.uleb128 0x3f
+ 431 0082 19       		.uleb128 0x19
+ 432 0083 03       		.uleb128 0x3
+ 433 0084 0E       		.uleb128 0xe
+ 434 0085 3A       		.uleb128 0x3a
+ 435 0086 0B       		.uleb128 0xb
+ 436 0087 3B       		.uleb128 0x3b
+ 437 0088 0B       		.uleb128 0xb
+ 438 0089 27       		.uleb128 0x27
+ 439 008a 19       		.uleb128 0x19
+ 440 008b 11       		.uleb128 0x11
+ 441 008c 01       		.uleb128 0x1
+ 442 008d 12       		.uleb128 0x12
+ 443 008e 06       		.uleb128 0x6
+ 444 008f 40       		.uleb128 0x40
+ 445 0090 18       		.uleb128 0x18
+ 446 0091 9742     		.uleb128 0x2117
+ 447 0093 19       		.uleb128 0x19
+ 448 0094 01       		.uleb128 0x1
+ 449 0095 13       		.uleb128 0x13
+ 450 0096 00       		.byte	0
+ 451 0097 00       		.byte	0
+ 452 0098 0B       		.uleb128 0xb
+ 453 0099 898201   		.uleb128 0x4109
+ 454 009c 00       		.byte	0
+ 455 009d 11       		.uleb128 0x11
+ 456 009e 01       		.uleb128 0x1
+ 457 009f 31       		.uleb128 0x31
+ 458 00a0 13       		.uleb128 0x13
+ 459 00a1 00       		.byte	0
+ 460 00a2 00       		.byte	0
+ 461 00a3 0C       		.uleb128 0xc
+ 462 00a4 34       		.uleb128 0x34
+ 463 00a5 00       		.byte	0
+ 464 00a6 03       		.uleb128 0x3
+ 465 00a7 0E       		.uleb128 0xe
+ 466 00a8 3A       		.uleb128 0x3a
+ 467 00a9 0B       		.uleb128 0xb
+ 468 00aa 3B       		.uleb128 0x3b
+ 469 00ab 0B       		.uleb128 0xb
+ 470 00ac 49       		.uleb128 0x49
+ 471 00ad 13       		.uleb128 0x13
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cceFLaB3.s 			page 12
+
+
+ 472 00ae 02       		.uleb128 0x2
+ 473 00af 18       		.uleb128 0x18
+ 474 00b0 00       		.byte	0
+ 475 00b1 00       		.byte	0
+ 476 00b2 0D       		.uleb128 0xd
+ 477 00b3 2E       		.uleb128 0x2e
+ 478 00b4 00       		.byte	0
+ 479 00b5 3F       		.uleb128 0x3f
+ 480 00b6 19       		.uleb128 0x19
+ 481 00b7 03       		.uleb128 0x3
+ 482 00b8 0E       		.uleb128 0xe
+ 483 00b9 3A       		.uleb128 0x3a
+ 484 00ba 0B       		.uleb128 0xb
+ 485 00bb 3B       		.uleb128 0x3b
+ 486 00bc 0B       		.uleb128 0xb
+ 487 00bd 27       		.uleb128 0x27
+ 488 00be 19       		.uleb128 0x19
+ 489 00bf 3C       		.uleb128 0x3c
+ 490 00c0 19       		.uleb128 0x19
+ 491 00c1 00       		.byte	0
+ 492 00c2 00       		.byte	0
+ 493 00c3 00       		.byte	0
+ 494              		.section	.debug_aranges,"",%progbits
+ 495 0000 34000000 		.4byte	0x34
+ 496 0004 0200     		.2byte	0x2
+ 497 0006 00000000 		.4byte	.Ldebug_info0
+ 498 000a 04       		.byte	0x4
+ 499 000b 00       		.byte	0
+ 500 000c 0000     		.2byte	0
+ 501 000e 0000     		.2byte	0
+ 502 0010 00000000 		.4byte	.LFB0
+ 503 0014 02000000 		.4byte	.LFE0-.LFB0
+ 504 0018 00000000 		.4byte	.LFB1
+ 505 001c 02000000 		.4byte	.LFE1-.LFB1
+ 506 0020 00000000 		.4byte	.LFB2
+ 507 0024 28000000 		.4byte	.LFE2-.LFB2
+ 508 0028 00000000 		.4byte	.LFB3
+ 509 002c 14000000 		.4byte	.LFE3-.LFB3
+ 510 0030 00000000 		.4byte	0
+ 511 0034 00000000 		.4byte	0
+ 512              		.section	.debug_ranges,"",%progbits
+ 513              	.Ldebug_ranges0:
+ 514 0000 00000000 		.4byte	.LFB0
+ 515 0004 02000000 		.4byte	.LFE0
+ 516 0008 00000000 		.4byte	.LFB1
+ 517 000c 02000000 		.4byte	.LFE1
+ 518 0010 00000000 		.4byte	.LFB2
+ 519 0014 28000000 		.4byte	.LFE2
+ 520 0018 00000000 		.4byte	.LFB3
+ 521 001c 14000000 		.4byte	.LFE3
+ 522 0020 00000000 		.4byte	0
+ 523 0024 00000000 		.4byte	0
+ 524              		.section	.debug_line,"",%progbits
+ 525              	.Ldebug_line0:
+ 526 0000 AC000000 		.section	.debug_str,"MS",%progbits,1
+ 526      02006000 
+ 526      00000201 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cceFLaB3.s 			page 13
+
+
+ 526      FB0E0D00 
+ 526      01010101 
+ 527              	.LASF6:
+ 528 0000 6C6F6E67 		.ascii	"long long int\000"
+ 528      206C6F6E 
+ 528      6720696E 
+ 528      7400
+ 529              	.LASF24:
+ 530 000e 433A5C55 		.ascii	"C:\\Users\\Bart\\Dropbox\\PSoC\\PSoC_Grbl\\PSoC_Grb"
+ 530      73657273 
+ 530      5C426172 
+ 530      745C4472 
+ 530      6F70626F 
+ 531 003b 6C2E6379 		.ascii	"l.cydsn\000"
+ 531      64736E00 
+ 532              	.LASF8:
+ 533 0043 756E7369 		.ascii	"unsigned int\000"
+ 533      676E6564 
+ 533      20696E74 
+ 533      00
+ 534              	.LASF15:
+ 535 0050 53746570 		.ascii	"Stepper_Timer_backupStruct\000"
+ 535      7065725F 
+ 535      54696D65 
+ 535      725F6261 
+ 535      636B7570 
+ 536              	.LASF12:
+ 537 006b 75696E74 		.ascii	"uint8\000"
+ 537      3800
+ 538              	.LASF5:
+ 539 0071 6C6F6E67 		.ascii	"long unsigned int\000"
+ 539      20756E73 
+ 539      69676E65 
+ 539      6420696E 
+ 539      7400
+ 540              	.LASF16:
+ 541 0083 53746570 		.ascii	"Stepper_Timer_SaveConfig\000"
+ 541      7065725F 
+ 541      54696D65 
+ 541      725F5361 
+ 541      7665436F 
+ 542              	.LASF7:
+ 543 009c 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 543      206C6F6E 
+ 543      6720756E 
+ 543      7369676E 
+ 543      65642069 
+ 544              	.LASF9:
+ 545 00b3 666C6F61 		.ascii	"float\000"
+ 545      7400
+ 546              	.LASF19:
+ 547 00b9 53746570 		.ascii	"Stepper_Timer_Wakeup\000"
+ 547      7065725F 
+ 547      54696D65 
+ 547      725F5761 
+ 547      6B657570 
+ 548              	.LASF25:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cceFLaB3.s 			page 14
+
+
+ 549 00ce 54696D65 		.ascii	"TimerEnableState\000"
+ 549      72456E61 
+ 549      626C6553 
+ 549      74617465 
+ 549      00
+ 550              	.LASF20:
+ 551 00df 53746570 		.ascii	"Stepper_Timer_Stop\000"
+ 551      7065725F 
+ 551      54696D65 
+ 551      725F5374 
+ 551      6F7000
+ 552              	.LASF1:
+ 553 00f2 756E7369 		.ascii	"unsigned char\000"
+ 553      676E6564 
+ 553      20636861 
+ 553      7200
+ 554              	.LASF11:
+ 555 0100 63686172 		.ascii	"char\000"
+ 555      00
+ 556              	.LASF18:
+ 557 0105 53746570 		.ascii	"Stepper_Timer_Sleep\000"
+ 557      7065725F 
+ 557      54696D65 
+ 557      725F536C 
+ 557      65657000 
+ 558              	.LASF4:
+ 559 0119 6C6F6E67 		.ascii	"long int\000"
+ 559      20696E74 
+ 559      00
+ 560              	.LASF21:
+ 561 0122 53746570 		.ascii	"Stepper_Timer_Enable\000"
+ 561      7065725F 
+ 561      54696D65 
+ 561      725F456E 
+ 561      61626C65 
+ 562              	.LASF10:
+ 563 0137 646F7562 		.ascii	"double\000"
+ 563      6C6500
+ 564              	.LASF17:
+ 565 013e 53746570 		.ascii	"Stepper_Timer_RestoreConfig\000"
+ 565      7065725F 
+ 565      54696D65 
+ 565      725F5265 
+ 565      73746F72 
+ 566              	.LASF3:
+ 567 015a 73686F72 		.ascii	"short unsigned int\000"
+ 567      7420756E 
+ 567      7369676E 
+ 567      65642069 
+ 567      6E7400
+ 568              	.LASF0:
+ 569 016d 7369676E 		.ascii	"signed char\000"
+ 569      65642063 
+ 569      68617200 
+ 570              	.LASF26:
+ 571 0179 53746570 		.ascii	"Stepper_Timer_backup\000"
+ 571      7065725F 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\cceFLaB3.s 			page 15
+
+
+ 571      54696D65 
+ 571      725F6261 
+ 571      636B7570 
+ 572              	.LASF22:
+ 573 018e 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 573      4320342E 
+ 573      392E3320 
+ 573      32303135 
+ 573      30333033 
+ 574 01c1 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 574      20726576 
+ 574      6973696F 
+ 574      6E203232 
+ 574      31323230 
+ 575 01f4 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 575      66756E63 
+ 575      74696F6E 
+ 575      2D736563 
+ 575      74696F6E 
+ 576              	.LASF23:
+ 577 021c 47656E65 		.ascii	"Generated_Source\\PSoC5\\Stepper_Timer_PM.c\000"
+ 577      72617465 
+ 577      645F536F 
+ 577      75726365 
+ 577      5C50536F 
+ 578              	.LASF2:
+ 579 0246 73686F72 		.ascii	"short int\000"
+ 579      7420696E 
+ 579      7400
+ 580              	.LASF13:
+ 581 0250 72656738 		.ascii	"reg8\000"
+ 581      00
+ 582              	.LASF14:
+ 583 0255 73697A65 		.ascii	"sizetype\000"
+ 583      74797065 
+ 583      00
+ 584              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

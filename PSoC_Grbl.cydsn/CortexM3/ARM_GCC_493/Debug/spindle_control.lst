@@ -1,0 +1,2540 @@
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"spindle_control.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.spindle_get_state,"ax",%progbits
+  19              		.align	2
+  20              		.global	spindle_get_state
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	spindle_get_state, %function
+  24              	spindle_get_state:
+  25              	.LFB64:
+  26              		.file 1 "spindle_control.c"
+   1:spindle_control.c **** /*
+   2:spindle_control.c ****   spindle_control.c - spindle control methods
+   3:spindle_control.c ****   Part of Grbl
+   4:spindle_control.c **** 
+   5:spindle_control.c ****   Copyright (c) 2012-2016 Sungeun K. Jeon for Gnea Research LLC
+   6:spindle_control.c ****   Copyright (c) 2009-2011 Simen Svale Skogsrud
+   7:spindle_control.c **** 
+   8:spindle_control.c ****   Grbl is free software: you can redistribute it and/or modify
+   9:spindle_control.c ****   it under the terms of the GNU General Public License as published by
+  10:spindle_control.c ****   the Free Software Foundation, either version 3 of the License, or
+  11:spindle_control.c ****   (at your option) any later version.
+  12:spindle_control.c **** 
+  13:spindle_control.c ****   Grbl is distributed in the hope that it will be useful,
+  14:spindle_control.c ****   but WITHOUT ANY WARRANTY; without even the implied warranty of
+  15:spindle_control.c ****   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  16:spindle_control.c ****   GNU General Public License for more details.
+  17:spindle_control.c **** 
+  18:spindle_control.c ****   You should have received a copy of the GNU General Public License
+  19:spindle_control.c ****   along with Grbl.  If not, see <http://www.gnu.org/licenses/>.
+  20:spindle_control.c **** */
+  21:spindle_control.c **** 
+  22:spindle_control.c **** #include "grbl.h"
+  23:spindle_control.c **** 
+  24:spindle_control.c **** 
+  25:spindle_control.c **** #ifdef VARIABLE_SPINDLE
+  26:spindle_control.c ****   static float pwm_gradient; // Precalulated value to speed up rpm to PWM conversions.
+  27:spindle_control.c **** #endif
+  28:spindle_control.c **** 
+  29:spindle_control.c **** // PSoc Rewrite
+  30:spindle_control.c **** void spindle_init()
+  31:spindle_control.c **** {
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 2
+
+
+  32:spindle_control.c ****   #ifdef VARIABLE_SPINDLE
+  33:spindle_control.c **** 
+  34:spindle_control.c ****     PWM_Spindle_Start();
+  35:spindle_control.c **** 
+  36:spindle_control.c ****   #else
+  37:spindle_control.c **** 
+  38:spindle_control.c ****     // Configure no variable spindle and only enable pin.
+  39:spindle_control.c ****     // TO DO Unsupported PSoC option right now
+  40:spindle_control.c **** 
+  41:spindle_control.c ****   #endif
+  42:spindle_control.c **** 
+  43:spindle_control.c ****   spindle_stop();
+  44:spindle_control.c **** }
+  45:spindle_control.c **** 
+  46:spindle_control.c **** 
+  47:spindle_control.c **** uint8_t spindle_get_state()
+  48:spindle_control.c **** {
+  27              		.loc 1 48 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 08B5     		push	{r3, lr}
+  32              		.cfi_def_cfa_offset 8
+  33              		.cfi_offset 3, -8
+  34              		.cfi_offset 14, -4
+  49:spindle_control.c **** 	#ifdef VARIABLE_SPINDLE
+  50:spindle_control.c ****     #ifdef USE_SPINDLE_DIR_AS_ENABLE_PIN
+  51:spindle_control.c **** 		  // Not Supported in PSoC Yet
+  52:spindle_control.c ****     #else
+  53:spindle_control.c ****       
+  54:spindle_control.c ****       if (Pin_Spindle_Enable_Read()) 
+  35              		.loc 1 54 0
+  36 0002 FFF7FEFF 		bl	Pin_Spindle_Enable_Read
+  37              	.LVL0:
+  38 0006 0346     		mov	r3, r0
+  39 0008 28B1     		cbz	r0, .L2
+  55:spindle_control.c ****       { // Check if PWM is enabled.
+  56:spindle_control.c ****         if (Pin_Spindle_Direction_Read())
+  40              		.loc 1 56 0
+  41 000a FFF7FEFF 		bl	Pin_Spindle_Direction_Read
+  42              	.LVL1:
+  43 000e 08B1     		cbz	r0, .L3
+  57:spindle_control.c ****           { return(SPINDLE_STATE_CCW); }
+  44              		.loc 1 57 0
+  45 0010 0223     		movs	r3, #2
+  46 0012 00E0     		b	.L2
+  47              	.L3:
+  58:spindle_control.c ****         else 
+  59:spindle_control.c ****           { return(SPINDLE_STATE_CW); }
+  48              		.loc 1 59 0
+  49 0014 0123     		movs	r3, #1
+  50              	.L2:
+  60:spindle_control.c ****       }
+  61:spindle_control.c ****     #endif
+  62:spindle_control.c **** 	#else
+  63:spindle_control.c **** 		// Not Supported in PSoC Yet
+  64:spindle_control.c **** 	#endif
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 3
+
+
+  65:spindle_control.c **** 	return(SPINDLE_STATE_DISABLE);
+  66:spindle_control.c **** }
+  51              		.loc 1 66 0
+  52 0016 1846     		mov	r0, r3
+  53 0018 08BD     		pop	{r3, pc}
+  54              		.cfi_endproc
+  55              	.LFE64:
+  56              		.size	spindle_get_state, .-spindle_get_state
+  57 001a 00BF     		.section	.text.spindle_stop,"ax",%progbits
+  58              		.align	2
+  59              		.global	spindle_stop
+  60              		.thumb
+  61              		.thumb_func
+  62              		.type	spindle_stop, %function
+  63              	spindle_stop:
+  64              	.LFB65:
+  67:spindle_control.c **** 
+  68:spindle_control.c **** 
+  69:spindle_control.c **** // Disables the spindle and sets PWM output to zero when PWM variable spindle speed is enabled.
+  70:spindle_control.c **** // Called by various main program and ISR routines. Keep routine small, fast, and efficient.
+  71:spindle_control.c **** // Called by spindle_init(), spindle_set_speed(), spindle_set_state(), and mc_reset().
+  72:spindle_control.c ****       // PSoC rewrite
+  73:spindle_control.c **** void spindle_stop()
+  74:spindle_control.c **** {
+  65              		.loc 1 74 0
+  66              		.cfi_startproc
+  67              		@ args = 0, pretend = 0, frame = 0
+  68              		@ frame_needed = 0, uses_anonymous_args = 0
+  69 0000 08B5     		push	{r3, lr}
+  70              		.cfi_def_cfa_offset 8
+  71              		.cfi_offset 3, -8
+  72              		.cfi_offset 14, -4
+  75:spindle_control.c ****   #ifdef VARIABLE_SPINDLE
+  76:spindle_control.c ****     PWM_Spindle_WriteCompare(0);
+  73              		.loc 1 76 0
+  74 0002 0020     		movs	r0, #0
+  75 0004 FFF7FEFF 		bl	PWM_Spindle_WriteCompare
+  76              	.LVL2:
+  77 0008 08BD     		pop	{r3, pc}
+  78              		.cfi_endproc
+  79              	.LFE65:
+  80              		.size	spindle_stop, .-spindle_stop
+  81 000a 00BF     		.section	.text.spindle_init,"ax",%progbits
+  82              		.align	2
+  83              		.global	spindle_init
+  84              		.thumb
+  85              		.thumb_func
+  86              		.type	spindle_init, %function
+  87              	spindle_init:
+  88              	.LFB63:
+  31:spindle_control.c ****   #ifdef VARIABLE_SPINDLE
+  89              		.loc 1 31 0
+  90              		.cfi_startproc
+  91              		@ args = 0, pretend = 0, frame = 0
+  92              		@ frame_needed = 0, uses_anonymous_args = 0
+  93 0000 08B5     		push	{r3, lr}
+  94              		.cfi_def_cfa_offset 8
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 4
+
+
+  95              		.cfi_offset 3, -8
+  96              		.cfi_offset 14, -4
+  34:spindle_control.c **** 
+  97              		.loc 1 34 0
+  98 0002 FFF7FEFF 		bl	PWM_Spindle_Start
+  99              	.LVL3:
+  43:spindle_control.c **** }
+ 100              		.loc 1 43 0
+ 101 0006 FFF7FEFF 		bl	spindle_stop
+ 102              	.LVL4:
+ 103 000a 08BD     		pop	{r3, pc}
+ 104              		.cfi_endproc
+ 105              	.LFE63:
+ 106              		.size	spindle_init, .-spindle_init
+ 107              		.section	.text.spindle_set_speed,"ax",%progbits
+ 108              		.align	2
+ 109              		.global	spindle_set_speed
+ 110              		.thumb
+ 111              		.thumb_func
+ 112              		.type	spindle_set_speed, %function
+ 113              	spindle_set_speed:
+ 114              	.LFB66:
+  77:spindle_control.c ****   #else
+  78:spindle_control.c ****     // TO DO Unsupported in PSoC
+  79:spindle_control.c ****   #endif
+  80:spindle_control.c **** }
+  81:spindle_control.c **** 
+  82:spindle_control.c **** 
+  83:spindle_control.c **** #ifdef VARIABLE_SPINDLE
+  84:spindle_control.c ****   // Sets spindle speed PWM output and enable pin, if configured. Called by spindle_set_state()
+  85:spindle_control.c ****   // and stepper ISR. Keep routine small and efficient.
+  86:spindle_control.c ****   // PSoC Rewrite
+  87:spindle_control.c ****   void spindle_set_speed(uint8_t pwm_value)
+  88:spindle_control.c ****   {
+ 115              		.loc 1 88 0
+ 116              		.cfi_startproc
+ 117              		@ args = 0, pretend = 0, frame = 0
+ 118              		@ frame_needed = 0, uses_anonymous_args = 0
+ 119              	.LVL5:
+ 120 0000 08B5     		push	{r3, lr}
+ 121              		.cfi_def_cfa_offset 8
+ 122              		.cfi_offset 3, -8
+ 123              		.cfi_offset 14, -4
+  89:spindle_control.c ****     PWM_Spindle_WriteCompare(pwm_value);
+ 124              		.loc 1 89 0
+ 125 0002 FFF7FEFF 		bl	PWM_Spindle_WriteCompare
+ 126              	.LVL6:
+ 127 0006 08BD     		pop	{r3, pc}
+ 128              		.cfi_endproc
+ 129              	.LFE66:
+ 130              		.size	spindle_set_speed, .-spindle_set_speed
+ 131              		.global	__aeabi_i2d
+ 132              		.global	__aeabi_dmul
+ 133              		.global	__aeabi_f2d
+ 134              		.global	__aeabi_d2f
+ 135              		.global	__aeabi_fcmpge
+ 136              		.global	__aeabi_fcmple
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 5
+
+
+ 137              		.global	__aeabi_fcmpeq
+ 138              		.global	__aeabi_fsub
+ 139              		.global	__aeabi_fmul
+ 140              		.global	__aeabi_dadd
+ 141              		.global	__aeabi_d2uiz
+ 142              		.section	.text.spindle_compute_pwm_value,"ax",%progbits
+ 143              		.align	2
+ 144              		.global	spindle_compute_pwm_value
+ 145              		.thumb
+ 146              		.thumb_func
+ 147              		.type	spindle_compute_pwm_value, %function
+ 148              	spindle_compute_pwm_value:
+ 149              	.LFB67:
+  90:spindle_control.c ****   }
+  91:spindle_control.c **** 
+  92:spindle_control.c **** 
+  93:spindle_control.c ****   // Called by spindle_set_state() and step segment generator. Keep routine small and efficient.
+  94:spindle_control.c ****   uint8_t spindle_compute_pwm_value(float rpm) // 328p PWM register is 8-bit.
+  95:spindle_control.c ****   {
+ 150              		.loc 1 95 0
+ 151              		.cfi_startproc
+ 152              		@ args = 0, pretend = 0, frame = 0
+ 153              		@ frame_needed = 0, uses_anonymous_args = 0
+ 154              	.LVL7:
+ 155 0000 70B5     		push	{r4, r5, r6, lr}
+ 156              		.cfi_def_cfa_offset 16
+ 157              		.cfi_offset 4, -16
+ 158              		.cfi_offset 5, -12
+ 159              		.cfi_offset 6, -8
+ 160              		.cfi_offset 14, -4
+ 161 0002 0646     		mov	r6, r0
+  96:spindle_control.c ****     uint8_t pwm_value;
+  97:spindle_control.c ****     rpm *= (0.010*sys.spindle_speed_ovr); // Scale by spindle speed override value.
+ 162              		.loc 1 97 0
+ 163 0004 284B     		ldr	r3, .L26+8
+ 164 0006 587A     		ldrb	r0, [r3, #9]	@ zero_extendqisi2
+ 165              	.LVL8:
+ 166 0008 FFF7FEFF 		bl	__aeabi_i2d
+ 167              	.LVL9:
+ 168 000c 24A3     		adr	r3, .L26
+ 169 000e D3E90023 		ldrd	r2, [r3]
+ 170 0012 FFF7FEFF 		bl	__aeabi_dmul
+ 171              	.LVL10:
+ 172 0016 0446     		mov	r4, r0
+ 173 0018 0D46     		mov	r5, r1
+ 174 001a 3046     		mov	r0, r6
+ 175 001c FFF7FEFF 		bl	__aeabi_f2d
+ 176              	.LVL11:
+ 177 0020 2246     		mov	r2, r4
+ 178 0022 2B46     		mov	r3, r5
+ 179 0024 FFF7FEFF 		bl	__aeabi_dmul
+ 180              	.LVL12:
+ 181 0028 FFF7FEFF 		bl	__aeabi_d2f
+ 182              	.LVL13:
+ 183 002c 0646     		mov	r6, r0
+ 184              	.LVL14:
+  98:spindle_control.c ****     // Calculate PWM register value based on rpm max/min settings and programmed rpm.
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 6
+
+
+  99:spindle_control.c ****     if ((settings.rpm_min >= settings.rpm_max) || (rpm >= settings.rpm_max)) {
+ 185              		.loc 1 99 0
+ 186 002e 1F4B     		ldr	r3, .L26+12
+ 187 0030 5D6C     		ldr	r5, [r3, #68]	@ float
+ 188 0032 1C6C     		ldr	r4, [r3, #64]	@ float
+ 189 0034 2846     		mov	r0, r5
+ 190              	.LVL15:
+ 191 0036 2146     		mov	r1, r4
+ 192 0038 FFF7FEFF 		bl	__aeabi_fcmpge
+ 193              	.LVL16:
+ 194 003c 20B9     		cbnz	r0, .L12
+ 195              		.loc 1 99 0 is_stmt 0 discriminator 1
+ 196 003e 3046     		mov	r0, r6
+ 197 0040 2146     		mov	r1, r4
+ 198 0042 FFF7FEFF 		bl	__aeabi_fcmpge
+ 199              	.LVL17:
+ 200 0046 18B1     		cbz	r0, .L22
+ 201              	.L12:
+ 100:spindle_control.c ****       // No PWM range possible. Set simple on/off spindle control pin state.
+ 101:spindle_control.c ****       sys.spindle_speed = settings.rpm_max;
+ 202              		.loc 1 101 0 is_stmt 1
+ 203 0048 174B     		ldr	r3, .L26+8
+ 204 004a 1C61     		str	r4, [r3, #16]	@ float
+ 205              	.LVL18:
+ 102:spindle_control.c ****       pwm_value = SPINDLE_PWM_MAX_VALUE;
+ 206              		.loc 1 102 0
+ 207 004c FF20     		movs	r0, #255
+ 208 004e 70BD     		pop	{r4, r5, r6, pc}
+ 209              	.LVL19:
+ 210              	.L22:
+ 103:spindle_control.c ****     } else if (rpm <= settings.rpm_min) {
+ 211              		.loc 1 103 0
+ 212 0050 3046     		mov	r0, r6
+ 213 0052 2946     		mov	r1, r5
+ 214 0054 FFF7FEFF 		bl	__aeabi_fcmple
+ 215              	.LVL20:
+ 216 0058 68B1     		cbz	r0, .L23
+ 104:spindle_control.c ****       if (rpm == 0.0) { // S0 disables spindle
+ 217              		.loc 1 104 0
+ 218 005a 3046     		mov	r0, r6
+ 219 005c 0021     		movs	r1, #0
+ 220 005e FFF7FEFF 		bl	__aeabi_fcmpeq
+ 221              	.LVL21:
+ 222 0062 20B1     		cbz	r0, .L24
+ 105:spindle_control.c ****         sys.spindle_speed = 0.0;
+ 223              		.loc 1 105 0
+ 224 0064 0022     		movs	r2, #0
+ 225 0066 104B     		ldr	r3, .L26+8
+ 226 0068 1A61     		str	r2, [r3, #16]	@ float
+ 227              	.LVL22:
+ 106:spindle_control.c ****         pwm_value = SPINDLE_PWM_OFF_VALUE;
+ 228              		.loc 1 106 0
+ 229 006a 0020     		movs	r0, #0
+ 230 006c 70BD     		pop	{r4, r5, r6, pc}
+ 231              	.LVL23:
+ 232              	.L24:
+ 107:spindle_control.c ****       } else { // Set minimum PWM output
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 7
+
+
+ 108:spindle_control.c ****         sys.spindle_speed = settings.rpm_min;
+ 233              		.loc 1 108 0
+ 234 006e 0E4B     		ldr	r3, .L26+8
+ 235 0070 1D61     		str	r5, [r3, #16]	@ float
+ 236              	.LVL24:
+ 109:spindle_control.c ****         pwm_value = SPINDLE_PWM_MIN_VALUE;
+ 237              		.loc 1 109 0
+ 238 0072 0120     		movs	r0, #1
+ 239 0074 70BD     		pop	{r4, r5, r6, pc}
+ 240              	.LVL25:
+ 241              	.L23:
+ 110:spindle_control.c ****       }
+ 111:spindle_control.c ****     } else { 
+ 112:spindle_control.c ****       // Compute intermediate PWM value with linear spindle speed model.
+ 113:spindle_control.c ****       // NOTE: A nonlinear model could be installed here, if required, but keep it VERY light-weigh
+ 114:spindle_control.c ****       sys.spindle_speed = rpm;
+ 242              		.loc 1 114 0
+ 243 0076 0C4B     		ldr	r3, .L26+8
+ 244 0078 1E61     		str	r6, [r3, #16]	@ float
+ 115:spindle_control.c ****       pwm_value = floor((rpm-settings.rpm_min)*pwm_gradient) + SPINDLE_PWM_MIN_VALUE;
+ 245              		.loc 1 115 0
+ 246 007a 3046     		mov	r0, r6
+ 247 007c 2946     		mov	r1, r5
+ 248 007e FFF7FEFF 		bl	__aeabi_fsub
+ 249              	.LVL26:
+ 250 0082 0021     		movs	r1, #0
+ 251 0084 FFF7FEFF 		bl	__aeabi_fmul
+ 252              	.LVL27:
+ 253 0088 FFF7FEFF 		bl	__aeabi_f2d
+ 254              	.LVL28:
+ 255 008c FFF7FEFF 		bl	floor
+ 256              	.LVL29:
+ 257 0090 0022     		movs	r2, #0
+ 258 0092 074B     		ldr	r3, .L26+16
+ 259 0094 FFF7FEFF 		bl	__aeabi_dadd
+ 260              	.LVL30:
+ 261 0098 FFF7FEFF 		bl	__aeabi_d2uiz
+ 262              	.LVL31:
+ 263 009c C0B2     		uxtb	r0, r0
+ 264              	.LVL32:
+ 116:spindle_control.c ****     }
+ 117:spindle_control.c ****     return(pwm_value);
+ 118:spindle_control.c ****   }
+ 265              		.loc 1 118 0
+ 266 009e 70BD     		pop	{r4, r5, r6, pc}
+ 267              	.LVL33:
+ 268              	.L27:
+ 269              		.align	3
+ 270              	.L26:
+ 271 00a0 7B14AE47 		.word	1202590843
+ 272 00a4 E17A843F 		.word	1065646817
+ 273 00a8 00000000 		.word	sys
+ 274 00ac 00000000 		.word	settings
+ 275 00b0 0000F03F 		.word	1072693248
+ 276              		.cfi_endproc
+ 277              	.LFE67:
+ 278              		.size	spindle_compute_pwm_value, .-spindle_compute_pwm_value
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 8
+
+
+ 279 00b4 AFF30080 		.section	.text.spindle_set_state,"ax",%progbits
+ 280              		.align	2
+ 281              		.global	spindle_set_state
+ 282              		.thumb
+ 283              		.thumb_func
+ 284              		.type	spindle_set_state, %function
+ 285              	spindle_set_state:
+ 286              	.LFB68:
+ 119:spindle_control.c **** #endif
+ 120:spindle_control.c **** 
+ 121:spindle_control.c **** 
+ 122:spindle_control.c **** // Immediately sets spindle running state with direction and spindle rpm via PWM, if enabled.
+ 123:spindle_control.c **** // Called by g-code parser spindle_sync(), parking retract and restore, g-code program end,
+ 124:spindle_control.c **** // sleep, and spindle stop override.
+ 125:spindle_control.c **** #ifdef VARIABLE_SPINDLE
+ 126:spindle_control.c ****   void spindle_set_state(uint8_t state, float rpm)
+ 127:spindle_control.c **** #else
+ 128:spindle_control.c ****   void _spindle_set_state(uint8_t state)
+ 129:spindle_control.c **** #endif
+ 130:spindle_control.c **** {
+ 287              		.loc 1 130 0
+ 288              		.cfi_startproc
+ 289              		@ args = 0, pretend = 0, frame = 0
+ 290              		@ frame_needed = 0, uses_anonymous_args = 0
+ 291              	.LVL34:
+ 292 0000 38B5     		push	{r3, r4, r5, lr}
+ 293              		.cfi_def_cfa_offset 16
+ 294              		.cfi_offset 3, -16
+ 295              		.cfi_offset 4, -12
+ 296              		.cfi_offset 5, -8
+ 297              		.cfi_offset 14, -4
+ 131:spindle_control.c ****   if (sys.abort) { return; } // Block during abort.
+ 298              		.loc 1 131 0
+ 299 0002 124B     		ldr	r3, .L35
+ 300 0004 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 301 0006 FBB9     		cbnz	r3, .L28
+ 302 0008 0446     		mov	r4, r0
+ 303 000a 0D46     		mov	r5, r1
+ 132:spindle_control.c ****   if (state == SPINDLE_DISABLE) { // Halt or set spindle direction and rpm.
+ 304              		.loc 1 132 0
+ 305 000c 28B9     		cbnz	r0, .L30
+ 133:spindle_control.c ****   
+ 134:spindle_control.c ****     #ifdef VARIABLE_SPINDLE
+ 135:spindle_control.c ****       sys.spindle_speed = 0.0;
+ 306              		.loc 1 135 0
+ 307 000e 0022     		movs	r2, #0
+ 308 0010 0E4B     		ldr	r3, .L35
+ 309 0012 1A61     		str	r2, [r3, #16]	@ float
+ 136:spindle_control.c ****     #endif
+ 137:spindle_control.c ****     spindle_stop();
+ 310              		.loc 1 137 0
+ 311 0014 FFF7FEFF 		bl	spindle_stop
+ 312              	.LVL35:
+ 313 0018 13E0     		b	.L31
+ 314              	.LVL36:
+ 315              	.L30:
+ 138:spindle_control.c ****   
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 9
+
+
+ 139:spindle_control.c ****   } else {
+ 140:spindle_control.c ****   
+ 141:spindle_control.c ****     #ifndef USE_SPINDLE_DIR_AS_ENABLE_PIN
+ 142:spindle_control.c ****       Pin_Spindle_Direction_Write(state == SPINDLE_ENABLE_CW);  // PSoC Rewrite       
+ 316              		.loc 1 142 0
+ 317 001a 1028     		cmp	r0, #16
+ 318 001c 14BF     		ite	ne
+ 319 001e 0020     		movne	r0, #0
+ 320              	.LVL37:
+ 321 0020 0120     		moveq	r0, #1
+ 322 0022 FFF7FEFF 		bl	Pin_Spindle_Direction_Write
+ 323              	.LVL38:
+ 143:spindle_control.c ****     #endif
+ 144:spindle_control.c ****   
+ 145:spindle_control.c ****     #ifdef VARIABLE_SPINDLE
+ 146:spindle_control.c ****       // NOTE: Assumes all calls to this function is when Grbl is not moving or must remain off.
+ 147:spindle_control.c ****       if (settings.flags & BITFLAG_LASER_MODE) { 
+ 324              		.loc 1 147 0
+ 325 0026 0A4B     		ldr	r3, .L35+4
+ 326 0028 93F84830 		ldrb	r3, [r3, #72]	@ zero_extendqisi2
+ 327 002c 13F0020F 		tst	r3, #2
+ 328 0030 02D0     		beq	.L32
+ 148:spindle_control.c ****         if (state == SPINDLE_ENABLE_CCW) { rpm = 0.0; } // TODO: May need to be rpm_min*(100/MAX_SP
+ 329              		.loc 1 148 0
+ 330 0032 202C     		cmp	r4, #32
+ 331 0034 00D1     		bne	.L32
+ 332 0036 0025     		movs	r5, #0
+ 333              	.LVL39:
+ 334              	.L32:
+ 149:spindle_control.c ****       }
+ 150:spindle_control.c ****       spindle_set_speed(spindle_compute_pwm_value(rpm));
+ 335              		.loc 1 150 0
+ 336 0038 2846     		mov	r0, r5
+ 337 003a FFF7FEFF 		bl	spindle_compute_pwm_value
+ 338              	.LVL40:
+ 339 003e FFF7FEFF 		bl	spindle_set_speed
+ 340              	.LVL41:
+ 341              	.L31:
+ 151:spindle_control.c ****     #endif
+ 152:spindle_control.c ****     #if defined(USE_SPINDLE_DIR_AS_ENABLE_PIN) || !defined(VARIABLE_SPINDLE)
+ 153:spindle_control.c ****       // NOTE: Without variable spindle, the enable bit should just turn on or off, regardless
+ 154:spindle_control.c ****       // if the spindle speed value is zero, as its ignored anyhow.
+ 155:spindle_control.c ****       #ifdef INVERT_SPINDLE_ENABLE_PIN
+ 156:spindle_control.c ****         SPINDLE_ENABLE_PORT &= ~(1<<SPINDLE_ENABLE_BIT);
+ 157:spindle_control.c ****       #else
+ 158:spindle_control.c ****         SPINDLE_ENABLE_PORT |= (1<<SPINDLE_ENABLE_BIT);
+ 159:spindle_control.c ****       #endif    
+ 160:spindle_control.c ****     #endif
+ 161:spindle_control.c ****   
+ 162:spindle_control.c ****   }
+ 163:spindle_control.c ****   
+ 164:spindle_control.c ****   sys.report_ovr_counter = 0; // Set to report change immediately
+ 342              		.loc 1 164 0
+ 343 0042 0022     		movs	r2, #0
+ 344 0044 014B     		ldr	r3, .L35
+ 345 0046 DA72     		strb	r2, [r3, #11]
+ 346              	.LVL42:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 10
+
+
+ 347              	.L28:
+ 348 0048 38BD     		pop	{r3, r4, r5, pc}
+ 349              	.L36:
+ 350 004a 00BF     		.align	2
+ 351              	.L35:
+ 352 004c 00000000 		.word	sys
+ 353 0050 00000000 		.word	settings
+ 354              		.cfi_endproc
+ 355              	.LFE68:
+ 356              		.size	spindle_set_state, .-spindle_set_state
+ 357              		.section	.text.spindle_sync,"ax",%progbits
+ 358              		.align	2
+ 359              		.global	spindle_sync
+ 360              		.thumb
+ 361              		.thumb_func
+ 362              		.type	spindle_sync, %function
+ 363              	spindle_sync:
+ 364              	.LFB69:
+ 165:spindle_control.c **** }
+ 166:spindle_control.c **** 
+ 167:spindle_control.c **** 
+ 168:spindle_control.c **** // G-code parser entry-point for setting spindle state. Forces a planner buffer sync and bails 
+ 169:spindle_control.c **** // if an abort or check-mode is active.
+ 170:spindle_control.c **** #ifdef VARIABLE_SPINDLE
+ 171:spindle_control.c ****   void spindle_sync(uint8_t state, float rpm)
+ 172:spindle_control.c ****   {
+ 365              		.loc 1 172 0
+ 366              		.cfi_startproc
+ 367              		@ args = 0, pretend = 0, frame = 0
+ 368              		@ frame_needed = 0, uses_anonymous_args = 0
+ 369              	.LVL43:
+ 370 0000 38B5     		push	{r3, r4, r5, lr}
+ 371              		.cfi_def_cfa_offset 16
+ 372              		.cfi_offset 3, -16
+ 373              		.cfi_offset 4, -12
+ 374              		.cfi_offset 5, -8
+ 375              		.cfi_offset 14, -4
+ 173:spindle_control.c ****     if (sys.state == STATE_CHECK_MODE) { return; }
+ 376              		.loc 1 173 0
+ 377 0002 064B     		ldr	r3, .L40
+ 378 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 379 0006 022B     		cmp	r3, #2
+ 380 0008 07D0     		beq	.L37
+ 381 000a 0C46     		mov	r4, r1
+ 382 000c 0546     		mov	r5, r0
+ 174:spindle_control.c ****     protocol_buffer_synchronize(); // Empty planner buffer to ensure spindle is set when programmed
+ 383              		.loc 1 174 0
+ 384 000e FFF7FEFF 		bl	protocol_buffer_synchronize
+ 385              	.LVL44:
+ 175:spindle_control.c ****     spindle_set_state(state,rpm);
+ 386              		.loc 1 175 0
+ 387 0012 2846     		mov	r0, r5
+ 388 0014 2146     		mov	r1, r4
+ 389 0016 FFF7FEFF 		bl	spindle_set_state
+ 390              	.LVL45:
+ 391              	.L37:
+ 392 001a 38BD     		pop	{r3, r4, r5, pc}
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 11
+
+
+ 393              	.L41:
+ 394              		.align	2
+ 395              	.L40:
+ 396 001c 00000000 		.word	sys
+ 397              		.cfi_endproc
+ 398              	.LFE69:
+ 399              		.size	spindle_sync, .-spindle_sync
+ 400              		.comm	exec_lcd_status,1,1
+ 401              		.comm	sys_rt_exec_debug,1,1
+ 402              		.comm	sys_rt_exec_accessory_override,1,1
+ 403              		.comm	sys_rt_exec_motion_override,1,1
+ 404              		.comm	sys_rt_exec_alarm,1,1
+ 405              		.comm	sys_rt_exec_state,1,1
+ 406              		.comm	sys_probe_state,1,1
+ 407              		.comm	sys_probe_position,12,4
+ 408              		.comm	sys_position,12,4
+ 409              		.text
+ 410              	.Letext0:
+ 411              		.file 2 "d:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 412              		.file 3 "d:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 413              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 414              		.file 5 "settings.h"
+ 415              		.file 6 "system.h"
+ 416              		.file 7 "Generated_Source\\PSoC5/core_cm3.h"
+ 417              		.file 8 "lcd_report.h"
+ 418              		.file 9 "Generated_Source\\PSoC5/Pin_Spindle_Enable.h"
+ 419              		.file 10 "Generated_Source\\PSoC5/Pin_Spindle_Direction.h"
+ 420              		.file 11 "Generated_Source\\PSoC5/PWM_Spindle.h"
+ 421              		.file 12 "d:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9
+ 422              		.file 13 "protocol.h"
+ 423              		.section	.debug_info,"",%progbits
+ 424              	.Ldebug_info0:
+ 425 0000 9E050000 		.4byte	0x59e
+ 426 0004 0400     		.2byte	0x4
+ 427 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 428 000a 04       		.byte	0x4
+ 429 000b 01       		.uleb128 0x1
+ 430 000c 58040000 		.4byte	.LASF78
+ 431 0010 01       		.byte	0x1
+ 432 0011 39010000 		.4byte	.LASF79
+ 433 0015 85000000 		.4byte	.LASF80
+ 434 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 435 001d 00000000 		.4byte	0
+ 436 0021 00000000 		.4byte	.Ldebug_line0
+ 437 0025 02       		.uleb128 0x2
+ 438 0026 04       		.byte	0x4
+ 439 0027 04       		.byte	0x4
+ 440 0028 33010000 		.4byte	.LASF0
+ 441 002c 02       		.uleb128 0x2
+ 442 002d 01       		.byte	0x1
+ 443 002e 06       		.byte	0x6
+ 444 002f 54020000 		.4byte	.LASF1
+ 445 0033 03       		.uleb128 0x3
+ 446 0034 AE010000 		.4byte	.LASF4
+ 447 0038 02       		.byte	0x2
+ 448 0039 1D       		.byte	0x1d
+ 449 003a 3E000000 		.4byte	0x3e
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 12
+
+
+ 450 003e 02       		.uleb128 0x2
+ 451 003f 01       		.byte	0x1
+ 452 0040 08       		.byte	0x8
+ 453 0041 40020000 		.4byte	.LASF2
+ 454 0045 02       		.uleb128 0x2
+ 455 0046 02       		.byte	0x2
+ 456 0047 05       		.byte	0x5
+ 457 0048 69000000 		.4byte	.LASF3
+ 458 004c 03       		.uleb128 0x3
+ 459 004d BA000000 		.4byte	.LASF5
+ 460 0051 02       		.byte	0x2
+ 461 0052 2B       		.byte	0x2b
+ 462 0053 57000000 		.4byte	0x57
+ 463 0057 02       		.uleb128 0x2
+ 464 0058 02       		.byte	0x2
+ 465 0059 07       		.byte	0x7
+ 466 005a 15030000 		.4byte	.LASF6
+ 467 005e 03       		.uleb128 0x3
+ 468 005f 3B040000 		.4byte	.LASF7
+ 469 0063 02       		.byte	0x2
+ 470 0064 3F       		.byte	0x3f
+ 471 0065 69000000 		.4byte	0x69
+ 472 0069 02       		.uleb128 0x2
+ 473 006a 04       		.byte	0x4
+ 474 006b 05       		.byte	0x5
+ 475 006c 4F030000 		.4byte	.LASF8
+ 476 0070 02       		.uleb128 0x2
+ 477 0071 04       		.byte	0x4
+ 478 0072 07       		.byte	0x7
+ 479 0073 A3020000 		.4byte	.LASF9
+ 480 0077 02       		.uleb128 0x2
+ 481 0078 08       		.byte	0x8
+ 482 0079 05       		.byte	0x5
+ 483 007a 54010000 		.4byte	.LASF10
+ 484 007e 02       		.uleb128 0x2
+ 485 007f 08       		.byte	0x8
+ 486 0080 07       		.byte	0x7
+ 487 0081 66020000 		.4byte	.LASF11
+ 488 0085 04       		.uleb128 0x4
+ 489 0086 04       		.byte	0x4
+ 490 0087 05       		.byte	0x5
+ 491 0088 696E7400 		.ascii	"int\000"
+ 492 008c 02       		.uleb128 0x2
+ 493 008d 04       		.byte	0x4
+ 494 008e 07       		.byte	0x7
+ 495 008f 7D020000 		.4byte	.LASF12
+ 496 0093 03       		.uleb128 0x3
+ 497 0094 0B010000 		.4byte	.LASF13
+ 498 0098 03       		.byte	0x3
+ 499 0099 15       		.byte	0x15
+ 500 009a 33000000 		.4byte	0x33
+ 501 009e 03       		.uleb128 0x3
+ 502 009f 46030000 		.4byte	.LASF14
+ 503 00a3 03       		.byte	0x3
+ 504 00a4 21       		.byte	0x21
+ 505 00a5 4C000000 		.4byte	0x4c
+ 506 00a9 03       		.uleb128 0x3
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 13
+
+
+ 507 00aa 68030000 		.4byte	.LASF15
+ 508 00ae 03       		.byte	0x3
+ 509 00af 2C       		.byte	0x2c
+ 510 00b0 5E000000 		.4byte	0x5e
+ 511 00b4 05       		.uleb128 0x5
+ 512 00b5 13010000 		.4byte	.LASF16
+ 513 00b9 04       		.byte	0x4
+ 514 00ba 9201     		.2byte	0x192
+ 515 00bc 3E000000 		.4byte	0x3e
+ 516 00c0 02       		.uleb128 0x2
+ 517 00c1 08       		.byte	0x8
+ 518 00c2 04       		.byte	0x4
+ 519 00c3 FE030000 		.4byte	.LASF17
+ 520 00c7 02       		.uleb128 0x2
+ 521 00c8 01       		.byte	0x1
+ 522 00c9 08       		.byte	0x8
+ 523 00ca 41030000 		.4byte	.LASF18
+ 524 00ce 02       		.uleb128 0x2
+ 525 00cf 04       		.byte	0x4
+ 526 00d0 07       		.byte	0x7
+ 527 00d1 73000000 		.4byte	.LASF19
+ 528 00d5 06       		.uleb128 0x6
+ 529 00d6 93000000 		.4byte	0x93
+ 530 00da 02       		.uleb128 0x2
+ 531 00db 08       		.byte	0x8
+ 532 00dc 04       		.byte	0x4
+ 533 00dd 22020000 		.4byte	.LASF20
+ 534 00e1 07       		.uleb128 0x7
+ 535 00e2 5C       		.byte	0x5c
+ 536 00e3 05       		.byte	0x5
+ 537 00e4 4F       		.byte	0x4f
+ 538 00e5 CE010000 		.4byte	0x1ce
+ 539 00e9 08       		.uleb128 0x8
+ 540 00ea A1010000 		.4byte	.LASF21
+ 541 00ee 05       		.byte	0x5
+ 542 00ef 51       		.byte	0x51
+ 543 00f0 CE010000 		.4byte	0x1ce
+ 544 00f4 00       		.byte	0
+ 545 00f5 08       		.uleb128 0x8
+ 546 00f6 3E050000 		.4byte	.LASF22
+ 547 00fa 05       		.byte	0x5
+ 548 00fb 52       		.byte	0x52
+ 549 00fc CE010000 		.4byte	0x1ce
+ 550 0100 0C       		.byte	0xc
+ 551 0101 08       		.uleb128 0x8
+ 552 0102 56000000 		.4byte	.LASF23
+ 553 0106 05       		.byte	0x5
+ 554 0107 53       		.byte	0x53
+ 555 0108 CE010000 		.4byte	0x1ce
+ 556 010c 18       		.byte	0x18
+ 557 010d 08       		.uleb128 0x8
+ 558 010e E6040000 		.4byte	.LASF24
+ 559 0112 05       		.byte	0x5
+ 560 0113 54       		.byte	0x54
+ 561 0114 CE010000 		.4byte	0x1ce
+ 562 0118 24       		.byte	0x24
+ 563 0119 08       		.uleb128 0x8
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 14
+
+
+ 564 011a AE030000 		.4byte	.LASF25
+ 565 011e 05       		.byte	0x5
+ 566 011f 57       		.byte	0x57
+ 567 0120 93000000 		.4byte	0x93
+ 568 0124 30       		.byte	0x30
+ 569 0125 08       		.uleb128 0x8
+ 570 0126 2D050000 		.4byte	.LASF26
+ 571 012a 05       		.byte	0x5
+ 572 012b 58       		.byte	0x58
+ 573 012c 93000000 		.4byte	0x93
+ 574 0130 31       		.byte	0x31
+ 575 0131 08       		.uleb128 0x8
+ 576 0132 58030000 		.4byte	.LASF27
+ 577 0136 05       		.byte	0x5
+ 578 0137 59       		.byte	0x59
+ 579 0138 93000000 		.4byte	0x93
+ 580 013c 32       		.byte	0x32
+ 581 013d 08       		.uleb128 0x8
+ 582 013e F4000000 		.4byte	.LASF28
+ 583 0142 05       		.byte	0x5
+ 584 0143 5A       		.byte	0x5a
+ 585 0144 93000000 		.4byte	0x93
+ 586 0148 33       		.byte	0x33
+ 587 0149 08       		.uleb128 0x8
+ 588 014a F1020000 		.4byte	.LASF29
+ 589 014e 05       		.byte	0x5
+ 590 014f 5B       		.byte	0x5b
+ 591 0150 93000000 		.4byte	0x93
+ 592 0154 34       		.byte	0x34
+ 593 0155 08       		.uleb128 0x8
+ 594 0156 45040000 		.4byte	.LASF30
+ 595 015a 05       		.byte	0x5
+ 596 015b 5C       		.byte	0x5c
+ 597 015c 25000000 		.4byte	0x25
+ 598 0160 38       		.byte	0x38
+ 599 0161 08       		.uleb128 0x8
+ 600 0162 E6010000 		.4byte	.LASF31
+ 601 0166 05       		.byte	0x5
+ 602 0167 5D       		.byte	0x5d
+ 603 0168 25000000 		.4byte	0x25
+ 604 016c 3C       		.byte	0x3c
+ 605 016d 08       		.uleb128 0x8
+ 606 016e 70030000 		.4byte	.LASF32
+ 607 0172 05       		.byte	0x5
+ 608 0173 5F       		.byte	0x5f
+ 609 0174 25000000 		.4byte	0x25
+ 610 0178 40       		.byte	0x40
+ 611 0179 08       		.uleb128 0x8
+ 612 017a 23040000 		.4byte	.LASF33
+ 613 017e 05       		.byte	0x5
+ 614 017f 60       		.byte	0x60
+ 615 0180 25000000 		.4byte	0x25
+ 616 0184 44       		.byte	0x44
+ 617 0185 08       		.uleb128 0x8
+ 618 0186 60020000 		.4byte	.LASF34
+ 619 018a 05       		.byte	0x5
+ 620 018b 62       		.byte	0x62
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 15
+
+
+ 621 018c 93000000 		.4byte	0x93
+ 622 0190 48       		.byte	0x48
+ 623 0191 08       		.uleb128 0x8
+ 624 0192 2B040000 		.4byte	.LASF35
+ 625 0196 05       		.byte	0x5
+ 626 0197 64       		.byte	0x64
+ 627 0198 93000000 		.4byte	0x93
+ 628 019c 49       		.byte	0x49
+ 629 019d 08       		.uleb128 0x8
+ 630 019e F1040000 		.4byte	.LASF36
+ 631 01a2 05       		.byte	0x5
+ 632 01a3 65       		.byte	0x65
+ 633 01a4 25000000 		.4byte	0x25
+ 634 01a8 4C       		.byte	0x4c
+ 635 01a9 08       		.uleb128 0x8
+ 636 01aa 05040000 		.4byte	.LASF37
+ 637 01ae 05       		.byte	0x5
+ 638 01af 66       		.byte	0x66
+ 639 01b0 25000000 		.4byte	0x25
+ 640 01b4 50       		.byte	0x50
+ 641 01b5 08       		.uleb128 0x8
+ 642 01b6 98030000 		.4byte	.LASF38
+ 643 01ba 05       		.byte	0x5
+ 644 01bb 67       		.byte	0x67
+ 645 01bc 9E000000 		.4byte	0x9e
+ 646 01c0 54       		.byte	0x54
+ 647 01c1 08       		.uleb128 0x8
+ 648 01c2 19010000 		.4byte	.LASF39
+ 649 01c6 05       		.byte	0x5
+ 650 01c7 68       		.byte	0x68
+ 651 01c8 25000000 		.4byte	0x25
+ 652 01cc 58       		.byte	0x58
+ 653 01cd 00       		.byte	0
+ 654 01ce 09       		.uleb128 0x9
+ 655 01cf 25000000 		.4byte	0x25
+ 656 01d3 DE010000 		.4byte	0x1de
+ 657 01d7 0A       		.uleb128 0xa
+ 658 01d8 CE000000 		.4byte	0xce
+ 659 01dc 02       		.byte	0x2
+ 660 01dd 00       		.byte	0
+ 661 01de 03       		.uleb128 0x3
+ 662 01df 28010000 		.4byte	.LASF40
+ 663 01e3 05       		.byte	0x5
+ 664 01e4 69       		.byte	0x69
+ 665 01e5 E1000000 		.4byte	0xe1
+ 666 01e9 07       		.uleb128 0x7
+ 667 01ea 14       		.byte	0x14
+ 668 01eb 06       		.byte	0x6
+ 669 01ec 80       		.byte	0x80
+ 670 01ed 9A020000 		.4byte	0x29a
+ 671 01f1 08       		.uleb128 0x8
+ 672 01f2 63000000 		.4byte	.LASF41
+ 673 01f6 06       		.byte	0x6
+ 674 01f7 81       		.byte	0x81
+ 675 01f8 93000000 		.4byte	0x93
+ 676 01fc 00       		.byte	0
+ 677 01fd 08       		.uleb128 0x8
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 16
+
+
+ 678 01fe 4E020000 		.4byte	.LASF42
+ 679 0202 06       		.byte	0x6
+ 680 0203 82       		.byte	0x82
+ 681 0204 93000000 		.4byte	0x93
+ 682 0208 01       		.byte	0x1
+ 683 0209 08       		.uleb128 0x8
+ 684 020a 85030000 		.4byte	.LASF43
+ 685 020e 06       		.byte	0x6
+ 686 020f 83       		.byte	0x83
+ 687 0210 93000000 		.4byte	0x93
+ 688 0214 02       		.byte	0x2
+ 689 0215 08       		.uleb128 0x8
+ 690 0216 8D030000 		.4byte	.LASF44
+ 691 021a 06       		.byte	0x6
+ 692 021b 84       		.byte	0x84
+ 693 021c 93000000 		.4byte	0x93
+ 694 0220 03       		.byte	0x3
+ 695 0221 08       		.uleb128 0x8
+ 696 0222 78030000 		.4byte	.LASF45
+ 697 0226 06       		.byte	0x6
+ 698 0227 85       		.byte	0x85
+ 699 0228 93000000 		.4byte	0x93
+ 700 022c 04       		.byte	0x4
+ 701 022d 08       		.uleb128 0x8
+ 702 022e 81010000 		.4byte	.LASF46
+ 703 0232 06       		.byte	0x6
+ 704 0233 86       		.byte	0x86
+ 705 0234 93000000 		.4byte	0x93
+ 706 0238 05       		.byte	0x5
+ 707 0239 08       		.uleb128 0x8
+ 708 023a 04030000 		.4byte	.LASF47
+ 709 023e 06       		.byte	0x6
+ 710 023f 87       		.byte	0x87
+ 711 0240 93000000 		.4byte	0x93
+ 712 0244 06       		.byte	0x6
+ 713 0245 08       		.uleb128 0x8
+ 714 0246 8A020000 		.4byte	.LASF48
+ 715 024a 06       		.byte	0x6
+ 716 024b 88       		.byte	0x88
+ 717 024c 93000000 		.4byte	0x93
+ 718 0250 07       		.byte	0x7
+ 719 0251 08       		.uleb128 0x8
+ 720 0252 02050000 		.4byte	.LASF49
+ 721 0256 06       		.byte	0x6
+ 722 0257 89       		.byte	0x89
+ 723 0258 93000000 		.4byte	0x93
+ 724 025c 08       		.byte	0x8
+ 725 025d 08       		.uleb128 0x8
+ 726 025e 62010000 		.4byte	.LASF50
+ 727 0262 06       		.byte	0x6
+ 728 0263 8A       		.byte	0x8a
+ 729 0264 93000000 		.4byte	0x93
+ 730 0268 09       		.byte	0x9
+ 731 0269 08       		.uleb128 0x8
+ 732 026a D1030000 		.4byte	.LASF51
+ 733 026e 06       		.byte	0x6
+ 734 026f 8B       		.byte	0x8b
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 17
+
+
+ 735 0270 93000000 		.4byte	0x93
+ 736 0274 0A       		.byte	0xa
+ 737 0275 08       		.uleb128 0x8
+ 738 0276 B8010000 		.4byte	.LASF52
+ 739 027a 06       		.byte	0x6
+ 740 027b 8C       		.byte	0x8c
+ 741 027c 93000000 		.4byte	0x93
+ 742 0280 0B       		.byte	0xb
+ 743 0281 08       		.uleb128 0x8
+ 744 0282 1A050000 		.4byte	.LASF53
+ 745 0286 06       		.byte	0x6
+ 746 0287 8D       		.byte	0x8d
+ 747 0288 93000000 		.4byte	0x93
+ 748 028c 0C       		.byte	0xc
+ 749 028d 08       		.uleb128 0x8
+ 750 028e 95020000 		.4byte	.LASF54
+ 751 0292 06       		.byte	0x6
+ 752 0293 8F       		.byte	0x8f
+ 753 0294 25000000 		.4byte	0x25
+ 754 0298 10       		.byte	0x10
+ 755 0299 00       		.byte	0
+ 756 029a 03       		.uleb128 0x3
+ 757 029b 7C000000 		.4byte	.LASF55
+ 758 029f 06       		.byte	0x6
+ 759 02a0 91       		.byte	0x91
+ 760 02a1 E9010000 		.4byte	0x1e9
+ 761 02a5 0B       		.uleb128 0xb
+ 762 02a6 12000000 		.4byte	.LASF58
+ 763 02aa 01       		.byte	0x1
+ 764 02ab 2F       		.byte	0x2f
+ 765 02ac 93000000 		.4byte	0x93
+ 766 02b0 00000000 		.4byte	.LFB64
+ 767 02b4 1A000000 		.4byte	.LFE64-.LFB64
+ 768 02b8 01       		.uleb128 0x1
+ 769 02b9 9C       		.byte	0x9c
+ 770 02ba D1020000 		.4byte	0x2d1
+ 771 02be 0C       		.uleb128 0xc
+ 772 02bf 06000000 		.4byte	.LVL0
+ 773 02c3 44050000 		.4byte	0x544
+ 774 02c7 0C       		.uleb128 0xc
+ 775 02c8 0E000000 		.4byte	.LVL1
+ 776 02cc 4F050000 		.4byte	0x54f
+ 777 02d0 00       		.byte	0
+ 778 02d1 0D       		.uleb128 0xd
+ 779 02d2 49000000 		.4byte	.LASF56
+ 780 02d6 01       		.byte	0x1
+ 781 02d7 49       		.byte	0x49
+ 782 02d8 00000000 		.4byte	.LFB65
+ 783 02dc 0A000000 		.4byte	.LFE65-.LFB65
+ 784 02e0 01       		.uleb128 0x1
+ 785 02e1 9C       		.byte	0x9c
+ 786 02e2 F6020000 		.4byte	0x2f6
+ 787 02e6 0E       		.uleb128 0xe
+ 788 02e7 08000000 		.4byte	.LVL2
+ 789 02eb 5A050000 		.4byte	0x55a
+ 790 02ef 0F       		.uleb128 0xf
+ 791 02f0 01       		.uleb128 0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 18
+
+
+ 792 02f1 50       		.byte	0x50
+ 793 02f2 01       		.uleb128 0x1
+ 794 02f3 30       		.byte	0x30
+ 795 02f4 00       		.byte	0
+ 796 02f5 00       		.byte	0
+ 797 02f6 0D       		.uleb128 0xd
+ 798 02f7 E4020000 		.4byte	.LASF57
+ 799 02fb 01       		.byte	0x1
+ 800 02fc 1E       		.byte	0x1e
+ 801 02fd 00000000 		.4byte	.LFB63
+ 802 0301 0C000000 		.4byte	.LFE63-.LFB63
+ 803 0305 01       		.uleb128 0x1
+ 804 0306 9C       		.byte	0x9c
+ 805 0307 1E030000 		.4byte	0x31e
+ 806 030b 0C       		.uleb128 0xc
+ 807 030c 06000000 		.4byte	.LVL3
+ 808 0310 6B050000 		.4byte	0x56b
+ 809 0314 0C       		.uleb128 0xc
+ 810 0315 0A000000 		.4byte	.LVL4
+ 811 0319 D1020000 		.4byte	0x2d1
+ 812 031d 00       		.byte	0
+ 813 031e 10       		.uleb128 0x10
+ 814 031f 59050000 		.4byte	.LASF59
+ 815 0323 01       		.byte	0x1
+ 816 0324 57       		.byte	0x57
+ 817 0325 00000000 		.4byte	.LFB66
+ 818 0329 08000000 		.4byte	.LFE66-.LFB66
+ 819 032d 01       		.uleb128 0x1
+ 820 032e 9C       		.byte	0x9c
+ 821 032f 4C030000 		.4byte	0x34c
+ 822 0333 11       		.uleb128 0x11
+ 823 0334 D2000000 		.4byte	.LASF60
+ 824 0338 01       		.byte	0x1
+ 825 0339 57       		.byte	0x57
+ 826 033a 93000000 		.4byte	0x93
+ 827 033e 00000000 		.4byte	.LLST0
+ 828 0342 0C       		.uleb128 0xc
+ 829 0343 06000000 		.4byte	.LVL6
+ 830 0347 5A050000 		.4byte	0x55a
+ 831 034b 00       		.byte	0
+ 832 034c 12       		.uleb128 0x12
+ 833 034d 6B050000 		.4byte	.LASF81
+ 834 0351 01       		.byte	0x1
+ 835 0352 5E       		.byte	0x5e
+ 836 0353 93000000 		.4byte	0x93
+ 837 0357 00000000 		.4byte	.LFB67
+ 838 035b B4000000 		.4byte	.LFE67-.LFB67
+ 839 035f 01       		.uleb128 0x1
+ 840 0360 9C       		.byte	0x9c
+ 841 0361 8D030000 		.4byte	0x38d
+ 842 0365 13       		.uleb128 0x13
+ 843 0366 72706D00 		.ascii	"rpm\000"
+ 844 036a 01       		.byte	0x1
+ 845 036b 5E       		.byte	0x5e
+ 846 036c 25000000 		.4byte	0x25
+ 847 0370 21000000 		.4byte	.LLST1
+ 848 0374 14       		.uleb128 0x14
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 19
+
+
+ 849 0375 D2000000 		.4byte	.LASF60
+ 850 0379 01       		.byte	0x1
+ 851 037a 60       		.byte	0x60
+ 852 037b 93000000 		.4byte	0x93
+ 853 037f 55000000 		.4byte	.LLST2
+ 854 0383 0C       		.uleb128 0xc
+ 855 0384 90000000 		.4byte	.LVL29
+ 856 0388 72050000 		.4byte	0x572
+ 857 038c 00       		.byte	0
+ 858 038d 10       		.uleb128 0x10
+ 859 038e 10020000 		.4byte	.LASF61
+ 860 0392 01       		.byte	0x1
+ 861 0393 7E       		.byte	0x7e
+ 862 0394 00000000 		.4byte	.LFB68
+ 863 0398 54000000 		.4byte	.LFE68-.LFB68
+ 864 039c 01       		.uleb128 0x1
+ 865 039d 9C       		.byte	0x9c
+ 866 039e 10040000 		.4byte	0x410
+ 867 03a2 11       		.uleb128 0x11
+ 868 03a3 63000000 		.4byte	.LASF41
+ 869 03a7 01       		.byte	0x1
+ 870 03a8 7E       		.byte	0x7e
+ 871 03a9 93000000 		.4byte	0x93
+ 872 03ad 8D000000 		.4byte	.LLST3
+ 873 03b1 13       		.uleb128 0x13
+ 874 03b2 72706D00 		.ascii	"rpm\000"
+ 875 03b6 01       		.byte	0x1
+ 876 03b7 7E       		.byte	0x7e
+ 877 03b8 25000000 		.4byte	0x25
+ 878 03bc C7000000 		.4byte	.LLST4
+ 879 03c0 0C       		.uleb128 0xc
+ 880 03c1 18000000 		.4byte	.LVL35
+ 881 03c5 D1020000 		.4byte	0x2d1
+ 882 03c9 15       		.uleb128 0x15
+ 883 03ca 26000000 		.4byte	.LVL38
+ 884 03ce 87050000 		.4byte	0x587
+ 885 03d2 F1030000 		.4byte	0x3f1
+ 886 03d6 0F       		.uleb128 0xf
+ 887 03d7 01       		.uleb128 0x1
+ 888 03d8 50       		.byte	0x50
+ 889 03d9 16       		.uleb128 0x16
+ 890 03da 31       		.byte	0x31
+ 891 03db 30       		.byte	0x30
+ 892 03dc 74       		.byte	0x74
+ 893 03dd 00       		.sleb128 0
+ 894 03de 74       		.byte	0x74
+ 895 03df 00       		.sleb128 0
+ 896 03e0 40       		.byte	0x40
+ 897 03e1 2E       		.byte	0x2e
+ 898 03e2 28       		.byte	0x28
+ 899 03e3 0100     		.2byte	0x1
+ 900 03e5 16       		.byte	0x16
+ 901 03e6 13       		.byte	0x13
+ 902 03e7 74       		.byte	0x74
+ 903 03e8 00       		.sleb128 0
+ 904 03e9 40       		.byte	0x40
+ 905 03ea 29       		.byte	0x29
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 20
+
+
+ 906 03eb 28       		.byte	0x28
+ 907 03ec 0100     		.2byte	0x1
+ 908 03ee 16       		.byte	0x16
+ 909 03ef 13       		.byte	0x13
+ 910 03f0 00       		.byte	0
+ 911 03f1 15       		.uleb128 0x15
+ 912 03f2 3E000000 		.4byte	.LVL40
+ 913 03f6 4C030000 		.4byte	0x34c
+ 914 03fa 06040000 		.4byte	0x406
+ 915 03fe 0F       		.uleb128 0xf
+ 916 03ff 01       		.uleb128 0x1
+ 917 0400 50       		.byte	0x50
+ 918 0401 03       		.uleb128 0x3
+ 919 0402 F5       		.byte	0xf5
+ 920 0403 05       		.uleb128 0x5
+ 921 0404 25       		.uleb128 0x25
+ 922 0405 00       		.byte	0
+ 923 0406 0C       		.uleb128 0xc
+ 924 0407 42000000 		.4byte	.LVL41
+ 925 040b 1E030000 		.4byte	0x31e
+ 926 040f 00       		.byte	0
+ 927 0410 10       		.uleb128 0x10
+ 928 0411 C5000000 		.4byte	.LASF62
+ 929 0415 01       		.byte	0x1
+ 930 0416 AB       		.byte	0xab
+ 931 0417 00000000 		.4byte	.LFB69
+ 932 041b 20000000 		.4byte	.LFE69-.LFB69
+ 933 041f 01       		.uleb128 0x1
+ 934 0420 9C       		.byte	0x9c
+ 935 0421 64040000 		.4byte	0x464
+ 936 0425 11       		.uleb128 0x11
+ 937 0426 63000000 		.4byte	.LASF41
+ 938 042a 01       		.byte	0x1
+ 939 042b AB       		.byte	0xab
+ 940 042c 93000000 		.4byte	0x93
+ 941 0430 FB000000 		.4byte	.LLST5
+ 942 0434 13       		.uleb128 0x13
+ 943 0435 72706D00 		.ascii	"rpm\000"
+ 944 0439 01       		.byte	0x1
+ 945 043a AB       		.byte	0xab
+ 946 043b 25000000 		.4byte	0x25
+ 947 043f 1C010000 		.4byte	.LLST6
+ 948 0443 0C       		.uleb128 0xc
+ 949 0444 12000000 		.4byte	.LVL44
+ 950 0448 98050000 		.4byte	0x598
+ 951 044c 0E       		.uleb128 0xe
+ 952 044d 1A000000 		.4byte	.LVL45
+ 953 0451 8D030000 		.4byte	0x38d
+ 954 0455 0F       		.uleb128 0xf
+ 955 0456 01       		.uleb128 0x1
+ 956 0457 51       		.byte	0x51
+ 957 0458 03       		.uleb128 0x3
+ 958 0459 F5       		.byte	0xf5
+ 959 045a 04       		.uleb128 0x4
+ 960 045b 25       		.uleb128 0x25
+ 961 045c 0F       		.uleb128 0xf
+ 962 045d 01       		.uleb128 0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 21
+
+
+ 963 045e 50       		.byte	0x50
+ 964 045f 02       		.uleb128 0x2
+ 965 0460 75       		.byte	0x75
+ 966 0461 00       		.sleb128 0
+ 967 0462 00       		.byte	0
+ 968 0463 00       		.byte	0
+ 969 0464 16       		.uleb128 0x16
+ 970 0465 0D050000 		.4byte	.LASF82
+ 971 0469 01       		.byte	0x1
+ 972 046a 1A       		.byte	0x1a
+ 973 046b 6F040000 		.4byte	0x46f
+ 974 046f 17       		.uleb128 0x17
+ 975 0470 25000000 		.4byte	0x25
+ 976 0474 18       		.uleb128 0x18
+ 977 0475 16040000 		.4byte	.LASF63
+ 978 0479 07       		.byte	0x7
+ 979 047a 9606     		.2byte	0x696
+ 980 047c 80040000 		.4byte	0x480
+ 981 0480 06       		.uleb128 0x6
+ 982 0481 A9000000 		.4byte	0xa9
+ 983 0485 19       		.uleb128 0x19
+ 984 0486 4B010000 		.4byte	.LASF64
+ 985 048a 05       		.byte	0x5
+ 986 048b 6A       		.byte	0x6a
+ 987 048c DE010000 		.4byte	0x1de
+ 988 0490 1A       		.uleb128 0x1a
+ 989 0491 73797300 		.ascii	"sys\000"
+ 990 0495 06       		.byte	0x6
+ 991 0496 92       		.byte	0x92
+ 992 0497 9A020000 		.4byte	0x29a
+ 993 049b 09       		.uleb128 0x9
+ 994 049c A9000000 		.4byte	0xa9
+ 995 04a0 AB040000 		.4byte	0x4ab
+ 996 04a4 0A       		.uleb128 0xa
+ 997 04a5 CE000000 		.4byte	0xce
+ 998 04a9 02       		.byte	0x2
+ 999 04aa 00       		.byte	0
+ 1000 04ab 1B       		.uleb128 0x1b
+ 1001 04ac 74010000 		.4byte	.LASF65
+ 1002 04b0 06       		.byte	0x6
+ 1003 04b1 95       		.byte	0x95
+ 1004 04b2 9B040000 		.4byte	0x49b
+ 1005 04b6 05       		.uleb128 0x5
+ 1006 04b7 03       		.byte	0x3
+ 1007 04b8 00000000 		.4byte	sys_position
+ 1008 04bc 1B       		.uleb128 0x1b
+ 1009 04bd B5020000 		.4byte	.LASF66
+ 1010 04c1 06       		.byte	0x6
+ 1011 04c2 96       		.byte	0x96
+ 1012 04c3 9B040000 		.4byte	0x49b
+ 1013 04c7 05       		.uleb128 0x5
+ 1014 04c8 03       		.byte	0x3
+ 1015 04c9 00000000 		.4byte	sys_probe_position
+ 1016 04cd 1B       		.uleb128 0x1b
+ 1017 04ce C1030000 		.4byte	.LASF67
+ 1018 04d2 06       		.byte	0x6
+ 1019 04d3 98       		.byte	0x98
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 22
+
+
+ 1020 04d4 D5000000 		.4byte	0xd5
+ 1021 04d8 05       		.uleb128 0x5
+ 1022 04d9 03       		.byte	0x3
+ 1023 04da 00000000 		.4byte	sys_probe_state
+ 1024 04de 1B       		.uleb128 0x1b
+ 1025 04df 47050000 		.4byte	.LASF68
+ 1026 04e3 06       		.byte	0x6
+ 1027 04e4 99       		.byte	0x99
+ 1028 04e5 D5000000 		.4byte	0xd5
+ 1029 04e9 05       		.uleb128 0x5
+ 1030 04ea 03       		.byte	0x3
+ 1031 04eb 00000000 		.4byte	sys_rt_exec_state
+ 1032 04ef 1B       		.uleb128 0x1b
+ 1033 04f0 00000000 		.4byte	.LASF69
+ 1034 04f4 06       		.byte	0x6
+ 1035 04f5 9A       		.byte	0x9a
+ 1036 04f6 D5000000 		.4byte	0xd5
+ 1037 04fa 05       		.uleb128 0x5
+ 1038 04fb 03       		.byte	0x3
+ 1039 04fc 00000000 		.4byte	sys_rt_exec_alarm
+ 1040 0500 1B       		.uleb128 0x1b
+ 1041 0501 C8020000 		.4byte	.LASF70
+ 1042 0505 06       		.byte	0x6
+ 1043 0506 9B       		.byte	0x9b
+ 1044 0507 D5000000 		.4byte	0xd5
+ 1045 050b 05       		.uleb128 0x5
+ 1046 050c 03       		.byte	0x3
+ 1047 050d 00000000 		.4byte	sys_rt_exec_motion_override
+ 1048 0511 1B       		.uleb128 0x1b
+ 1049 0512 2A000000 		.4byte	.LASF71
+ 1050 0516 06       		.byte	0x6
+ 1051 0517 9C       		.byte	0x9c
+ 1052 0518 D5000000 		.4byte	0xd5
+ 1053 051c 05       		.uleb128 0x5
+ 1054 051d 03       		.byte	0x3
+ 1055 051e 00000000 		.4byte	sys_rt_exec_accessory_override
+ 1056 0522 1B       		.uleb128 0x1b
+ 1057 0523 85050000 		.4byte	.LASF72
+ 1058 0527 06       		.byte	0x6
+ 1059 0528 A0       		.byte	0xa0
+ 1060 0529 D5000000 		.4byte	0xd5
+ 1061 052d 05       		.uleb128 0x5
+ 1062 052e 03       		.byte	0x3
+ 1063 052f 00000000 		.4byte	sys_rt_exec_debug
+ 1064 0533 1B       		.uleb128 0x1b
+ 1065 0534 91010000 		.4byte	.LASF73
+ 1066 0538 08       		.byte	0x8
+ 1067 0539 11       		.byte	0x11
+ 1068 053a 93000000 		.4byte	0x93
+ 1069 053e 05       		.uleb128 0x5
+ 1070 053f 03       		.byte	0x3
+ 1071 0540 00000000 		.4byte	exec_lcd_status
+ 1072 0544 1C       		.uleb128 0x1c
+ 1073 0545 DC000000 		.4byte	.LASF74
+ 1074 0549 09       		.byte	0x9
+ 1075 054a 29       		.byte	0x29
+ 1076 054b B4000000 		.4byte	0xb4
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 23
+
+
+ 1077 054f 1C       		.uleb128 0x1c
+ 1078 0550 CB010000 		.4byte	.LASF75
+ 1079 0554 0A       		.byte	0xa
+ 1080 0555 29       		.byte	0x29
+ 1081 0556 B4000000 		.4byte	0xb4
+ 1082 055a 1D       		.uleb128 0x1d
+ 1083 055b 28030000 		.4byte	.LASF76
+ 1084 055f 0B       		.byte	0xb
+ 1085 0560 C3       		.byte	0xc3
+ 1086 0561 6B050000 		.4byte	0x56b
+ 1087 0565 1E       		.uleb128 0x1e
+ 1088 0566 B4000000 		.4byte	0xb4
+ 1089 056a 00       		.byte	0
+ 1090 056b 1F       		.uleb128 0x1f
+ 1091 056c 2E020000 		.4byte	.LASF83
+ 1092 0570 0B       		.byte	0xb
+ 1093 0571 92       		.byte	0x92
+ 1094 0572 20       		.uleb128 0x20
+ 1095 0573 24000000 		.4byte	.LASF84
+ 1096 0577 0C       		.byte	0xc
+ 1097 0578 75       		.byte	0x75
+ 1098 0579 C0000000 		.4byte	0xc0
+ 1099 057d 87050000 		.4byte	0x587
+ 1100 0581 1E       		.uleb128 0x1e
+ 1101 0582 C0000000 		.4byte	0xc0
+ 1102 0586 00       		.byte	0
+ 1103 0587 1D       		.uleb128 0x1d
+ 1104 0588 E2030000 		.4byte	.LASF77
+ 1105 058c 0A       		.byte	0xa
+ 1106 058d 26       		.byte	0x26
+ 1107 058e 98050000 		.4byte	0x598
+ 1108 0592 1E       		.uleb128 0x1e
+ 1109 0593 B4000000 		.4byte	0xb4
+ 1110 0597 00       		.byte	0
+ 1111 0598 21       		.uleb128 0x21
+ 1112 0599 F4010000 		.4byte	.LASF85
+ 1113 059d 0D       		.byte	0xd
+ 1114 059e 30       		.byte	0x30
+ 1115 059f 22       		.uleb128 0x22
+ 1116 05a0 00       		.byte	0
+ 1117 05a1 00       		.byte	0
+ 1118              		.section	.debug_abbrev,"",%progbits
+ 1119              	.Ldebug_abbrev0:
+ 1120 0000 01       		.uleb128 0x1
+ 1121 0001 11       		.uleb128 0x11
+ 1122 0002 01       		.byte	0x1
+ 1123 0003 25       		.uleb128 0x25
+ 1124 0004 0E       		.uleb128 0xe
+ 1125 0005 13       		.uleb128 0x13
+ 1126 0006 0B       		.uleb128 0xb
+ 1127 0007 03       		.uleb128 0x3
+ 1128 0008 0E       		.uleb128 0xe
+ 1129 0009 1B       		.uleb128 0x1b
+ 1130 000a 0E       		.uleb128 0xe
+ 1131 000b 55       		.uleb128 0x55
+ 1132 000c 17       		.uleb128 0x17
+ 1133 000d 11       		.uleb128 0x11
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 24
+
+
+ 1134 000e 01       		.uleb128 0x1
+ 1135 000f 10       		.uleb128 0x10
+ 1136 0010 17       		.uleb128 0x17
+ 1137 0011 00       		.byte	0
+ 1138 0012 00       		.byte	0
+ 1139 0013 02       		.uleb128 0x2
+ 1140 0014 24       		.uleb128 0x24
+ 1141 0015 00       		.byte	0
+ 1142 0016 0B       		.uleb128 0xb
+ 1143 0017 0B       		.uleb128 0xb
+ 1144 0018 3E       		.uleb128 0x3e
+ 1145 0019 0B       		.uleb128 0xb
+ 1146 001a 03       		.uleb128 0x3
+ 1147 001b 0E       		.uleb128 0xe
+ 1148 001c 00       		.byte	0
+ 1149 001d 00       		.byte	0
+ 1150 001e 03       		.uleb128 0x3
+ 1151 001f 16       		.uleb128 0x16
+ 1152 0020 00       		.byte	0
+ 1153 0021 03       		.uleb128 0x3
+ 1154 0022 0E       		.uleb128 0xe
+ 1155 0023 3A       		.uleb128 0x3a
+ 1156 0024 0B       		.uleb128 0xb
+ 1157 0025 3B       		.uleb128 0x3b
+ 1158 0026 0B       		.uleb128 0xb
+ 1159 0027 49       		.uleb128 0x49
+ 1160 0028 13       		.uleb128 0x13
+ 1161 0029 00       		.byte	0
+ 1162 002a 00       		.byte	0
+ 1163 002b 04       		.uleb128 0x4
+ 1164 002c 24       		.uleb128 0x24
+ 1165 002d 00       		.byte	0
+ 1166 002e 0B       		.uleb128 0xb
+ 1167 002f 0B       		.uleb128 0xb
+ 1168 0030 3E       		.uleb128 0x3e
+ 1169 0031 0B       		.uleb128 0xb
+ 1170 0032 03       		.uleb128 0x3
+ 1171 0033 08       		.uleb128 0x8
+ 1172 0034 00       		.byte	0
+ 1173 0035 00       		.byte	0
+ 1174 0036 05       		.uleb128 0x5
+ 1175 0037 16       		.uleb128 0x16
+ 1176 0038 00       		.byte	0
+ 1177 0039 03       		.uleb128 0x3
+ 1178 003a 0E       		.uleb128 0xe
+ 1179 003b 3A       		.uleb128 0x3a
+ 1180 003c 0B       		.uleb128 0xb
+ 1181 003d 3B       		.uleb128 0x3b
+ 1182 003e 05       		.uleb128 0x5
+ 1183 003f 49       		.uleb128 0x49
+ 1184 0040 13       		.uleb128 0x13
+ 1185 0041 00       		.byte	0
+ 1186 0042 00       		.byte	0
+ 1187 0043 06       		.uleb128 0x6
+ 1188 0044 35       		.uleb128 0x35
+ 1189 0045 00       		.byte	0
+ 1190 0046 49       		.uleb128 0x49
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 25
+
+
+ 1191 0047 13       		.uleb128 0x13
+ 1192 0048 00       		.byte	0
+ 1193 0049 00       		.byte	0
+ 1194 004a 07       		.uleb128 0x7
+ 1195 004b 13       		.uleb128 0x13
+ 1196 004c 01       		.byte	0x1
+ 1197 004d 0B       		.uleb128 0xb
+ 1198 004e 0B       		.uleb128 0xb
+ 1199 004f 3A       		.uleb128 0x3a
+ 1200 0050 0B       		.uleb128 0xb
+ 1201 0051 3B       		.uleb128 0x3b
+ 1202 0052 0B       		.uleb128 0xb
+ 1203 0053 01       		.uleb128 0x1
+ 1204 0054 13       		.uleb128 0x13
+ 1205 0055 00       		.byte	0
+ 1206 0056 00       		.byte	0
+ 1207 0057 08       		.uleb128 0x8
+ 1208 0058 0D       		.uleb128 0xd
+ 1209 0059 00       		.byte	0
+ 1210 005a 03       		.uleb128 0x3
+ 1211 005b 0E       		.uleb128 0xe
+ 1212 005c 3A       		.uleb128 0x3a
+ 1213 005d 0B       		.uleb128 0xb
+ 1214 005e 3B       		.uleb128 0x3b
+ 1215 005f 0B       		.uleb128 0xb
+ 1216 0060 49       		.uleb128 0x49
+ 1217 0061 13       		.uleb128 0x13
+ 1218 0062 38       		.uleb128 0x38
+ 1219 0063 0B       		.uleb128 0xb
+ 1220 0064 00       		.byte	0
+ 1221 0065 00       		.byte	0
+ 1222 0066 09       		.uleb128 0x9
+ 1223 0067 01       		.uleb128 0x1
+ 1224 0068 01       		.byte	0x1
+ 1225 0069 49       		.uleb128 0x49
+ 1226 006a 13       		.uleb128 0x13
+ 1227 006b 01       		.uleb128 0x1
+ 1228 006c 13       		.uleb128 0x13
+ 1229 006d 00       		.byte	0
+ 1230 006e 00       		.byte	0
+ 1231 006f 0A       		.uleb128 0xa
+ 1232 0070 21       		.uleb128 0x21
+ 1233 0071 00       		.byte	0
+ 1234 0072 49       		.uleb128 0x49
+ 1235 0073 13       		.uleb128 0x13
+ 1236 0074 2F       		.uleb128 0x2f
+ 1237 0075 0B       		.uleb128 0xb
+ 1238 0076 00       		.byte	0
+ 1239 0077 00       		.byte	0
+ 1240 0078 0B       		.uleb128 0xb
+ 1241 0079 2E       		.uleb128 0x2e
+ 1242 007a 01       		.byte	0x1
+ 1243 007b 3F       		.uleb128 0x3f
+ 1244 007c 19       		.uleb128 0x19
+ 1245 007d 03       		.uleb128 0x3
+ 1246 007e 0E       		.uleb128 0xe
+ 1247 007f 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 26
+
+
+ 1248 0080 0B       		.uleb128 0xb
+ 1249 0081 3B       		.uleb128 0x3b
+ 1250 0082 0B       		.uleb128 0xb
+ 1251 0083 49       		.uleb128 0x49
+ 1252 0084 13       		.uleb128 0x13
+ 1253 0085 11       		.uleb128 0x11
+ 1254 0086 01       		.uleb128 0x1
+ 1255 0087 12       		.uleb128 0x12
+ 1256 0088 06       		.uleb128 0x6
+ 1257 0089 40       		.uleb128 0x40
+ 1258 008a 18       		.uleb128 0x18
+ 1259 008b 9742     		.uleb128 0x2117
+ 1260 008d 19       		.uleb128 0x19
+ 1261 008e 01       		.uleb128 0x1
+ 1262 008f 13       		.uleb128 0x13
+ 1263 0090 00       		.byte	0
+ 1264 0091 00       		.byte	0
+ 1265 0092 0C       		.uleb128 0xc
+ 1266 0093 898201   		.uleb128 0x4109
+ 1267 0096 00       		.byte	0
+ 1268 0097 11       		.uleb128 0x11
+ 1269 0098 01       		.uleb128 0x1
+ 1270 0099 31       		.uleb128 0x31
+ 1271 009a 13       		.uleb128 0x13
+ 1272 009b 00       		.byte	0
+ 1273 009c 00       		.byte	0
+ 1274 009d 0D       		.uleb128 0xd
+ 1275 009e 2E       		.uleb128 0x2e
+ 1276 009f 01       		.byte	0x1
+ 1277 00a0 3F       		.uleb128 0x3f
+ 1278 00a1 19       		.uleb128 0x19
+ 1279 00a2 03       		.uleb128 0x3
+ 1280 00a3 0E       		.uleb128 0xe
+ 1281 00a4 3A       		.uleb128 0x3a
+ 1282 00a5 0B       		.uleb128 0xb
+ 1283 00a6 3B       		.uleb128 0x3b
+ 1284 00a7 0B       		.uleb128 0xb
+ 1285 00a8 11       		.uleb128 0x11
+ 1286 00a9 01       		.uleb128 0x1
+ 1287 00aa 12       		.uleb128 0x12
+ 1288 00ab 06       		.uleb128 0x6
+ 1289 00ac 40       		.uleb128 0x40
+ 1290 00ad 18       		.uleb128 0x18
+ 1291 00ae 9742     		.uleb128 0x2117
+ 1292 00b0 19       		.uleb128 0x19
+ 1293 00b1 01       		.uleb128 0x1
+ 1294 00b2 13       		.uleb128 0x13
+ 1295 00b3 00       		.byte	0
+ 1296 00b4 00       		.byte	0
+ 1297 00b5 0E       		.uleb128 0xe
+ 1298 00b6 898201   		.uleb128 0x4109
+ 1299 00b9 01       		.byte	0x1
+ 1300 00ba 11       		.uleb128 0x11
+ 1301 00bb 01       		.uleb128 0x1
+ 1302 00bc 31       		.uleb128 0x31
+ 1303 00bd 13       		.uleb128 0x13
+ 1304 00be 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 27
+
+
+ 1305 00bf 00       		.byte	0
+ 1306 00c0 0F       		.uleb128 0xf
+ 1307 00c1 8A8201   		.uleb128 0x410a
+ 1308 00c4 00       		.byte	0
+ 1309 00c5 02       		.uleb128 0x2
+ 1310 00c6 18       		.uleb128 0x18
+ 1311 00c7 9142     		.uleb128 0x2111
+ 1312 00c9 18       		.uleb128 0x18
+ 1313 00ca 00       		.byte	0
+ 1314 00cb 00       		.byte	0
+ 1315 00cc 10       		.uleb128 0x10
+ 1316 00cd 2E       		.uleb128 0x2e
+ 1317 00ce 01       		.byte	0x1
+ 1318 00cf 3F       		.uleb128 0x3f
+ 1319 00d0 19       		.uleb128 0x19
+ 1320 00d1 03       		.uleb128 0x3
+ 1321 00d2 0E       		.uleb128 0xe
+ 1322 00d3 3A       		.uleb128 0x3a
+ 1323 00d4 0B       		.uleb128 0xb
+ 1324 00d5 3B       		.uleb128 0x3b
+ 1325 00d6 0B       		.uleb128 0xb
+ 1326 00d7 27       		.uleb128 0x27
+ 1327 00d8 19       		.uleb128 0x19
+ 1328 00d9 11       		.uleb128 0x11
+ 1329 00da 01       		.uleb128 0x1
+ 1330 00db 12       		.uleb128 0x12
+ 1331 00dc 06       		.uleb128 0x6
+ 1332 00dd 40       		.uleb128 0x40
+ 1333 00de 18       		.uleb128 0x18
+ 1334 00df 9742     		.uleb128 0x2117
+ 1335 00e1 19       		.uleb128 0x19
+ 1336 00e2 01       		.uleb128 0x1
+ 1337 00e3 13       		.uleb128 0x13
+ 1338 00e4 00       		.byte	0
+ 1339 00e5 00       		.byte	0
+ 1340 00e6 11       		.uleb128 0x11
+ 1341 00e7 05       		.uleb128 0x5
+ 1342 00e8 00       		.byte	0
+ 1343 00e9 03       		.uleb128 0x3
+ 1344 00ea 0E       		.uleb128 0xe
+ 1345 00eb 3A       		.uleb128 0x3a
+ 1346 00ec 0B       		.uleb128 0xb
+ 1347 00ed 3B       		.uleb128 0x3b
+ 1348 00ee 0B       		.uleb128 0xb
+ 1349 00ef 49       		.uleb128 0x49
+ 1350 00f0 13       		.uleb128 0x13
+ 1351 00f1 02       		.uleb128 0x2
+ 1352 00f2 17       		.uleb128 0x17
+ 1353 00f3 00       		.byte	0
+ 1354 00f4 00       		.byte	0
+ 1355 00f5 12       		.uleb128 0x12
+ 1356 00f6 2E       		.uleb128 0x2e
+ 1357 00f7 01       		.byte	0x1
+ 1358 00f8 3F       		.uleb128 0x3f
+ 1359 00f9 19       		.uleb128 0x19
+ 1360 00fa 03       		.uleb128 0x3
+ 1361 00fb 0E       		.uleb128 0xe
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 28
+
+
+ 1362 00fc 3A       		.uleb128 0x3a
+ 1363 00fd 0B       		.uleb128 0xb
+ 1364 00fe 3B       		.uleb128 0x3b
+ 1365 00ff 0B       		.uleb128 0xb
+ 1366 0100 27       		.uleb128 0x27
+ 1367 0101 19       		.uleb128 0x19
+ 1368 0102 49       		.uleb128 0x49
+ 1369 0103 13       		.uleb128 0x13
+ 1370 0104 11       		.uleb128 0x11
+ 1371 0105 01       		.uleb128 0x1
+ 1372 0106 12       		.uleb128 0x12
+ 1373 0107 06       		.uleb128 0x6
+ 1374 0108 40       		.uleb128 0x40
+ 1375 0109 18       		.uleb128 0x18
+ 1376 010a 9642     		.uleb128 0x2116
+ 1377 010c 19       		.uleb128 0x19
+ 1378 010d 01       		.uleb128 0x1
+ 1379 010e 13       		.uleb128 0x13
+ 1380 010f 00       		.byte	0
+ 1381 0110 00       		.byte	0
+ 1382 0111 13       		.uleb128 0x13
+ 1383 0112 05       		.uleb128 0x5
+ 1384 0113 00       		.byte	0
+ 1385 0114 03       		.uleb128 0x3
+ 1386 0115 08       		.uleb128 0x8
+ 1387 0116 3A       		.uleb128 0x3a
+ 1388 0117 0B       		.uleb128 0xb
+ 1389 0118 3B       		.uleb128 0x3b
+ 1390 0119 0B       		.uleb128 0xb
+ 1391 011a 49       		.uleb128 0x49
+ 1392 011b 13       		.uleb128 0x13
+ 1393 011c 02       		.uleb128 0x2
+ 1394 011d 17       		.uleb128 0x17
+ 1395 011e 00       		.byte	0
+ 1396 011f 00       		.byte	0
+ 1397 0120 14       		.uleb128 0x14
+ 1398 0121 34       		.uleb128 0x34
+ 1399 0122 00       		.byte	0
+ 1400 0123 03       		.uleb128 0x3
+ 1401 0124 0E       		.uleb128 0xe
+ 1402 0125 3A       		.uleb128 0x3a
+ 1403 0126 0B       		.uleb128 0xb
+ 1404 0127 3B       		.uleb128 0x3b
+ 1405 0128 0B       		.uleb128 0xb
+ 1406 0129 49       		.uleb128 0x49
+ 1407 012a 13       		.uleb128 0x13
+ 1408 012b 02       		.uleb128 0x2
+ 1409 012c 17       		.uleb128 0x17
+ 1410 012d 00       		.byte	0
+ 1411 012e 00       		.byte	0
+ 1412 012f 15       		.uleb128 0x15
+ 1413 0130 898201   		.uleb128 0x4109
+ 1414 0133 01       		.byte	0x1
+ 1415 0134 11       		.uleb128 0x11
+ 1416 0135 01       		.uleb128 0x1
+ 1417 0136 31       		.uleb128 0x31
+ 1418 0137 13       		.uleb128 0x13
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 29
+
+
+ 1419 0138 01       		.uleb128 0x1
+ 1420 0139 13       		.uleb128 0x13
+ 1421 013a 00       		.byte	0
+ 1422 013b 00       		.byte	0
+ 1423 013c 16       		.uleb128 0x16
+ 1424 013d 34       		.uleb128 0x34
+ 1425 013e 00       		.byte	0
+ 1426 013f 03       		.uleb128 0x3
+ 1427 0140 0E       		.uleb128 0xe
+ 1428 0141 3A       		.uleb128 0x3a
+ 1429 0142 0B       		.uleb128 0xb
+ 1430 0143 3B       		.uleb128 0x3b
+ 1431 0144 0B       		.uleb128 0xb
+ 1432 0145 49       		.uleb128 0x49
+ 1433 0146 13       		.uleb128 0x13
+ 1434 0147 00       		.byte	0
+ 1435 0148 00       		.byte	0
+ 1436 0149 17       		.uleb128 0x17
+ 1437 014a 26       		.uleb128 0x26
+ 1438 014b 00       		.byte	0
+ 1439 014c 49       		.uleb128 0x49
+ 1440 014d 13       		.uleb128 0x13
+ 1441 014e 00       		.byte	0
+ 1442 014f 00       		.byte	0
+ 1443 0150 18       		.uleb128 0x18
+ 1444 0151 34       		.uleb128 0x34
+ 1445 0152 00       		.byte	0
+ 1446 0153 03       		.uleb128 0x3
+ 1447 0154 0E       		.uleb128 0xe
+ 1448 0155 3A       		.uleb128 0x3a
+ 1449 0156 0B       		.uleb128 0xb
+ 1450 0157 3B       		.uleb128 0x3b
+ 1451 0158 05       		.uleb128 0x5
+ 1452 0159 49       		.uleb128 0x49
+ 1453 015a 13       		.uleb128 0x13
+ 1454 015b 3F       		.uleb128 0x3f
+ 1455 015c 19       		.uleb128 0x19
+ 1456 015d 3C       		.uleb128 0x3c
+ 1457 015e 19       		.uleb128 0x19
+ 1458 015f 00       		.byte	0
+ 1459 0160 00       		.byte	0
+ 1460 0161 19       		.uleb128 0x19
+ 1461 0162 34       		.uleb128 0x34
+ 1462 0163 00       		.byte	0
+ 1463 0164 03       		.uleb128 0x3
+ 1464 0165 0E       		.uleb128 0xe
+ 1465 0166 3A       		.uleb128 0x3a
+ 1466 0167 0B       		.uleb128 0xb
+ 1467 0168 3B       		.uleb128 0x3b
+ 1468 0169 0B       		.uleb128 0xb
+ 1469 016a 49       		.uleb128 0x49
+ 1470 016b 13       		.uleb128 0x13
+ 1471 016c 3F       		.uleb128 0x3f
+ 1472 016d 19       		.uleb128 0x19
+ 1473 016e 3C       		.uleb128 0x3c
+ 1474 016f 19       		.uleb128 0x19
+ 1475 0170 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 30
+
+
+ 1476 0171 00       		.byte	0
+ 1477 0172 1A       		.uleb128 0x1a
+ 1478 0173 34       		.uleb128 0x34
+ 1479 0174 00       		.byte	0
+ 1480 0175 03       		.uleb128 0x3
+ 1481 0176 08       		.uleb128 0x8
+ 1482 0177 3A       		.uleb128 0x3a
+ 1483 0178 0B       		.uleb128 0xb
+ 1484 0179 3B       		.uleb128 0x3b
+ 1485 017a 0B       		.uleb128 0xb
+ 1486 017b 49       		.uleb128 0x49
+ 1487 017c 13       		.uleb128 0x13
+ 1488 017d 3F       		.uleb128 0x3f
+ 1489 017e 19       		.uleb128 0x19
+ 1490 017f 3C       		.uleb128 0x3c
+ 1491 0180 19       		.uleb128 0x19
+ 1492 0181 00       		.byte	0
+ 1493 0182 00       		.byte	0
+ 1494 0183 1B       		.uleb128 0x1b
+ 1495 0184 34       		.uleb128 0x34
+ 1496 0185 00       		.byte	0
+ 1497 0186 03       		.uleb128 0x3
+ 1498 0187 0E       		.uleb128 0xe
+ 1499 0188 3A       		.uleb128 0x3a
+ 1500 0189 0B       		.uleb128 0xb
+ 1501 018a 3B       		.uleb128 0x3b
+ 1502 018b 0B       		.uleb128 0xb
+ 1503 018c 49       		.uleb128 0x49
+ 1504 018d 13       		.uleb128 0x13
+ 1505 018e 3F       		.uleb128 0x3f
+ 1506 018f 19       		.uleb128 0x19
+ 1507 0190 02       		.uleb128 0x2
+ 1508 0191 18       		.uleb128 0x18
+ 1509 0192 00       		.byte	0
+ 1510 0193 00       		.byte	0
+ 1511 0194 1C       		.uleb128 0x1c
+ 1512 0195 2E       		.uleb128 0x2e
+ 1513 0196 00       		.byte	0
+ 1514 0197 3F       		.uleb128 0x3f
+ 1515 0198 19       		.uleb128 0x19
+ 1516 0199 03       		.uleb128 0x3
+ 1517 019a 0E       		.uleb128 0xe
+ 1518 019b 3A       		.uleb128 0x3a
+ 1519 019c 0B       		.uleb128 0xb
+ 1520 019d 3B       		.uleb128 0x3b
+ 1521 019e 0B       		.uleb128 0xb
+ 1522 019f 27       		.uleb128 0x27
+ 1523 01a0 19       		.uleb128 0x19
+ 1524 01a1 49       		.uleb128 0x49
+ 1525 01a2 13       		.uleb128 0x13
+ 1526 01a3 3C       		.uleb128 0x3c
+ 1527 01a4 19       		.uleb128 0x19
+ 1528 01a5 00       		.byte	0
+ 1529 01a6 00       		.byte	0
+ 1530 01a7 1D       		.uleb128 0x1d
+ 1531 01a8 2E       		.uleb128 0x2e
+ 1532 01a9 01       		.byte	0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 31
+
+
+ 1533 01aa 3F       		.uleb128 0x3f
+ 1534 01ab 19       		.uleb128 0x19
+ 1535 01ac 03       		.uleb128 0x3
+ 1536 01ad 0E       		.uleb128 0xe
+ 1537 01ae 3A       		.uleb128 0x3a
+ 1538 01af 0B       		.uleb128 0xb
+ 1539 01b0 3B       		.uleb128 0x3b
+ 1540 01b1 0B       		.uleb128 0xb
+ 1541 01b2 27       		.uleb128 0x27
+ 1542 01b3 19       		.uleb128 0x19
+ 1543 01b4 3C       		.uleb128 0x3c
+ 1544 01b5 19       		.uleb128 0x19
+ 1545 01b6 01       		.uleb128 0x1
+ 1546 01b7 13       		.uleb128 0x13
+ 1547 01b8 00       		.byte	0
+ 1548 01b9 00       		.byte	0
+ 1549 01ba 1E       		.uleb128 0x1e
+ 1550 01bb 05       		.uleb128 0x5
+ 1551 01bc 00       		.byte	0
+ 1552 01bd 49       		.uleb128 0x49
+ 1553 01be 13       		.uleb128 0x13
+ 1554 01bf 00       		.byte	0
+ 1555 01c0 00       		.byte	0
+ 1556 01c1 1F       		.uleb128 0x1f
+ 1557 01c2 2E       		.uleb128 0x2e
+ 1558 01c3 00       		.byte	0
+ 1559 01c4 3F       		.uleb128 0x3f
+ 1560 01c5 19       		.uleb128 0x19
+ 1561 01c6 03       		.uleb128 0x3
+ 1562 01c7 0E       		.uleb128 0xe
+ 1563 01c8 3A       		.uleb128 0x3a
+ 1564 01c9 0B       		.uleb128 0xb
+ 1565 01ca 3B       		.uleb128 0x3b
+ 1566 01cb 0B       		.uleb128 0xb
+ 1567 01cc 27       		.uleb128 0x27
+ 1568 01cd 19       		.uleb128 0x19
+ 1569 01ce 3C       		.uleb128 0x3c
+ 1570 01cf 19       		.uleb128 0x19
+ 1571 01d0 00       		.byte	0
+ 1572 01d1 00       		.byte	0
+ 1573 01d2 20       		.uleb128 0x20
+ 1574 01d3 2E       		.uleb128 0x2e
+ 1575 01d4 01       		.byte	0x1
+ 1576 01d5 3F       		.uleb128 0x3f
+ 1577 01d6 19       		.uleb128 0x19
+ 1578 01d7 03       		.uleb128 0x3
+ 1579 01d8 0E       		.uleb128 0xe
+ 1580 01d9 3A       		.uleb128 0x3a
+ 1581 01da 0B       		.uleb128 0xb
+ 1582 01db 3B       		.uleb128 0x3b
+ 1583 01dc 0B       		.uleb128 0xb
+ 1584 01dd 27       		.uleb128 0x27
+ 1585 01de 19       		.uleb128 0x19
+ 1586 01df 49       		.uleb128 0x49
+ 1587 01e0 13       		.uleb128 0x13
+ 1588 01e1 3C       		.uleb128 0x3c
+ 1589 01e2 19       		.uleb128 0x19
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 32
+
+
+ 1590 01e3 01       		.uleb128 0x1
+ 1591 01e4 13       		.uleb128 0x13
+ 1592 01e5 00       		.byte	0
+ 1593 01e6 00       		.byte	0
+ 1594 01e7 21       		.uleb128 0x21
+ 1595 01e8 2E       		.uleb128 0x2e
+ 1596 01e9 01       		.byte	0x1
+ 1597 01ea 3F       		.uleb128 0x3f
+ 1598 01eb 19       		.uleb128 0x19
+ 1599 01ec 03       		.uleb128 0x3
+ 1600 01ed 0E       		.uleb128 0xe
+ 1601 01ee 3A       		.uleb128 0x3a
+ 1602 01ef 0B       		.uleb128 0xb
+ 1603 01f0 3B       		.uleb128 0x3b
+ 1604 01f1 0B       		.uleb128 0xb
+ 1605 01f2 3C       		.uleb128 0x3c
+ 1606 01f3 19       		.uleb128 0x19
+ 1607 01f4 00       		.byte	0
+ 1608 01f5 00       		.byte	0
+ 1609 01f6 22       		.uleb128 0x22
+ 1610 01f7 18       		.uleb128 0x18
+ 1611 01f8 00       		.byte	0
+ 1612 01f9 00       		.byte	0
+ 1613 01fa 00       		.byte	0
+ 1614 01fb 00       		.byte	0
+ 1615              		.section	.debug_loc,"",%progbits
+ 1616              	.Ldebug_loc0:
+ 1617              	.LLST0:
+ 1618 0000 00000000 		.4byte	.LVL5
+ 1619 0004 05000000 		.4byte	.LVL6-1
+ 1620 0008 0100     		.2byte	0x1
+ 1621 000a 50       		.byte	0x50
+ 1622 000b 05000000 		.4byte	.LVL6-1
+ 1623 000f 08000000 		.4byte	.LFE66
+ 1624 0013 0400     		.2byte	0x4
+ 1625 0015 F3       		.byte	0xf3
+ 1626 0016 01       		.uleb128 0x1
+ 1627 0017 50       		.byte	0x50
+ 1628 0018 9F       		.byte	0x9f
+ 1629 0019 00000000 		.4byte	0
+ 1630 001d 00000000 		.4byte	0
+ 1631              	.LLST1:
+ 1632 0021 00000000 		.4byte	.LVL7
+ 1633 0025 08000000 		.4byte	.LVL8
+ 1634 0029 0100     		.2byte	0x1
+ 1635 002b 50       		.byte	0x50
+ 1636 002c 08000000 		.4byte	.LVL8
+ 1637 0030 2E000000 		.4byte	.LVL14
+ 1638 0034 0100     		.2byte	0x1
+ 1639 0036 56       		.byte	0x56
+ 1640 0037 2E000000 		.4byte	.LVL14
+ 1641 003b 36000000 		.4byte	.LVL15
+ 1642 003f 0100     		.2byte	0x1
+ 1643 0041 50       		.byte	0x50
+ 1644 0042 36000000 		.4byte	.LVL15
+ 1645 0046 A0000000 		.4byte	.LVL33
+ 1646 004a 0100     		.2byte	0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 33
+
+
+ 1647 004c 56       		.byte	0x56
+ 1648 004d 00000000 		.4byte	0
+ 1649 0051 00000000 		.4byte	0
+ 1650              	.LLST2:
+ 1651 0055 4C000000 		.4byte	.LVL18
+ 1652 0059 50000000 		.4byte	.LVL19
+ 1653 005d 0300     		.2byte	0x3
+ 1654 005f 09       		.byte	0x9
+ 1655 0060 FF       		.byte	0xff
+ 1656 0061 9F       		.byte	0x9f
+ 1657 0062 6A000000 		.4byte	.LVL22
+ 1658 0066 6E000000 		.4byte	.LVL23
+ 1659 006a 0200     		.2byte	0x2
+ 1660 006c 30       		.byte	0x30
+ 1661 006d 9F       		.byte	0x9f
+ 1662 006e 72000000 		.4byte	.LVL24
+ 1663 0072 76000000 		.4byte	.LVL25
+ 1664 0076 0200     		.2byte	0x2
+ 1665 0078 31       		.byte	0x31
+ 1666 0079 9F       		.byte	0x9f
+ 1667 007a 9E000000 		.4byte	.LVL32
+ 1668 007e B4000000 		.4byte	.LFE67
+ 1669 0082 0100     		.2byte	0x1
+ 1670 0084 50       		.byte	0x50
+ 1671 0085 00000000 		.4byte	0
+ 1672 0089 00000000 		.4byte	0
+ 1673              	.LLST3:
+ 1674 008d 00000000 		.4byte	.LVL34
+ 1675 0091 17000000 		.4byte	.LVL35-1
+ 1676 0095 0100     		.2byte	0x1
+ 1677 0097 50       		.byte	0x50
+ 1678 0098 17000000 		.4byte	.LVL35-1
+ 1679 009c 1A000000 		.4byte	.LVL36
+ 1680 00a0 0400     		.2byte	0x4
+ 1681 00a2 F3       		.byte	0xf3
+ 1682 00a3 01       		.uleb128 0x1
+ 1683 00a4 50       		.byte	0x50
+ 1684 00a5 9F       		.byte	0x9f
+ 1685 00a6 1A000000 		.4byte	.LVL36
+ 1686 00aa 20000000 		.4byte	.LVL37
+ 1687 00ae 0100     		.2byte	0x1
+ 1688 00b0 50       		.byte	0x50
+ 1689 00b1 20000000 		.4byte	.LVL37
+ 1690 00b5 54000000 		.4byte	.LFE68
+ 1691 00b9 0400     		.2byte	0x4
+ 1692 00bb F3       		.byte	0xf3
+ 1693 00bc 01       		.uleb128 0x1
+ 1694 00bd 50       		.byte	0x50
+ 1695 00be 9F       		.byte	0x9f
+ 1696 00bf 00000000 		.4byte	0
+ 1697 00c3 00000000 		.4byte	0
+ 1698              	.LLST4:
+ 1699 00c7 00000000 		.4byte	.LVL34
+ 1700 00cb 17000000 		.4byte	.LVL35-1
+ 1701 00cf 0100     		.2byte	0x1
+ 1702 00d1 51       		.byte	0x51
+ 1703 00d2 17000000 		.4byte	.LVL35-1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 34
+
+
+ 1704 00d6 1A000000 		.4byte	.LVL36
+ 1705 00da 0100     		.2byte	0x1
+ 1706 00dc 55       		.byte	0x55
+ 1707 00dd 1A000000 		.4byte	.LVL36
+ 1708 00e1 25000000 		.4byte	.LVL38-1
+ 1709 00e5 0100     		.2byte	0x1
+ 1710 00e7 51       		.byte	0x51
+ 1711 00e8 25000000 		.4byte	.LVL38-1
+ 1712 00ec 48000000 		.4byte	.LVL42
+ 1713 00f0 0100     		.2byte	0x1
+ 1714 00f2 55       		.byte	0x55
+ 1715 00f3 00000000 		.4byte	0
+ 1716 00f7 00000000 		.4byte	0
+ 1717              	.LLST5:
+ 1718 00fb 00000000 		.4byte	.LVL43
+ 1719 00ff 11000000 		.4byte	.LVL44-1
+ 1720 0103 0100     		.2byte	0x1
+ 1721 0105 50       		.byte	0x50
+ 1722 0106 11000000 		.4byte	.LVL44-1
+ 1723 010a 20000000 		.4byte	.LFE69
+ 1724 010e 0400     		.2byte	0x4
+ 1725 0110 F3       		.byte	0xf3
+ 1726 0111 01       		.uleb128 0x1
+ 1727 0112 50       		.byte	0x50
+ 1728 0113 9F       		.byte	0x9f
+ 1729 0114 00000000 		.4byte	0
+ 1730 0118 00000000 		.4byte	0
+ 1731              	.LLST6:
+ 1732 011c 00000000 		.4byte	.LVL43
+ 1733 0120 11000000 		.4byte	.LVL44-1
+ 1734 0124 0100     		.2byte	0x1
+ 1735 0126 51       		.byte	0x51
+ 1736 0127 11000000 		.4byte	.LVL44-1
+ 1737 012b 1A000000 		.4byte	.LVL45
+ 1738 012f 0100     		.2byte	0x1
+ 1739 0131 54       		.byte	0x54
+ 1740 0132 1A000000 		.4byte	.LVL45
+ 1741 0136 20000000 		.4byte	.LFE69
+ 1742 013a 0600     		.2byte	0x6
+ 1743 013c F3       		.byte	0xf3
+ 1744 013d 03       		.uleb128 0x3
+ 1745 013e F5       		.byte	0xf5
+ 1746 013f 01       		.uleb128 0x1
+ 1747 0140 25       		.uleb128 0x25
+ 1748 0141 9F       		.byte	0x9f
+ 1749 0142 00000000 		.4byte	0
+ 1750 0146 00000000 		.4byte	0
+ 1751              		.section	.debug_aranges,"",%progbits
+ 1752 0000 4C000000 		.4byte	0x4c
+ 1753 0004 0200     		.2byte	0x2
+ 1754 0006 00000000 		.4byte	.Ldebug_info0
+ 1755 000a 04       		.byte	0x4
+ 1756 000b 00       		.byte	0
+ 1757 000c 0000     		.2byte	0
+ 1758 000e 0000     		.2byte	0
+ 1759 0010 00000000 		.4byte	.LFB64
+ 1760 0014 1A000000 		.4byte	.LFE64-.LFB64
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 35
+
+
+ 1761 0018 00000000 		.4byte	.LFB65
+ 1762 001c 0A000000 		.4byte	.LFE65-.LFB65
+ 1763 0020 00000000 		.4byte	.LFB63
+ 1764 0024 0C000000 		.4byte	.LFE63-.LFB63
+ 1765 0028 00000000 		.4byte	.LFB66
+ 1766 002c 08000000 		.4byte	.LFE66-.LFB66
+ 1767 0030 00000000 		.4byte	.LFB67
+ 1768 0034 B4000000 		.4byte	.LFE67-.LFB67
+ 1769 0038 00000000 		.4byte	.LFB68
+ 1770 003c 54000000 		.4byte	.LFE68-.LFB68
+ 1771 0040 00000000 		.4byte	.LFB69
+ 1772 0044 20000000 		.4byte	.LFE69-.LFB69
+ 1773 0048 00000000 		.4byte	0
+ 1774 004c 00000000 		.4byte	0
+ 1775              		.section	.debug_ranges,"",%progbits
+ 1776              	.Ldebug_ranges0:
+ 1777 0000 00000000 		.4byte	.LFB64
+ 1778 0004 1A000000 		.4byte	.LFE64
+ 1779 0008 00000000 		.4byte	.LFB65
+ 1780 000c 0A000000 		.4byte	.LFE65
+ 1781 0010 00000000 		.4byte	.LFB63
+ 1782 0014 0C000000 		.4byte	.LFE63
+ 1783 0018 00000000 		.4byte	.LFB66
+ 1784 001c 08000000 		.4byte	.LFE66
+ 1785 0020 00000000 		.4byte	.LFB67
+ 1786 0024 B4000000 		.4byte	.LFE67
+ 1787 0028 00000000 		.4byte	.LFB68
+ 1788 002c 54000000 		.4byte	.LFE68
+ 1789 0030 00000000 		.4byte	.LFB69
+ 1790 0034 20000000 		.4byte	.LFE69
+ 1791 0038 00000000 		.4byte	0
+ 1792 003c 00000000 		.4byte	0
+ 1793              		.section	.debug_line,"",%progbits
+ 1794              	.Ldebug_line0:
+ 1795 0000 7B020000 		.section	.debug_str,"MS",%progbits,1
+ 1795      0200D801 
+ 1795      00000201 
+ 1795      FB0E0D00 
+ 1795      01010101 
+ 1796              	.LASF69:
+ 1797 0000 7379735F 		.ascii	"sys_rt_exec_alarm\000"
+ 1797      72745F65 
+ 1797      7865635F 
+ 1797      616C6172 
+ 1797      6D00
+ 1798              	.LASF58:
+ 1799 0012 7370696E 		.ascii	"spindle_get_state\000"
+ 1799      646C655F 
+ 1799      6765745F 
+ 1799      73746174 
+ 1799      6500
+ 1800              	.LASF84:
+ 1801 0024 666C6F6F 		.ascii	"floor\000"
+ 1801      7200
+ 1802              	.LASF71:
+ 1803 002a 7379735F 		.ascii	"sys_rt_exec_accessory_override\000"
+ 1803      72745F65 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 36
+
+
+ 1803      7865635F 
+ 1803      61636365 
+ 1803      73736F72 
+ 1804              	.LASF56:
+ 1805 0049 7370696E 		.ascii	"spindle_stop\000"
+ 1805      646C655F 
+ 1805      73746F70 
+ 1805      00
+ 1806              	.LASF23:
+ 1807 0056 61636365 		.ascii	"acceleration\000"
+ 1807      6C657261 
+ 1807      74696F6E 
+ 1807      00
+ 1808              	.LASF41:
+ 1809 0063 73746174 		.ascii	"state\000"
+ 1809      6500
+ 1810              	.LASF3:
+ 1811 0069 73686F72 		.ascii	"short int\000"
+ 1811      7420696E 
+ 1811      7400
+ 1812              	.LASF19:
+ 1813 0073 73697A65 		.ascii	"sizetype\000"
+ 1813      74797065 
+ 1813      00
+ 1814              	.LASF55:
+ 1815 007c 73797374 		.ascii	"system_t\000"
+ 1815      656D5F74 
+ 1815      00
+ 1816              	.LASF80:
+ 1817 0085 433A5C55 		.ascii	"C:\\Users\\Bart\\Dropbox\\PSoC\\PSoC_Grbl\\PSoC_Grb"
+ 1817      73657273 
+ 1817      5C426172 
+ 1817      745C4472 
+ 1817      6F70626F 
+ 1818 00b2 6C2E6379 		.ascii	"l.cydsn\000"
+ 1818      64736E00 
+ 1819              	.LASF5:
+ 1820 00ba 5F5F7569 		.ascii	"__uint16_t\000"
+ 1820      6E743136 
+ 1820      5F7400
+ 1821              	.LASF62:
+ 1822 00c5 7370696E 		.ascii	"spindle_sync\000"
+ 1822      646C655F 
+ 1822      73796E63 
+ 1822      00
+ 1823              	.LASF60:
+ 1824 00d2 70776D5F 		.ascii	"pwm_value\000"
+ 1824      76616C75 
+ 1824      6500
+ 1825              	.LASF74:
+ 1826 00dc 50696E5F 		.ascii	"Pin_Spindle_Enable_Read\000"
+ 1826      5370696E 
+ 1826      646C655F 
+ 1826      456E6162 
+ 1826      6C655F52 
+ 1827              	.LASF28:
+ 1828 00f4 73746570 		.ascii	"stepper_idle_lock_time\000"
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 37
+
+
+ 1828      7065725F 
+ 1828      69646C65 
+ 1828      5F6C6F63 
+ 1828      6B5F7469 
+ 1829              	.LASF13:
+ 1830 010b 75696E74 		.ascii	"uint8_t\000"
+ 1830      385F7400 
+ 1831              	.LASF16:
+ 1832 0113 75696E74 		.ascii	"uint8\000"
+ 1832      3800
+ 1833              	.LASF39:
+ 1834 0119 686F6D69 		.ascii	"homing_pulloff\000"
+ 1834      6E675F70 
+ 1834      756C6C6F 
+ 1834      666600
+ 1835              	.LASF40:
+ 1836 0128 73657474 		.ascii	"settings_t\000"
+ 1836      696E6773 
+ 1836      5F7400
+ 1837              	.LASF0:
+ 1838 0133 666C6F61 		.ascii	"float\000"
+ 1838      7400
+ 1839              	.LASF79:
+ 1840 0139 7370696E 		.ascii	"spindle_control.c\000"
+ 1840      646C655F 
+ 1840      636F6E74 
+ 1840      726F6C2E 
+ 1840      6300
+ 1841              	.LASF64:
+ 1842 014b 73657474 		.ascii	"settings\000"
+ 1842      696E6773 
+ 1842      00
+ 1843              	.LASF10:
+ 1844 0154 6C6F6E67 		.ascii	"long long int\000"
+ 1844      206C6F6E 
+ 1844      6720696E 
+ 1844      7400
+ 1845              	.LASF50:
+ 1846 0162 7370696E 		.ascii	"spindle_speed_ovr\000"
+ 1846      646C655F 
+ 1846      73706565 
+ 1846      645F6F76 
+ 1846      7200
+ 1847              	.LASF65:
+ 1848 0174 7379735F 		.ascii	"sys_position\000"
+ 1848      706F7369 
+ 1848      74696F6E 
+ 1848      00
+ 1849              	.LASF46:
+ 1850 0181 70726F62 		.ascii	"probe_succeeded\000"
+ 1850      655F7375 
+ 1850      63636565 
+ 1850      64656400 
+ 1851              	.LASF73:
+ 1852 0191 65786563 		.ascii	"exec_lcd_status\000"
+ 1852      5F6C6364 
+ 1852      5F737461 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 38
+
+
+ 1852      74757300 
+ 1853              	.LASF21:
+ 1854 01a1 73746570 		.ascii	"steps_per_mm\000"
+ 1854      735F7065 
+ 1854      725F6D6D 
+ 1854      00
+ 1855              	.LASF4:
+ 1856 01ae 5F5F7569 		.ascii	"__uint8_t\000"
+ 1856      6E74385F 
+ 1856      7400
+ 1857              	.LASF52:
+ 1858 01b8 7265706F 		.ascii	"report_ovr_counter\000"
+ 1858      72745F6F 
+ 1858      76725F63 
+ 1858      6F756E74 
+ 1858      657200
+ 1859              	.LASF75:
+ 1860 01cb 50696E5F 		.ascii	"Pin_Spindle_Direction_Read\000"
+ 1860      5370696E 
+ 1860      646C655F 
+ 1860      44697265 
+ 1860      6374696F 
+ 1861              	.LASF31:
+ 1862 01e6 6172635F 		.ascii	"arc_tolerance\000"
+ 1862      746F6C65 
+ 1862      72616E63 
+ 1862      6500
+ 1863              	.LASF85:
+ 1864 01f4 70726F74 		.ascii	"protocol_buffer_synchronize\000"
+ 1864      6F636F6C 
+ 1864      5F627566 
+ 1864      6665725F 
+ 1864      73796E63 
+ 1865              	.LASF61:
+ 1866 0210 7370696E 		.ascii	"spindle_set_state\000"
+ 1866      646C655F 
+ 1866      7365745F 
+ 1866      73746174 
+ 1866      6500
+ 1867              	.LASF20:
+ 1868 0222 6C6F6E67 		.ascii	"long double\000"
+ 1868      20646F75 
+ 1868      626C6500 
+ 1869              	.LASF83:
+ 1870 022e 50574D5F 		.ascii	"PWM_Spindle_Start\000"
+ 1870      5370696E 
+ 1870      646C655F 
+ 1870      53746172 
+ 1870      7400
+ 1871              	.LASF2:
+ 1872 0240 756E7369 		.ascii	"unsigned char\000"
+ 1872      676E6564 
+ 1872      20636861 
+ 1872      7200
+ 1873              	.LASF42:
+ 1874 024e 61626F72 		.ascii	"abort\000"
+ 1874      7400
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 39
+
+
+ 1875              	.LASF1:
+ 1876 0254 7369676E 		.ascii	"signed char\000"
+ 1876      65642063 
+ 1876      68617200 
+ 1877              	.LASF34:
+ 1878 0260 666C6167 		.ascii	"flags\000"
+ 1878      7300
+ 1879              	.LASF11:
+ 1880 0266 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1880      206C6F6E 
+ 1880      6720756E 
+ 1880      7369676E 
+ 1880      65642069 
+ 1881              	.LASF12:
+ 1882 027d 756E7369 		.ascii	"unsigned int\000"
+ 1882      676E6564 
+ 1882      20696E74 
+ 1882      00
+ 1883              	.LASF48:
+ 1884 028a 665F6F76 		.ascii	"f_override\000"
+ 1884      65727269 
+ 1884      646500
+ 1885              	.LASF54:
+ 1886 0295 7370696E 		.ascii	"spindle_speed\000"
+ 1886      646C655F 
+ 1886      73706565 
+ 1886      6400
+ 1887              	.LASF9:
+ 1888 02a3 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1888      20756E73 
+ 1888      69676E65 
+ 1888      6420696E 
+ 1888      7400
+ 1889              	.LASF66:
+ 1890 02b5 7379735F 		.ascii	"sys_probe_position\000"
+ 1890      70726F62 
+ 1890      655F706F 
+ 1890      73697469 
+ 1890      6F6E00
+ 1891              	.LASF70:
+ 1892 02c8 7379735F 		.ascii	"sys_rt_exec_motion_override\000"
+ 1892      72745F65 
+ 1892      7865635F 
+ 1892      6D6F7469 
+ 1892      6F6E5F6F 
+ 1893              	.LASF57:
+ 1894 02e4 7370696E 		.ascii	"spindle_init\000"
+ 1894      646C655F 
+ 1894      696E6974 
+ 1894      00
+ 1895              	.LASF29:
+ 1896 02f1 73746174 		.ascii	"status_report_mask\000"
+ 1896      75735F72 
+ 1896      65706F72 
+ 1896      745F6D61 
+ 1896      736B00
+ 1897              	.LASF47:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 40
+
+
+ 1898 0304 686F6D69 		.ascii	"homing_axis_lock\000"
+ 1898      6E675F61 
+ 1898      7869735F 
+ 1898      6C6F636B 
+ 1898      00
+ 1899              	.LASF6:
+ 1900 0315 73686F72 		.ascii	"short unsigned int\000"
+ 1900      7420756E 
+ 1900      7369676E 
+ 1900      65642069 
+ 1900      6E7400
+ 1901              	.LASF76:
+ 1902 0328 50574D5F 		.ascii	"PWM_Spindle_WriteCompare\000"
+ 1902      5370696E 
+ 1902      646C655F 
+ 1902      57726974 
+ 1902      65436F6D 
+ 1903              	.LASF18:
+ 1904 0341 63686172 		.ascii	"char\000"
+ 1904      00
+ 1905              	.LASF14:
+ 1906 0346 75696E74 		.ascii	"uint16_t\000"
+ 1906      31365F74 
+ 1906      00
+ 1907              	.LASF8:
+ 1908 034f 6C6F6E67 		.ascii	"long int\000"
+ 1908      20696E74 
+ 1908      00
+ 1909              	.LASF27:
+ 1910 0358 6469725F 		.ascii	"dir_invert_mask\000"
+ 1910      696E7665 
+ 1910      72745F6D 
+ 1910      61736B00 
+ 1911              	.LASF15:
+ 1912 0368 696E7433 		.ascii	"int32_t\000"
+ 1912      325F7400 
+ 1913              	.LASF32:
+ 1914 0370 72706D5F 		.ascii	"rpm_max\000"
+ 1914      6D617800 
+ 1915              	.LASF45:
+ 1916 0378 73746570 		.ascii	"step_control\000"
+ 1916      5F636F6E 
+ 1916      74726F6C 
+ 1916      00
+ 1917              	.LASF43:
+ 1918 0385 73757370 		.ascii	"suspend\000"
+ 1918      656E6400 
+ 1919              	.LASF44:
+ 1920 038d 736F6674 		.ascii	"soft_limit\000"
+ 1920      5F6C696D 
+ 1920      697400
+ 1921              	.LASF38:
+ 1922 0398 686F6D69 		.ascii	"homing_debounce_delay\000"
+ 1922      6E675F64 
+ 1922      65626F75 
+ 1922      6E63655F 
+ 1922      64656C61 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 41
+
+
+ 1923              	.LASF25:
+ 1924 03ae 70756C73 		.ascii	"pulse_microseconds\000"
+ 1924      655F6D69 
+ 1924      63726F73 
+ 1924      65636F6E 
+ 1924      647300
+ 1925              	.LASF67:
+ 1926 03c1 7379735F 		.ascii	"sys_probe_state\000"
+ 1926      70726F62 
+ 1926      655F7374 
+ 1926      61746500 
+ 1927              	.LASF51:
+ 1928 03d1 7370696E 		.ascii	"spindle_stop_ovr\000"
+ 1928      646C655F 
+ 1928      73746F70 
+ 1928      5F6F7672 
+ 1928      00
+ 1929              	.LASF77:
+ 1930 03e2 50696E5F 		.ascii	"Pin_Spindle_Direction_Write\000"
+ 1930      5370696E 
+ 1930      646C655F 
+ 1930      44697265 
+ 1930      6374696F 
+ 1931              	.LASF17:
+ 1932 03fe 646F7562 		.ascii	"double\000"
+ 1932      6C6500
+ 1933              	.LASF37:
+ 1934 0405 686F6D69 		.ascii	"homing_seek_rate\000"
+ 1934      6E675F73 
+ 1934      65656B5F 
+ 1934      72617465 
+ 1934      00
+ 1935              	.LASF63:
+ 1936 0416 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1936      52784275 
+ 1936      66666572 
+ 1936      00
+ 1937              	.LASF33:
+ 1938 0423 72706D5F 		.ascii	"rpm_min\000"
+ 1938      6D696E00 
+ 1939              	.LASF35:
+ 1940 042b 686F6D69 		.ascii	"homing_dir_mask\000"
+ 1940      6E675F64 
+ 1940      69725F6D 
+ 1940      61736B00 
+ 1941              	.LASF7:
+ 1942 043b 5F5F696E 		.ascii	"__int32_t\000"
+ 1942      7433325F 
+ 1942      7400
+ 1943              	.LASF30:
+ 1944 0445 6A756E63 		.ascii	"junction_deviation\000"
+ 1944      74696F6E 
+ 1944      5F646576 
+ 1944      69617469 
+ 1944      6F6E00
+ 1945              	.LASF78:
+ 1946 0458 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 42
+
+
+ 1946      4320342E 
+ 1946      392E3320 
+ 1946      32303135 
+ 1946      30333033 
+ 1947 048b 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1947      20726576 
+ 1947      6973696F 
+ 1947      6E203232 
+ 1947      31323230 
+ 1948 04be 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1948      66756E63 
+ 1948      74696F6E 
+ 1948      2D736563 
+ 1948      74696F6E 
+ 1949              	.LASF24:
+ 1950 04e6 6D61785F 		.ascii	"max_travel\000"
+ 1950      74726176 
+ 1950      656C00
+ 1951              	.LASF36:
+ 1952 04f1 686F6D69 		.ascii	"homing_feed_rate\000"
+ 1952      6E675F66 
+ 1952      6565645F 
+ 1952      72617465 
+ 1952      00
+ 1953              	.LASF49:
+ 1954 0502 725F6F76 		.ascii	"r_override\000"
+ 1954      65727269 
+ 1954      646500
+ 1955              	.LASF82:
+ 1956 050d 70776D5F 		.ascii	"pwm_gradient\000"
+ 1956      67726164 
+ 1956      69656E74 
+ 1956      00
+ 1957              	.LASF53:
+ 1958 051a 7265706F 		.ascii	"report_wco_counter\000"
+ 1958      72745F77 
+ 1958      636F5F63 
+ 1958      6F756E74 
+ 1958      657200
+ 1959              	.LASF26:
+ 1960 052d 73746570 		.ascii	"step_invert_mask\000"
+ 1960      5F696E76 
+ 1960      6572745F 
+ 1960      6D61736B 
+ 1960      00
+ 1961              	.LASF22:
+ 1962 053e 6D61785F 		.ascii	"max_rate\000"
+ 1962      72617465 
+ 1962      00
+ 1963              	.LASF68:
+ 1964 0547 7379735F 		.ascii	"sys_rt_exec_state\000"
+ 1964      72745F65 
+ 1964      7865635F 
+ 1964      73746174 
+ 1964      6500
+ 1965              	.LASF59:
+ 1966 0559 7370696E 		.ascii	"spindle_set_speed\000"
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccCnmSxU.s 			page 43
+
+
+ 1966      646C655F 
+ 1966      7365745F 
+ 1966      73706565 
+ 1966      6400
+ 1967              	.LASF81:
+ 1968 056b 7370696E 		.ascii	"spindle_compute_pwm_value\000"
+ 1968      646C655F 
+ 1968      636F6D70 
+ 1968      7574655F 
+ 1968      70776D5F 
+ 1969              	.LASF72:
+ 1970 0585 7379735F 		.ascii	"sys_rt_exec_debug\000"
+ 1970      72745F65 
+ 1970      7865635F 
+ 1970      64656275 
+ 1970      6700
+ 1971              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

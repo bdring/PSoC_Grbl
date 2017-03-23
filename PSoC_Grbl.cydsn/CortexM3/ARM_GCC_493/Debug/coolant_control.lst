@@ -1,0 +1,1658 @@
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"coolant_control.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.coolant_get_state,"ax",%progbits
+  19              		.align	2
+  20              		.global	coolant_get_state
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	coolant_get_state, %function
+  24              	coolant_get_state:
+  25              	.LFB64:
+  26              		.file 1 "coolant_control.c"
+   1:coolant_control.c **** /*
+   2:coolant_control.c ****   coolant_control.c - coolant control methods
+   3:coolant_control.c ****   Part of Grbl
+   4:coolant_control.c **** 
+   5:coolant_control.c ****   Copyright (c) 2012-2015 Sungeun K. Jeon
+   6:coolant_control.c **** 
+   7:coolant_control.c ****   Grbl is free software: you can redistribute it and/or modify
+   8:coolant_control.c ****   it under the terms of the GNU General Public License as published by
+   9:coolant_control.c ****   the Free Software Foundation, either version 3 of the License, or
+  10:coolant_control.c ****   (at your option) any later version.
+  11:coolant_control.c **** 
+  12:coolant_control.c ****   Grbl is distributed in the hope that it will be useful,
+  13:coolant_control.c ****   but WITHOUT ANY WARRANTY; without even the implied warranty of
+  14:coolant_control.c ****   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  15:coolant_control.c ****   GNU General Public License for more details.
+  16:coolant_control.c **** 
+  17:coolant_control.c ****   You should have received a copy of the GNU General Public License
+  18:coolant_control.c ****   along with Grbl.  If not, see <http://www.gnu.org/licenses/>.
+  19:coolant_control.c **** */  
+  20:coolant_control.c **** 
+  21:coolant_control.c **** #include "grbl.h"
+  22:coolant_control.c **** 
+  23:coolant_control.c **** 
+  24:coolant_control.c **** void coolant_init()
+  25:coolant_control.c **** { 
+  26:coolant_control.c ****   coolant_set_state(COOLANT_DISABLE);
+  27:coolant_control.c **** }
+  28:coolant_control.c **** 
+  29:coolant_control.c **** // Returns current coolant output state. Overrides may alter it from programmed state.
+  30:coolant_control.c **** uint8_t coolant_get_state()
+  31:coolant_control.c **** {
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 2
+
+
+  27              		.loc 1 31 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 10B5     		push	{r4, lr}
+  32              		.cfi_def_cfa_offset 8
+  33              		.cfi_offset 4, -8
+  34              		.cfi_offset 14, -4
+  35              	.LVL0:
+  32:coolant_control.c ****   uint8_t cl_state = COOLANT_STATE_DISABLE;
+  33:coolant_control.c ****   
+  34:coolant_control.c ****   if (Flood_Coolant_Pin_Read()) 
+  36              		.loc 1 34 0
+  37 0002 FFF7FEFF 		bl	Flood_Coolant_Pin_Read
+  38              	.LVL1:
+  39 0006 08B9     		cbnz	r0, .L4
+  32:coolant_control.c ****   uint8_t cl_state = COOLANT_STATE_DISABLE;
+  40              		.loc 1 32 0
+  41 0008 0024     		movs	r4, #0
+  42 000a 00E0     		b	.L2
+  43              	.L4:
+  35:coolant_control.c ****   {  
+  36:coolant_control.c ****   cl_state |= COOLANT_STATE_FLOOD;
+  44              		.loc 1 36 0
+  45 000c 0124     		movs	r4, #1
+  46              	.L2:
+  47              	.LVL2:
+  37:coolant_control.c ****   }
+  38:coolant_control.c **** 
+  39:coolant_control.c ****   if (Mist_Coolant_Pin_Read()) 
+  48              		.loc 1 39 0
+  49 000e FFF7FEFF 		bl	Mist_Coolant_Pin_Read
+  50              	.LVL3:
+  51 0012 08B1     		cbz	r0, .L3
+  40:coolant_control.c ****   {  
+  41:coolant_control.c ****   cl_state |= COOLANT_STATE_MIST;
+  52              		.loc 1 41 0
+  53 0014 44F00204 		orr	r4, r4, #2
+  54              	.LVL4:
+  55              	.L3:
+  42:coolant_control.c ****   }
+  43:coolant_control.c ****   
+  44:coolant_control.c ****   return(cl_state);
+  45:coolant_control.c **** }
+  56              		.loc 1 45 0
+  57 0018 2046     		mov	r0, r4
+  58 001a 10BD     		pop	{r4, pc}
+  59              		.cfi_endproc
+  60              	.LFE64:
+  61              		.size	coolant_get_state, .-coolant_get_state
+  62              		.section	.text.coolant_stop,"ax",%progbits
+  63              		.align	2
+  64              		.global	coolant_stop
+  65              		.thumb
+  66              		.thumb_func
+  67              		.type	coolant_stop, %function
+  68              	coolant_stop:
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 3
+
+
+  69              	.LFB65:
+  46:coolant_control.c **** 
+  47:coolant_control.c **** 
+  48:coolant_control.c **** void coolant_stop()
+  49:coolant_control.c **** {
+  70              		.loc 1 49 0
+  71              		.cfi_startproc
+  72              		@ args = 0, pretend = 0, frame = 0
+  73              		@ frame_needed = 0, uses_anonymous_args = 0
+  74 0000 08B5     		push	{r3, lr}
+  75              		.cfi_def_cfa_offset 8
+  76              		.cfi_offset 3, -8
+  77              		.cfi_offset 14, -4
+  50:coolant_control.c ****   Flood_Coolant_Pin_Write(0);
+  78              		.loc 1 50 0
+  79 0002 0020     		movs	r0, #0
+  80 0004 FFF7FEFF 		bl	Flood_Coolant_Pin_Write
+  81              	.LVL5:
+  51:coolant_control.c ****   Mist_Coolant_Pin_Write(0);
+  82              		.loc 1 51 0
+  83 0008 0020     		movs	r0, #0
+  84 000a FFF7FEFF 		bl	Mist_Coolant_Pin_Write
+  85              	.LVL6:
+  86 000e 08BD     		pop	{r3, pc}
+  87              		.cfi_endproc
+  88              	.LFE65:
+  89              		.size	coolant_stop, .-coolant_stop
+  90              		.section	.text.coolant_set_state,"ax",%progbits
+  91              		.align	2
+  92              		.global	coolant_set_state
+  93              		.thumb
+  94              		.thumb_func
+  95              		.type	coolant_set_state, %function
+  96              	coolant_set_state:
+  97              	.LFB66:
+  52:coolant_control.c **** }
+  53:coolant_control.c **** 
+  54:coolant_control.c **** 
+  55:coolant_control.c **** void coolant_set_state(uint8_t mode)
+  56:coolant_control.c **** {
+  98              		.loc 1 56 0
+  99              		.cfi_startproc
+ 100              		@ args = 0, pretend = 0, frame = 0
+ 101              		@ frame_needed = 0, uses_anonymous_args = 0
+ 102              	.LVL7:
+  57:coolant_control.c ****   if (sys.abort) { return; } // Block during abort.
+ 103              		.loc 1 57 0
+ 104 0000 0C4B     		ldr	r3, .L15
+ 105 0002 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 106 0004 ABB9     		cbnz	r3, .L14
+  56:coolant_control.c ****   if (sys.abort) { return; } // Block during abort.
+ 107              		.loc 1 56 0
+ 108 0006 10B5     		push	{r4, lr}
+ 109              		.cfi_def_cfa_offset 8
+ 110              		.cfi_offset 4, -8
+ 111              		.cfi_offset 14, -4
+ 112 0008 0446     		mov	r4, r0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 4
+
+
+  58:coolant_control.c ****   
+  59:coolant_control.c ****   if (mode == COOLANT_DISABLE) 
+ 113              		.loc 1 59 0
+ 114 000a 10B9     		cbnz	r0, .L10
+  60:coolant_control.c ****   {  
+  61:coolant_control.c ****     coolant_stop();
+ 115              		.loc 1 61 0
+ 116 000c FFF7FEFF 		bl	coolant_stop
+ 117              	.LVL8:
+ 118 0010 0BE0     		b	.L11
+ 119              	.LVL9:
+ 120              	.L10:
+  62:coolant_control.c ****   }
+  63:coolant_control.c ****   else
+  64:coolant_control.c ****   {
+  65:coolant_control.c ****     if (mode & COOLANT_FLOOD_ENABLE)
+ 121              		.loc 1 65 0
+ 122 0012 10F0400F 		tst	r0, #64
+ 123 0016 02D0     		beq	.L12
+  66:coolant_control.c ****     {
+  67:coolant_control.c ****       Flood_Coolant_Pin_Write(1);
+ 124              		.loc 1 67 0
+ 125 0018 0120     		movs	r0, #1
+ 126              	.LVL10:
+ 127 001a FFF7FEFF 		bl	Flood_Coolant_Pin_Write
+ 128              	.LVL11:
+ 129              	.L12:
+  68:coolant_control.c ****     }
+  69:coolant_control.c ****     if (mode & COOLANT_MIST_ENABLE)
+ 130              		.loc 1 69 0
+ 131 001e 14F0800F 		tst	r4, #128
+ 132 0022 02D0     		beq	.L11
+  70:coolant_control.c ****     {
+  71:coolant_control.c ****        Mist_Coolant_Pin_Write(1);
+ 133              		.loc 1 71 0
+ 134 0024 0120     		movs	r0, #1
+ 135 0026 FFF7FEFF 		bl	Mist_Coolant_Pin_Write
+ 136              	.LVL12:
+ 137              	.L11:
+  72:coolant_control.c ****     }    
+  73:coolant_control.c ****   }
+  74:coolant_control.c ****   sys.report_ovr_counter = 0; // Set to report change immediately
+ 138              		.loc 1 74 0
+ 139 002a 0022     		movs	r2, #0
+ 140 002c 014B     		ldr	r3, .L15
+ 141 002e DA72     		strb	r2, [r3, #11]
+ 142 0030 10BD     		pop	{r4, pc}
+ 143              	.LVL13:
+ 144              	.L14:
+ 145              		.cfi_def_cfa_offset 0
+ 146              		.cfi_restore 4
+ 147              		.cfi_restore 14
+ 148 0032 7047     		bx	lr
+ 149              	.L16:
+ 150              		.align	2
+ 151              	.L15:
+ 152 0034 00000000 		.word	sys
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 5
+
+
+ 153              		.cfi_endproc
+ 154              	.LFE66:
+ 155              		.size	coolant_set_state, .-coolant_set_state
+ 156              		.section	.text.coolant_init,"ax",%progbits
+ 157              		.align	2
+ 158              		.global	coolant_init
+ 159              		.thumb
+ 160              		.thumb_func
+ 161              		.type	coolant_init, %function
+ 162              	coolant_init:
+ 163              	.LFB63:
+  25:coolant_control.c ****   coolant_set_state(COOLANT_DISABLE);
+ 164              		.loc 1 25 0
+ 165              		.cfi_startproc
+ 166              		@ args = 0, pretend = 0, frame = 0
+ 167              		@ frame_needed = 0, uses_anonymous_args = 0
+ 168 0000 08B5     		push	{r3, lr}
+ 169              		.cfi_def_cfa_offset 8
+ 170              		.cfi_offset 3, -8
+ 171              		.cfi_offset 14, -4
+  26:coolant_control.c **** }
+ 172              		.loc 1 26 0
+ 173 0002 0020     		movs	r0, #0
+ 174 0004 FFF7FEFF 		bl	coolant_set_state
+ 175              	.LVL14:
+ 176 0008 08BD     		pop	{r3, pc}
+ 177              		.cfi_endproc
+ 178              	.LFE63:
+ 179              		.size	coolant_init, .-coolant_init
+ 180 000a 00BF     		.section	.text.coolant_sync,"ax",%progbits
+ 181              		.align	2
+ 182              		.global	coolant_sync
+ 183              		.thumb
+ 184              		.thumb_func
+ 185              		.type	coolant_sync, %function
+ 186              	coolant_sync:
+ 187              	.LFB67:
+  75:coolant_control.c ****  
+  76:coolant_control.c **** }
+  77:coolant_control.c **** 
+  78:coolant_control.c **** 
+  79:coolant_control.c **** // G-code parser entry-point for setting coolant state. Forces a planner buffer sync and bails 
+  80:coolant_control.c **** // if an abort or check-mode is active.
+  81:coolant_control.c **** void coolant_sync(uint8_t mode)
+  82:coolant_control.c **** {
+ 188              		.loc 1 82 0
+ 189              		.cfi_startproc
+ 190              		@ args = 0, pretend = 0, frame = 0
+ 191              		@ frame_needed = 0, uses_anonymous_args = 0
+ 192              	.LVL15:
+  83:coolant_control.c ****   if (sys.state == STATE_CHECK_MODE) { return; }
+ 193              		.loc 1 83 0
+ 194 0000 064B     		ldr	r3, .L23
+ 195 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 196 0004 022B     		cmp	r3, #2
+ 197 0006 07D0     		beq	.L22
+  82:coolant_control.c ****   if (sys.state == STATE_CHECK_MODE) { return; }
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 6
+
+
+ 198              		.loc 1 82 0
+ 199 0008 10B5     		push	{r4, lr}
+ 200              		.cfi_def_cfa_offset 8
+ 201              		.cfi_offset 4, -8
+ 202              		.cfi_offset 14, -4
+ 203 000a 0446     		mov	r4, r0
+  84:coolant_control.c ****   protocol_buffer_synchronize(); // Ensure coolant turns on when specified in program.
+ 204              		.loc 1 84 0
+ 205 000c FFF7FEFF 		bl	protocol_buffer_synchronize
+ 206              	.LVL16:
+  85:coolant_control.c ****   coolant_set_state(mode);
+ 207              		.loc 1 85 0
+ 208 0010 2046     		mov	r0, r4
+ 209 0012 FFF7FEFF 		bl	coolant_set_state
+ 210              	.LVL17:
+ 211 0016 10BD     		pop	{r4, pc}
+ 212              	.LVL18:
+ 213              	.L22:
+ 214              		.cfi_def_cfa_offset 0
+ 215              		.cfi_restore 4
+ 216              		.cfi_restore 14
+ 217 0018 7047     		bx	lr
+ 218              	.L24:
+ 219 001a 00BF     		.align	2
+ 220              	.L23:
+ 221 001c 00000000 		.word	sys
+ 222              		.cfi_endproc
+ 223              	.LFE67:
+ 224              		.size	coolant_sync, .-coolant_sync
+ 225              		.comm	exec_lcd_status,1,1
+ 226              		.comm	sys_rt_exec_debug,1,1
+ 227              		.comm	sys_rt_exec_accessory_override,1,1
+ 228              		.comm	sys_rt_exec_motion_override,1,1
+ 229              		.comm	sys_rt_exec_alarm,1,1
+ 230              		.comm	sys_rt_exec_state,1,1
+ 231              		.comm	sys_probe_state,1,1
+ 232              		.comm	sys_probe_position,12,4
+ 233              		.comm	sys_position,12,4
+ 234              		.text
+ 235              	.Letext0:
+ 236              		.file 2 "d:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 237              		.file 3 "d:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 238              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 239              		.file 5 "system.h"
+ 240              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
+ 241              		.file 7 "lcd_report.h"
+ 242              		.file 8 "Generated_Source\\PSoC5/Flood_Coolant_Pin.h"
+ 243              		.file 9 "Generated_Source\\PSoC5/Mist_Coolant_Pin.h"
+ 244              		.file 10 "protocol.h"
+ 245              		.section	.debug_info,"",%progbits
+ 246              	.Ldebug_info0:
+ 247 0000 B0030000 		.4byte	0x3b0
+ 248 0004 0400     		.2byte	0x4
+ 249 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 250 000a 04       		.byte	0x4
+ 251 000b 01       		.uleb128 0x1
+ 252 000c E5010000 		.4byte	.LASF54
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 7
+
+
+ 253 0010 01       		.byte	0x1
+ 254 0011 10010000 		.4byte	.LASF55
+ 255 0015 20000000 		.4byte	.LASF56
+ 256 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 257 001d 00000000 		.4byte	0
+ 258 0021 00000000 		.4byte	.Ldebug_line0
+ 259 0025 02       		.uleb128 0x2
+ 260 0026 01       		.byte	0x1
+ 261 0027 06       		.byte	0x6
+ 262 0028 04010000 		.4byte	.LASF0
+ 263 002c 03       		.uleb128 0x3
+ 264 002d 16000000 		.4byte	.LASF4
+ 265 0031 02       		.byte	0x2
+ 266 0032 1D       		.byte	0x1d
+ 267 0033 37000000 		.4byte	0x37
+ 268 0037 02       		.uleb128 0x2
+ 269 0038 01       		.byte	0x1
+ 270 0039 08       		.byte	0x8
+ 271 003a 22010000 		.4byte	.LASF1
+ 272 003e 02       		.uleb128 0x2
+ 273 003f 02       		.byte	0x2
+ 274 0040 05       		.byte	0x5
+ 275 0041 4C030000 		.4byte	.LASF2
+ 276 0045 02       		.uleb128 0x2
+ 277 0046 02       		.byte	0x2
+ 278 0047 07       		.byte	0x7
+ 279 0048 4B010000 		.4byte	.LASF3
+ 280 004c 03       		.uleb128 0x3
+ 281 004d 89000000 		.4byte	.LASF5
+ 282 0051 02       		.byte	0x2
+ 283 0052 3F       		.byte	0x3f
+ 284 0053 57000000 		.4byte	0x57
+ 285 0057 02       		.uleb128 0x2
+ 286 0058 04       		.byte	0x4
+ 287 0059 05       		.byte	0x5
+ 288 005a 92030000 		.4byte	.LASF6
+ 289 005e 02       		.uleb128 0x2
+ 290 005f 04       		.byte	0x4
+ 291 0060 07       		.byte	0x7
+ 292 0061 39010000 		.4byte	.LASF7
+ 293 0065 02       		.uleb128 0x2
+ 294 0066 08       		.byte	0x8
+ 295 0067 05       		.byte	0x5
+ 296 0068 D6020000 		.4byte	.LASF8
+ 297 006c 02       		.uleb128 0x2
+ 298 006d 08       		.byte	0x8
+ 299 006e 07       		.byte	0x7
+ 300 006f 80020000 		.4byte	.LASF9
+ 301 0073 04       		.uleb128 0x4
+ 302 0074 04       		.byte	0x4
+ 303 0075 05       		.byte	0x5
+ 304 0076 696E7400 		.ascii	"int\000"
+ 305 007a 02       		.uleb128 0x2
+ 306 007b 04       		.byte	0x4
+ 307 007c 07       		.byte	0x7
+ 308 007d 73020000 		.4byte	.LASF10
+ 309 0081 03       		.uleb128 0x3
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 8
+
+
+ 310 0082 97020000 		.4byte	.LASF11
+ 311 0086 03       		.byte	0x3
+ 312 0087 15       		.byte	0x15
+ 313 0088 2C000000 		.4byte	0x2c
+ 314 008c 03       		.uleb128 0x3
+ 315 008d AD020000 		.4byte	.LASF12
+ 316 0091 03       		.byte	0x3
+ 317 0092 2C       		.byte	0x2c
+ 318 0093 4C000000 		.4byte	0x4c
+ 319 0097 05       		.uleb128 0x5
+ 320 0098 8F010000 		.4byte	.LASF13
+ 321 009c 04       		.byte	0x4
+ 322 009d 9201     		.2byte	0x192
+ 323 009f 37000000 		.4byte	0x37
+ 324 00a3 02       		.uleb128 0x2
+ 325 00a4 04       		.byte	0x4
+ 326 00a5 04       		.byte	0x4
+ 327 00a6 EE000000 		.4byte	.LASF14
+ 328 00aa 02       		.uleb128 0x2
+ 329 00ab 08       		.byte	0x8
+ 330 00ac 04       		.byte	0x4
+ 331 00ad 88010000 		.4byte	.LASF15
+ 332 00b1 02       		.uleb128 0x2
+ 333 00b2 01       		.byte	0x1
+ 334 00b3 08       		.byte	0x8
+ 335 00b4 F1020000 		.4byte	.LASF16
+ 336 00b8 02       		.uleb128 0x2
+ 337 00b9 04       		.byte	0x4
+ 338 00ba 07       		.byte	0x7
+ 339 00bb B5020000 		.4byte	.LASF17
+ 340 00bf 06       		.uleb128 0x6
+ 341 00c0 81000000 		.4byte	0x81
+ 342 00c4 02       		.uleb128 0x2
+ 343 00c5 08       		.byte	0x8
+ 344 00c6 04       		.byte	0x4
+ 345 00c7 B2030000 		.4byte	.LASF18
+ 346 00cb 07       		.uleb128 0x7
+ 347 00cc 14       		.byte	0x14
+ 348 00cd 05       		.byte	0x5
+ 349 00ce 80       		.byte	0x80
+ 350 00cf 7C010000 		.4byte	0x17c
+ 351 00d3 08       		.uleb128 0x8
+ 352 00d4 67000000 		.4byte	.LASF19
+ 353 00d8 05       		.byte	0x5
+ 354 00d9 81       		.byte	0x81
+ 355 00da 81000000 		.4byte	0x81
+ 356 00de 00       		.byte	0
+ 357 00df 08       		.uleb128 0x8
+ 358 00e0 AC030000 		.4byte	.LASF20
+ 359 00e4 05       		.byte	0x5
+ 360 00e5 82       		.byte	0x82
+ 361 00e6 81000000 		.4byte	0x81
+ 362 00ea 01       		.byte	0x1
+ 363 00eb 08       		.uleb128 0x8
+ 364 00ec BE030000 		.4byte	.LASF21
+ 365 00f0 05       		.byte	0x5
+ 366 00f1 83       		.byte	0x83
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 9
+
+
+ 367 00f2 81000000 		.4byte	0x81
+ 368 00f6 02       		.byte	0x2
+ 369 00f7 08       		.uleb128 0x8
+ 370 00f8 93000000 		.4byte	.LASF22
+ 371 00fc 05       		.byte	0x5
+ 372 00fd 84       		.byte	0x84
+ 373 00fe 81000000 		.4byte	0x81
+ 374 0102 03       		.byte	0x3
+ 375 0103 08       		.uleb128 0x8
+ 376 0104 BE020000 		.4byte	.LASF23
+ 377 0108 05       		.byte	0x5
+ 378 0109 85       		.byte	0x85
+ 379 010a 81000000 		.4byte	0x81
+ 380 010e 04       		.byte	0x4
+ 381 010f 08       		.uleb128 0x8
+ 382 0110 3C030000 		.4byte	.LASF24
+ 383 0114 05       		.byte	0x5
+ 384 0115 86       		.byte	0x86
+ 385 0116 81000000 		.4byte	0x81
+ 386 011a 05       		.byte	0x5
+ 387 011b 08       		.uleb128 0x8
+ 388 011c D4010000 		.4byte	.LASF25
+ 389 0120 05       		.byte	0x5
+ 390 0121 87       		.byte	0x87
+ 391 0122 81000000 		.4byte	0x81
+ 392 0126 06       		.byte	0x6
+ 393 0127 08       		.uleb128 0x8
+ 394 0128 5E010000 		.4byte	.LASF26
+ 395 012c 05       		.byte	0x5
+ 396 012d 88       		.byte	0x88
+ 397 012e 81000000 		.4byte	0x81
+ 398 0132 07       		.byte	0x7
+ 399 0133 08       		.uleb128 0x8
+ 400 0134 CB020000 		.4byte	.LASF27
+ 401 0138 05       		.byte	0x5
+ 402 0139 89       		.byte	0x89
+ 403 013a 81000000 		.4byte	0x81
+ 404 013e 08       		.byte	0x8
+ 405 013f 08       		.uleb128 0x8
+ 406 0140 55000000 		.4byte	.LASF28
+ 407 0144 05       		.byte	0x5
+ 408 0145 8A       		.byte	0x8a
+ 409 0146 81000000 		.4byte	0x81
+ 410 014a 09       		.byte	0x9
+ 411 014b 08       		.uleb128 0x8
+ 412 014c 9B030000 		.4byte	.LASF29
+ 413 0150 05       		.byte	0x5
+ 414 0151 8B       		.byte	0x8b
+ 415 0152 81000000 		.4byte	0x81
+ 416 0156 0A       		.byte	0xa
+ 417 0157 08       		.uleb128 0x8
+ 418 0158 1B030000 		.4byte	.LASF30
+ 419 015c 05       		.byte	0x5
+ 420 015d 8C       		.byte	0x8c
+ 421 015e 81000000 		.4byte	0x81
+ 422 0162 0B       		.byte	0xb
+ 423 0163 08       		.uleb128 0x8
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 10
+
+
+ 424 0164 56030000 		.4byte	.LASF31
+ 425 0168 05       		.byte	0x5
+ 426 0169 8D       		.byte	0x8d
+ 427 016a 81000000 		.4byte	0x81
+ 428 016e 0C       		.byte	0xc
+ 429 016f 08       		.uleb128 0x8
+ 430 0170 2E030000 		.4byte	.LASF32
+ 431 0174 05       		.byte	0x5
+ 432 0175 8F       		.byte	0x8f
+ 433 0176 A3000000 		.4byte	0xa3
+ 434 017a 10       		.byte	0x10
+ 435 017b 00       		.byte	0
+ 436 017c 03       		.uleb128 0x3
+ 437 017d 30010000 		.4byte	.LASF33
+ 438 0181 05       		.byte	0x5
+ 439 0182 91       		.byte	0x91
+ 440 0183 CB000000 		.4byte	0xcb
+ 441 0187 09       		.uleb128 0x9
+ 442 0188 C6030000 		.4byte	.LASF34
+ 443 018c 01       		.byte	0x1
+ 444 018d 1E       		.byte	0x1e
+ 445 018e 81000000 		.4byte	0x81
+ 446 0192 00000000 		.4byte	.LFB64
+ 447 0196 1C000000 		.4byte	.LFE64-.LFB64
+ 448 019a 01       		.uleb128 0x1
+ 449 019b 9C       		.byte	0x9c
+ 450 019c C2010000 		.4byte	0x1c2
+ 451 01a0 0A       		.uleb128 0xa
+ 452 01a1 A4020000 		.4byte	.LASF57
+ 453 01a5 01       		.byte	0x1
+ 454 01a6 20       		.byte	0x20
+ 455 01a7 81000000 		.4byte	0x81
+ 456 01ab 00000000 		.4byte	.LLST0
+ 457 01af 0B       		.uleb128 0xb
+ 458 01b0 06000000 		.4byte	.LVL1
+ 459 01b4 72030000 		.4byte	0x372
+ 460 01b8 0B       		.uleb128 0xb
+ 461 01b9 12000000 		.4byte	.LVL3
+ 462 01bd 7D030000 		.4byte	0x37d
+ 463 01c1 00       		.byte	0
+ 464 01c2 0C       		.uleb128 0xc
+ 465 01c3 95010000 		.4byte	.LASF36
+ 466 01c7 01       		.byte	0x1
+ 467 01c8 30       		.byte	0x30
+ 468 01c9 00000000 		.4byte	.LFB65
+ 469 01cd 10000000 		.4byte	.LFE65-.LFB65
+ 470 01d1 01       		.uleb128 0x1
+ 471 01d2 9C       		.byte	0x9c
+ 472 01d3 FA010000 		.4byte	0x1fa
+ 473 01d7 0D       		.uleb128 0xd
+ 474 01d8 08000000 		.4byte	.LVL5
+ 475 01dc 88030000 		.4byte	0x388
+ 476 01e0 EA010000 		.4byte	0x1ea
+ 477 01e4 0E       		.uleb128 0xe
+ 478 01e5 01       		.uleb128 0x1
+ 479 01e6 50       		.byte	0x50
+ 480 01e7 01       		.uleb128 0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 11
+
+
+ 481 01e8 30       		.byte	0x30
+ 482 01e9 00       		.byte	0
+ 483 01ea 0F       		.uleb128 0xf
+ 484 01eb 0E000000 		.4byte	.LVL6
+ 485 01ef 99030000 		.4byte	0x399
+ 486 01f3 0E       		.uleb128 0xe
+ 487 01f4 01       		.uleb128 0x1
+ 488 01f5 50       		.byte	0x50
+ 489 01f6 01       		.uleb128 0x1
+ 490 01f7 30       		.byte	0x30
+ 491 01f8 00       		.byte	0
+ 492 01f9 00       		.byte	0
+ 493 01fa 10       		.uleb128 0x10
+ 494 01fb 69010000 		.4byte	.LASF35
+ 495 01ff 01       		.byte	0x1
+ 496 0200 37       		.byte	0x37
+ 497 0201 00000000 		.4byte	.LFB66
+ 498 0205 38000000 		.4byte	.LFE66-.LFB66
+ 499 0209 01       		.uleb128 0x1
+ 500 020a 9C       		.byte	0x9c
+ 501 020b 4A020000 		.4byte	0x24a
+ 502 020f 11       		.uleb128 0x11
+ 503 0210 9F020000 		.4byte	.LASF39
+ 504 0214 01       		.byte	0x1
+ 505 0215 37       		.byte	0x37
+ 506 0216 81000000 		.4byte	0x81
+ 507 021a 1F000000 		.4byte	.LLST1
+ 508 021e 0B       		.uleb128 0xb
+ 509 021f 10000000 		.4byte	.LVL8
+ 510 0223 C2010000 		.4byte	0x1c2
+ 511 0227 0D       		.uleb128 0xd
+ 512 0228 1E000000 		.4byte	.LVL11
+ 513 022c 88030000 		.4byte	0x388
+ 514 0230 3A020000 		.4byte	0x23a
+ 515 0234 0E       		.uleb128 0xe
+ 516 0235 01       		.uleb128 0x1
+ 517 0236 50       		.byte	0x50
+ 518 0237 01       		.uleb128 0x1
+ 519 0238 31       		.byte	0x31
+ 520 0239 00       		.byte	0
+ 521 023a 0F       		.uleb128 0xf
+ 522 023b 2A000000 		.4byte	.LVL12
+ 523 023f 99030000 		.4byte	0x399
+ 524 0243 0E       		.uleb128 0xe
+ 525 0244 01       		.uleb128 0x1
+ 526 0245 50       		.byte	0x50
+ 527 0246 01       		.uleb128 0x1
+ 528 0247 31       		.byte	0x31
+ 529 0248 00       		.byte	0
+ 530 0249 00       		.byte	0
+ 531 024a 0C       		.uleb128 0xc
+ 532 024b D1000000 		.4byte	.LASF37
+ 533 024f 01       		.byte	0x1
+ 534 0250 18       		.byte	0x18
+ 535 0251 00000000 		.4byte	.LFB63
+ 536 0255 0A000000 		.4byte	.LFE63-.LFB63
+ 537 0259 01       		.uleb128 0x1
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 12
+
+
+ 538 025a 9C       		.byte	0x9c
+ 539 025b 6F020000 		.4byte	0x26f
+ 540 025f 0F       		.uleb128 0xf
+ 541 0260 08000000 		.4byte	.LVL14
+ 542 0264 FA010000 		.4byte	0x1fa
+ 543 0268 0E       		.uleb128 0xe
+ 544 0269 01       		.uleb128 0x1
+ 545 026a 50       		.byte	0x50
+ 546 026b 01       		.uleb128 0x1
+ 547 026c 30       		.byte	0x30
+ 548 026d 00       		.byte	0
+ 549 026e 00       		.byte	0
+ 550 026f 10       		.uleb128 0x10
+ 551 0270 0E030000 		.4byte	.LASF38
+ 552 0274 01       		.byte	0x1
+ 553 0275 51       		.byte	0x51
+ 554 0276 00000000 		.4byte	.LFB67
+ 555 027a 20000000 		.4byte	.LFE67-.LFB67
+ 556 027e 01       		.uleb128 0x1
+ 557 027f 9C       		.byte	0x9c
+ 558 0280 AD020000 		.4byte	0x2ad
+ 559 0284 11       		.uleb128 0x11
+ 560 0285 9F020000 		.4byte	.LASF39
+ 561 0289 01       		.byte	0x1
+ 562 028a 51       		.byte	0x51
+ 563 028b 81000000 		.4byte	0x81
+ 564 028f 64000000 		.4byte	.LLST2
+ 565 0293 0B       		.uleb128 0xb
+ 566 0294 10000000 		.4byte	.LVL16
+ 567 0298 AA030000 		.4byte	0x3aa
+ 568 029c 0F       		.uleb128 0xf
+ 569 029d 16000000 		.4byte	.LVL17
+ 570 02a1 FA010000 		.4byte	0x1fa
+ 571 02a5 0E       		.uleb128 0xe
+ 572 02a6 01       		.uleb128 0x1
+ 573 02a7 50       		.byte	0x50
+ 574 02a8 02       		.uleb128 0x2
+ 575 02a9 74       		.byte	0x74
+ 576 02aa 00       		.sleb128 0
+ 577 02ab 00       		.byte	0
+ 578 02ac 00       		.byte	0
+ 579 02ad 12       		.uleb128 0x12
+ 580 02ae 7B010000 		.4byte	.LASF40
+ 581 02b2 06       		.byte	0x6
+ 582 02b3 9606     		.2byte	0x696
+ 583 02b5 B9020000 		.4byte	0x2b9
+ 584 02b9 06       		.uleb128 0x6
+ 585 02ba 8C000000 		.4byte	0x8c
+ 586 02be 13       		.uleb128 0x13
+ 587 02bf 73797300 		.ascii	"sys\000"
+ 588 02c3 05       		.byte	0x5
+ 589 02c4 92       		.byte	0x92
+ 590 02c5 7C010000 		.4byte	0x17c
+ 591 02c9 14       		.uleb128 0x14
+ 592 02ca 8C000000 		.4byte	0x8c
+ 593 02ce D9020000 		.4byte	0x2d9
+ 594 02d2 15       		.uleb128 0x15
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 13
+
+
+ 595 02d3 B8000000 		.4byte	0xb8
+ 596 02d7 02       		.byte	0x2
+ 597 02d8 00       		.byte	0
+ 598 02d9 16       		.uleb128 0x16
+ 599 02da E4020000 		.4byte	.LASF41
+ 600 02de 05       		.byte	0x5
+ 601 02df 95       		.byte	0x95
+ 602 02e0 C9020000 		.4byte	0x2c9
+ 603 02e4 05       		.uleb128 0x5
+ 604 02e5 03       		.byte	0x3
+ 605 02e6 00000000 		.4byte	sys_position
+ 606 02ea 16       		.uleb128 0x16
+ 607 02eb C1010000 		.4byte	.LASF42
+ 608 02ef 05       		.byte	0x5
+ 609 02f0 96       		.byte	0x96
+ 610 02f1 C9020000 		.4byte	0x2c9
+ 611 02f5 05       		.uleb128 0x5
+ 612 02f6 03       		.byte	0x3
+ 613 02f7 00000000 		.4byte	sys_probe_position
+ 614 02fb 16       		.uleb128 0x16
+ 615 02fc F4000000 		.4byte	.LASF43
+ 616 0300 05       		.byte	0x5
+ 617 0301 98       		.byte	0x98
+ 618 0302 BF000000 		.4byte	0xbf
+ 619 0306 05       		.uleb128 0x5
+ 620 0307 03       		.byte	0x3
+ 621 0308 00000000 		.4byte	sys_probe_state
+ 622 030c 16       		.uleb128 0x16
+ 623 030d D8030000 		.4byte	.LASF44
+ 624 0311 05       		.byte	0x5
+ 625 0312 99       		.byte	0x99
+ 626 0313 BF000000 		.4byte	0xbf
+ 627 0317 05       		.uleb128 0x5
+ 628 0318 03       		.byte	0x3
+ 629 0319 00000000 		.4byte	sys_rt_exec_state
+ 630 031d 16       		.uleb128 0x16
+ 631 031e 80030000 		.4byte	.LASF45
+ 632 0322 05       		.byte	0x5
+ 633 0323 9A       		.byte	0x9a
+ 634 0324 BF000000 		.4byte	0xbf
+ 635 0328 05       		.uleb128 0x5
+ 636 0329 03       		.byte	0x3
+ 637 032a 00000000 		.4byte	sys_rt_exec_alarm
+ 638 032e 16       		.uleb128 0x16
+ 639 032f 6D000000 		.4byte	.LASF46
+ 640 0333 05       		.byte	0x5
+ 641 0334 9B       		.byte	0x9b
+ 642 0335 BF000000 		.4byte	0xbf
+ 643 0339 05       		.uleb128 0x5
+ 644 033a 03       		.byte	0x3
+ 645 033b 00000000 		.4byte	sys_rt_exec_motion_override
+ 646 033f 16       		.uleb128 0x16
+ 647 0340 A2010000 		.4byte	.LASF47
+ 648 0344 05       		.byte	0x5
+ 649 0345 9C       		.byte	0x9c
+ 650 0346 BF000000 		.4byte	0xbf
+ 651 034a 05       		.uleb128 0x5
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 14
+
+
+ 652 034b 03       		.byte	0x3
+ 653 034c 00000000 		.4byte	sys_rt_exec_accessory_override
+ 654 0350 16       		.uleb128 0x16
+ 655 0351 EA030000 		.4byte	.LASF48
+ 656 0355 05       		.byte	0x5
+ 657 0356 A0       		.byte	0xa0
+ 658 0357 BF000000 		.4byte	0xbf
+ 659 035b 05       		.uleb128 0x5
+ 660 035c 03       		.byte	0x3
+ 661 035d 00000000 		.4byte	sys_rt_exec_debug
+ 662 0361 16       		.uleb128 0x16
+ 663 0362 DE000000 		.4byte	.LASF49
+ 664 0366 07       		.byte	0x7
+ 665 0367 11       		.byte	0x11
+ 666 0368 81000000 		.4byte	0x81
+ 667 036c 05       		.uleb128 0x5
+ 668 036d 03       		.byte	0x3
+ 669 036e 00000000 		.4byte	exec_lcd_status
+ 670 0372 17       		.uleb128 0x17
+ 671 0373 69030000 		.4byte	.LASF50
+ 672 0377 08       		.byte	0x8
+ 673 0378 29       		.byte	0x29
+ 674 0379 97000000 		.4byte	0x97
+ 675 037d 17       		.uleb128 0x17
+ 676 037e 00000000 		.4byte	.LASF51
+ 677 0382 09       		.byte	0x9
+ 678 0383 29       		.byte	0x29
+ 679 0384 97000000 		.4byte	0x97
+ 680 0388 18       		.uleb128 0x18
+ 681 0389 F6020000 		.4byte	.LASF52
+ 682 038d 08       		.byte	0x8
+ 683 038e 26       		.byte	0x26
+ 684 038f 99030000 		.4byte	0x399
+ 685 0393 19       		.uleb128 0x19
+ 686 0394 97000000 		.4byte	0x97
+ 687 0398 00       		.byte	0
+ 688 0399 18       		.uleb128 0x18
+ 689 039a BA000000 		.4byte	.LASF53
+ 690 039e 09       		.byte	0x9
+ 691 039f 26       		.byte	0x26
+ 692 03a0 AA030000 		.4byte	0x3aa
+ 693 03a4 19       		.uleb128 0x19
+ 694 03a5 97000000 		.4byte	0x97
+ 695 03a9 00       		.byte	0
+ 696 03aa 1A       		.uleb128 0x1a
+ 697 03ab 9E000000 		.4byte	.LASF58
+ 698 03af 0A       		.byte	0xa
+ 699 03b0 30       		.byte	0x30
+ 700 03b1 1B       		.uleb128 0x1b
+ 701 03b2 00       		.byte	0
+ 702 03b3 00       		.byte	0
+ 703              		.section	.debug_abbrev,"",%progbits
+ 704              	.Ldebug_abbrev0:
+ 705 0000 01       		.uleb128 0x1
+ 706 0001 11       		.uleb128 0x11
+ 707 0002 01       		.byte	0x1
+ 708 0003 25       		.uleb128 0x25
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 15
+
+
+ 709 0004 0E       		.uleb128 0xe
+ 710 0005 13       		.uleb128 0x13
+ 711 0006 0B       		.uleb128 0xb
+ 712 0007 03       		.uleb128 0x3
+ 713 0008 0E       		.uleb128 0xe
+ 714 0009 1B       		.uleb128 0x1b
+ 715 000a 0E       		.uleb128 0xe
+ 716 000b 55       		.uleb128 0x55
+ 717 000c 17       		.uleb128 0x17
+ 718 000d 11       		.uleb128 0x11
+ 719 000e 01       		.uleb128 0x1
+ 720 000f 10       		.uleb128 0x10
+ 721 0010 17       		.uleb128 0x17
+ 722 0011 00       		.byte	0
+ 723 0012 00       		.byte	0
+ 724 0013 02       		.uleb128 0x2
+ 725 0014 24       		.uleb128 0x24
+ 726 0015 00       		.byte	0
+ 727 0016 0B       		.uleb128 0xb
+ 728 0017 0B       		.uleb128 0xb
+ 729 0018 3E       		.uleb128 0x3e
+ 730 0019 0B       		.uleb128 0xb
+ 731 001a 03       		.uleb128 0x3
+ 732 001b 0E       		.uleb128 0xe
+ 733 001c 00       		.byte	0
+ 734 001d 00       		.byte	0
+ 735 001e 03       		.uleb128 0x3
+ 736 001f 16       		.uleb128 0x16
+ 737 0020 00       		.byte	0
+ 738 0021 03       		.uleb128 0x3
+ 739 0022 0E       		.uleb128 0xe
+ 740 0023 3A       		.uleb128 0x3a
+ 741 0024 0B       		.uleb128 0xb
+ 742 0025 3B       		.uleb128 0x3b
+ 743 0026 0B       		.uleb128 0xb
+ 744 0027 49       		.uleb128 0x49
+ 745 0028 13       		.uleb128 0x13
+ 746 0029 00       		.byte	0
+ 747 002a 00       		.byte	0
+ 748 002b 04       		.uleb128 0x4
+ 749 002c 24       		.uleb128 0x24
+ 750 002d 00       		.byte	0
+ 751 002e 0B       		.uleb128 0xb
+ 752 002f 0B       		.uleb128 0xb
+ 753 0030 3E       		.uleb128 0x3e
+ 754 0031 0B       		.uleb128 0xb
+ 755 0032 03       		.uleb128 0x3
+ 756 0033 08       		.uleb128 0x8
+ 757 0034 00       		.byte	0
+ 758 0035 00       		.byte	0
+ 759 0036 05       		.uleb128 0x5
+ 760 0037 16       		.uleb128 0x16
+ 761 0038 00       		.byte	0
+ 762 0039 03       		.uleb128 0x3
+ 763 003a 0E       		.uleb128 0xe
+ 764 003b 3A       		.uleb128 0x3a
+ 765 003c 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 16
+
+
+ 766 003d 3B       		.uleb128 0x3b
+ 767 003e 05       		.uleb128 0x5
+ 768 003f 49       		.uleb128 0x49
+ 769 0040 13       		.uleb128 0x13
+ 770 0041 00       		.byte	0
+ 771 0042 00       		.byte	0
+ 772 0043 06       		.uleb128 0x6
+ 773 0044 35       		.uleb128 0x35
+ 774 0045 00       		.byte	0
+ 775 0046 49       		.uleb128 0x49
+ 776 0047 13       		.uleb128 0x13
+ 777 0048 00       		.byte	0
+ 778 0049 00       		.byte	0
+ 779 004a 07       		.uleb128 0x7
+ 780 004b 13       		.uleb128 0x13
+ 781 004c 01       		.byte	0x1
+ 782 004d 0B       		.uleb128 0xb
+ 783 004e 0B       		.uleb128 0xb
+ 784 004f 3A       		.uleb128 0x3a
+ 785 0050 0B       		.uleb128 0xb
+ 786 0051 3B       		.uleb128 0x3b
+ 787 0052 0B       		.uleb128 0xb
+ 788 0053 01       		.uleb128 0x1
+ 789 0054 13       		.uleb128 0x13
+ 790 0055 00       		.byte	0
+ 791 0056 00       		.byte	0
+ 792 0057 08       		.uleb128 0x8
+ 793 0058 0D       		.uleb128 0xd
+ 794 0059 00       		.byte	0
+ 795 005a 03       		.uleb128 0x3
+ 796 005b 0E       		.uleb128 0xe
+ 797 005c 3A       		.uleb128 0x3a
+ 798 005d 0B       		.uleb128 0xb
+ 799 005e 3B       		.uleb128 0x3b
+ 800 005f 0B       		.uleb128 0xb
+ 801 0060 49       		.uleb128 0x49
+ 802 0061 13       		.uleb128 0x13
+ 803 0062 38       		.uleb128 0x38
+ 804 0063 0B       		.uleb128 0xb
+ 805 0064 00       		.byte	0
+ 806 0065 00       		.byte	0
+ 807 0066 09       		.uleb128 0x9
+ 808 0067 2E       		.uleb128 0x2e
+ 809 0068 01       		.byte	0x1
+ 810 0069 3F       		.uleb128 0x3f
+ 811 006a 19       		.uleb128 0x19
+ 812 006b 03       		.uleb128 0x3
+ 813 006c 0E       		.uleb128 0xe
+ 814 006d 3A       		.uleb128 0x3a
+ 815 006e 0B       		.uleb128 0xb
+ 816 006f 3B       		.uleb128 0x3b
+ 817 0070 0B       		.uleb128 0xb
+ 818 0071 49       		.uleb128 0x49
+ 819 0072 13       		.uleb128 0x13
+ 820 0073 11       		.uleb128 0x11
+ 821 0074 01       		.uleb128 0x1
+ 822 0075 12       		.uleb128 0x12
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 17
+
+
+ 823 0076 06       		.uleb128 0x6
+ 824 0077 40       		.uleb128 0x40
+ 825 0078 18       		.uleb128 0x18
+ 826 0079 9742     		.uleb128 0x2117
+ 827 007b 19       		.uleb128 0x19
+ 828 007c 01       		.uleb128 0x1
+ 829 007d 13       		.uleb128 0x13
+ 830 007e 00       		.byte	0
+ 831 007f 00       		.byte	0
+ 832 0080 0A       		.uleb128 0xa
+ 833 0081 34       		.uleb128 0x34
+ 834 0082 00       		.byte	0
+ 835 0083 03       		.uleb128 0x3
+ 836 0084 0E       		.uleb128 0xe
+ 837 0085 3A       		.uleb128 0x3a
+ 838 0086 0B       		.uleb128 0xb
+ 839 0087 3B       		.uleb128 0x3b
+ 840 0088 0B       		.uleb128 0xb
+ 841 0089 49       		.uleb128 0x49
+ 842 008a 13       		.uleb128 0x13
+ 843 008b 02       		.uleb128 0x2
+ 844 008c 17       		.uleb128 0x17
+ 845 008d 00       		.byte	0
+ 846 008e 00       		.byte	0
+ 847 008f 0B       		.uleb128 0xb
+ 848 0090 898201   		.uleb128 0x4109
+ 849 0093 00       		.byte	0
+ 850 0094 11       		.uleb128 0x11
+ 851 0095 01       		.uleb128 0x1
+ 852 0096 31       		.uleb128 0x31
+ 853 0097 13       		.uleb128 0x13
+ 854 0098 00       		.byte	0
+ 855 0099 00       		.byte	0
+ 856 009a 0C       		.uleb128 0xc
+ 857 009b 2E       		.uleb128 0x2e
+ 858 009c 01       		.byte	0x1
+ 859 009d 3F       		.uleb128 0x3f
+ 860 009e 19       		.uleb128 0x19
+ 861 009f 03       		.uleb128 0x3
+ 862 00a0 0E       		.uleb128 0xe
+ 863 00a1 3A       		.uleb128 0x3a
+ 864 00a2 0B       		.uleb128 0xb
+ 865 00a3 3B       		.uleb128 0x3b
+ 866 00a4 0B       		.uleb128 0xb
+ 867 00a5 11       		.uleb128 0x11
+ 868 00a6 01       		.uleb128 0x1
+ 869 00a7 12       		.uleb128 0x12
+ 870 00a8 06       		.uleb128 0x6
+ 871 00a9 40       		.uleb128 0x40
+ 872 00aa 18       		.uleb128 0x18
+ 873 00ab 9742     		.uleb128 0x2117
+ 874 00ad 19       		.uleb128 0x19
+ 875 00ae 01       		.uleb128 0x1
+ 876 00af 13       		.uleb128 0x13
+ 877 00b0 00       		.byte	0
+ 878 00b1 00       		.byte	0
+ 879 00b2 0D       		.uleb128 0xd
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 18
+
+
+ 880 00b3 898201   		.uleb128 0x4109
+ 881 00b6 01       		.byte	0x1
+ 882 00b7 11       		.uleb128 0x11
+ 883 00b8 01       		.uleb128 0x1
+ 884 00b9 31       		.uleb128 0x31
+ 885 00ba 13       		.uleb128 0x13
+ 886 00bb 01       		.uleb128 0x1
+ 887 00bc 13       		.uleb128 0x13
+ 888 00bd 00       		.byte	0
+ 889 00be 00       		.byte	0
+ 890 00bf 0E       		.uleb128 0xe
+ 891 00c0 8A8201   		.uleb128 0x410a
+ 892 00c3 00       		.byte	0
+ 893 00c4 02       		.uleb128 0x2
+ 894 00c5 18       		.uleb128 0x18
+ 895 00c6 9142     		.uleb128 0x2111
+ 896 00c8 18       		.uleb128 0x18
+ 897 00c9 00       		.byte	0
+ 898 00ca 00       		.byte	0
+ 899 00cb 0F       		.uleb128 0xf
+ 900 00cc 898201   		.uleb128 0x4109
+ 901 00cf 01       		.byte	0x1
+ 902 00d0 11       		.uleb128 0x11
+ 903 00d1 01       		.uleb128 0x1
+ 904 00d2 31       		.uleb128 0x31
+ 905 00d3 13       		.uleb128 0x13
+ 906 00d4 00       		.byte	0
+ 907 00d5 00       		.byte	0
+ 908 00d6 10       		.uleb128 0x10
+ 909 00d7 2E       		.uleb128 0x2e
+ 910 00d8 01       		.byte	0x1
+ 911 00d9 3F       		.uleb128 0x3f
+ 912 00da 19       		.uleb128 0x19
+ 913 00db 03       		.uleb128 0x3
+ 914 00dc 0E       		.uleb128 0xe
+ 915 00dd 3A       		.uleb128 0x3a
+ 916 00de 0B       		.uleb128 0xb
+ 917 00df 3B       		.uleb128 0x3b
+ 918 00e0 0B       		.uleb128 0xb
+ 919 00e1 27       		.uleb128 0x27
+ 920 00e2 19       		.uleb128 0x19
+ 921 00e3 11       		.uleb128 0x11
+ 922 00e4 01       		.uleb128 0x1
+ 923 00e5 12       		.uleb128 0x12
+ 924 00e6 06       		.uleb128 0x6
+ 925 00e7 40       		.uleb128 0x40
+ 926 00e8 18       		.uleb128 0x18
+ 927 00e9 9742     		.uleb128 0x2117
+ 928 00eb 19       		.uleb128 0x19
+ 929 00ec 01       		.uleb128 0x1
+ 930 00ed 13       		.uleb128 0x13
+ 931 00ee 00       		.byte	0
+ 932 00ef 00       		.byte	0
+ 933 00f0 11       		.uleb128 0x11
+ 934 00f1 05       		.uleb128 0x5
+ 935 00f2 00       		.byte	0
+ 936 00f3 03       		.uleb128 0x3
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 19
+
+
+ 937 00f4 0E       		.uleb128 0xe
+ 938 00f5 3A       		.uleb128 0x3a
+ 939 00f6 0B       		.uleb128 0xb
+ 940 00f7 3B       		.uleb128 0x3b
+ 941 00f8 0B       		.uleb128 0xb
+ 942 00f9 49       		.uleb128 0x49
+ 943 00fa 13       		.uleb128 0x13
+ 944 00fb 02       		.uleb128 0x2
+ 945 00fc 17       		.uleb128 0x17
+ 946 00fd 00       		.byte	0
+ 947 00fe 00       		.byte	0
+ 948 00ff 12       		.uleb128 0x12
+ 949 0100 34       		.uleb128 0x34
+ 950 0101 00       		.byte	0
+ 951 0102 03       		.uleb128 0x3
+ 952 0103 0E       		.uleb128 0xe
+ 953 0104 3A       		.uleb128 0x3a
+ 954 0105 0B       		.uleb128 0xb
+ 955 0106 3B       		.uleb128 0x3b
+ 956 0107 05       		.uleb128 0x5
+ 957 0108 49       		.uleb128 0x49
+ 958 0109 13       		.uleb128 0x13
+ 959 010a 3F       		.uleb128 0x3f
+ 960 010b 19       		.uleb128 0x19
+ 961 010c 3C       		.uleb128 0x3c
+ 962 010d 19       		.uleb128 0x19
+ 963 010e 00       		.byte	0
+ 964 010f 00       		.byte	0
+ 965 0110 13       		.uleb128 0x13
+ 966 0111 34       		.uleb128 0x34
+ 967 0112 00       		.byte	0
+ 968 0113 03       		.uleb128 0x3
+ 969 0114 08       		.uleb128 0x8
+ 970 0115 3A       		.uleb128 0x3a
+ 971 0116 0B       		.uleb128 0xb
+ 972 0117 3B       		.uleb128 0x3b
+ 973 0118 0B       		.uleb128 0xb
+ 974 0119 49       		.uleb128 0x49
+ 975 011a 13       		.uleb128 0x13
+ 976 011b 3F       		.uleb128 0x3f
+ 977 011c 19       		.uleb128 0x19
+ 978 011d 3C       		.uleb128 0x3c
+ 979 011e 19       		.uleb128 0x19
+ 980 011f 00       		.byte	0
+ 981 0120 00       		.byte	0
+ 982 0121 14       		.uleb128 0x14
+ 983 0122 01       		.uleb128 0x1
+ 984 0123 01       		.byte	0x1
+ 985 0124 49       		.uleb128 0x49
+ 986 0125 13       		.uleb128 0x13
+ 987 0126 01       		.uleb128 0x1
+ 988 0127 13       		.uleb128 0x13
+ 989 0128 00       		.byte	0
+ 990 0129 00       		.byte	0
+ 991 012a 15       		.uleb128 0x15
+ 992 012b 21       		.uleb128 0x21
+ 993 012c 00       		.byte	0
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 20
+
+
+ 994 012d 49       		.uleb128 0x49
+ 995 012e 13       		.uleb128 0x13
+ 996 012f 2F       		.uleb128 0x2f
+ 997 0130 0B       		.uleb128 0xb
+ 998 0131 00       		.byte	0
+ 999 0132 00       		.byte	0
+ 1000 0133 16       		.uleb128 0x16
+ 1001 0134 34       		.uleb128 0x34
+ 1002 0135 00       		.byte	0
+ 1003 0136 03       		.uleb128 0x3
+ 1004 0137 0E       		.uleb128 0xe
+ 1005 0138 3A       		.uleb128 0x3a
+ 1006 0139 0B       		.uleb128 0xb
+ 1007 013a 3B       		.uleb128 0x3b
+ 1008 013b 0B       		.uleb128 0xb
+ 1009 013c 49       		.uleb128 0x49
+ 1010 013d 13       		.uleb128 0x13
+ 1011 013e 3F       		.uleb128 0x3f
+ 1012 013f 19       		.uleb128 0x19
+ 1013 0140 02       		.uleb128 0x2
+ 1014 0141 18       		.uleb128 0x18
+ 1015 0142 00       		.byte	0
+ 1016 0143 00       		.byte	0
+ 1017 0144 17       		.uleb128 0x17
+ 1018 0145 2E       		.uleb128 0x2e
+ 1019 0146 00       		.byte	0
+ 1020 0147 3F       		.uleb128 0x3f
+ 1021 0148 19       		.uleb128 0x19
+ 1022 0149 03       		.uleb128 0x3
+ 1023 014a 0E       		.uleb128 0xe
+ 1024 014b 3A       		.uleb128 0x3a
+ 1025 014c 0B       		.uleb128 0xb
+ 1026 014d 3B       		.uleb128 0x3b
+ 1027 014e 0B       		.uleb128 0xb
+ 1028 014f 27       		.uleb128 0x27
+ 1029 0150 19       		.uleb128 0x19
+ 1030 0151 49       		.uleb128 0x49
+ 1031 0152 13       		.uleb128 0x13
+ 1032 0153 3C       		.uleb128 0x3c
+ 1033 0154 19       		.uleb128 0x19
+ 1034 0155 00       		.byte	0
+ 1035 0156 00       		.byte	0
+ 1036 0157 18       		.uleb128 0x18
+ 1037 0158 2E       		.uleb128 0x2e
+ 1038 0159 01       		.byte	0x1
+ 1039 015a 3F       		.uleb128 0x3f
+ 1040 015b 19       		.uleb128 0x19
+ 1041 015c 03       		.uleb128 0x3
+ 1042 015d 0E       		.uleb128 0xe
+ 1043 015e 3A       		.uleb128 0x3a
+ 1044 015f 0B       		.uleb128 0xb
+ 1045 0160 3B       		.uleb128 0x3b
+ 1046 0161 0B       		.uleb128 0xb
+ 1047 0162 27       		.uleb128 0x27
+ 1048 0163 19       		.uleb128 0x19
+ 1049 0164 3C       		.uleb128 0x3c
+ 1050 0165 19       		.uleb128 0x19
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 21
+
+
+ 1051 0166 01       		.uleb128 0x1
+ 1052 0167 13       		.uleb128 0x13
+ 1053 0168 00       		.byte	0
+ 1054 0169 00       		.byte	0
+ 1055 016a 19       		.uleb128 0x19
+ 1056 016b 05       		.uleb128 0x5
+ 1057 016c 00       		.byte	0
+ 1058 016d 49       		.uleb128 0x49
+ 1059 016e 13       		.uleb128 0x13
+ 1060 016f 00       		.byte	0
+ 1061 0170 00       		.byte	0
+ 1062 0171 1A       		.uleb128 0x1a
+ 1063 0172 2E       		.uleb128 0x2e
+ 1064 0173 01       		.byte	0x1
+ 1065 0174 3F       		.uleb128 0x3f
+ 1066 0175 19       		.uleb128 0x19
+ 1067 0176 03       		.uleb128 0x3
+ 1068 0177 0E       		.uleb128 0xe
+ 1069 0178 3A       		.uleb128 0x3a
+ 1070 0179 0B       		.uleb128 0xb
+ 1071 017a 3B       		.uleb128 0x3b
+ 1072 017b 0B       		.uleb128 0xb
+ 1073 017c 3C       		.uleb128 0x3c
+ 1074 017d 19       		.uleb128 0x19
+ 1075 017e 00       		.byte	0
+ 1076 017f 00       		.byte	0
+ 1077 0180 1B       		.uleb128 0x1b
+ 1078 0181 18       		.uleb128 0x18
+ 1079 0182 00       		.byte	0
+ 1080 0183 00       		.byte	0
+ 1081 0184 00       		.byte	0
+ 1082 0185 00       		.byte	0
+ 1083              		.section	.debug_loc,"",%progbits
+ 1084              	.Ldebug_loc0:
+ 1085              	.LLST0:
+ 1086 0000 02000000 		.4byte	.LVL0
+ 1087 0004 0E000000 		.4byte	.LVL2
+ 1088 0008 0200     		.2byte	0x2
+ 1089 000a 30       		.byte	0x30
+ 1090 000b 9F       		.byte	0x9f
+ 1091 000c 0E000000 		.4byte	.LVL2
+ 1092 0010 1C000000 		.4byte	.LFE64
+ 1093 0014 0100     		.2byte	0x1
+ 1094 0016 54       		.byte	0x54
+ 1095 0017 00000000 		.4byte	0
+ 1096 001b 00000000 		.4byte	0
+ 1097              	.LLST1:
+ 1098 001f 00000000 		.4byte	.LVL7
+ 1099 0023 0F000000 		.4byte	.LVL8-1
+ 1100 0027 0100     		.2byte	0x1
+ 1101 0029 50       		.byte	0x50
+ 1102 002a 0F000000 		.4byte	.LVL8-1
+ 1103 002e 12000000 		.4byte	.LVL9
+ 1104 0032 0400     		.2byte	0x4
+ 1105 0034 F3       		.byte	0xf3
+ 1106 0035 01       		.uleb128 0x1
+ 1107 0036 50       		.byte	0x50
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 22
+
+
+ 1108 0037 9F       		.byte	0x9f
+ 1109 0038 12000000 		.4byte	.LVL9
+ 1110 003c 1A000000 		.4byte	.LVL10
+ 1111 0040 0100     		.2byte	0x1
+ 1112 0042 50       		.byte	0x50
+ 1113 0043 1A000000 		.4byte	.LVL10
+ 1114 0047 32000000 		.4byte	.LVL13
+ 1115 004b 0400     		.2byte	0x4
+ 1116 004d F3       		.byte	0xf3
+ 1117 004e 01       		.uleb128 0x1
+ 1118 004f 50       		.byte	0x50
+ 1119 0050 9F       		.byte	0x9f
+ 1120 0051 32000000 		.4byte	.LVL13
+ 1121 0055 38000000 		.4byte	.LFE66
+ 1122 0059 0100     		.2byte	0x1
+ 1123 005b 50       		.byte	0x50
+ 1124 005c 00000000 		.4byte	0
+ 1125 0060 00000000 		.4byte	0
+ 1126              	.LLST2:
+ 1127 0064 00000000 		.4byte	.LVL15
+ 1128 0068 0F000000 		.4byte	.LVL16-1
+ 1129 006c 0100     		.2byte	0x1
+ 1130 006e 50       		.byte	0x50
+ 1131 006f 0F000000 		.4byte	.LVL16-1
+ 1132 0073 18000000 		.4byte	.LVL18
+ 1133 0077 0400     		.2byte	0x4
+ 1134 0079 F3       		.byte	0xf3
+ 1135 007a 01       		.uleb128 0x1
+ 1136 007b 50       		.byte	0x50
+ 1137 007c 9F       		.byte	0x9f
+ 1138 007d 18000000 		.4byte	.LVL18
+ 1139 0081 20000000 		.4byte	.LFE67
+ 1140 0085 0100     		.2byte	0x1
+ 1141 0087 50       		.byte	0x50
+ 1142 0088 00000000 		.4byte	0
+ 1143 008c 00000000 		.4byte	0
+ 1144              		.section	.debug_aranges,"",%progbits
+ 1145 0000 3C000000 		.4byte	0x3c
+ 1146 0004 0200     		.2byte	0x2
+ 1147 0006 00000000 		.4byte	.Ldebug_info0
+ 1148 000a 04       		.byte	0x4
+ 1149 000b 00       		.byte	0
+ 1150 000c 0000     		.2byte	0
+ 1151 000e 0000     		.2byte	0
+ 1152 0010 00000000 		.4byte	.LFB64
+ 1153 0014 1C000000 		.4byte	.LFE64-.LFB64
+ 1154 0018 00000000 		.4byte	.LFB65
+ 1155 001c 10000000 		.4byte	.LFE65-.LFB65
+ 1156 0020 00000000 		.4byte	.LFB66
+ 1157 0024 38000000 		.4byte	.LFE66-.LFB66
+ 1158 0028 00000000 		.4byte	.LFB63
+ 1159 002c 0A000000 		.4byte	.LFE63-.LFB63
+ 1160 0030 00000000 		.4byte	.LFB67
+ 1161 0034 20000000 		.4byte	.LFE67-.LFB67
+ 1162 0038 00000000 		.4byte	0
+ 1163 003c 00000000 		.4byte	0
+ 1164              		.section	.debug_ranges,"",%progbits
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 23
+
+
+ 1165              	.Ldebug_ranges0:
+ 1166 0000 00000000 		.4byte	.LFB64
+ 1167 0004 1C000000 		.4byte	.LFE64
+ 1168 0008 00000000 		.4byte	.LFB65
+ 1169 000c 10000000 		.4byte	.LFE65
+ 1170 0010 00000000 		.4byte	.LFB66
+ 1171 0014 38000000 		.4byte	.LFE66
+ 1172 0018 00000000 		.4byte	.LFB63
+ 1173 001c 0A000000 		.4byte	.LFE63
+ 1174 0020 00000000 		.4byte	.LFB67
+ 1175 0024 20000000 		.4byte	.LFE67
+ 1176 0028 00000000 		.4byte	0
+ 1177 002c 00000000 		.4byte	0
+ 1178              		.section	.debug_line,"",%progbits
+ 1179              	.Ldebug_line0:
+ 1180 0000 11020000 		.section	.debug_str,"MS",%progbits,1
+ 1180      0200A901 
+ 1180      00000201 
+ 1180      FB0E0D00 
+ 1180      01010101 
+ 1181              	.LASF51:
+ 1182 0000 4D697374 		.ascii	"Mist_Coolant_Pin_Read\000"
+ 1182      5F436F6F 
+ 1182      6C616E74 
+ 1182      5F50696E 
+ 1182      5F526561 
+ 1183              	.LASF4:
+ 1184 0016 5F5F7569 		.ascii	"__uint8_t\000"
+ 1184      6E74385F 
+ 1184      7400
+ 1185              	.LASF56:
+ 1186 0020 433A5C55 		.ascii	"C:\\Users\\Bart\\Dropbox\\PSoC\\PSoC_Grbl\\PSoC_Grb"
+ 1186      73657273 
+ 1186      5C426172 
+ 1186      745C4472 
+ 1186      6F70626F 
+ 1187 004d 6C2E6379 		.ascii	"l.cydsn\000"
+ 1187      64736E00 
+ 1188              	.LASF28:
+ 1189 0055 7370696E 		.ascii	"spindle_speed_ovr\000"
+ 1189      646C655F 
+ 1189      73706565 
+ 1189      645F6F76 
+ 1189      7200
+ 1190              	.LASF19:
+ 1191 0067 73746174 		.ascii	"state\000"
+ 1191      6500
+ 1192              	.LASF46:
+ 1193 006d 7379735F 		.ascii	"sys_rt_exec_motion_override\000"
+ 1193      72745F65 
+ 1193      7865635F 
+ 1193      6D6F7469 
+ 1193      6F6E5F6F 
+ 1194              	.LASF5:
+ 1195 0089 5F5F696E 		.ascii	"__int32_t\000"
+ 1195      7433325F 
+ 1195      7400
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 24
+
+
+ 1196              	.LASF22:
+ 1197 0093 736F6674 		.ascii	"soft_limit\000"
+ 1197      5F6C696D 
+ 1197      697400
+ 1198              	.LASF58:
+ 1199 009e 70726F74 		.ascii	"protocol_buffer_synchronize\000"
+ 1199      6F636F6C 
+ 1199      5F627566 
+ 1199      6665725F 
+ 1199      73796E63 
+ 1200              	.LASF53:
+ 1201 00ba 4D697374 		.ascii	"Mist_Coolant_Pin_Write\000"
+ 1201      5F436F6F 
+ 1201      6C616E74 
+ 1201      5F50696E 
+ 1201      5F577269 
+ 1202              	.LASF37:
+ 1203 00d1 636F6F6C 		.ascii	"coolant_init\000"
+ 1203      616E745F 
+ 1203      696E6974 
+ 1203      00
+ 1204              	.LASF49:
+ 1205 00de 65786563 		.ascii	"exec_lcd_status\000"
+ 1205      5F6C6364 
+ 1205      5F737461 
+ 1205      74757300 
+ 1206              	.LASF14:
+ 1207 00ee 666C6F61 		.ascii	"float\000"
+ 1207      7400
+ 1208              	.LASF43:
+ 1209 00f4 7379735F 		.ascii	"sys_probe_state\000"
+ 1209      70726F62 
+ 1209      655F7374 
+ 1209      61746500 
+ 1210              	.LASF0:
+ 1211 0104 7369676E 		.ascii	"signed char\000"
+ 1211      65642063 
+ 1211      68617200 
+ 1212              	.LASF55:
+ 1213 0110 636F6F6C 		.ascii	"coolant_control.c\000"
+ 1213      616E745F 
+ 1213      636F6E74 
+ 1213      726F6C2E 
+ 1213      6300
+ 1214              	.LASF1:
+ 1215 0122 756E7369 		.ascii	"unsigned char\000"
+ 1215      676E6564 
+ 1215      20636861 
+ 1215      7200
+ 1216              	.LASF33:
+ 1217 0130 73797374 		.ascii	"system_t\000"
+ 1217      656D5F74 
+ 1217      00
+ 1218              	.LASF7:
+ 1219 0139 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1219      20756E73 
+ 1219      69676E65 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 25
+
+
+ 1219      6420696E 
+ 1219      7400
+ 1220              	.LASF3:
+ 1221 014b 73686F72 		.ascii	"short unsigned int\000"
+ 1221      7420756E 
+ 1221      7369676E 
+ 1221      65642069 
+ 1221      6E7400
+ 1222              	.LASF26:
+ 1223 015e 665F6F76 		.ascii	"f_override\000"
+ 1223      65727269 
+ 1223      646500
+ 1224              	.LASF35:
+ 1225 0169 636F6F6C 		.ascii	"coolant_set_state\000"
+ 1225      616E745F 
+ 1225      7365745F 
+ 1225      73746174 
+ 1225      6500
+ 1226              	.LASF40:
+ 1227 017b 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1227      52784275 
+ 1227      66666572 
+ 1227      00
+ 1228              	.LASF15:
+ 1229 0188 646F7562 		.ascii	"double\000"
+ 1229      6C6500
+ 1230              	.LASF13:
+ 1231 018f 75696E74 		.ascii	"uint8\000"
+ 1231      3800
+ 1232              	.LASF36:
+ 1233 0195 636F6F6C 		.ascii	"coolant_stop\000"
+ 1233      616E745F 
+ 1233      73746F70 
+ 1233      00
+ 1234              	.LASF47:
+ 1235 01a2 7379735F 		.ascii	"sys_rt_exec_accessory_override\000"
+ 1235      72745F65 
+ 1235      7865635F 
+ 1235      61636365 
+ 1235      73736F72 
+ 1236              	.LASF42:
+ 1237 01c1 7379735F 		.ascii	"sys_probe_position\000"
+ 1237      70726F62 
+ 1237      655F706F 
+ 1237      73697469 
+ 1237      6F6E00
+ 1238              	.LASF25:
+ 1239 01d4 686F6D69 		.ascii	"homing_axis_lock\000"
+ 1239      6E675F61 
+ 1239      7869735F 
+ 1239      6C6F636B 
+ 1239      00
+ 1240              	.LASF54:
+ 1241 01e5 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1241      4320342E 
+ 1241      392E3320 
+ 1241      32303135 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 26
+
+
+ 1241      30333033 
+ 1242 0218 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1242      20726576 
+ 1242      6973696F 
+ 1242      6E203232 
+ 1242      31323230 
+ 1243 024b 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1243      66756E63 
+ 1243      74696F6E 
+ 1243      2D736563 
+ 1243      74696F6E 
+ 1244              	.LASF10:
+ 1245 0273 756E7369 		.ascii	"unsigned int\000"
+ 1245      676E6564 
+ 1245      20696E74 
+ 1245      00
+ 1246              	.LASF9:
+ 1247 0280 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1247      206C6F6E 
+ 1247      6720756E 
+ 1247      7369676E 
+ 1247      65642069 
+ 1248              	.LASF11:
+ 1249 0297 75696E74 		.ascii	"uint8_t\000"
+ 1249      385F7400 
+ 1250              	.LASF39:
+ 1251 029f 6D6F6465 		.ascii	"mode\000"
+ 1251      00
+ 1252              	.LASF57:
+ 1253 02a4 636C5F73 		.ascii	"cl_state\000"
+ 1253      74617465 
+ 1253      00
+ 1254              	.LASF12:
+ 1255 02ad 696E7433 		.ascii	"int32_t\000"
+ 1255      325F7400 
+ 1256              	.LASF17:
+ 1257 02b5 73697A65 		.ascii	"sizetype\000"
+ 1257      74797065 
+ 1257      00
+ 1258              	.LASF23:
+ 1259 02be 73746570 		.ascii	"step_control\000"
+ 1259      5F636F6E 
+ 1259      74726F6C 
+ 1259      00
+ 1260              	.LASF27:
+ 1261 02cb 725F6F76 		.ascii	"r_override\000"
+ 1261      65727269 
+ 1261      646500
+ 1262              	.LASF8:
+ 1263 02d6 6C6F6E67 		.ascii	"long long int\000"
+ 1263      206C6F6E 
+ 1263      6720696E 
+ 1263      7400
+ 1264              	.LASF41:
+ 1265 02e4 7379735F 		.ascii	"sys_position\000"
+ 1265      706F7369 
+ 1265      74696F6E 
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 27
+
+
+ 1265      00
+ 1266              	.LASF16:
+ 1267 02f1 63686172 		.ascii	"char\000"
+ 1267      00
+ 1268              	.LASF52:
+ 1269 02f6 466C6F6F 		.ascii	"Flood_Coolant_Pin_Write\000"
+ 1269      645F436F 
+ 1269      6F6C616E 
+ 1269      745F5069 
+ 1269      6E5F5772 
+ 1270              	.LASF38:
+ 1271 030e 636F6F6C 		.ascii	"coolant_sync\000"
+ 1271      616E745F 
+ 1271      73796E63 
+ 1271      00
+ 1272              	.LASF30:
+ 1273 031b 7265706F 		.ascii	"report_ovr_counter\000"
+ 1273      72745F6F 
+ 1273      76725F63 
+ 1273      6F756E74 
+ 1273      657200
+ 1274              	.LASF32:
+ 1275 032e 7370696E 		.ascii	"spindle_speed\000"
+ 1275      646C655F 
+ 1275      73706565 
+ 1275      6400
+ 1276              	.LASF24:
+ 1277 033c 70726F62 		.ascii	"probe_succeeded\000"
+ 1277      655F7375 
+ 1277      63636565 
+ 1277      64656400 
+ 1278              	.LASF2:
+ 1279 034c 73686F72 		.ascii	"short int\000"
+ 1279      7420696E 
+ 1279      7400
+ 1280              	.LASF31:
+ 1281 0356 7265706F 		.ascii	"report_wco_counter\000"
+ 1281      72745F77 
+ 1281      636F5F63 
+ 1281      6F756E74 
+ 1281      657200
+ 1282              	.LASF50:
+ 1283 0369 466C6F6F 		.ascii	"Flood_Coolant_Pin_Read\000"
+ 1283      645F436F 
+ 1283      6F6C616E 
+ 1283      745F5069 
+ 1283      6E5F5265 
+ 1284              	.LASF45:
+ 1285 0380 7379735F 		.ascii	"sys_rt_exec_alarm\000"
+ 1285      72745F65 
+ 1285      7865635F 
+ 1285      616C6172 
+ 1285      6D00
+ 1286              	.LASF6:
+ 1287 0392 6C6F6E67 		.ascii	"long int\000"
+ 1287      20696E74 
+ 1287      00
+ARM GAS  C:\Users\Bart\AppData\Local\Temp\ccRry0AF.s 			page 28
+
+
+ 1288              	.LASF29:
+ 1289 039b 7370696E 		.ascii	"spindle_stop_ovr\000"
+ 1289      646C655F 
+ 1289      73746F70 
+ 1289      5F6F7672 
+ 1289      00
+ 1290              	.LASF20:
+ 1291 03ac 61626F72 		.ascii	"abort\000"
+ 1291      7400
+ 1292              	.LASF18:
+ 1293 03b2 6C6F6E67 		.ascii	"long double\000"
+ 1293      20646F75 
+ 1293      626C6500 
+ 1294              	.LASF21:
+ 1295 03be 73757370 		.ascii	"suspend\000"
+ 1295      656E6400 
+ 1296              	.LASF34:
+ 1297 03c6 636F6F6C 		.ascii	"coolant_get_state\000"
+ 1297      616E745F 
+ 1297      6765745F 
+ 1297      73746174 
+ 1297      6500
+ 1298              	.LASF44:
+ 1299 03d8 7379735F 		.ascii	"sys_rt_exec_state\000"
+ 1299      72745F65 
+ 1299      7865635F 
+ 1299      73746174 
+ 1299      6500
+ 1300              	.LASF48:
+ 1301 03ea 7379735F 		.ascii	"sys_rt_exec_debug\000"
+ 1301      72745F65 
+ 1301      7865635F 
+ 1301      64656275 
+ 1301      6700
+ 1302              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br
